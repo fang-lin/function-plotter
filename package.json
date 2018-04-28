@@ -1,0 +1,22 @@
+{
+  "name": "function-diagraph",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "devDependencies": {
+    "autoprefixer": "^8.4.1",
+    "babel-core": "^6.26.3",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-preset-env": "^1.6.1",
+    "parcel-bundler": "^1.7.1",
+    "postcss-modules": "^1.1.0"
+  },
+  "scripts": {
+    "start": "parcel ./src/index.html -p 3030",
+    "build": "parcel build ./src/index.js"
+  },
+  "dependencies": {
+    "mobx": "^4.2.0",
+    "react": "^16.3.2"
+  }
+}
