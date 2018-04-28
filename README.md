@@ -1,3 +1,3 @@
-#Function Diagraph
+# Function Diagraph
 
-##A mathematical function diagraph written by javascript
+## A mathematical function diagraph written by javascript
