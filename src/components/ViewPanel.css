@@ -1,0 +1,66 @@
+.button {
+    width: 28px;
+    height: 28px;
+    background-size: 28px 28px;
+    border: none medium;
+    background-color: transparent;
+    font-size: 0;
+    line-height: 0;
+    color: transparent;
+    cursor: pointer;
+    outline: none;
+    margin: 5px;
+    padding: 0;
+}
+
+.view_panel {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    margin: -5px;
+}
+
+.centered {
+    composes: button;
+    background-image: url('../images/centered.png');
+}
+
+.centered:hover {
+    background-image: url('../images/centered-hover.png');
+}
+
+.smooth {
+    composes: button;
+    background-image: url('../images/smooth.png');
+}
+
+.smooth:hover {
+    background-image: url('../images/smooth-hover.png');
+}
+
+.smooth_off {
+    composes: button;
+    background-image: url('../images/smooth-off.png');
+}
+
+.smooth_off:hover {
+    background-image: url('../images/smooth-off-hover.png');
+}
+
+.coord {
+    composes: button;
+    background-image: url('../images/coord.png');
+}
+
+.coord:hover {
+    background-image: url('../images/coord-hover.png');
+}
+
+.coord_off {
+    composes: button;
+    background-image: url('../images/coord-off.png');
+}
+
+.coord_off:hover {
+    background-image: url('../images/coord-off-hover.png');
+}

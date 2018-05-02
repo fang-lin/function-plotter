@@ -1,0 +1,14 @@
+.state_bar {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    font-size: 12px;
+    font-weight: normal;
+    margin: 0 -5px;
+}
+
+.title, .draw_state {
+    display: inline-block;
+    margin: 0 5px;
+    text-decoration: none;
+}

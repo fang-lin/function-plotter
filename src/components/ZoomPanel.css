@@ -1,0 +1,46 @@
+.button {
+    width: 28px;
+    height: 28px;
+    background-size: 28px 28px;
+    border: none medium;
+    background-color: transparent;
+    font-size: 0;
+    line-height: 0;
+    color: transparent;
+    cursor: pointer;
+    outline: none;
+    margin: 5px;
+    padding: 0;
+}
+
+.zoom_panel {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    margin: -5px;
+}
+
+.zoom_in {
+    composes: button;
+    margin-right: -1px;
+    background-image: url('../images/zoom-in.png');
+}
+
+.zoom_in:hover {
+    background-image: url('../images/zoom-in-hover.png');
+}
+
+.zoom_out {
+    composes: button;
+    margin-left: 0;
+    background-image: url('../images/zoom-out.png');
+}
+
+.zoom_out:hover {
+    background-image: url('../images/zoom-out-hover.png');
+}
+
+.zoom_level {
+    composes: button;
+    background-image: url('../images/x7.png');
+}
