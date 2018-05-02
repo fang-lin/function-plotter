@@ -21,6 +21,15 @@ export default class App extends Component {
   componentDidMount() {
     this.updateStageRect();
     window.addEventListener('resize', () => this.updateStageRect());
+    window.addEventListener(App.DRAG_EVENTS.start, () => {
+      console.log('mousedown')
+    });
+    window.addEventListener(App.DRAG_EVENTS.move, () => {
+      console.log('mousemove')
+    });
+    window.addEventListener(App.DRAG_EVENTS.end, () => {
+      console.log('mouseup')
+    });
   }
 
   render() {
@@ -32,4 +41,24 @@ export default class App extends Component {
       <ZoomPanel/>
     </div>
   }
+
+
+  static isMobile() {
+    try {
+      document.createEvent('TouchEvent');
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  static DRAG_EVENTS = App.isMobile() ? {
+    start: 'touchstart',
+    move: 'touchmove',
+    end: 'touchend'
+  } : {
+    start: 'mousedown',
+    move: 'mousemove',
+    end: 'mouseup'
+  };
 }
