@@ -1,12 +1,12 @@
 import React, { Component, createRef } from 'react';
 import { observer } from 'mobx-react';
-import { canvases, grid, axis } from './Canvas.css';
+import { stage, grid, axis } from './Stage.css';
 
-export default observer(class Canvas extends Component {
+export default observer(class Stage extends Component {
 
   constructor(props) {
     super(props);
-    this.deviceRatio = Canvas.getDeviceRatio();
+    this.deviceRatio = Stage.getDeviceRatio();
     this.grid = createRef();
     this.axis = createRef();
   }
@@ -36,7 +36,7 @@ export default observer(class Canvas extends Component {
       context.moveTo(0, y + 0.5);
       context.lineTo(deviceRatioWidth, y + 0.5);
     }
-    context.strokeStyle = Canvas.GRID_COLOR;
+    context.strokeStyle = Stage.GRID_COLOR;
     context.stroke();
   }
 
@@ -49,15 +49,16 @@ export default observer(class Canvas extends Component {
     context.moveTo(Math.floor(originX) + 0.5, 0);
     context.lineTo(Math.floor(originX) + 0.5, deviceRatioHeight);
 
-    context.strokeStyle = Canvas.AXIS_COLOR;
+    context.strokeStyle = Stage.AXIS_COLOR;
     context.stroke();
   }
 
   render() {
-    const { width, height, deviceRatioWidth, deviceRatioHeight } = this.props.stage;
+    const { width, height, deviceRatioWidth, deviceRatioHeight, transformX, transformY } = this.props.stage;
     const style = { width: `${width}px`, height: `${height}px` };
+    const transform = { transform: `translate(${transformX}px, ${transformY}px)` };
 
-    return <div className={ canvases }>
+    return <div className={ stage } style={ transform }>
       <canvas ref={ this.grid } className={ grid } { ...{ style, width: deviceRatioWidth, height: deviceRatioHeight } }/>
       <canvas ref={ this.axis } className={ axis } { ...{ style, width: deviceRatioWidth, height: deviceRatioHeight } }/>
     </div>

@@ -20,6 +20,8 @@ export const stage = observable({
   deviceRatioHeight: 0,
   originX: 0,
   originY: 0,
+  transformX: 0,
+  transformY: 0,
   updateStageRect(rect) {
     stage.width = rect.width;
     stage.height = rect.height;
@@ -29,5 +31,9 @@ export const stage = observable({
   setOriginInCenter() {
     stage.originX = stage.deviceRatioWidth / 2;
     stage.originY = stage.deviceRatioHeight / 2;
+  },
+  updateTransform(transformX, transformY) {
+    stage.transformX = transformX;
+    stage.transformY = transformY;
   }
 });
