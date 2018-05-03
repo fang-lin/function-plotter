@@ -65,7 +65,7 @@ export default observer(class Stage extends Component {
     const style = { width: `${width}px`, height: `${height}px` };
     const transform = { transform: `translate(${transformX}px, ${transformY}px)` };
 
-    return <div className={ stage } style={ transform } data-zoom={ zoom } data-origin={ `${originX}-${originY}` }>
+    return <div className={ stage } style={ transform } data-zoom={ zoom } data-origin={ `[${originX},${originY}]` }>
       <canvas ref={ this.grid } className={ grid } { ...{ style, width: deviceRatioWidth, height: deviceRatioHeight } }/>
       <canvas ref={ this.axis } className={ axis } { ...{ style, width: deviceRatioWidth, height: deviceRatioHeight } }/>
     </div>
