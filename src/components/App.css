@@ -5,4 +5,6 @@ html, body, #root, #app {
     height: 100%;
     overflow: hidden;
     background: #ccc;
+    cursor: crosshair;
+    font-family: consolas courier, monospace;
 }

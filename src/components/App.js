@@ -1,11 +1,15 @@
 import React, { Component, createRef } from 'react';
+import { observer } from 'mobx-react';
 import { app } from './App.css';
+import PreloadImages from './PreloadImages';
 import Stage from './Stage';
 import StateBar from './StateBar';
+import CrossLine from './CrossLine';
 import ViewPanel from './ViewPanel';
 import ZoomPanel from './ZoomPanel';
+import { deviceRatio, DRAG_EVENTS, getClientXY } from '../utilities';
 
-export default class App extends Component {
+export default observer(class App extends Component {
 
   constructor(props) {
     super(props);
@@ -17,58 +21,53 @@ export default class App extends Component {
   }
 
   onDragStart = event => {
-    this.client = App.getClientXY(event);
-    window.addEventListener(App.DRAG_EVENTS.move, this.onDragging);
+    this.client = getClientXY(event);
+    window.addEventListener(DRAG_EVENTS.MOVE, this.onDragging);
   };
 
   onDragging = event => {
-    const { clientX, clientY } = App.getClientXY(event);
+    const { clientX, clientY } = getClientXY(event);
     this.props.stage.updateTransform(clientX - this.client.clientX, clientY - this.client.clientY);
   };
 
   onDragEnd = event => {
-    window.removeEventListener(App.DRAG_EVENTS.move, this.onDragging);
+    window.removeEventListener(DRAG_EVENTS.MOVE, this.onDragging);
+    const { originX, originY } = this.props.stage;
+    const { clientX, clientY } = getClientXY(event);
+    this.props.stage.updateOrigin(
+      originX + (clientX - this.client.clientX) * deviceRatio,
+      originY + (clientY - this.client.clientY) * deviceRatio
+    );
     this.props.stage.updateTransform(0, 0);
   };
 
   componentDidMount() {
     this.updateStageRect();
+
+    const { originX, originY, updateOriginInCenter } = this.props.stage;
+    const { updateCursor } = this.props.states;
+    isNaN(originX) && isNaN(originY) && updateOriginInCenter();
+
     window.addEventListener('resize', () => this.updateStageRect());
-    window.addEventListener(App.DRAG_EVENTS.start, this.onDragStart);
-    window.addEventListener(App.DRAG_EVENTS.end, this.onDragEnd);
+    window.addEventListener(DRAG_EVENTS.START, this.onDragStart);
+    window.addEventListener(DRAG_EVENTS.END, this.onDragEnd);
+
+    window.addEventListener('mousemove', event => {
+      const { clientX, clientY } = getClientXY(event);
+      updateCursor(clientX, clientY);
+    });
   }
 
   render() {
     const { states, stage } = this.props;
+    const { showCoord } = states;
     return <div id={ app } ref={ this.app }>
+      <PreloadImages/>
       <Stage { ...{ stage } }/>
+      { showCoord && <CrossLine { ...{ states, stage } }/> }
       <StateBar/>
-      <ViewPanel { ...{ states } }/>
-      <ZoomPanel/>
+      <ViewPanel { ...{ states, stage } }/>
+      <ZoomPanel { ...{ stage } }/>
     </div>
   }
-
-  static getClientXY(event) {
-    const { clientX, clientY } = event.changedTouches ? event.changedTouches[0] : event;
-    return { clientX, clientY };
-  }
-
-  static isMobile() {
-    try {
-      document.createEvent('TouchEvent');
-      return true;
-    } catch (e) {
-      return false;
-    }
-  }
-
-  static DRAG_EVENTS = App.isMobile() ? {
-    start: 'touchstart',
-    move: 'touchmove',
-    end: 'touchend'
-  } : {
-    start: 'mousedown',
-    move: 'mousemove',
-    end: 'mouseup'
-  };
-}
+});

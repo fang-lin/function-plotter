@@ -13,16 +13,23 @@ export default observer(class Stage extends Component {
 
   componentDidUpdate() {
 
-    this.props.stage.setOriginInCenter();
-    this.drawGrid(this.grid.current.getContext('2d'));
-    this.drawAxis(this.axis.current.getContext('2d'));
+    const gridContext = this.grid.current.getContext('2d');
+    const axisContext = this.axis.current.getContext('2d');
+
+    this.erasure(gridContext);
+    this.erasure(axisContext);
+
+    this.drawGrid(gridContext);
+    this.drawAxis(axisContext);
+  }
+
+  erasure(context) {
+    const { deviceRatioWidth, deviceRatioHeight } = this.props.stage;
+    context.clearRect(0, 0, deviceRatioWidth, deviceRatioHeight);
   }
 
   drawGrid(context) {
-    const { originX, originY, deviceRatioWidth, deviceRatioHeight } = this.props.stage;
-
-    const zoom = 64;
-
+    const { originX, originY, deviceRatioWidth, deviceRatioHeight, zoom } = this.props.stage;
     context.beginPath();
     let x = originX % zoom - zoom;
     let y = originY % zoom - zoom;
@@ -54,16 +61,15 @@ export default observer(class Stage extends Component {
   }
 
   render() {
-    const { width, height, deviceRatioWidth, deviceRatioHeight, transformX, transformY } = this.props.stage;
+    const { width, height, deviceRatioWidth, deviceRatioHeight, transformX, transformY, originX, originY, zoom } = this.props.stage;
     const style = { width: `${width}px`, height: `${height}px` };
     const transform = { transform: `translate(${transformX}px, ${transformY}px)` };
 
-    return <div className={ stage } style={ transform }>
+    return <div className={ stage } style={ transform } data-zoom={ zoom } data-origin={ `${originX}-${originY}` }>
       <canvas ref={ this.grid } className={ grid } { ...{ style, width: deviceRatioWidth, height: deviceRatioHeight } }/>
       <canvas ref={ this.axis } className={ axis } { ...{ style, width: deviceRatioWidth, height: deviceRatioHeight } }/>
     </div>
   }
-
 
   static GRID_COLOR = '#ddd';
   static AXIS_COLOR = '#000';
@@ -72,3 +78,6 @@ export default observer(class Stage extends Component {
     return window.devicePixelRatio || 1;
   }
 });
+
+
+

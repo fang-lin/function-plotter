@@ -3,13 +3,14 @@ import { observer } from 'mobx-react';
 import { view_panel, centered, smooth, smooth_off, coord, coord_off } from './ViewPanel.css';
 
 const ViewPanel = observer(props => {
-  const { states } = props;
+  const { states, stage } = props;
   const { isSmooth, showCoord, switchSmooth, switchCoord } = states;
+  const { updateOriginInCenter } = stage;
   const smoothText = `Smooth: ${isSmooth ? 'On' : 'Off'}`;
   const coordText = `Coord: ${showCoord ? 'On' : 'Off'}`;
 
   return <div className={ view_panel }>
-    <button className={ centered } title="Centered">Centered</button>
+    <button className={ centered } title="Centered" onClick={ updateOriginInCenter }>Centered</button>
     <button className={ isSmooth ? smooth : smooth_off } title={ smoothText } onClick={ switchSmooth }>{ smoothText }</button>
     <button className={ showCoord ? coord : coord_off } title={ coordText } onClick={ switchCoord }>{ coordText }</button>
   </div>
