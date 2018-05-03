@@ -1,6 +1,6 @@
 import React, { Component, createRef } from 'react';
 import { observer } from 'mobx-react';
-import { app } from './App.css';
+import { app, drag_start, dragging } from './App.css';
 import PreloadImages from './PreloadImages';
 import Stage from './Stage';
 import StateBar from './StateBar';
@@ -14,6 +14,10 @@ export default observer(class App extends Component {
   constructor(props) {
     super(props);
     this.app = createRef();
+    this.state = {
+      cursor: null,
+      isDragging: false,
+    };
   }
 
   updateStageRect() {
@@ -21,13 +25,16 @@ export default observer(class App extends Component {
   }
 
   onDragStart = event => {
-    this.client = getClientXY(event);
+    this.setState({
+      cursor: getClientXY(event)
+    });
     window.addEventListener(DRAG_EVENTS.MOVE, this.onDragging);
   };
 
   onDragging = event => {
     const { clientX, clientY } = getClientXY(event);
-    this.props.stage.updateTransform(clientX - this.client.clientX, clientY - this.client.clientY);
+    this.props.stage.updateTransform(clientX - this.state.cursor.clientX, clientY - this.state.cursor.clientY);
+    this.setState({ isDragging: true });
   };
 
   onDragEnd = event => {
@@ -35,10 +42,11 @@ export default observer(class App extends Component {
     const { originX, originY } = this.props.stage;
     const { clientX, clientY } = getClientXY(event);
     this.props.stage.updateOrigin(
-      originX + (clientX - this.client.clientX) * deviceRatio,
-      originY + (clientY - this.client.clientY) * deviceRatio
+      originX + (clientX - this.state.cursor.clientX) * deviceRatio,
+      originY + (clientY - this.state.cursor.clientY) * deviceRatio
     );
     this.props.stage.updateTransform(0, 0);
+    this.setState({ cursor: null, isDragging: false });
   };
 
   componentDidMount() {
@@ -60,8 +68,9 @@ export default observer(class App extends Component {
 
   render() {
     const { states, stage } = this.props;
+    const { cursor, isDragging } = this.state;
     const { showCoord } = states;
-    return <div id={ app } ref={ this.app }>
+    return <div className={ `${app} ${cursor ? (isDragging ? dragging : drag_start) : ''}` } ref={ this.app }>
       <PreloadImages/>
       <Stage { ...{ stage } }/>
       { showCoord && <CrossLine { ...{ states, stage } }/> }
