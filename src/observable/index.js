@@ -1,7 +1,6 @@
 import { observable } from 'mobx';
 import clamp from 'lodash/clamp';
-import { deviceRatio, parseZoom } from '../utilities';
-
+import { parameterEquation, parseZoom } from '../utilities';
 
 export const states = observable({
   isSmooth: true,
@@ -30,20 +29,23 @@ export const stage = observable({
   transformX: 0,
   transformY: 0,
   zoomLevel: 8,
+  rangeX: [0, 0],
+  rangeY: [0, 0],
   zoom: parseZoom(8),
   updateStageRect(rect) {
     stage.width = rect.width;
     stage.height = rect.height;
-    stage.deviceRatioWidth = rect.width * deviceRatio;
-    stage.deviceRatioHeight = rect.height * deviceRatio;
+    stage.updateRange();
   },
   updateOrigin(originX, originY) {
     stage.originX = originX;
     stage.originY = originY;
+    stage.updateRange();
   },
   updateOriginInCenter() {
-    stage.originX = stage.deviceRatioWidth / 2;
-    stage.originY = stage.deviceRatioHeight / 2;
+    stage.originX = stage.width / 2;
+    stage.originY = stage.height / 2;
+    stage.updateRange();
   },
   updateTransform(transformX, transformY) {
     stage.transformX = transformX;
@@ -52,5 +54,33 @@ export const stage = observable({
   updateZoom(zoomLevel) {
     stage.zoomLevel = clamp(zoomLevel, 1, 16);
     stage.zoom = parseZoom(stage.zoomLevel);
+    stage.updateRange();
   },
+  updateRange() {
+    const { originX, originY, width, height, zoom } = stage;
+    stage.rangeX = [-originX / zoom, (width - originX) / zoom];
+    stage.rangeY = [(originY - height) / zoom, originY / zoom];
+    window.requestAnimationFrame(equations.redraw);
+  }
+});
+
+export const equations = observable({
+  equationsMatrix: [],
+  redraw: null,
+  pushEquationsMatrix(equation) {
+    if (equations.equationsMatrix[0]) {
+      equations.equationsMatrix[0].matrix = equation.matrix;
+    } else {
+      equations.equationsMatrix[0] = equation;
+    }
+  },
+  updateEquationsMatrix(equations) {
+    equations.map(equation => {
+      if (equations.equationsMatrix.find(_ => _.id === equation.id)) {
+        equations.equationsMatrix = equations.equationsMatrix.length
+      } else {
+
+      }
+    });
+  }
 });
