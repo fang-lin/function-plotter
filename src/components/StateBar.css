@@ -12,3 +12,12 @@
     margin: 0 5px;
     text-decoration: none;
 }
+
+.draw_state {
+    opacity: 0;
+    transition: all .5s;
+}
+
+.is_drawing {
+    opacity: 1;
+}

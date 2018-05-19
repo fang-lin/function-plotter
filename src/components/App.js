@@ -76,7 +76,7 @@ export default observer(class App extends Component {
       <PreloadImages/>
       <Stage { ...{ states, stage, equations } }/>
       { showCoord && <CrossLine { ...{ states, stage } }/> }
-      <StateBar/>
+      <StateBar { ...{ equations } }/>
       <ViewPanel { ...{ states, stage } }/>
       <ZoomPanel { ...{ stage } }/>
     </div>

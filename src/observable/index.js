@@ -1,6 +1,6 @@
 import { observable } from 'mobx';
 import clamp from 'lodash/clamp';
-import { parameterEquation, parseZoom } from '../utilities';
+import { parseZoom } from '../utilities';
 
 export const states = observable({
   isSmooth: true,
@@ -66,7 +66,11 @@ export const stage = observable({
 
 export const equations = observable({
   equationsMatrix: [],
+  isRedrawing: false,
   redraw: null,
+  updateIsRedrawing(is) {
+    equations.isRedrawing = is;
+  },
   pushEquationsMatrix(equation) {
     if (equations.equationsMatrix[0]) {
       equations.equationsMatrix[0].matrix = equation.matrix;

@@ -129,67 +129,66 @@ export const parameterEquation = ({
                                     offsetY, zoom, isSmooth, VAR_X
                                   }) => {
 
-    console.log('parameterEquation');
+  console.log('parameterEquation');
 
-    const MAX_DELTA = (MIN_CHORD + MAX_CHORD) / 2 / zoom;
-    let px, py, matrix = [];
+  const MAX_DELTA = (MIN_CHORD + MAX_CHORD) / 2 / zoom;
+  let px, py, matrix = [];
 
-    const func = new Function(VAR_X, `return ${literal};`);
+  const func = new Function(VAR_X, `return ${literal};`);
 
-    let x = rangeX[0],
-      y = func(x),
-      dx = MAX_DELTA;
+  let x = rangeX[0],
+    y = func(x),
+    dx = MAX_DELTA;
 
-    let iterationTimes = 0,
-      overflow = false,
-      tx = NaN;
+  let iterationTimes = 0,
+    overflow = false,
+    tx = NaN;
 
-    do {
-      if (isNaN(y) || Math.abs(y) >= MAX_VALUE || y < rangeY[0] || y > rangeY[1]) {
+  do {
+    if (isNaN(y) || Math.abs(y) >= MAX_VALUE || y < rangeY[0] || y > rangeY[1]) {
 
-        if (!overflow && dx < 0) {
-          // draw to negative direction
-          x = tx;
-          y = func(x);
-          dx = dxComputer(y, x, func, dx, zoom);
-          overflow = false;
-        } else {
-          dx = MAX_DELTA;
-          overflow = true;
-        }
-
-        x += dx;
+      if (!overflow && dx < 0) {
+        // draw to negative direction
+        x = tx;
         y = func(x);
-
-      } else {
-
-        if (overflow) {
-          // enter range first, reverse dx
-          dx = -MAX_DELTA;
-          // temporary recording x to tx
-          tx = x;
-        }
-        overflow = false;
-
-        px = offsetX + x * zoom;
-        py = offsetY - y * zoom;
-
-        const point = isSmooth ? [px, py] : [Math.round(px), Math.round(py)];
-        point.time = Date.now();
-
         dx = dxComputer(y, x, func, dx, zoom);
-
-        point.time = Date.now() - point.time;
-        matrix.push(point);
-
-        x += dx;
-        y = func(x);
+        overflow = false;
+      } else {
+        dx = MAX_DELTA;
+        overflow = true;
       }
 
-    } while (x < rangeX[1] && iterationTimes++ < MAX_ITERATION);
+      x += dx;
+      y = func(x);
 
-    // console.log(matrix);
-    return matrix;
-  }
-;
+    } else {
+
+      if (overflow) {
+        // enter range first, reverse dx
+        dx = -MAX_DELTA;
+        // temporary recording x to tx
+        tx = x;
+      }
+      overflow = false;
+
+      px = offsetX + x * zoom;
+      py = offsetY - y * zoom;
+
+      const point = isSmooth ? [px, py] : [Math.round(px), Math.round(py)];
+      point.time = Date.now();
+
+      dx = dxComputer(y, x, func, dx, zoom);
+
+      point.time = Date.now() - point.time;
+      matrix.push(point);
+
+      x += dx;
+      y = func(x);
+    }
+
+  } while (x < rangeX[1] && iterationTimes++ < MAX_ITERATION);
+
+  // console.log(matrix);
+  return matrix;
+};
 

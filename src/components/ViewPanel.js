@@ -3,8 +3,8 @@ import { observer } from 'mobx-react';
 import { STOP_DRAG } from '../utilities';
 import { view_panel, centered, smooth, smooth_off, coord, coord_off } from './ViewPanel.css';
 
-const ViewPanel = observer(props => {
-  const { states, stage } = props;
+const ViewPanel = observer(({ states, stage }) => {
+
   const { isSmooth, showCoord, switchSmooth, switchCoord } = states;
   const { updateOriginInCenter } = stage;
   const smoothText = `Smooth: ${isSmooth ? 'On' : 'Off'}`;
