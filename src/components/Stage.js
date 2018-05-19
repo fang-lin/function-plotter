@@ -1,4 +1,4 @@
-import React, { Component, createRef } from 'react';
+import React, { Component } from 'react';
 import { observer } from 'mobx-react';
 import { stage_wrapper, grid, axis, equation_canvas } from './Stage.css';
 import { deviceRatio, parameterEquation } from '../utilities';
