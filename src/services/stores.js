@@ -1,6 +1,6 @@
 import { observable } from 'mobx';
 import clamp from 'lodash/clamp';
-import { parseZoom } from '../utilities';
+import { parseZoom } from './utilities';
 
 export const states = observable({
   isSmooth: true,
@@ -9,6 +9,7 @@ export const states = observable({
   cursorY: 0,
   switchSmooth() {
     states.isSmooth = !states.isSmooth;
+    window.requestAnimationFrame(equations.redraw);
   },
   switchCoord() {
     states.showCoord = !states.showCoord;

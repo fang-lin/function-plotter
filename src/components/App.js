@@ -8,7 +8,7 @@ import StateBar from './StateBar';
 import CrossLine from './CrossLine';
 import ViewPanel from './ViewPanel';
 import ZoomPanel from './ZoomPanel';
-import { DRAG_EVENTS, getClientXY } from '../utilities';
+import { DRAG_EVENTS, getClientXY } from '../services/utilities';
 
 export default observer(class App extends Component {
 
@@ -40,22 +40,20 @@ export default observer(class App extends Component {
   onDragEnd = event => {
     window.removeEventListener(DRAG_EVENTS.MOVE, this.onDragging);
     const { stage, equations } = this.props;
-    const { originX, originY } = stage;
+    const { originX, originY, updateOrigin, updateTransform } = stage;
     const { clientX, clientY } = getClientXY(event);
-    stage.updateOrigin(
+    updateOrigin(
       originX + (clientX - this.state.cursor.clientX),
       originY + (clientY - this.state.cursor.clientY)
     );
-    stage.updateTransform(0, 0);
+    updateTransform(0, 0);
     equations.redraw();
     this.setState({ cursor: null, isDragging: false });
   };
 
   componentDidMount() {
     this.updateStageRect();
-
-    const { originX, originY, updateOriginInCenter } = this.props.stage;
-    const { updateCursor } = this.props.states;
+    const { stage: { originX, originY, updateOriginInCenter }, states: { updateCursor } } = this.props;
     isNaN(originX) && isNaN(originY) && updateOriginInCenter();
 
     window.addEventListener('resize', debounce(this.updateStageRect, 200));

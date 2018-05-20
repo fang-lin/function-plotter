@@ -5,8 +5,13 @@ import { observer } from 'mobx-react';
 
 const StateBar = observer(({ equations: { isRedrawing } }) => {
   return (<h1 className={ state_bar }>
-    <a className={ title } href="/">FuncDiagraph { version }</a>
-    <span className={ `${draw_state} ${isRedrawing ? is_drawing : ''}` }>drawing...</span>
+    <div>
+      <a className={ title } href="/">FuncDiagraph { version }</a>
+      <span className={ `${draw_state} ${isRedrawing ? is_drawing : ''}` }>drawing...</span>
+    </div>
+    <div>
+      x:{ }y:{ }
+    </div>
   </h1>)
 });
 

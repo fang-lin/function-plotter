@@ -1,6 +1,6 @@
 import React from 'react';
 import { observer } from 'mobx-react';
-import { STOP_DRAG } from '../utilities';
+import { STOP_DRAG } from '../services/utilities';
 import { zoom_panel, zoom_in, zoom_out, x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, x11, x12, x13, x14, x15, x16 } from './ZoomPanel.css';
 import { version } from '../../package.json';
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import { observer } from 'mobx-react';
-import { STOP_DRAG } from '../utilities';
+import { STOP_DRAG } from '../services/utilities';
 import { view_panel, centered, smooth, smooth_off, coord, coord_off } from './ViewPanel.css';
 
 const ViewPanel = observer(({ states, stage }) => {
