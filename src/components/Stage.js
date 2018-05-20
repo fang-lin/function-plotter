@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import { observer } from 'mobx-react';
-import values from 'lodash/values';
 import { stage_wrapper, grid, axis, equation_canvas } from './Stage.css';
 import arithmetic from '../services/arithmetic';
 import { deviceRatio } from '../services/utilities';
-
 
 export default observer(class Stage extends Component {
 
@@ -42,7 +40,6 @@ export default observer(class Stage extends Component {
           matrix: result
         });
         equationsMatrix.map(equation => {
-          console.log(equation.id);
           if (this.equations[equation.id]) {
             const context = this.equations[equation.id].getContext('2d');
             this.erasure(context);

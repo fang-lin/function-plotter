@@ -5,8 +5,8 @@ import { parseZoom } from './utilities';
 export const states = observable({
   isSmooth: true,
   showCoord: false,
-  cursorX: 0,
-  cursorY: 0,
+  cursorX: NaN,
+  cursorY: NaN,
   switchSmooth() {
     states.isSmooth = !states.isSmooth;
     window.requestAnimationFrame(equations.redraw);
