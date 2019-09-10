@@ -1,5 +1,5 @@
 import styled, {createGlobalStyle} from 'styled-components';
-import {DragEventNames} from '../services/utilities';
+import {DRAG_STATE} from '../services/utilities';
 
 const FullScreen = `
     margin: 0;
@@ -18,10 +18,10 @@ export const GlobalStyle = createGlobalStyle`
     }
 `;
 
-export const AppStyle = styled.div<{ dragState: DragEventNames }>`
+export const AppStyle = styled.div<{ dragState: DRAG_STATE }>`
     ${FullScreen}
-    ${({dragState}) => dragState === 'START' && 'cursor: grab;'}
-    ${({dragState}) => dragState === 'MOVING' && 'cursor: grabbing;'}
+    ${({dragState}) => dragState === DRAG_STATE.START && 'cursor: grab;'}
+    ${({dragState}) => dragState === DRAG_STATE.MOVING && 'cursor: grabbing;'}
 `;
 
 

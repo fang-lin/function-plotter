@@ -8,13 +8,10 @@ import {StateBar} from './StateBar';
 import {CrossLine} from './CrossLine';
 import {ViewPanel} from './ViewPanel';
 import {ZoomPanel} from './ZoomPanel';
-import {getClientCoordinate, DRAG_EVENTS, DragEventNames} from '../services/utilities';
+import {getClient, DRAG_EVENTS, DRAG_STATE, Coordinate, DragEvent} from '../services/utilities';
 import {Stage as StageStore} from '../stores/Stage';
 import {Equations as EquationsStore} from '../stores/Equations';
 import {Preferences as PreferencesStore} from '../stores/Preferences';
-
-export type Coordinate = [number, number];
-export type Size = [number, number];
 
 export interface InjectedAppProps {
     stage: StageStore;
@@ -23,9 +20,8 @@ export interface InjectedAppProps {
 }
 
 export interface AppState {
-    cursorCoordinate: Coordinate;
-    dragState: DragEventNames;
-    cursor: Coordinate;
+    dragState: DRAG_STATE;
+    dragStartClient: Coordinate;
 }
 
 @inject('stage', 'preferences', 'equations')
@@ -36,9 +32,8 @@ export class App extends Component<{}, AppState> {
     constructor(props: InjectedAppProps) {
         super(props);
         this.state = {
-            cursorCoordinate: [NaN, NaN],
-            dragState: 'END',
-            cursor: [NaN, NaN]
+            dragState: DRAG_STATE.END,
+            dragStartClient: [NaN, NaN]
         };
         this.stageRef = React.createRef();
     }
@@ -56,44 +51,48 @@ export class App extends Component<{}, AppState> {
 
     onDragStart = (event: DragEvent) => {
         this.setState({
-            cursor: getClientCoordinate(event),
-            dragState: 'START'
+            dragStartClient: getClient(event),
+            dragState: DRAG_STATE.START
         });
-        window.addEventListener(DRAG_EVENTS.MOVING, this.onDragging);
+        window.addEventListener(DRAG_EVENTS[DRAG_STATE.MOVING], this.onDragging);
     };
 
     onDragging = (event: DragEvent) => {
-        const [clientX, clientY] = getClientCoordinate(event);
-        const {cursor} = this.state;
-        this.store.stage.updateTransform([clientX - cursor[0], clientY - cursor[1]]);
-        this.setState({dragState: 'MOVING'});
+        const [clientX, clientY] = getClient(event);
+        const {dragStartClient} = this.state;
+        this.store.stage.updateTransform([clientX - dragStartClient[0], clientY - dragStartClient[1]]);
+        this.setState({dragState: DRAG_STATE.MOVING});
     };
 
     onDragEnd = (event: DragEvent) => {
-        window.removeEventListener(DRAG_EVENTS.MOVING, this.onDragging);
-        const {stage, equations} = this.store;
-        const {cursor} = this.state;
-        const {origin} = stage;
-        const client = getClientCoordinate(event);
-        stage.updateOrigin([
-            origin[0] + (client[0] - cursor[0]),
-            origin[1] + (client[1] - cursor[1])
+        window.removeEventListener(DRAG_EVENTS[DRAG_STATE.MOVING], this.onDragging);
+        const {stage: {origin, updateOrigin, updateTransform}, equations, preferences: {updateCursor}} = this.store;
+        const {dragStartClient} = this.state;
+        const client = getClient(event);
+        updateCursor(client);
+        updateOrigin([
+            origin[0] + (client[0] - dragStartClient[0]),
+            origin[1] + (client[1] - dragStartClient[1])
         ]);
-        stage.updateTransform([0, 0]);
+        updateTransform([0, 0]);
         equations.redraw();
         this.setState({
-            cursor: [NaN, NaN],
-            dragState: 'END'
+            dragStartClient: [NaN, NaN],
+            dragState: DRAG_STATE.END
         });
     };
 
     componentDidMount() {
         this.updateStageRect();
         const {preferences} = this.store;
-        window.addEventListener(DRAG_EVENTS.START, this.onDragStart);
-        window.addEventListener(DRAG_EVENTS.END, this.onDragEnd);
+        window.addEventListener(DRAG_EVENTS[DRAG_STATE.START], this.onDragStart);
+        window.addEventListener(DRAG_EVENTS[DRAG_STATE.END], this.onDragEnd);
 
-        window.addEventListener('mousemove', event => preferences.updateCursor(getClientCoordinate(event)));
+        window.addEventListener('mousemove', event => {
+            if (this.state.dragState === DRAG_STATE.END) {
+                preferences.updateCursor(getClient(event));
+            }
+        });
         window.addEventListener('resize', debounce(this.updateStageRect, 200));
     }
 

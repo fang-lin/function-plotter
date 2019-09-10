@@ -1,5 +1,5 @@
 import {observable, action} from 'mobx';
-import {Coordinate} from '../components/App';
+import {Coordinate} from '../services/utilities';
 
 export class Preferences {
     @observable isSmooth: boolean = true;

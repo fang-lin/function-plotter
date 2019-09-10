@@ -1,6 +1,11 @@
-import {Coordinate} from '../components/App';
+export type Coordinate = [number, number];
+export type Size = [number, number];
 
-export type DragEventNames = 'START' | 'MOVING' | 'END';
+export enum DRAG_STATE {
+    START,
+    MOVING,
+    END
+}
 
 export type DragEvent = TouchEvent | MouseEvent;
 
@@ -12,7 +17,7 @@ export function parseZoom(zoomLevel: number): number {
     return Math.pow(ZOOM_UNIT, zoomLevel) * deviceRatio;
 }
 
-export function getClientCoordinate(event: DragEvent): Coordinate {
+export function getClient(event: DragEvent): Coordinate {
     const {clientX, clientY} = event instanceof TouchEvent ? event.changedTouches[0] : event;
     return [clientX, clientY];
 }
@@ -26,17 +31,20 @@ export const isMobile: boolean = (() => {
     }
 })();
 
-
-export const DRAG_EVENTS: Record<DragEventNames, keyof WindowEventMap> = isMobile ? {
-    START: 'touchstart',
-    MOVING: 'touchmove',
-    END: 'touchend',
+export const DRAG_EVENTS: Record<DRAG_STATE, keyof WindowEventMap> = isMobile ? {
+    [DRAG_STATE.START]: 'touchstart',
+    [DRAG_STATE.MOVING]: 'touchmove',
+    [DRAG_STATE.END]: 'touchend',
 } : {
-    START: 'mousedown',
-    MOVING: 'mousemove',
-    END: 'mouseup',
+    [DRAG_STATE.START]: 'mousedown',
+    [DRAG_STATE.MOVING]: 'mousemove',
+    [DRAG_STATE.END]: 'mouseup',
 };
 
 export function getDeviceRatio() {
     return window.devicePixelRatio || 1;
+}
+
+export function getCoordinate(cursor: number, origin: number, zoom: number): string {
+    return isNaN(cursor) ? '--' : ((cursor - origin) / zoom * deviceRatio).toFixed(2);
 }

@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import {Coordinate} from "./App";
+import {Coordinate} from './App';
 
 interface CanvasProps {
     size: Coordinate

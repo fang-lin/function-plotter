@@ -1,6 +1,5 @@
 import {action, observable} from 'mobx';
-import {Coordinate, Size} from '../components/App';
-import {parseZoom} from '../services/utilities';
+import {parseZoom, Size, Coordinate} from '../services/utilities';
 import clamp from 'lodash/clamp';
 
 export class Stage {

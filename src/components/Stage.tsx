@@ -1,16 +1,15 @@
 import React, {Component, createRef, RefObject} from 'react';
 // @ts-ignore
 import arithmetic from '../services/arithmetic';
-import {deviceRatio, getDeviceRatio} from '../services/utilities';
+import {Coordinate, deviceRatio, getDeviceRatio} from '../services/utilities';
 import {Equations as StoreEquations} from '../stores/Equations';
 import {Stage as StoreStage} from '../stores/Stage';
 import {Preferences as StorePreferences} from '../stores/Preferences';
-import {Coordinate} from './App';
 import {
     StageWrapper,
     Canvas
 } from './Stage.style';
-import {inject, observer} from "mobx-react";
+import {inject, observer} from 'mobx-react';
 
 interface StageProps {
     stage: StoreStage;

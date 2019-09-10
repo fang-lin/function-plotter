@@ -1,8 +1,8 @@
 import React from 'react';
 import {LineX, LineY} from './CrossLine.style';
-import {Stage as StoreStage} from "../stores/Stage";
-import {Preferences as StorePreferences} from "../stores/Preferences";
-import {inject, observer} from "mobx-react";
+import {Stage as StoreStage} from '../stores/Stage';
+import {Preferences as StorePreferences} from '../stores/Preferences';
+import {inject, observer} from 'mobx-react';
 
 interface CrossLineProps {
     stage: StoreStage;
