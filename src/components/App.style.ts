@@ -1,7 +1,21 @@
-import {createGlobalStyle} from "styled-components";
+import styled, {createGlobalStyle} from 'styled-components';
 
 export const GlobalStyle = createGlobalStyle`
-html, body, #root, .app {
+    html, body, #root {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        background: #ccc;
+        cursor: crosshair;
+        font-family: consolas courier, monospace;
+    }
+`;
+
+export const AppStyle = styled.div<{
+    isDragging: boolean
+}>`
     margin: 0;
     padding: 0;
     width: 100%;
@@ -10,13 +24,7 @@ html, body, #root, .app {
     background: #ccc;
     cursor: crosshair;
     font-family: consolas courier, monospace;
-}
-
-.drag_start {
-    cursor: grab;
-}
-
-.dragging {
-    cursor: grabbing;
-}
+    cursor: ${({isDragging}) => isDragging ? 'grabbing' : 'grab'};
 `;
+
+

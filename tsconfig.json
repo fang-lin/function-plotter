@@ -1,8 +1,16 @@
 {
   "compilerOptions": {
+    "experimentalDecorators": true,
     "noImplicitAny": true,
     "strictNullChecks": true,
     "allowSyntheticDefaultImports": true,
-    "jsx": "react"
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "target": "es5",
+    "jsx": "react",
+    "lib": [
+      "es2018",
+      "dom"
+    ]
   }
 }

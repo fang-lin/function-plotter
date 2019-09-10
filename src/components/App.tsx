@@ -1,98 +1,111 @@
-import React, {Component, RefObject} from 'react';
-import {observer} from 'mobx-react';
+import React, {Component, RefObject, createRef} from 'react';
+import {observer, inject} from 'mobx-react';
 import debounce from 'lodash/debounce';
-import {app, drag_start, dragging} from './App.style.ts';
-import PreloadImages from './PreloadImages';
-import Stage from './Stage';
-import StateBar from './StateBar';
-import CrossLine from './CrossLine';
-import ViewPanel from './ViewPanel';
-import ZoomPanel from './ZoomPanel';
-import {draggingEvents, getClientXY} from '../services/utilities';
+import {GlobalStyle, AppStyle} from './App.style';
+import {PreloadImages} from './PreloadImages';
+import {Stage} from './Stage';
+import {StateBar} from './StateBar';
+import {CrossLine} from './CrossLine';
+import {ViewPanel} from './ViewPanel';
+import {ZoomPanel} from './ZoomPanel';
+import {getClientCoordinate, DRAG_EVENTS} from '../services/utilities';
+import {Stage as StageStore} from '../stores/Stage';
+import {Equations as EquationsStore} from '../stores/Equations';
+import {Preferences as PreferencesStore} from '../stores/Preferences';
 
 export type Coordinate = [number, number];
+export type Size = [number, number];
 
-export interface AppProps {
-    stage: any;
-
+export interface InjectedAppProps {
+    stage: StageStore;
+    preferences: PreferencesStore;
+    equations: EquationsStore;
 }
 
 export interface AppState {
     cursorCoordinate: Coordinate;
     isDragging: boolean;
+    cursor: Coordinate;
 }
 
+@inject('stage', 'preferences', 'equations')
 @observer
-export class App extends Component<AppProps, AppState> {
+export class App extends Component<{}, AppState> {
+    stageRef: RefObject<HTMLDivElement> = createRef();
 
-    myRef: RefObject<HTMLDivElement> = React.createRef();
-
-    constructor(props: any) {
+    constructor(props: InjectedAppProps) {
         super(props);
         this.state = {
             cursorCoordinate: [NaN, NaN],
             isDragging: false,
+            cursor: [NaN, NaN]
         };
-        this.myRef = React.createRef();
+        this.stageRef = React.createRef();
+    }
+
+    get store() {
+        return this.props as InjectedAppProps;
     }
 
     updateStageRect = () => {
-        this.props.stage.updateStageRect(this.refs.app.getBoundingClientRect());
+        if (this.stageRef.current) {
+            const {width, height} = this.stageRef.current.getBoundingClientRect();
+            this.store.stage.updateStageRect([width, height]);
+        }
     };
 
-    onDragStart = event => {
+    onDragStart = (event: DragEvent) => {
         this.setState({
-            cursorCoordinate: getClientXY(event)
+            cursorCoordinate: getClientCoordinate(event)
         });
-        window.addEventListener(DRAG_EVENTS.MOVE, this.onDragging);
+        window.addEventListener(DRAG_EVENTS.MOVING, this.onDragging);
     };
 
-    onDragging = event => {
-        const {clientX, clientY} = getClientXY(event);
-        this.props.stage.updateTransform(clientX - this.state.cursor.clientX, clientY - this.state.cursor.clientY);
+    onDragging = (event: DragEvent) => {
+        const [clientX, clientY] = getClientCoordinate(event);
+        this.store.stage.updateTransform([clientX - this.state.cursor[0], clientY - this.state.cursor[1]]);
         this.setState({isDragging: true});
     };
 
-    onDragEnd = event => {
-        window.removeEventListener(DRAG_EVENTS.MOVE, this.onDragging);
-        const {stage, equations} = this.props;
-        const {originX, originY, updateOrigin, updateTransform} = stage;
-        const {clientX, clientY} = getClientXY(event);
-        updateOrigin(
-            originX + (clientX - this.state.cursor.clientX),
-            originY + (clientY - this.state.cursor.clientY)
-        );
-        updateTransform(0, 0);
-        equations.redraw();
-        this.setState({cursor: null, isDragging: false});
+    onDragEnd = (event: DragEvent) => {
+        window.removeEventListener(DRAG_EVENTS.MOVING, this.onDragging);
+        const {stage, equations} = this.store;
+        const {cursor} = this.state;
+        const {origin} = stage;
+        const client = getClientCoordinate(event);
+        stage.updateOrigin([
+            origin[0] + (client[0] - cursor[0]),
+            origin[1] + (client[1] - cursor[1])
+        ]);
+        stage.updateTransform([0, 0]);
+        // equations.redraw();
+        this.setState({
+            cursor: [NaN, NaN],
+            isDragging: false
+        });
     };
 
     componentDidMount() {
         this.updateStageRect();
-        const {stage: {originX, originY, updateOriginInCenter}, states: {updateCursor}} = this.props;
-        isNaN(originX) && isNaN(originY) && updateOriginInCenter();
+        const {preferences} = this.store;
+        window.addEventListener(DRAG_EVENTS.START, this.onDragStart);
+        window.addEventListener(DRAG_EVENTS.END, this.onDragEnd);
 
+        window.addEventListener('mousemove', event => preferences.updateCursor(getClientCoordinate(event)));
         window.addEventListener('resize', debounce(this.updateStageRect, 200));
-        window.addEventListener(draggingEvents.start, this.onDragStart);
-        window.addEventListener(draggingEvents.end, this.onDragEnd);
-
-        window.addEventListener('mousemove', event => {
-            updateCursor(...getClientXY(event));
-        });
     }
 
     render() {
-        const {states, stage, equations} = this.props;
-        const {cursor, isDragging} = this.state;
-        const {showCoord} = states;
-        return <div className={`${app} ${cursor ? (isDragging ? dragging : drag_start) : ''}`} ref={this.myRef}>
+        const {preferences: {showCoordinate}} = this.store;
+        const {isDragging} = this.state;
+        return <AppStyle isDragging={isDragging} ref={this.stageRef}>
             <PreloadImages/>
-            <Stage {...{states, stage, equations}}/>
-            {showCoord && <CrossLine {...{states, stage}}/>}
-            <StateBar {...{equations, stage, states}}/>
-            <ViewPanel {...{states, stage}}/>
-            <ZoomPanel {...{stage}}/>
-        </div>;
+            <Stage/>
+            {showCoordinate && <CrossLine/>}
+            <StateBar/>
+            <ViewPanel/>
+            <ZoomPanel/>
+            <GlobalStyle/>
+        </AppStyle>;
     }
 }
-
