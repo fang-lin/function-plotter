@@ -82,9 +82,7 @@ export const ZoomOutButton = styled(Button)`
     }
 `;
 
-export const ZoomLevelButton = styled(Button)<{
-    level: number;
-}>`
+export const ZoomLevelButton = styled(Button)<{ level: number; }>`
     background-image: url(${({level}) => levels[level]});
     &:hover{
         background-image: url(${({level}) => hovers[level]});

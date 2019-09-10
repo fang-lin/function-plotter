@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const StateBarWrapper = styled.h1`
+export const StateBarWrapper = styled.div`
     position: fixed;
     top: 20px;
     left: 20px;
@@ -8,17 +8,18 @@ export const StateBarWrapper = styled.h1`
     font-weight: normal;
     margin: 0 -5px;
 `;
-export const AppTitle = styled.a`
-    display: inline-block;
+export const AppTitle = styled.h1`
+    display: inline;
+    font-size: 12px;
     margin: 3px 5px;
-    text-decoration: none;
+    a{
+        text-decoration: none;
+    }
 `;
-export const Coordinate = styled.span`
+export const Coordinate = styled.div`
     margin: 3px 5px;
 `;
-export const IsDrawing = styled.span<{
-    isRedrawing: boolean;
-}>`
+export const IsDrawing = styled.span<{ isRedrawing: boolean; }>`
     transition: all .1s;
     opacity: ${({isRedrawing}) => isRedrawing ? '1' : '0'};
 `;

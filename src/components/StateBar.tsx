@@ -19,10 +19,10 @@ export const StateBar = inject('stage', 'preferences', 'equations')(observer(
         const x = cursor[0] ? ((cursor[0] - origin[0]) / zoom * deviceRatio).toFixed(2) : '--';
         const y = cursor[1] ? ((cursor[1] - origin[1]) / zoom * deviceRatio).toFixed(2) : '--';
         return (<StateBarWrapper>
-        <span>
-            <AppTitle href="/">FuncDiagraph {version}</AppTitle>
-            <IsDrawing isRedrawing={isRedrawing}>drawing...</IsDrawing>
-        </span>
+            <div>
+                <AppTitle><a href="/">FuncDiagraph {version}</a></AppTitle>
+                <IsDrawing isRedrawing={isRedrawing}>drawing...</IsDrawing>
+            </div>
             <Coordinate>{x}, {y}</Coordinate>
         </StateBarWrapper>);
     }

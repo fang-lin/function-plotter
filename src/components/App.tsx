@@ -8,7 +8,7 @@ import {StateBar} from './StateBar';
 import {CrossLine} from './CrossLine';
 import {ViewPanel} from './ViewPanel';
 import {ZoomPanel} from './ZoomPanel';
-import {getClientCoordinate, DRAG_EVENTS} from '../services/utilities';
+import {getClientCoordinate, DRAG_EVENTS, DragEventNames} from '../services/utilities';
 import {Stage as StageStore} from '../stores/Stage';
 import {Equations as EquationsStore} from '../stores/Equations';
 import {Preferences as PreferencesStore} from '../stores/Preferences';
@@ -24,7 +24,7 @@ export interface InjectedAppProps {
 
 export interface AppState {
     cursorCoordinate: Coordinate;
-    isDragging: boolean;
+    dragState: DragEventNames;
     cursor: Coordinate;
 }
 
@@ -37,7 +37,7 @@ export class App extends Component<{}, AppState> {
         super(props);
         this.state = {
             cursorCoordinate: [NaN, NaN],
-            isDragging: false,
+            dragState: 'END',
             cursor: [NaN, NaN]
         };
         this.stageRef = React.createRef();
@@ -56,15 +56,17 @@ export class App extends Component<{}, AppState> {
 
     onDragStart = (event: DragEvent) => {
         this.setState({
-            cursorCoordinate: getClientCoordinate(event)
+            cursor: getClientCoordinate(event),
+            dragState: 'START'
         });
         window.addEventListener(DRAG_EVENTS.MOVING, this.onDragging);
     };
 
     onDragging = (event: DragEvent) => {
         const [clientX, clientY] = getClientCoordinate(event);
-        this.store.stage.updateTransform([clientX - this.state.cursor[0], clientY - this.state.cursor[1]]);
-        this.setState({isDragging: true});
+        const {cursor} = this.state;
+        this.store.stage.updateTransform([clientX - cursor[0], clientY - cursor[1]]);
+        this.setState({dragState: 'MOVING'});
     };
 
     onDragEnd = (event: DragEvent) => {
@@ -78,10 +80,10 @@ export class App extends Component<{}, AppState> {
             origin[1] + (client[1] - cursor[1])
         ]);
         stage.updateTransform([0, 0]);
-        // equations.redraw();
+        equations.redraw();
         this.setState({
             cursor: [NaN, NaN],
-            isDragging: false
+            dragState: 'END'
         });
     };
 
@@ -97,8 +99,8 @@ export class App extends Component<{}, AppState> {
 
     render() {
         const {preferences: {showCoordinate}} = this.store;
-        const {isDragging} = this.state;
-        return <AppStyle isDragging={isDragging} ref={this.stageRef}>
+        const {dragState} = this.state;
+        return <AppStyle dragState={dragState} ref={this.stageRef}>
             <PreloadImages/>
             <Stage/>
             {showCoordinate && <CrossLine/>}

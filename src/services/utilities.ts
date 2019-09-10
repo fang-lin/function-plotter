@@ -1,6 +1,6 @@
-import {Coordinate} from "../components/App";
+import {Coordinate} from '../components/App';
 
-type DragEventNames = 'START' | 'MOVING' | 'END';
+export type DragEventNames = 'START' | 'MOVING' | 'END';
 
 export type DragEvent = TouchEvent | MouseEvent;
 

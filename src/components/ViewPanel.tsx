@@ -1,8 +1,8 @@
 import React from 'react';
-import {view_panel, centered, smooth, smooth_off, coord, coord_off} from './ViewPanel.css';
-import {Stage as StageStore} from "../stores/Stage";
-import {Preferences as PreferencesStore} from "../stores/Preferences";
-import {inject, observer} from "mobx-react";
+import {inject, observer} from 'mobx-react';
+import {ViewPanelWrapper, CenteredButton, SmoothButton, CoordinateButton} from './ViewPanel.style';
+import {Stage as StageStore} from '../stores/Stage';
+import {Preferences as PreferencesStore} from '../stores/Preferences';
 
 interface ViewPanelProps {
     stage: StageStore;
@@ -15,24 +15,26 @@ export const ViewPanel = inject('stage', 'preferences')(observer(
         const {isSmooth, showCoordinate, switchSmooth, switchCoordinate} = preferences;
         const {updateOriginInCenter} = stage;
         const smoothText = `Smooth: ${isSmooth ? 'On' : 'Off'}`;
-        const coordText = `Coord: ${showCoordinate ? 'On' : 'Off'}`;
+        const coordinateText = `Coordinate: ${showCoordinate ? 'On' : 'Off'}`;
 
-        return <div className={view_panel}>
-            <button className={centered}
-                    title="Centered"
-                    onClick={updateOriginInCenter}>
+        return <ViewPanelWrapper>
+            <CenteredButton
+                title="Centered"
+                onClick={updateOriginInCenter}>
                 Centered
-            </button>
-            <button className={isSmooth ? smooth : smooth_off}
-                    title={smoothText}
-                    onClick={switchSmooth}>
+            </CenteredButton>
+            <SmoothButton
+                isSmooth={isSmooth}
+                title={smoothText}
+                onClick={switchSmooth}>
                 {smoothText}
-            </button>
-            <button className={showCoordinate ? coord : coord_off}
-                    title={coordText}
-                    onClick={switchCoordinate}>
-                {coordText}
-            </button>
-        </div>;
+            </SmoothButton>
+            <CoordinateButton
+                showCoordinate={showCoordinate}
+                title={coordinateText}
+                onClick={switchCoordinate}>
+                {coordinateText}
+            </CoordinateButton>
+        </ViewPanelWrapper>;
     }
 ));

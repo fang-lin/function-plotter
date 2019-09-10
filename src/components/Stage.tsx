@@ -2,15 +2,13 @@ import React, {Component, createRef, RefObject} from 'react';
 // @ts-ignore
 import arithmetic from '../services/arithmetic';
 import {deviceRatio, getDeviceRatio} from '../services/utilities';
-import {Equations as StoreEquations} from "../stores/Equations";
-import {Stage as StoreStage} from "../stores/Stage";
-import {Preferences as StorePreferences} from "../stores/Preferences";
-import {Coordinate, InjectedAppProps} from "./App";
+import {Equations as StoreEquations} from '../stores/Equations';
+import {Stage as StoreStage} from '../stores/Stage';
+import {Preferences as StorePreferences} from '../stores/Preferences';
+import {Coordinate} from './App';
 import {
     StageWrapper,
-    GridCanvas,
-    AxisCanvas,
-    EquationCanvas
+    Canvas
 } from './Stage.style';
 import {inject, observer} from "mobx-react";
 
@@ -148,18 +146,25 @@ export class Stage extends Component<{}, StageState> {
         const {stage, equations} = this.store;
         const {size, transform} = stage;
         const {equationsMatrix} = equations;
-        const sizing = {
+        const sizingAttr = {
             width: size[0] * deviceRatio,
             height: size[1] * deviceRatio
         };
+        const sizing = {
+            width: `${size[0]}px`,
+            height: `${size[1]}px`,
+        };
+        const moving = {transform: `translate(${transform[0]}px, ${transform[1]}px)`};
 
-        return <StageWrapper transform={transform}>
-            <GridCanvas ref={this.gridRef} size={size} {...sizing}/>
-            <AxisCanvas ref={this.axisRef} size={size} {...sizing}/>
+        return <StageWrapper style={moving}>
+            <Canvas ref={this.gridRef} style={sizing} {...sizingAttr}/>
+            <Canvas ref={this.axisRef} style={sizing} {...sizingAttr}/>
             {
                 equationsMatrix.map(equation => (
-                    <EquationCanvas key={equation.id} ref={ele => this.equations[equation.id] = ele}
-                                    size={size} {...sizing}/>
+                    <Canvas
+                        key={equation.id}
+                        ref={ele => this.equations[equation.id] = ele}
+                        style={sizing} {...sizingAttr}/>
                 ))
             }
         </StageWrapper>;
