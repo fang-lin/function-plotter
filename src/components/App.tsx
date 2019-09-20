@@ -1,5 +1,4 @@
 import React, {Component, RefObject, createRef} from 'react';
-import {observer, inject} from 'mobx-react';
 import debounce from 'lodash/debounce';
 import {GlobalStyle, AppStyle} from './App.style';
 import {PreloadImages} from './PreloadImages';
@@ -11,41 +10,52 @@ import {ZoomPanel} from './ZoomPanel';
 import {getClient, DRAG_EVENTS, DRAG_STATE, Coordinate, DragEvent} from '../services/utilities';
 import {Stage as StageStore} from '../stores/Stage';
 import {Equations as EquationsStore} from '../stores/Equations';
-import {Preferences as PreferencesStore} from '../stores/Preferences';
 
-export interface InjectedAppProps {
+export interface AppProps {
     stage: StageStore;
-    preferences: PreferencesStore;
     equations: EquationsStore;
 }
 
 export interface AppState {
     dragState: DRAG_STATE;
     dragStartClient: Coordinate;
+    refreshID: number
 }
 
-@inject('stage', 'preferences', 'equations')
-@observer
-export class App extends Component<{}, AppState> {
-    stageRef: RefObject<HTMLDivElement> = createRef();
+export class App extends Component<AppProps, AppState> {
+    appRef: RefObject<HTMLDivElement> = createRef();
 
-    constructor(props: InjectedAppProps) {
+    constructor(props: AppProps) {
         super(props);
         this.state = {
             dragState: DRAG_STATE.END,
-            dragStartClient: [NaN, NaN]
+            dragStartClient: [NaN, NaN],
+            refreshID: 0
         };
-        this.stageRef = React.createRef();
+        this.appRef = React.createRef();
     }
 
-    get store() {
-        return this.props as InjectedAppProps;
+    refresh(callback?: () => void) {
+        this.setState({
+            refreshID: this.state.refreshID + 1
+        }, callback);
     }
 
-    updateStageRect = () => {
-        if (this.stageRef.current) {
-            const {width, height} = this.stageRef.current.getBoundingClientRect();
-            this.store.stage.updateStageRect([width, height]);
+    redraw = () => {
+        const {stage, equations} = this.props;
+        this.refresh(() => {
+            stage.redraw();
+            equations.redraw();
+        });
+    };
+
+    updateStageSize = () => {
+        if (this.appRef.current) {
+            const {width, height} = this.appRef.current.getBoundingClientRect();
+            const {stage, equations} = this.props;
+            stage.updateStageSize([width, height]);
+            stage.updateOriginInCenter();
+            this.redraw();
         }
     };
 
@@ -60,22 +70,22 @@ export class App extends Component<{}, AppState> {
     onDragging = (event: DragEvent) => {
         const [clientX, clientY] = getClient(event);
         const {dragStartClient} = this.state;
-        this.store.stage.updateTransform([clientX - dragStartClient[0], clientY - dragStartClient[1]]);
+        this.props.stage.updateTransform([clientX - dragStartClient[0], clientY - dragStartClient[1]]);
         this.setState({dragState: DRAG_STATE.MOVING});
     };
 
     onDragEnd = (event: DragEvent) => {
         window.removeEventListener(DRAG_EVENTS[DRAG_STATE.MOVING], this.onDragging);
-        const {stage: {origin, updateOrigin, updateTransform}, equations, preferences: {updateCursor}} = this.store;
+        const {origin, updateOrigin, updateTransform, updateCursor} = this.props.stage;
         const {dragStartClient} = this.state;
         const client = getClient(event);
         updateCursor(client);
+        updateTransform([0, 0]);
         updateOrigin([
             origin[0] + (client[0] - dragStartClient[0]),
             origin[1] + (client[1] - dragStartClient[1])
         ]);
-        updateTransform([0, 0]);
-        equations.redraw();
+        this.redraw();
         this.setState({
             dragStartClient: [NaN, NaN],
             dragState: DRAG_STATE.END
@@ -83,29 +93,32 @@ export class App extends Component<{}, AppState> {
     };
 
     componentDidMount() {
-        this.updateStageRect();
-        const {preferences} = this.store;
+        this.updateStageSize();
+        const {stage} = this.props;
         window.addEventListener(DRAG_EVENTS[DRAG_STATE.START], this.onDragStart);
         window.addEventListener(DRAG_EVENTS[DRAG_STATE.END], this.onDragEnd);
 
         window.addEventListener('mousemove', event => {
             if (this.state.dragState === DRAG_STATE.END) {
-                preferences.updateCursor(getClient(event));
+                stage.updateCursor(getClient(event));
+                this.refresh();
             }
         });
-        window.addEventListener('resize', debounce(this.updateStageRect, 200));
+        window.addEventListener('resize', debounce(this.updateStageSize, 200));
     }
 
     render() {
-        const {preferences: {showCoordinate}} = this.store;
+        const {stage, equations} = this.props;
+        const {showCoordinate} = stage;
         const {dragState} = this.state;
-        return <AppStyle dragState={dragState} ref={this.stageRef}>
+        return <AppStyle dragState={dragState} ref={this.appRef}>
             <PreloadImages/>
-            <Stage/>
-            {showCoordinate && <CrossLine/>}
-            <StateBar/>
-            <ViewPanel/>
-            <ZoomPanel/>
+            <Stage {...this.props}/>
+            {showCoordinate && this.state.dragState === DRAG_STATE.END && <CrossLine stage={stage}/>}
+            <StateBar  {...this.props}/>
+            <ViewPanel  {...this.props} redraw={this.redraw}/>
+            <ZoomPanel stage={stage}
+                       equations={equations} redraw={this.redraw}/>
             <GlobalStyle/>
         </AppStyle>;
     }

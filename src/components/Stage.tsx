@@ -1,99 +1,77 @@
 import React, {Component, createRef, RefObject} from 'react';
-// @ts-ignore
-import arithmetic from '../services/arithmetic';
+import {pick} from 'lodash';
+import {arithmetic} from '../services/arithmetic';
 import {Coordinate, deviceRatio, getDeviceRatio} from '../services/utilities';
 import {Equations as StoreEquations} from '../stores/Equations';
 import {Stage as StoreStage} from '../stores/Stage';
-import {Preferences as StorePreferences} from '../stores/Preferences';
 import {
     StageWrapper,
     Canvas
 } from './Stage.style';
-import {inject, observer} from 'mobx-react';
 
 interface StageProps {
     stage: StoreStage;
     equations: StoreEquations;
-    preferences: StorePreferences;
 }
 
 interface StageState {
 
 }
 
-@inject('stage', 'preferences', 'equations')
-@observer
-export class Stage extends Component<{}, StageState> {
+export class Stage extends Component<StageProps, StageState> {
     gridRef: RefObject<HTMLCanvasElement> = createRef();
     axisRef: RefObject<HTMLCanvasElement> = createRef();
+    equationRefs: RefObject<HTMLCanvasElement>[] = [];
 
-    deviceRatio: number;
-    equations: any;
+    deviceRatio: number = getDeviceRatio();
 
-    constructor(props: {}) {
+    constructor(props: StageProps) {
         super(props);
-        this.deviceRatio = getDeviceRatio();
-        this.equations = {};
+        // this.equations = {};
 
-        this.store.equations.redraw = () => {
-            const {stage, equations} = this.store;
-            const {pushEquationsMatrix, equationsMatrix} = equations;
-            const {isSmooth} = this.store.preferences;
-            const {zoom, rangeX, rangeY, origin} = stage;
-            if (this.gridRef.current) {
-                this.erasure(this.gridRef.current.getContext('2d'));
-            }
-            if (this.axisRef.current) {
-                this.erasure(this.axisRef.current.getContext('2d'));
-            }
+        this.equationRefs.push(createRef());
 
-            this.drawGrid();
-            this.drawAxis();
+        const {equations, stage} = this.props;
+        this.props.stage.updateOriginInCenter();
 
+        this.props.stage.setRedraw(() => {
+            this.redrawGrid();
+            this.redrawAxis();
+        });
+
+        this.props.equations.setRedraw(() => {
+            const {rangeX, rangeY, origin, zoom, isSmooth} = stage;
             equations.updateIsRedrawing(true);
             arithmetic({
                 rangeX,
                 rangeY,
-                literal: 'y=Math.sin(x)',
-                offsetX: origin[0],
-                offsetY: origin[1],
+                fx: 'x',
+                offset: origin,
                 zoom,
                 isSmooth,
-                VAR_X: 'x'
-            }, (result: Coordinate[]) => {
+            }, (matrix: Coordinate[]) => {
                 equations.updateIsRedrawing(false);
-                pushEquationsMatrix({
-                    id: 1,
-                    matrix: result
-                });
-                equationsMatrix.map(equation => {
-                    if (this.equations[equation.id]) {
-                        const context = this.equations[equation.id].getContext('2d');
-                        this.erasure(context);
-                        this.drawEquation(context, equation.matrix);
 
-                    }
-                });
+                if (this.equationRefs[0].current) {
+                    this.drawEquation(0, matrix);
+                }
             });
-        };
-    }
-
-    get store() {
-        return this.props as StageProps;
+        });
     }
 
     erasure(context: CanvasRenderingContext2D | null): void {
         if (context) {
-            const {size} = this.store.stage;
+            const {size} = this.props.stage;
             context.clearRect(0, 0, size[0] * deviceRatio, size[1] * deviceRatio);
         }
     }
 
-    drawGrid(): void {
+    redrawGrid(): void {
         if (this.gridRef.current) {
             const context = this.gridRef.current.getContext('2d');
             if (context) {
-                const {origin, size, zoom} = this.store.stage;
+                this.erasure(context);
+                const {origin, size, zoom} = this.props.stage;
 
                 context.beginPath();
                 let x = origin[0] * deviceRatio % zoom - zoom;
@@ -114,11 +92,12 @@ export class Stage extends Component<{}, StageState> {
         }
     }
 
-    drawAxis(): void {
+    redrawAxis(): void {
         if (this.axisRef.current) {
             const context = this.axisRef.current.getContext('2d');
             if (context) {
-                const {origin, size} = this.store.stage;
+                this.erasure(context);
+                const {origin, size} = this.props.stage;
 
                 context.beginPath();
                 context.moveTo(0, Math.floor(origin[1] * deviceRatio) + 0.5);
@@ -132,18 +111,24 @@ export class Stage extends Component<{}, StageState> {
         }
     }
 
-    drawEquation(context: CanvasRenderingContext2D | null, matrix: Coordinate[]): void {
-        if (context) {
-            context.fillStyle = '#0f0';
-            matrix.map(point => {
-                context.fillRect(point[0] * deviceRatio, point[1] * deviceRatio, deviceRatio, deviceRatio);
-            });
+    drawEquation(id: number, matrix: Coordinate[]): void {
+        const current = this.equationRefs[id].current;
+        if (current) {
+            const context = current.getContext('2d');
+            if (context) {
+                this.erasure(context);
+                context.fillStyle = '#0f0';
+                matrix.map(point => {
+                    context.fillRect(point[0] * deviceRatio, point[1] * deviceRatio, deviceRatio, deviceRatio);
+                });
+            }
         }
+
     }
 
     render() {
-        const {stage, equations} = this.store;
-        const {size, transform} = stage;
+        const {stage, equations} = this.props;
+        const {size, transform, origin} = stage;
         const {equationsMatrix} = equations;
         const sizingAttr = {
             width: size[0] * deviceRatio,
@@ -159,10 +144,10 @@ export class Stage extends Component<{}, StageState> {
             <Canvas ref={this.gridRef} style={sizing} {...sizingAttr}/>
             <Canvas ref={this.axisRef} style={sizing} {...sizingAttr}/>
             {
-                equationsMatrix.map(equation => (
+                this.equationRefs.map((equationRef, index) => (
                     <Canvas
-                        key={equation.id}
-                        ref={ele => this.equations[equation.id] = ele}
+                        key={index}
+                        ref={equationRef}
                         style={sizing} {...sizingAttr}/>
                 ))
             }

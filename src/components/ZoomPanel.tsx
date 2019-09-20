@@ -1,27 +1,33 @@
 import React from 'react';
-import {Stage as StageStore} from '../stores/Stage';
-import {inject, observer} from 'mobx-react';
 import {ZoomInButton, ZoomLevelButton, ZoomOutButton, ZoomPanelWrapper} from './ZoomPanel.style';
+import {Stage as StageStore} from '../stores/Stage';
+import {Equations as EquationsStore} from '../stores/Equations';
 
 interface ZoomPanelProps {
     stage: StageStore;
+    equations: EquationsStore;
+    redraw: () => void;
 }
 
-export const ZoomPanel = inject('stage')(observer(
-    (props: {}) => {
-        const {stage: {updateZoom, zoomLevel}} = props as ZoomPanelProps;
-        return (
-            <ZoomPanelWrapper>
-                <ZoomInButton
-                    title="Zoom In"
-                    onClick={() => updateZoom(zoomLevel + 1)}>Zoom In</ZoomInButton>
-                <ZoomOutButton
-                    title="Zoom Out"
-                    onClick={() => updateZoom(zoomLevel - 1)}>Zoom Out</ZoomOutButton>
-                <ZoomLevelButton level={zoomLevel - 1} title={`x${zoomLevel}`}>{`x${zoomLevel}`}</ZoomLevelButton>
-            </ZoomPanelWrapper>
-        );
-    }
-));
+export const ZoomPanel = (props: ZoomPanelProps) => {
+    const {stage: {updateZoom, zoomLevel}, redraw} = props;
+    return (
+        <ZoomPanelWrapper>
+            <ZoomInButton
+                title="Zoom In"
+                onClick={() => {
+                    updateZoom(zoomLevel + 1);
+                    redraw();
+                }}>Zoom In</ZoomInButton>
+            <ZoomOutButton
+                title="Zoom Out"
+                onClick={() => {
+                    updateZoom(zoomLevel - 1);
+                    redraw();
+                }}>Zoom Out</ZoomOutButton>
+            <ZoomLevelButton level={zoomLevel - 1} title={`x${zoomLevel}`}>{`x${zoomLevel}`}</ZoomLevelButton>
+        </ZoomPanelWrapper>
+    );
+};
 
 

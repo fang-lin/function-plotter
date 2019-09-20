@@ -1,21 +1,32 @@
-import {action, observable} from 'mobx';
-
 interface Equation {
     matrix: any;
     id: number;
 }
 
-export class Equations {
-    @observable equationsMatrix: Equation[] = [];
-    @observable isRedrawing: boolean = false;
-    @observable redraw: () => void;
+export interface RedrawFn {
+    (): void
+}
 
-    @action
+export interface Redraw {
+    redraw: RedrawFn;
+    setRedraw: (redraw: RedrawFn) => void;
+}
+
+export class Equations implements Redraw {
+    equationsMatrix: Equation[] = [];
+    isRedrawing: boolean = false;
+    redraw = () => {
+        console.log('init redraw');
+    };
+
+    setRedraw = (redraw: RedrawFn) => {
+        this.redraw = redraw;
+    };
+
     updateIsRedrawing = (is: boolean) => {
         this.isRedrawing = is;
     };
 
-    @action
     pushEquationsMatrix = (equation: Equation) => {
         if (this.equationsMatrix[0]) {
             this.equationsMatrix[0].matrix = equation.matrix;
@@ -24,7 +35,6 @@ export class Equations {
         }
     };
 
-    @action
     updateEquationsMatrix = (equations: Equation[]) => {
         equations.map(equation => {
 
