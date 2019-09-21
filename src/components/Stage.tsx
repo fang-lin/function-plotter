@@ -1,7 +1,7 @@
-import React, {Component, createRef, RefObject} from 'react';
+import React, {Component, createRef, RefObject, useRef} from 'react';
 import {pick} from 'lodash';
 import {arithmetic} from '../services/arithmetic';
-import {Coordinate, deviceRatio, getDeviceRatio} from '../services/utilities';
+import {Coordinate, deviceRatio, getDeviceRatio, Size} from '../services/utilities';
 import {Equations as StoreEquations} from '../stores/Equations';
 import {Stage as StoreStage} from '../stores/Stage';
 import {
@@ -9,7 +9,7 @@ import {
     Canvas
 } from './Stage.style';
 
-interface StageProps {
+interface StagePropsOld {
     stage: StoreStage;
     equations: StoreEquations;
 }
@@ -18,7 +18,7 @@ interface StageState {
 
 }
 
-export class Stage extends Component<StageProps, StageState> {
+export class StageOld extends Component<StagePropsOld, StageState> {
     gridRef: RefObject<HTMLCanvasElement> = createRef();
     axisRef: RefObject<HTMLCanvasElement> = createRef();
     equationRefs: RefObject<HTMLCanvasElement>[] = [];
@@ -158,4 +158,29 @@ export class Stage extends Component<StageProps, StageState> {
     static AXIS_COLOR = '#000';
 }
 
+interface StageProps {
+    size: Size;
+    transform: Coordinate;
+}
 
+export const Stage = (props: StageProps) => {
+
+    const {size, transform} = props;
+    const gridRef: any = useRef<HTMLCanvasElement>();
+    const axisRef: any = useRef<HTMLCanvasElement>();
+
+    const attributes = {
+        width: size[0] * deviceRatio,
+        height: size[1] * deviceRatio
+    };
+    const style = {
+        width: `${size[0]}px`,
+        height: `${size[1]}px`,
+    };
+    const moving = {transform: `translate(${transform[0]}px, ${transform[1]}px)`};
+
+    return <StageWrapper style={moving}>
+        <Canvas ref={gridRef} {...{style}} {...attributes}/>
+        <Canvas ref={axisRef} {...{style}} {...attributes}/>
+    </StageWrapper>;
+};

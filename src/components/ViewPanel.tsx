@@ -1,44 +1,35 @@
-import React from 'react';
+import React, {Dispatch, SetStateAction} from 'react';
 import {ViewPanelWrapper, CenteredButton, SmoothButton, CoordinateButton} from './ViewPanel.style';
-import {Stage as StageStore} from '../stores/Stage';
-import {Equations as EquationsStore} from '../stores/Equations';
 
 interface ViewPanelProps {
-    stage: StageStore;
-    equations: EquationsStore;
-    redraw: () => void;
+    setOriginInCenter: () => void;
+    smooth: boolean;
+    setSmooth: Dispatch<SetStateAction<boolean>>
+    showCoordinate: boolean;
+    setShowCoordinate: Dispatch<SetStateAction<boolean>>;
 }
 
 export const ViewPanel = (props: ViewPanelProps) => {
-    const {stage: {updateOriginInCenter, isSmooth, showCoordinate, switchSmooth, switchCoordinate}, redraw} = props;
-    const smoothText = `Smooth: ${isSmooth ? 'On' : 'Off'}`;
+    const {setOriginInCenter, smooth, setSmooth, showCoordinate, setShowCoordinate} = props;
+    const smoothText = `Smooth: ${smooth ? 'On' : 'Off'}`;
     const coordinateText = `Coordinate: ${showCoordinate ? 'On' : 'Off'}`;
 
     return <ViewPanelWrapper>
         <CenteredButton
             title="Centered"
-            onClick={() => {
-                updateOriginInCenter();
-                redraw();
-            }}>
+            onClick={() => setOriginInCenter()}>
             Centered
         </CenteredButton>
         <SmoothButton
-            isSmooth={isSmooth}
+            isSmooth={smooth}
             title={smoothText}
-            onClick={() => {
-                switchSmooth();
-                redraw();
-            }}>
+            onClick={() => setSmooth(!smooth)}>
             {smoothText}
         </SmoothButton>
         <CoordinateButton
             showCoordinate={showCoordinate}
             title={coordinateText}
-            onClick={() => {
-                switchCoordinate();
-                redraw();
-            }}>
+            onClick={() => setShowCoordinate(!showCoordinate)}>
             {coordinateText}
         </CoordinateButton>
     </ViewPanelWrapper>;

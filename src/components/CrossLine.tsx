@@ -1,13 +1,14 @@
 import React from 'react';
 import {LineX, LineY} from './CrossLine.style';
-import {Stage as StoreStage} from '../stores/Stage';
+import {Coordinate, Size} from "../services/utilities";
 
 interface CrossLineProps {
-    stage: StoreStage;
+    cursor: Coordinate;
+    size: Size;
 }
 
 export const CrossLine = (props: CrossLineProps) => {
-    const {stage: {size, cursor}} = props;
+    const {cursor, size} = props;
     const styleX = {
         transform: `translate(${cursor[0]}px, 0)`,
         height: `${size[1]}px`

@@ -24,6 +24,7 @@
     "chai": "^4.2.0",
     "eslint": "^6.3.0",
     "eslint-plugin-react": "^7.14.3",
+    "eslint-plugin-react-hooks": "^2.0.1",
     "lodash": "^4.17.15",
     "mathjs": "^6.2.1",
     "mocha": "^6.2.0",

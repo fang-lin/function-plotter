@@ -1,3 +1,4 @@
+import React, {useState, useEffect} from 'react';
 import {parseZoom, Size, Coordinate} from '../services/utilities';
 import clamp from 'lodash/clamp';
 import {Equations, Redraw, RedrawFn} from './Equations';
@@ -70,4 +71,33 @@ export class Stage implements Redraw {
         this.rangeX = [-origin[0] / zoom, (size[0] - origin[0]) / zoom];
         this.rangeY = [(origin[1] - size[1]) / zoom, origin[1] / zoom];
     };
+}
+
+const [cursor, setCursor] = useState<Coordinate>([NaN, NaN]);
+const [size, setSize] = useState<Size>([0, 0]);
+const [zoom, setZoom] = useState<Size>([0, 0]);
+const [origin, setOrigin] = useState<Coordinate>([0, 0]);
+const [range, setRange] = useState<[Size, Size]>([[0, 0], [0, 0]]);
+
+export function setCursorStatus(cursor: Coordinate) {
+    setCursor(cursor);
+}
+
+export function setSizeStatus(size: Size) {
+    setSize(size);
+}
+
+export function useZoomStatus() {
+    return {zoom, setZoom};
+}
+
+export function setOriginStatus() {
+    return {origin, setOrigin};
+}
+
+function updateRangeStatus(origin: Coordinate, size: Size, zoom: number) {
+    setRange([
+        [-origin[0] / zoom, (size[0] - origin[0]) / zoom],
+        [(origin[1] - size[1]) / zoom, origin[1] / zoom]
+    ])
 }

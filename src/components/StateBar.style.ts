@@ -16,10 +16,10 @@ export const AppTitle = styled.h1`
         text-decoration: none;
     }
 `;
-export const Coordinate = styled.div`
+export const CoordinateLabel = styled.div`
     margin: 3px 5px;
 `;
-export const IsDrawing = styled.span<{ isRedrawing: boolean; }>`
+export const IsDrawing = styled.span<{ redrawing: boolean; }>`
     transition: all .1s;
-    opacity: ${({isRedrawing}) => isRedrawing ? '1' : '0'};
+    opacity: ${({redrawing}) => redrawing ? '1' : '0'};
 `;
