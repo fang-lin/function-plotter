@@ -1,7 +1,7 @@
 import React from 'react';
 import {StateBarWrapper, AppTitle, CoordinateLabel, IsDrawing} from './StateBar.style';
-import {Coordinate, getCoordinate} from '../services/utilities';
 import {version} from '../../package.json';
+import {Coordinate, getCoordinate} from "./App.function";
 
 export interface StateBarProps {
     origin: Coordinate;

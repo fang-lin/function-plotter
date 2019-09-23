@@ -1,6 +1,6 @@
 import React from 'react';
 import {LineX, LineY} from './CrossLine.style';
-import {Coordinate, Size} from "../services/utilities";
+import {Coordinate, Size} from "./App.function";
 
 interface CrossLineProps {
     cursor: Coordinate;

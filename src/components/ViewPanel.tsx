@@ -1,6 +1,6 @@
 import React, {Dispatch, SetStateAction} from 'react';
 import {ViewPanelWrapper, CenteredButton, SmoothButton, CoordinateButton} from './ViewPanel.style';
-import {Coordinate, Size} from '../services/utilities';
+import {Coordinate, Size} from "./App.function";
 
 interface ViewPanelProps {
     getCenteredOrigin: (size: Size) => Coordinate;

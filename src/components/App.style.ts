@@ -1,5 +1,5 @@
 import styled, {createGlobalStyle} from 'styled-components';
-import {DRAG_STATE} from '../services/utilities';
+import {DRAG_STATE} from "./App.function";
 
 const FullScreen = `
     margin: 0;

@@ -1,10 +1,10 @@
 import React, {Dispatch, SetStateAction, useEffect, useRef} from 'react';
 import {arithmetic} from '../services/arithmetic';
-import {Coordinate, deviceRatio, parseZoom, Size} from '../services/utilities';
 import {
     StageWrapper,
     Canvas
 } from './Stage.style';
+import {Coordinate, deviceRatio, parseZoom, Size} from "./App.function";
 
 const GRID_COLOR = '#ddd';
 const AXIS_COLOR = '#000';
