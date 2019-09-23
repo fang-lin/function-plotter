@@ -52,18 +52,23 @@ export const redrawGrid = (canvas: HTMLCanvasElement, origin: Coordinate, size: 
     });
 };
 
-export const drawEquation = (canvas: HTMLCanvasElement, matrix: Coordinate[], size: Size): void => {
+export const drawEquation = (canvas: HTMLCanvasElement, matrix: Coordinate[], isBold: boolean): void => {
     withCanvasContext(canvas, context => {
         console.log('drawEquation');
         context.fillStyle = '#0f0';
-        matrix.map(point => {
-            // context.fillRect(point[0] * deviceRatio, point[1] * deviceRatio, deviceRatio, deviceRatio);
-            context.fillRect(
-                point[0] * deviceRatio - deviceRatio,
-                point[1] * deviceRatio - deviceRatio,
-                deviceRatio * 2,
-                deviceRatio * 2
-            );
-        });
+        if (isBold) {
+            matrix.map(point => {
+                context.fillRect(
+                    point[0] * deviceRatio - deviceRatio,
+                    point[1] * deviceRatio - deviceRatio,
+                    deviceRatio * 2,
+                    deviceRatio * 2
+                );
+            });
+        } else {
+            matrix.map(point => {
+                context.fillRect(point[0] * deviceRatio, point[1] * deviceRatio, deviceRatio, deviceRatio);
+            });
+        }
     });
 };

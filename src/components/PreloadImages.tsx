@@ -64,6 +64,10 @@ import x15 from '../images/x15.png';
 import x4Hover from '../images/x4-hover.png';
 import x7 from '../images/x7.png';
 import zoomOutHover from '../images/zoom-out-hover.png';
+import lightCurve from '../images/light-curve.png';
+import lightCurveHover from '../images/light-curve-hover.png';
+import boldCurve from '../images/bold-curve.png';
+import boldCurveHover from '../images/bold-curve-hover.png';
 
 export const PreloadImages = () => {
     return <PreloadImagesWrapper>
@@ -131,6 +135,10 @@ export const PreloadImages = () => {
         <img src={x4Hover} alt="X4Hover"/>
         <img src={x7} alt="X7"/>
         <img src={zoomOutHover} alt="ZoomOutHover"/>
+        <img src={lightCurve} alt="lightCurve"/>
+        <img src={lightCurveHover} alt="lightCurveHover"/>
+        <img src={boldCurve} alt="boldCurve"/>
+        <img src={boldCurveHover} alt="boldCurveHover"/>
     </PreloadImagesWrapper>;
 };
 

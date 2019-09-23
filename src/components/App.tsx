@@ -33,6 +33,7 @@ export const App = () => {
     const [origin, setOrigin] = useState<Coordinate>([0, 0]);
     const [showCoordinate, setShowCoordinate] = useState<boolean>(false);
     const [smooth, setSmooth] = useState<boolean>(true);
+    const [isBold, setIsBold] = useState<boolean>(false);
     const [redrawing, setRedrawing] = useState<boolean>(false);
 
     const [zoomIndex, setZoomIndex] = useState<number>(7);
@@ -58,7 +59,7 @@ export const App = () => {
 
     return <AppStyle {...{dragState}} ref={appRef}>
         <PreloadImages/>
-        <Stage {...{size, transform, zoomIndex, origin, setRedrawing, smooth}}/>
+        <Stage {...{size, transform, zoomIndex, origin, setRedrawing, smooth, isBold}}/>
         {showCoordinate && dragState === DragState.end && <CrossLine {...{cursor, size}}/>}
         <StateBar  {...{origin, zoomIndex, cursor, redrawing}}/>
         <ViewPanel {...{
@@ -68,7 +69,9 @@ export const App = () => {
             smooth,
             setSmooth,
             showCoordinate,
-            setShowCoordinate
+            setShowCoordinate,
+            isBold,
+            setIsBold
         }}/>
         <ZoomPanel {...{zoomIndex, setZoomIndex}}/>
         <GlobalStyle/>

@@ -15,12 +15,13 @@ interface StageProps {
     zoomIndex: number;
     transform: Coordinate;
     smooth: boolean;
+    isBold: boolean;
     setRedrawing: Dispatch<SetStateAction<boolean>>;
 }
 
 export const Stage = (props: StageProps) => {
 
-    const {size, origin, zoomIndex, transform, setRedrawing, smooth} = props;
+    const {size, origin, zoomIndex, transform, setRedrawing, smooth, isBold} = props;
     const gridRef: any = useRef<HTMLCanvasElement>();
     const axisRef: any = useRef<HTMLCanvasElement>();
     const equationRefs: any[] = [
@@ -48,17 +49,17 @@ export const Stage = (props: StageProps) => {
             arithmetic({
                 rangeX: [-origin[0] / parseZoom(zoomIndex) * deviceRatio, (size[0] - origin[0]) / parseZoom(zoomIndex) * deviceRatio],
                 rangeY: [(origin[1] - size[1]) / parseZoom(zoomIndex) * deviceRatio, origin[1] / parseZoom(zoomIndex) * deviceRatio],
-                fx: 'Math.sin(x)',
+                fx: 'Math.sin(100*x)*10',
                 offset: origin,
                 zoom: parseZoom(zoomIndex) / deviceRatio,
                 isSmooth: smooth,
             }, (matrix: Coordinate[]) => {
                 setRedrawing(false);
                 erasure(canvas, size);
-                drawEquation(canvas, matrix, size);
+                drawEquation(canvas, matrix, isBold);
             });
         }
-    }, [origin, size, zoomIndex, smooth]);
+    }, [origin, size, zoomIndex, smooth, isBold]);
 
     return <StageWrapper style={moving}>
         {equationRefs.map((equationRef, index) => <EquationCanvas key={index}
