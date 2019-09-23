@@ -1,4 +1,4 @@
-import {Dispatch, SetStateAction} from 'react';
+import {Dispatch, DOMAttributes, SetStateAction} from 'react';
 
 export type Coordinate = [number, number];
 export type Size = [number, number];
@@ -33,23 +33,34 @@ export function getCoordinate(cursor: number, origin: number, zoom: number): str
     return isNaN(cursor) ? '--' : ((cursor - origin) / zoom * deviceRatio).toFixed(2);
 }
 
-export enum DRAG_STATE {
-    START,
-    MOVING,
-    END
+export enum DragState {
+    start,
+    moving,
+    end
 }
 
 export type DragEvent = TouchEvent | MouseEvent;
 
-export const DRAG_EVENTS: Record<DRAG_STATE, keyof WindowEventMap> = isMobile ? {
-    [DRAG_STATE.START]: 'touchstart',
-    [DRAG_STATE.MOVING]: 'touchmove',
-    [DRAG_STATE.END]: 'touchend',
+export const DragEvents: Record<DragState, keyof WindowEventMap> = isMobile ? {
+    [DragState.start]: 'touchstart',
+    [DragState.moving]: 'touchmove',
+    [DragState.end]: 'touchend',
 } : {
-    [DRAG_STATE.START]: 'mousedown',
-    [DRAG_STATE.MOVING]: 'mousemove',
-    [DRAG_STATE.END]: 'mouseup',
+    [DragState.start]: 'mousedown',
+    [DragState.moving]: 'mousemove',
+    [DragState.end]: 'mouseup',
 };
+
+export const JSXDragEvents: Record<DragState, keyof DOMAttributes<any>> = isMobile ? {
+    [DragState.start]: 'onTouchStart',
+    [DragState.moving]: 'onTouchMove',
+    [DragState.end]: 'onTouchEnd',
+} : {
+    [DragState.start]: 'onMouseDown',
+    [DragState.moving]: 'onMouseMove',
+    [DragState.end]: 'onMouseUp',
+};
+
 
 export const getStageSize = (content: Element): Size => {
     if (content) {
@@ -65,17 +76,17 @@ export const getCenteredOrigin = (size: Size): Coordinate => {
 
 export const onDragStartHOF = (
     setClient: Dispatch<SetStateAction<Coordinate>>,
-    setDragState: Dispatch<SetStateAction<DRAG_STATE>>,
+    setDragState: Dispatch<SetStateAction<DragState>>,
     onDragging: (event: DragEvent) => void
 ) => (event: DragEvent): void => {
-    setDragState(DRAG_STATE.START);
+    setDragState(DragState.start);
     setClient(getClient(event));
-    window.addEventListener(DRAG_EVENTS[DRAG_STATE.MOVING], onDragging);
+    window.addEventListener(DragEvents[DragState.moving], onDragging);
 };
 
 export const onDraggingHOF = (
     setTransform: Dispatch<SetStateAction<Coordinate>>,
-    setDragState: Dispatch<SetStateAction<DRAG_STATE>>,
+    setDragState: Dispatch<SetStateAction<DragState>>,
     setClient: Dispatch<SetStateAction<Coordinate>>
 ) => (event: DragEvent): void => {
     const _client = getClient(event);
@@ -83,17 +94,17 @@ export const onDraggingHOF = (
         setTransform([_client[0] - client[0], _client[1] - client[1]]);
         return client;
     });
-    setDragState(DRAG_STATE.MOVING);
+    setDragState(DragState.moving);
 };
 
 export const onDragEndHOF = (
     setTransform: Dispatch<SetStateAction<Coordinate>>,
     setOrigin: Dispatch<SetStateAction<Coordinate>>,
-    setDragState: Dispatch<SetStateAction<DRAG_STATE>>,
+    setDragState: Dispatch<SetStateAction<DragState>>,
     setClient: Dispatch<SetStateAction<Coordinate>>,
     onDragging: (event: DragEvent) => void
 ) => (event: DragEvent): void => {
-    window.removeEventListener(DRAG_EVENTS[DRAG_STATE.MOVING], onDragging);
+    window.removeEventListener(DragEvents[DragState.moving], onDragging);
     const _client = getClient(event);
     setTransform([0, 0]);
     setClient((client: Coordinate) => {
@@ -103,30 +114,49 @@ export const onDragEndHOF = (
         ]);
         return [NaN, NaN];
     });
-    setDragState(DRAG_STATE.END);
+    setDragState(DragState.end);
 };
 
 export const onMovingHOF = (
-    setDragState: Dispatch<SetStateAction<DRAG_STATE>>,
+    setDragState: Dispatch<SetStateAction<DragState>>,
     setCursor: Dispatch<SetStateAction<Coordinate>>
 ) => (event: MouseEvent) => {
-    setDragState((dragState: DRAG_STATE) => {
-        if (dragState === DRAG_STATE.END) {
+    setDragState((dragState: DragState) => {
+        if (dragState === DragState.end) {
             setCursor(getClient(event));
         }
         return dragState;
     });
 };
 
-export const dispatchEventListeners = (
+export const addEventListeners = (
     onDragStart: (event: DragEvent) => void,
     onDragEnd: (event: DragEvent) => void,
     onMoving: (event: MouseEvent) => void,
     onResizing: () => void
-) => (remove: boolean) => {
-    const dispatch = remove ? window.removeEventListener : window.addEventListener;
-    dispatch(DRAG_EVENTS[DRAG_STATE.START], onDragStart);
-    dispatch(DRAG_EVENTS[DRAG_STATE.END], onDragEnd);
-    dispatch('mousemove', onMoving);
-    dispatch('resize', onResizing);
+): void => {
+    window.addEventListener(DragEvents[DragState.start], onDragStart);
+    window.addEventListener(DragEvents[DragState.end], onDragEnd);
+    window.addEventListener('mousemove', onMoving);
+    window.addEventListener('resize', onResizing);
+};
+
+export const removeEventListeners = (
+    onDragStart: (event: DragEvent) => void,
+    onDragEnd: (event: DragEvent) => void,
+    onMoving: (event: MouseEvent) => void,
+    onResizing: () => void
+): void => {
+    window.removeEventListener(DragEvents[DragState.start], onDragStart);
+    window.removeEventListener(DragEvents[DragState.end], onDragEnd);
+    window.removeEventListener('mousemove', onMoving);
+    window.removeEventListener('resize', onResizing);
+};
+
+export const stopPropagation = {
+    [JSXDragEvents[DragState.start]]: (event: Event) => event.stopPropagation(),
+    [JSXDragEvents[DragState.end]]: (event: Event) => {
+        console.log('JSXDragEvents');
+        event.stopPropagation();
+    }
 };

@@ -12,7 +12,7 @@ import coordinateHover from '../images/coord-hover.png';
 import coordinateOffHover from '../images/coord-off-hover.png';
 
 export const ViewPanelWrapper = styled.div`
-    position: fixed;
+    position: absolute;
     bottom: 20px;
     left: 20px;
     margin: -5px;

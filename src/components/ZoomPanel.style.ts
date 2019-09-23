@@ -45,7 +45,7 @@ const hovers = [
 ];
 
 export const ZoomPanelWrapper = styled.div`
-    position: fixed;
+    position: absolute;
     bottom: 20px;
     right: 20px;
     margin: -5px;

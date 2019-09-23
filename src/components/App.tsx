@@ -9,20 +9,23 @@ import {ViewPanel} from './ViewPanel';
 import {ZoomPanel} from './ZoomPanel';
 import {
     Coordinate,
-    dispatchEventListeners, DRAG_STATE,
+    addEventListeners,
+    DragState,
+    removeEventListeners,
     getCenteredOrigin,
     getStageSize,
     onDragEndHOF,
     onDraggingHOF,
     onDragStartHOF,
-    onMovingHOF, Size
+    onMovingHOF,
+    Size
 } from './App.function';
 
 
 export const App = () => {
     const appRef: any = useRef<HTMLDivElement>();
 
-    const [dragState, setDragState] = useState<DRAG_STATE>(DRAG_STATE.END);
+    const [dragState, setDragState] = useState<DragState>(DragState.end);
     const [, setClient] = useState<Coordinate>([NaN, NaN]);
     const [transform, setTransform] = useState<Coordinate>([0, 0]);
     const [cursor, setCursor] = useState<Coordinate>([NaN, NaN]);
@@ -35,58 +38,28 @@ export const App = () => {
     const [zoom, setZoom] = useState<number>(8);
 
     useEffect(() => {
-        const onDragging = onDraggingHOF(
-            setTransform,
-            setDragState,
-            setClient
-        );
-
-        const onDragStart = onDragStartHOF(
-            setClient,
-            setDragState,
-            onDragging
-        );
-
-        const onDragEnd = onDragEndHOF(
-            setTransform,
-            setOrigin,
-            setDragState,
-            setClient,
-            onDragging
-        );
-
-        const onMoving = onMovingHOF(
-            setDragState,
-            setCursor
-        );
+        const onDragging = onDraggingHOF(setTransform, setDragState, setClient);
+        const onDragStart = onDragStartHOF(setClient, setDragState, onDragging);
+        const onDragEnd = onDragEndHOF(setTransform, setOrigin, setDragState, setClient, onDragging);
+        const onMoving = onMovingHOF(setDragState, setCursor);
 
         const onResizing = debounce(() => setSize(getStageSize(appRef.current)), 200);
-
         const stageSize = getStageSize(appRef.current);
+
         setOrigin(getCenteredOrigin(stageSize));
         setSize(stageSize);
 
-        dispatchEventListeners(
-            onDragStart,
-            onDragEnd,
-            onMoving,
-            onResizing
-        )(false);
+        addEventListeners(onDragStart, onDragEnd, onMoving, onResizing);
 
         return () => {
-            dispatchEventListeners(
-                onDragStart,
-                onDragEnd,
-                onMoving,
-                onResizing
-            )(true);
+            removeEventListeners(onDragStart, onDragEnd, onMoving, onResizing);
         };
     }, []);
 
     return <AppStyle {...{dragState}} ref={appRef}>
         <PreloadImages/>
         <Stage {...{size, transform, zoom, origin, setRedrawing, smooth}}/>
-        {showCoordinate && dragState === DRAG_STATE.END && <CrossLine {...{cursor, size}}/>}
+        {showCoordinate && dragState === DragState.end && <CrossLine {...{cursor, size}}/>}
         <StateBar  {...{origin, zoom, cursor, redrawing}}/>
         <ViewPanel {...{
             getCenteredOrigin,

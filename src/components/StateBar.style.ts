@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const StateBarWrapper = styled.div`
-    position: fixed;
+    position: absolute;
     top: 20px;
     left: 20px;
     font-size: 12px;
