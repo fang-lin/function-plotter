@@ -134,7 +134,7 @@ export function parameterEquation(input: Input): Coordinate[] {
 export async function arithmetic(input: Input, callback: (result: Coordinate[]) => void) {
     try {
         const matrix = await workerPool.exec(parameterEquation, [input]);
-        console.log(matrix);
+        // console.log(matrix);
         callback(matrix);
     } catch (err) {
         console.error(err);

@@ -1,8 +1,11 @@
 import React, {Dispatch, SetStateAction} from 'react';
 import {ViewPanelWrapper, CenteredButton, SmoothButton, CoordinateButton} from './ViewPanel.style';
+import {Coordinate, Size} from '../services/utilities';
 
 interface ViewPanelProps {
-    setOriginInCenter: () => void;
+    getCenteredOrigin: (size: Size) => Coordinate;
+    setOrigin: Dispatch<SetStateAction<Coordinate>>;
+    size: Size;
     smooth: boolean;
     setSmooth: Dispatch<SetStateAction<boolean>>
     showCoordinate: boolean;
@@ -10,14 +13,14 @@ interface ViewPanelProps {
 }
 
 export const ViewPanel = (props: ViewPanelProps) => {
-    const {setOriginInCenter, smooth, setSmooth, showCoordinate, setShowCoordinate} = props;
+    const {getCenteredOrigin, size, setOrigin, smooth, setSmooth, showCoordinate, setShowCoordinate} = props;
     const smoothText = `Smooth: ${smooth ? 'On' : 'Off'}`;
     const coordinateText = `Coordinate: ${showCoordinate ? 'On' : 'Off'}`;
 
     return <ViewPanelWrapper>
         <CenteredButton
             title="Centered"
-            onClick={() => setOriginInCenter()}>
+            onClick={() => setOrigin(getCenteredOrigin(size))}>
             Centered
         </CenteredButton>
         <SmoothButton

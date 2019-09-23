@@ -1,9 +1,4 @@
 import styled from 'styled-components';
-import {Coordinate} from './App';
-
-interface CanvasProps {
-    size: Coordinate
-}
 
 export const StageWrapper = styled.div`
     background-color: #fff;
