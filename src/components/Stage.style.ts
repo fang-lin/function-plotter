@@ -7,6 +7,16 @@ export const StageWrapper = styled.div`
     position: relative;
     box-shadow: 0 3px 10px 3px rgba(0, 0, 0, .3);
 `;
-export const Canvas = styled.canvas`
+
+export const GridCanvas = styled.canvas`
+    position: absolute;
+    opacity: 0.2;
+`;
+
+export const AxisCanvas = styled.canvas`
+    position: absolute;
+`;
+
+export const EquationCanvas = styled.canvas`
     position: absolute;
 `;

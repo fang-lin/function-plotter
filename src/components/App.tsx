@@ -18,7 +18,7 @@ import {
     onDraggingHOF,
     onDragStartHOF,
     onMovingHOF,
-    Size
+    Size, ZoomRange
 } from './App.function';
 
 
@@ -35,7 +35,7 @@ export const App = () => {
     const [smooth, setSmooth] = useState<boolean>(true);
     const [redrawing, setRedrawing] = useState<boolean>(false);
 
-    const [zoom, setZoom] = useState<number>(8);
+    const [zoomIndex, setZoomIndex] = useState<number>(7);
 
     useEffect(() => {
         const onDragging = onDraggingHOF(setTransform, setDragState, setClient);
@@ -58,9 +58,9 @@ export const App = () => {
 
     return <AppStyle {...{dragState}} ref={appRef}>
         <PreloadImages/>
-        <Stage {...{size, transform, zoom, origin, setRedrawing, smooth}}/>
+        <Stage {...{size, transform, zoomIndex, origin, setRedrawing, smooth}}/>
         {showCoordinate && dragState === DragState.end && <CrossLine {...{cursor, size}}/>}
-        <StateBar  {...{origin, zoom, cursor, redrawing}}/>
+        <StateBar  {...{origin, zoomIndex, cursor, redrawing}}/>
         <ViewPanel {...{
             getCenteredOrigin,
             setOrigin,
@@ -70,7 +70,7 @@ export const App = () => {
             showCoordinate,
             setShowCoordinate
         }}/>
-        <ZoomPanel {...{setZoom, zoom}}/>
+        <ZoomPanel {...{zoomIndex, setZoomIndex}}/>
         <GlobalStyle/>
     </AppStyle>;
 };

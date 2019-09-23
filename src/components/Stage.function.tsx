@@ -1,7 +1,6 @@
 import {Coordinate, deviceRatio, Size} from './App.function';
 
-export const GRID_COLOR = '#ddd';
-export const AXIS_COLOR = '#000';
+export const GRID_COLOR = '#000';
 
 export const withCanvasContext = (canvas: HTMLCanvasElement, withContext: (context: CanvasRenderingContext2D) => void) => {
     if (canvas) {
@@ -27,7 +26,7 @@ export const redrawAxis = (canvas: HTMLCanvasElement, origin: Coordinate, size: 
         context.moveTo(Math.floor(origin[0] * deviceRatio) + 0.5, 0);
         context.lineTo(Math.floor(origin[0] * deviceRatio) + 0.5, size[1] * deviceRatio);
 
-        context.strokeStyle = AXIS_COLOR;
+        context.strokeStyle = GRID_COLOR;
         context.stroke();
     });
 };
@@ -58,7 +57,13 @@ export const drawEquation = (canvas: HTMLCanvasElement, matrix: Coordinate[], si
         console.log('drawEquation');
         context.fillStyle = '#0f0';
         matrix.map(point => {
-            context.fillRect(point[0] * deviceRatio, point[1] * deviceRatio, deviceRatio, deviceRatio);
+            // context.fillRect(point[0] * deviceRatio, point[1] * deviceRatio, deviceRatio, deviceRatio);
+            context.fillRect(
+                point[0] * deviceRatio - deviceRatio,
+                point[1] * deviceRatio - deviceRatio,
+                deviceRatio * 2,
+                deviceRatio * 2
+            );
         });
     });
 };

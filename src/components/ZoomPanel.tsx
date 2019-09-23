@@ -1,26 +1,29 @@
 import React, {Dispatch, SetStateAction} from 'react';
 import {ZoomInButton, ZoomLevelButton, ZoomOutButton, ZoomPanelWrapper} from './ZoomPanel.style';
-import clamp from 'lodash/clamp';
-import {stopPropagation} from "./App.function";
+import {stopPropagation, ZoomRange} from "./App.function";
 
 interface ZoomPanelProps {
-    zoom: number;
-    setZoom: Dispatch<SetStateAction<number>>
+    zoomIndex: number;
+    setZoomIndex: Dispatch<SetStateAction<number>>
 }
 
 export const ZoomPanel = (props: ZoomPanelProps) => {
-    const {zoom, setZoom} = props;
+    const {zoomIndex, setZoomIndex} = props;
     return (
         <ZoomPanelWrapper>
             <ZoomInButton
                 title="Zoom In"
-                {...{stopPropagation}}
-                onClick={() => setZoom(zoom => clamp(zoom + 1, 1, 16))}>Zoom In</ZoomInButton>
+                {...stopPropagation}
+                onClick={() => setZoomIndex(
+                    zoomIndex => ZoomRange[zoomIndex + 1] ? zoomIndex + 1 : zoomIndex
+                )}>Zoom In</ZoomInButton>
             <ZoomOutButton
                 title="Zoom Out"
-                {...{stopPropagation}}
-                onClick={() => setZoom(zoom => clamp(zoom - 1, 1, 16))}>Zoom Out</ZoomOutButton>
-            <ZoomLevelButton level={zoom - 1} title={`x${zoom}`}>{`x${zoom}`}</ZoomLevelButton>
+                {...stopPropagation}
+                onClick={() => setZoomIndex(
+                    zoomIndex => ZoomRange[zoomIndex - 1] ? zoomIndex - 1 : zoomIndex
+                )}>Zoom Out</ZoomOutButton>
+            <ZoomLevelButton zoomIndex={zoomIndex} title={`x${zoomIndex}`}>{`x${zoomIndex}`}</ZoomLevelButton>
         </ZoomPanelWrapper>
     );
 };

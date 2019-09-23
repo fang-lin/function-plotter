@@ -20,21 +20,21 @@ export const ViewPanel = (props: ViewPanelProps) => {
     return <ViewPanelWrapper>
         <CenteredButton
             title="Centered"
-            {...{stopPropagation}}
+            {...stopPropagation}
             onClick={() => setOrigin(getCenteredOrigin(size))}>
             Centered
         </CenteredButton>
         <SmoothButton
             isSmooth={smooth}
             title={smoothText}
-            {...{stopPropagation}}
+            {...stopPropagation}
             onClick={() => setSmooth(!smooth)}>
             {smoothText}
         </SmoothButton>
         <CoordinateButton
             showCoordinate={showCoordinate}
             title={coordinateText}
-            {...{stopPropagation}}
+            {...stopPropagation}
             onClick={() => setShowCoordinate(!showCoordinate)}>
             {coordinateText}
         </CoordinateButton>

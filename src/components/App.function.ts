@@ -1,14 +1,15 @@
 import {Dispatch, DOMAttributes, SetStateAction} from 'react';
+import range from 'lodash/range';
 
 export type Coordinate = [number, number];
 export type Size = [number, number];
 
-export const ZOOM_UNIT: number = 2 ** .5;
-
 export const deviceRatio: number = (() => window.devicePixelRatio || 1)();
+export const ZoomUnit: number = 2 ** .5;
+export const ZoomRange: number[] = range(deviceRatio * 2, deviceRatio * 2 + 16);
 
-export function parseZoom(zoomLevel: number): number {
-    return Math.pow(ZOOM_UNIT, zoomLevel) * deviceRatio;
+export function parseZoom(zoomIndex: number): number {
+    return Math.pow(ZoomUnit, ZoomRange[zoomIndex]);
 }
 
 export function getClient(event: DragEvent): Coordinate {
@@ -29,8 +30,8 @@ export function getDeviceRatio() {
     return window.devicePixelRatio || 1;
 }
 
-export function getCoordinate(cursor: number, origin: number, zoom: number): string {
-    return isNaN(cursor) ? '--' : ((cursor - origin) / zoom * deviceRatio).toFixed(2);
+export function getCoordinate(cursor: number, origin: number, zoomLevel: number): string {
+    return isNaN(cursor) ? '--' : ((cursor - origin) / parseZoom(zoomLevel) * deviceRatio).toFixed(2);
 }
 
 export enum DragState {
@@ -155,8 +156,5 @@ export const removeEventListeners = (
 
 export const stopPropagation = {
     [JSXDragEvents[DragState.start]]: (event: Event) => event.stopPropagation(),
-    [JSXDragEvents[DragState.end]]: (event: Event) => {
-        console.log('JSXDragEvents');
-        event.stopPropagation();
-    }
+    [JSXDragEvents[DragState.end]]: (event: Event) => event.stopPropagation()
 };

@@ -2,7 +2,9 @@ import React, {Dispatch, SetStateAction, useEffect, useRef} from 'react';
 import {arithmetic} from '../services/arithmetic';
 import {
     StageWrapper,
-    Canvas
+    GridCanvas,
+    AxisCanvas,
+    EquationCanvas
 } from './Stage.style';
 import {Coordinate, deviceRatio, parseZoom, Size} from './App.function';
 import {drawEquation, erasure, redrawAxis, redrawGrid} from './Stage.function';
@@ -10,7 +12,7 @@ import {drawEquation, erasure, redrawAxis, redrawGrid} from './Stage.function';
 interface StageProps {
     size: Size;
     origin: Coordinate;
-    zoom: number;
+    zoomIndex: number;
     transform: Coordinate;
     smooth: boolean;
     setRedrawing: Dispatch<SetStateAction<boolean>>;
@@ -18,7 +20,7 @@ interface StageProps {
 
 export const Stage = (props: StageProps) => {
 
-    const {size, origin, zoom, transform, setRedrawing, smooth} = props;
+    const {size, origin, zoomIndex, transform, setRedrawing, smooth} = props;
     const gridRef: any = useRef<HTMLCanvasElement>();
     const axisRef: any = useRef<HTMLCanvasElement>();
     const equationRefs: any[] = [
@@ -36,7 +38,7 @@ export const Stage = (props: StageProps) => {
     const moving = {transform: `translate(${transform[0]}px, ${transform[1]}px)`};
 
     useEffect(() => {
-        redrawGrid(gridRef.current, origin, size, parseZoom(zoom));
+        redrawGrid(gridRef.current, origin, size, parseZoom(zoomIndex));
         redrawAxis(axisRef.current, origin, size);
 
         if (equationRefs[0] && equationRefs[0].current) {
@@ -44,11 +46,11 @@ export const Stage = (props: StageProps) => {
             erasure(canvas, size);
             setRedrawing(true);
             arithmetic({
-                rangeX: [-origin[0] / zoom, (size[0] - origin[0]) / zoom],
-                rangeY: [(origin[1] - size[1]) / zoom, origin[1] / zoom],
-                fx: 'Math.sin(x*10)*10',
+                rangeX: [-origin[0] / parseZoom(zoomIndex) * deviceRatio, (size[0] - origin[0]) / parseZoom(zoomIndex) * deviceRatio],
+                rangeY: [(origin[1] - size[1]) / parseZoom(zoomIndex) * deviceRatio, origin[1] / parseZoom(zoomIndex) * deviceRatio],
+                fx: 'Math.sin(x)',
                 offset: origin,
-                zoom,
+                zoom: parseZoom(zoomIndex) / deviceRatio,
                 isSmooth: smooth,
             }, (matrix: Coordinate[]) => {
                 setRedrawing(false);
@@ -56,12 +58,12 @@ export const Stage = (props: StageProps) => {
                 drawEquation(canvas, matrix, size);
             });
         }
-    }, [origin, size, zoom, smooth]);
+    }, [origin, size, zoomIndex, smooth]);
 
     return <StageWrapper style={moving}>
-        <Canvas ref={gridRef} {...{style}} {...attributes}/>
-        <Canvas ref={axisRef} {...{style}} {...attributes}/>
-        {equationRefs.map((equationRef, index) => <Canvas key={index}
-                                                          ref={equationRef} {...{style}} {...attributes}/>)}
+        {equationRefs.map((equationRef, index) => <EquationCanvas key={index}
+                                                                  ref={equationRef} {...{style}} {...attributes}/>)}
+        <GridCanvas ref={gridRef} {...{style}} {...attributes}/>
+        <AxisCanvas ref={axisRef} {...{style}} {...attributes}/>
     </StageWrapper>;
 };
