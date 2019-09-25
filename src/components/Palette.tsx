@@ -3,14 +3,21 @@ import {PaletteWrapper} from './Palette.style';
 import {Coordinate, Equation} from './App.function';
 import range from 'lodash/range';
 
-export interface PaletteProps {
+const toHex = (n: number): string => n.toString(16);
+const primary = range(0, 15, 2);
 
+export interface PaletteProps {
+    equationColor: string;
+    setEquationColor: Dispatch<SetStateAction<string>>
 }
 
 export const Palette = (props: PaletteProps) => {
+    const {setEquationColor} = props;
     return <PaletteWrapper>
-        {range(0, 16).map(r => range(0, 16).map(g => range(0, 16).map(b => (
-            <span key={`${r}-${g}-${b}`} style={{background: `#${r}${g}${b}`}}>{`#${r}${g}${b}`}</span>
-        ))))}
+        {primary.map(r => primary.map(g => primary.map(b => {
+            const hexColor = `#${toHex(r)}${toHex(g)}${toHex(b)}`;
+            return <a key={hexColor} style={{backgroundColor: hexColor}} title={hexColor}
+                      onClick={() => setEquationColor(hexColor)}>{hexColor}</a>;
+        })))}
     </PaletteWrapper>;
 };
