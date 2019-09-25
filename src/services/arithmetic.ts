@@ -80,8 +80,6 @@ export function parameterEquation(input: Input): Coordinate[] {
     const defaultDx = 1 / zoom;
     let px, py, matrix = [];
 
-    console.log(rangeX[0]);
-
     let x = rangeX[0],
         y = fn(x),
         dx = defaultDx;

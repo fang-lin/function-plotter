@@ -18,7 +18,7 @@ export const GlobalStyle = createGlobalStyle`
     }
 `;
 
-export const AppStyle = styled.div<{ dragState: DragState }>`
+export const AppWrapper = styled.div<{ dragState: DragState }>`
     min-width: 320px;
     min-height: 320px;
     position: relative;

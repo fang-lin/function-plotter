@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const Line = styled.span`
-    position: fixed;
+    position: absolute;
     top: 0;
     left: 0;
     margin: 0;

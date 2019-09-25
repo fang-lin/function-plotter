@@ -4,6 +4,12 @@ import range from 'lodash/range';
 export type Coordinate = [number, number];
 export type Size = [number, number];
 
+export interface Equation {
+    fx: string;
+    color: string;
+    display: boolean;
+}
+
 export const deviceRatio: number = (() => window.devicePixelRatio || 1)();
 export const ZoomUnit: number = 2 ** .5;
 export const ZoomRange: number[] = range(deviceRatio * 2, deviceRatio * 2 + 16);
@@ -28,10 +34,6 @@ export const isMobile: boolean = (() => {
 
 export function getDeviceRatio() {
     return window.devicePixelRatio || 1;
-}
-
-export function getCoordinate(cursor: number, origin: number, zoomLevel: number): string {
-    return isNaN(cursor) ? '--' : ((cursor - origin) / parseZoom(zoomLevel) * deviceRatio).toFixed(2);
 }
 
 export enum DragState {

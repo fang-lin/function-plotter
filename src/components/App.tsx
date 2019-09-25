@@ -1,6 +1,6 @@
 import React, {useEffect, useRef, useState} from 'react';
 import debounce from 'lodash/debounce';
-import {AppStyle, GlobalStyle} from './App.style';
+import {AppWrapper, GlobalStyle} from './AppWrapper';
 import {PreloadImages} from './PreloadImages';
 import {Stage} from './Stage';
 import {StateBar} from './StateBar';
@@ -18,9 +18,10 @@ import {
     onDraggingHOF,
     onDragStartHOF,
     onMovingHOF,
-    Size, ZoomRange
+    Size, Equation
 } from './App.function';
-
+import {EquationPanel} from './EquationPanel';
+import {Palette} from "./Palette";
 
 export const App = () => {
     const appRef: any = useRef<HTMLDivElement>();
@@ -35,6 +36,11 @@ export const App = () => {
     const [smooth, setSmooth] = useState<boolean>(true);
     const [isBold, setIsBold] = useState<boolean>(false);
     const [redrawing, setRedrawing] = useState<boolean>(false);
+    const [equations, setEquations] = useState<Equation[]>([{
+        fx: 'Math.sin(x)',
+        color: '#099',
+        display: true
+    }]);
 
     const [zoomIndex, setZoomIndex] = useState<number>(7);
 
@@ -57,11 +63,13 @@ export const App = () => {
         };
     }, []);
 
-    return <AppStyle {...{dragState}} ref={appRef}>
+    return <AppWrapper {...{dragState}} ref={appRef}>
         <PreloadImages/>
         <Stage {...{size, transform, zoomIndex, origin, setRedrawing, smooth, isBold}}/>
         {showCoordinate && dragState === DragState.end && <CrossLine {...{cursor, size}}/>}
         <StateBar  {...{origin, zoomIndex, cursor, redrawing}}/>
+        <EquationPanel {...{equations, setEquations}}/>
+        <Palette/>
         <ViewPanel {...{
             getCenteredOrigin,
             setOrigin,
@@ -75,7 +83,7 @@ export const App = () => {
         }}/>
         <ZoomPanel {...{zoomIndex, setZoomIndex}}/>
         <GlobalStyle/>
-    </AppStyle>;
+    </AppWrapper>;
 };
 
 

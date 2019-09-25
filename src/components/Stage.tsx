@@ -49,7 +49,7 @@ export const Stage = (props: StageProps) => {
             arithmetic({
                 rangeX: [-origin[0] / parseZoom(zoomIndex) * deviceRatio, (size[0] - origin[0]) / parseZoom(zoomIndex) * deviceRatio],
                 rangeY: [(origin[1] - size[1]) / parseZoom(zoomIndex) * deviceRatio, origin[1] / parseZoom(zoomIndex) * deviceRatio],
-                fx: 'Math.sin(100*x)*10',
+                fx: 'Math.sin(x)',
                 offset: origin,
                 zoom: parseZoom(zoomIndex) / deviceRatio,
                 isSmooth: smooth,
