@@ -1,5 +1,5 @@
 import React, {Dispatch, SetStateAction, useState} from 'react';
-import {EquationPanelWrapper} from './EquationPanel.style';
+import {EquationFormWrapper} from './EquationForm.style';
 import {Coordinate, Equation} from './App.function';
 import {Palette} from './Palette';
 
@@ -9,11 +9,10 @@ export interface EquationFormProps {
 }
 
 export const EquationForm = (props: EquationFormProps) => {
-    const {equation} = props;
-    const {color} = equation;
+    const {equation: {fx, color, display}} = props;
     const [equationColor, setEquationColor] = useState<string>(color);
 
-    return <div>
+    return <EquationFormWrapper>
         <Palette {...{equationColor, setEquationColor}}/>
-    </div>;
+    </EquationFormWrapper>;
 };

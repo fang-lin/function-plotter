@@ -21,7 +21,7 @@ import {
     Size, Equation
 } from './App.function';
 import {EquationPanel} from './EquationPanel';
-import {Palette} from "./Palette";
+import {EquationForm} from "./EquationForm";
 
 export const App = () => {
     const appRef: any = useRef<HTMLDivElement>();
@@ -63,13 +63,15 @@ export const App = () => {
         };
     }, []);
 
+    const equation = {fx: 'Math.sin(x)', color: '#f00', display: true};
+
     return <AppWrapper {...{dragState}} ref={appRef}>
         <PreloadImages/>
         <Stage {...{size, transform, zoomIndex, origin, setRedrawing, smooth, isBold}}/>
         {showCoordinate && dragState === DragState.end && <CrossLine {...{cursor, size}}/>}
         <StateBar  {...{origin, zoomIndex, cursor, redrawing}}/>
         <EquationPanel {...{equations, setEquations}}/>
-        <Palette/>
+        <EquationForm {...{equation, setEquations}}/>
         <ViewPanel {...{
             getCenteredOrigin,
             setOrigin,
