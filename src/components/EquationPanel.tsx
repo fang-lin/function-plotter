@@ -5,15 +5,20 @@ import {Coordinate, Equation} from "./App.function";
 export interface EquationPanelProps {
     equations: Equation[];
     setEquations: Dispatch<SetStateAction<Equation[]>>;
+    setDisplayEquationForm: Dispatch<SetStateAction<boolean>>;
 }
 
 export const EquationPanel = (props: EquationPanelProps) => {
-    const {equations} = props;
+    const {
+        equations,
+        setDisplayEquationForm
+    } = props;
     return <EquationPanelWrapper>
         <ul>{
             equations.map((equation, index) => <li key={index}>
                 <span>{equation.fx}</span>
             </li>)
-        } </ul>
+        }</ul>
+        <button onClick={() => setDisplayEquationForm(true)}>Add</button>
     </EquationPanelWrapper>;
 };

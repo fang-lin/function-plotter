@@ -1,22 +1,30 @@
 import styled from 'styled-components';
-import {DragState} from "./App.function";
+import {Size} from './App.function';
 
-export const PaletteWrapper = styled.div`
-    position: relative;
-    z-index: 1000;
-    top: 100px;
-    left: 100px;
+export const PaletteWrapper = styled.div<{
+    size: Size;
+}>`
     cursor: pointer;
+    margin: 20px 0;
+    width: 640px;
+    height: 80px;
+    display: flex;
+    flex-wrap: wrap;
 `;
 
-export const PaletteCanvas = styled.canvas`
-    position: absolute;
-`;
-
-export const PickerCanvas = styled.canvas`
-    position: absolute;
-`;
-
-export const CoverCanvas = styled.canvas`
-    position: absolute;
+export const Color = styled.a`
+    display: block;
+    width: 10px;
+    height: 10px;
+    box-sizing: border-box;
+    font-size: 0;
+    line-height: 0;
+    color: transparent;
+    &:hover{
+        position: relative;
+        width: 16px;
+        height: 16px;
+        margin: -3px;
+        box-shadow: 0 0 1px #000;
+    }
 `;

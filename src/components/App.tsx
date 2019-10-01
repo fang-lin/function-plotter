@@ -41,6 +41,7 @@ export const App = () => {
         color: '#099',
         display: true
     }]);
+    const [displayEquationForm, setDisplayEquationForm] = useState<boolean>(true);
 
     const [zoomIndex, setZoomIndex] = useState<number>(7);
 
@@ -63,15 +64,14 @@ export const App = () => {
         };
     }, []);
 
-    const equation = {fx: 'Math.sin(x)', color: '#f00', display: true};
+    const equation = {fx: 'Math.sin(x)', color: '#062', display: true};
 
     return <AppWrapper {...{dragState}} ref={appRef}>
         <PreloadImages/>
         <Stage {...{size, transform, zoomIndex, origin, setRedrawing, smooth, isBold}}/>
         {showCoordinate && dragState === DragState.end && <CrossLine {...{cursor, size}}/>}
         <StateBar  {...{origin, zoomIndex, cursor, redrawing}}/>
-        <EquationPanel {...{equations, setEquations}}/>
-        <EquationForm {...{equation, setEquations}}/>
+        <EquationPanel {...{equations, setEquations, setDisplayEquationForm}}/>
         <ViewPanel {...{
             getCenteredOrigin,
             setOrigin,
@@ -84,6 +84,10 @@ export const App = () => {
             setIsBold
         }}/>
         <ZoomPanel {...{zoomIndex, setZoomIndex}}/>
+        {
+            displayEquationForm &&
+            <EquationForm {...{equation, setEquations, setDisplayEquationForm}}/>
+        }
         <GlobalStyle/>
     </AppWrapper>;
 };

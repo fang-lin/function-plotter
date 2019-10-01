@@ -111,10 +111,12 @@ export const onDragEndHOF = (
     const _client = getClient(event);
     setTransform([0, 0]);
     setClient((client: Coordinate) => {
-        setOrigin((origin: Coordinate) => [
-            origin[0] + (_client[0] - client[0]),
-            origin[1] + (_client[1] - client[1])
-        ]);
+        if (!isNaN(client[0]) && !isNaN(client[1])) {
+            setOrigin((origin: Coordinate) => [
+                origin[0] + (_client[0] - client[0]),
+                origin[1] + (_client[1] - client[1])
+            ]);
+        }
         return [NaN, NaN];
     });
     setDragState(DragState.end);
@@ -158,5 +160,7 @@ export const removeEventListeners = (
 
 export const stopPropagation = {
     [JSXDragEvents[DragState.start]]: (event: Event) => event.stopPropagation(),
-    [JSXDragEvents[DragState.end]]: (event: Event) => event.stopPropagation()
+    [JSXDragEvents[DragState.moving]]: (event: Event) => event.stopPropagation(),
+    [JSXDragEvents[DragState.end]]: (event: Event) => event.stopPropagation(),
+    onClick: (event: Event) => event.stopPropagation()
 };
