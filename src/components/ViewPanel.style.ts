@@ -24,28 +24,28 @@ export const ViewPanelWrapper = styled.div`
 
 export const CenteredButton = styled(Button)`
     background-image: url(${centered});
-    &:hover{
+    :hover{
         background-image: url(${centeredHover});
     }
 `;
 
 export const SmoothButton = styled(Button)<{ isSmooth: boolean; }>`
     background-image: url(${({isSmooth}) => isSmooth ? smooth : smoothOff});
-    &:hover{
+    :hover{
         background-image: url(${({isSmooth}) => isSmooth ? smoothHover : smoothOffHover});
     }
 `;
 
 export const WeightButton = styled(Button)<{ isBold: boolean; }>`
     background-image: url(${({isBold}) => isBold ? boldCurve : lightCurve});
-    &:hover{
+    :hover{
         background-image: url(${({isBold}) => isBold ? boldCurveHover : lightCurveHover});
     }
 `;
 
 export const CoordinateButton = styled(Button)<{ showCoordinate: boolean; }>`
     background-image: url(${({showCoordinate}) => showCoordinate ? coordinate : coordinateOff});
-    &:hover{
+    :hover{
         background-image: url(${({showCoordinate}) => showCoordinate ? coordinateHover : coordinateOffHover});
     }
 `;

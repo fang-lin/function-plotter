@@ -1,4 +1,4 @@
-import {Dispatch, DOMAttributes, SetStateAction} from 'react';
+import {Dispatch, DOMAttributes, SetStateAction, SyntheticEvent} from 'react';
 import range from 'lodash/range';
 
 export type Coordinate = [number, number];
@@ -162,5 +162,5 @@ export const stopPropagation = {
     [JSXDragEvents[DragState.start]]: (event: Event) => event.stopPropagation(),
     [JSXDragEvents[DragState.moving]]: (event: Event) => event.stopPropagation(),
     [JSXDragEvents[DragState.end]]: (event: Event) => event.stopPropagation(),
-    onClick: (event: Event) => event.stopPropagation()
+    onClick: (event: SyntheticEvent) => event.stopPropagation()
 };

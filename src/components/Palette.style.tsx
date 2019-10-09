@@ -20,7 +20,7 @@ export const Color = styled.a`
     font-size: 0;
     line-height: 0;
     color: transparent;
-    &:hover{
+    :hover{
         position: relative;
         width: 16px;
         height: 16px;

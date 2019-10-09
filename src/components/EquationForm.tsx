@@ -1,6 +1,7 @@
-import React, {Dispatch, SetStateAction, useState} from 'react';
+import React, {Dispatch, MouseEventHandler, SetStateAction, useState} from 'react';
 import {
-    Button, ButtonWrapper, Close,
+    AddButton,
+    ButtonWrapper, Close,
     EquationFormBackground,
     EquationFormInner,
     EquationFormWrapper,
@@ -13,28 +14,28 @@ import {Palette} from './Palette';
 export interface EquationFormProps {
     equation: Equation;
     setEquations: Dispatch<SetStateAction<Equation[]>>;
+    displayEquationForm: boolean;
     setDisplayEquationForm: Dispatch<SetStateAction<boolean>>;
 }
 
 export const EquationForm = (props: EquationFormProps) => {
-    const {equation: {fx, color, display}, setDisplayEquationForm} = props;
+    const {equation: {fx, color, display}, displayEquationForm, setDisplayEquationForm} = props;
     const [equationColor, setEquationColor] = useState<string>(color);
-    const close = () => setDisplayEquationForm(false);
+    const close: MouseEventHandler = () => setDisplayEquationForm(false);
 
-    return <EquationFormBackground {...stopPropagation} onClick={close}>
-        <EquationFormWrapper {...stopPropagation}>
-            <Title>
-                Add Equation
-                <Close onClick={close}/>
-            </Title>
-            <EquationFormInner {...stopPropagation}>
-                <Textarea defaultValue={fx} style={{color: equationColor, borderColor: equationColor}}/>
-                <Palette {...{equationColor, setEquationColor}}/>
-                <ButtonWrapper>
-                    <Button onClick={close}>Cancel</Button>
-                    <Button>Add</Button>
-                </ButtonWrapper>
-            </EquationFormInner>
-        </EquationFormWrapper>
+    return displayEquationForm && <EquationFormBackground {...stopPropagation} onClick={close}>
+      <EquationFormWrapper {...stopPropagation}>
+        <Title>
+          Add Equation
+          <Close onClick={close}/>
+        </Title>
+        <EquationFormInner {...stopPropagation}>
+          <Textarea defaultValue={fx} style={{color: equationColor, borderColor: equationColor}}/>
+          <Palette {...{equationColor, setEquationColor}}/>
+          <ButtonWrapper>
+            <AddButton/>
+          </ButtonWrapper>
+        </EquationFormInner>
+      </EquationFormWrapper>
     </EquationFormBackground>;
 };

@@ -69,7 +69,7 @@ export const Button = styled.button`
 export const ZoomInButton = styled(Button)`
     margin-right: -1px;
     background-image: url(${ZoomIn});
-    &:hover {
+    :hover {
         background-image: url(${ZoomInHover});
     }
 `;
@@ -77,14 +77,14 @@ export const ZoomInButton = styled(Button)`
 export const ZoomOutButton = styled(Button)`
     margin-left: 0;
     background-image: url(${ZoomOut});
-    &:hover {
+    :hover {
         background-image: url(${ZoomOutHover});
     }
 `;
 
 export const ZoomLevelButton = styled(Button)<{ zoomIndex: number; }>`
     background-image: url(${({zoomIndex}) => levels[zoomIndex]});
-    &:hover{
+    :hover{
         background-image: url(${({zoomIndex}) => hovers[zoomIndex]});
     }
 `;

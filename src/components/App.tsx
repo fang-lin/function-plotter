@@ -41,7 +41,8 @@ export const App = () => {
         color: '#099',
         display: true
     }]);
-    const [displayEquationForm, setDisplayEquationForm] = useState<boolean>(true);
+    const [displayEquationForm, setDisplayEquationForm] = useState<boolean>(false);
+    const [displayEquationPanel, setDisplayEquationPanel] = useState<boolean>(true);
 
     const [zoomIndex, setZoomIndex] = useState<number>(7);
 
@@ -71,7 +72,13 @@ export const App = () => {
         <Stage {...{size, transform, zoomIndex, origin, setRedrawing, smooth, isBold}}/>
         {showCoordinate && dragState === DragState.end && <CrossLine {...{cursor, size}}/>}
         <StateBar  {...{origin, zoomIndex, cursor, redrawing}}/>
-        <EquationPanel {...{equations, setEquations, setDisplayEquationForm}}/>
+        <EquationPanel {...{
+            equations,
+            setEquations,
+            setDisplayEquationForm,
+            displayEquationPanel,
+            setDisplayEquationPanel
+        }}/>
         <ViewPanel {...{
             getCenteredOrigin,
             setOrigin,
@@ -84,10 +91,7 @@ export const App = () => {
             setIsBold
         }}/>
         <ZoomPanel {...{zoomIndex, setZoomIndex}}/>
-        {
-            displayEquationForm &&
-            <EquationForm {...{equation, setEquations, setDisplayEquationForm}}/>
-        }
+        <EquationForm {...{equation, setEquations, displayEquationForm, setDisplayEquationForm}}/>
         <GlobalStyle/>
     </AppWrapper>;
 };

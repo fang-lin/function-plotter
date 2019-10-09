@@ -1,8 +1,8 @@
 import styled from 'styled-components';
-import add from '../images/add.png';
 import cross from '../images/cross.png';
 import crossHover from '../images/cross-hover.png';
-import addHover from '../images/add-hover.png';
+import ok from '../images/ok.png';
+import okHover from '../images/ok-hover.png';
 
 export const EquationFormBackground = styled.div`
     position: absolute;
@@ -49,7 +49,7 @@ export const Close = styled.a`
     background-image: url(${cross});
     background-size: 16px 16px;
     cursor: pointer;
-    &:hover{
+    :hover{
         background-image: url(${crossHover});
     }
 `;
@@ -72,32 +72,17 @@ export const Textarea = styled.textarea`
 export const ButtonWrapper = styled.div`
     display: flex;
     justify-content: flex-end;
-    margin: 0 -10px;
 `;
 
-export const Button = styled.button`
-    margin: 0 10px;
-    background-color: #ccc;
-    color: #333;
-    font-weight: bold;
-    text-shadow: 0 1px 1px rgba(255,255,255,.7);
-    font-family: monospace, consolas, courier;
-    padding: 5px 20px;
+export const AddButton = styled.button`
+    border: medium none;
+    height: 28px;
+    width: 28px;
     outline: none;
-    line-height: 20px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 14px;
-    border: solid 1px #666;
-    &:hover{
-        color: #fff;
-        background-color: #666;
-        text-shadow: 0 1px 1px rgba(0,0,0,.7);
+    background-color: transparent;
+    background-image: url(${ok});
+    background-size: 28px 28px;
+    :hover{
+        background-image: url(${okHover});
     }
 `;
-
-// export const AddButton = styled.button`
-//
-//     width: 16px;
-//     height: 16px;
-// `;
