@@ -2,40 +2,40 @@ import React, {Dispatch, MouseEventHandler, SetStateAction, useState} from 'reac
 import {
     AddButton,
     ButtonWrapper, Close,
-    EquationFormBackground,
-    EquationFormInner,
-    EquationFormWrapper,
+    EquationEditorBackground,
+    EquationEditorInner,
+    EquationEditorWrapper,
     EquationTextarea,
     Title
-} from './EquationForm.style';
+} from './EquationEditor.style';
 import {Equation, stopPropagation} from './App.function';
 import {Palette} from './Palette';
 
 export interface EquationFormProps {
     equation: Equation;
     setEquations: Dispatch<SetStateAction<Equation[]>>;
-    displayEquationForm: boolean;
-    setDisplayEquationForm: Dispatch<SetStateAction<boolean>>;
+    equationEditorDisplay: boolean;
+    setEquationEditorDisplay: Dispatch<SetStateAction<boolean>>;
 }
 
-export const EquationForm = (props: EquationFormProps) => {
-    const {equation: {fx, color, displayed}, displayEquationForm, setDisplayEquationForm} = props;
+export const EquationEditor = (props: EquationFormProps) => {
+    const {equation: {fx, color, displayed}, equationEditorDisplay, setEquationEditorDisplay} = props;
     const [equationColor, setEquationColor] = useState<string>(color);
-    const close: MouseEventHandler = () => setDisplayEquationForm(false);
+    const close: MouseEventHandler = () => setEquationEditorDisplay(false);
 
-    return displayEquationForm ? <EquationFormBackground {...stopPropagation} onClick={close}>
-        <EquationFormWrapper {...stopPropagation}>
+    return equationEditorDisplay ? <EquationEditorBackground {...stopPropagation} onClick={close}>
+        <EquationEditorWrapper {...stopPropagation}>
             <Title>
                 Add Equation
                 <Close onClick={close}/>
             </Title>
-            <EquationFormInner {...stopPropagation}>
+            <EquationEditorInner {...stopPropagation}>
                 <EquationTextarea defaultValue={fx} style={{color: equationColor, borderColor: equationColor}}/>
                 <Palette {...{equationColor, setEquationColor}}/>
                 <ButtonWrapper>
                     <AddButton>Add</AddButton>
                 </ButtonWrapper>
-            </EquationFormInner>
-        </EquationFormWrapper>
-    </EquationFormBackground> : null;
+            </EquationEditorInner>
+        </EquationEditorWrapper>
+    </EquationEditorBackground> : null;
 };

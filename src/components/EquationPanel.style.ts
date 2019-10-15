@@ -13,6 +13,7 @@ import eyeOpened from '../images/eye-opened.png';
 import eyeClosed from '../images/eye-closed.png';
 import info from '../images/info.png';
 import infoHover from '../images/info-hover.png';
+import {SmallIconButton, Title} from './EquationEditor.style';
 
 const width = 320;
 
@@ -39,47 +40,20 @@ export const EquationPanelInner = styled.div`
     padding: 30px 0;
 `;
 
-export const Title = styled.div`
-    background-color: #ccc;
-    border-width: 1px 0;
-    border-style: solid;
-    border-color: #666;
-    color: #333;
+export const EquationPanelTitle = styled(Title)`
     padding: 15px 15px 15px 30px;
-    display: flex;
-    font-size: 14px;
-    justify-content: space-between;
-    text-shadow: 0 1px 1px rgba(255,255,255,.7);
 `;
 
-export const IconButton = styled.button`
-    font-size: 0;
-    line-height: 0;
-    padding: 0;
-    border-radius: 4px;
-    cursor: pointer;
-    outline: none;
-    background-size: 16px 16px;
-    background-position: -1px -1px;
-    height: 16px;
-    width: 16px;
-    border: solid 1px #666;
-    background-color: #ccc;
-    :hover{
-        background-color: #666;
-    }
-`;
-
-const LeftIconButton = styled(IconButton)`
+const LeftIconButton = styled(SmallIconButton)`
     border-radius: 4px 0 0 4px;
 `;
 
-const RightIconButton = styled(IconButton)`
+const RightIconButton = styled(SmallIconButton)`
     border-radius: 0 4px 4px 0;
     margin: 0 0 0 -1px;
 `;
 
-export const ExpandToggle = styled(IconButton)<{
+export const ExpandToggle = styled(SmallIconButton)<{
     expandEquationPanel: boolean
 }>`
     position: absolute;
@@ -120,7 +94,7 @@ export const DisplayEquationButton = styled.button<{
    
 `;
 
-export const InfoButton = styled(IconButton)`
+export const InfoButton = styled(SmallIconButton)`
     border-radius: 8px;
     margin: 0 10px 0 0;
     background-image: url(${info});
@@ -129,7 +103,7 @@ export const InfoButton = styled(IconButton)`
     }
 `;
 
-export const AddButton = styled(IconButton)`
+export const AddButton = styled(SmallIconButton)`
     background-image: url(${add});
     :hover{
         background-image: url(${addHover});

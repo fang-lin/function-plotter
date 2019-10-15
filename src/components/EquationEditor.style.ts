@@ -3,10 +3,9 @@ import cross from '../images/cross.png';
 import crossHover from '../images/cross-hover.png';
 import ok from '../images/ok.png';
 import okHover from '../images/ok-hover.png';
-import {IconButton} from './EquationPanel.style';
 import {LargeIconButton} from './ZoomPanel.style';
 
-export const EquationFormBackground = styled.div`
+export const EquationEditorBackground = styled.div`
     position: absolute;
     display: flex;
     justify-content: center;
@@ -18,7 +17,7 @@ export const EquationFormBackground = styled.div`
     background-color: rgba(0,0,0,.3);
 `;
 
-export const EquationFormWrapper = styled.div`
+export const EquationEditorWrapper = styled.div`
     padding: 20px 0 0 0;
     background: #eee;
     border-radius: 8px;
@@ -27,9 +26,27 @@ export const EquationFormWrapper = styled.div`
     cursor: auto;
 `;
 
-export const EquationFormInner = styled.div`
+export const EquationEditorInner = styled.div`
     width: 640px;
     padding: 30px;
+`;
+
+export const SmallIconButton = styled.button`
+    font-size: 0;
+    line-height: 0;
+    padding: 0;
+    border-radius: 4px;
+    cursor: pointer;
+    outline: none;
+    background-size: 16px 16px;
+    background-position: -1px -1px;
+    height: 16px;
+    width: 16px;
+    border: solid 1px #666;
+    background-color: #ccc;
+    :hover{
+        background-color: #666;
+    }
 `;
 
 export const Title = styled.div`
@@ -45,7 +62,7 @@ export const Title = styled.div`
     text-shadow: 0 1px 1px rgba(255,255,255,.7);
 `;
 
-export const Close = styled(IconButton)`
+export const Close = styled(SmallIconButton)`
     background-image: url(${cross});
     :hover{
         background-image: url(${crossHover});

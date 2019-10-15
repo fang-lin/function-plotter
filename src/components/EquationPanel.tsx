@@ -2,7 +2,7 @@ import React, {Dispatch, SetStateAction} from 'react';
 import {
     EquationPanelWrapper,
     ExpandToggle,
-    Title,
+    EquationPanelTitle,
     EquationPanelInner,
     EquationsList,
     EquationItem,
@@ -10,7 +10,8 @@ import {
     EditButton,
     RemoveButton,
     ButtonWrapper,
-    DisplayEquationButton, InfoButton
+    DisplayEquationButton,
+    InfoButton
 } from './EquationPanel.style';
 import {clone, Equation, stopPropagation} from './App.function';
 import {AddButton} from "./EquationPanel.style";
@@ -18,7 +19,7 @@ import {AddButton} from "./EquationPanel.style";
 export interface EquationPanelProps {
     equations: Equation[];
     setEquations: Dispatch<SetStateAction<Equation[]>>;
-    setDisplayEquationForm: Dispatch<SetStateAction<boolean>>;
+    setEquationEditorDisplay: Dispatch<SetStateAction<boolean>>;
     expandEquationPanel: boolean;
     setExpandEquationPanel: Dispatch<SetStateAction<boolean>>;
 }
@@ -27,7 +28,7 @@ export const EquationPanel = (props: EquationPanelProps) => {
     const {
         equations,
         setEquations,
-        setDisplayEquationForm,
+        setEquationEditorDisplay,
         expandEquationPanel,
         setExpandEquationPanel
     } = props;
@@ -48,13 +49,13 @@ export const EquationPanel = (props: EquationPanelProps) => {
     };
 
     return <EquationPanelWrapper  {...stopPropagation} displayEquationPanel={expandEquationPanel}>
-        <Title>
+        <EquationPanelTitle>
             Equations
             <ButtonWrapper>
                 <InfoButton>Info</InfoButton>
-                <AddButton onClick={() => setDisplayEquationForm(true)}>Add</AddButton>
+                <AddButton onClick={() => setEquationEditorDisplay(true)}>Add</AddButton>
             </ButtonWrapper>
-        </Title>
+        </EquationPanelTitle>
         <EquationPanelInner>
             <EquationsList>{
                 equations.map(({displayed, fx, color}, index) => {

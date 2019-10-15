@@ -21,7 +21,7 @@ import {
     Size, Equation
 } from './App.function';
 import {EquationPanel} from './EquationPanel';
-import {EquationForm} from "./EquationForm";
+import {EquationEditor} from "./EquationEditor";
 
 export const App = () => {
     const appRef: any = useRef<HTMLDivElement>();
@@ -58,7 +58,7 @@ export const App = () => {
     const equation = {fx: 'Math.sin(x)', color: '#062', displayed: true};
 
 
-    const [displayEquationForm, setDisplayEquationForm] = useState<boolean>(false);
+    const [equationEditorDisplay, setEquationEditorDisplay] = useState<boolean>(false);
     const [expandEquationPanel, setExpandEquationPanel] = useState<boolean>(true);
 
     const [zoomIndex, setZoomIndex] = useState<number>(7);
@@ -90,7 +90,7 @@ export const App = () => {
         <EquationPanel {...{
             equations,
             setEquations,
-            setDisplayEquationForm,
+            setEquationEditorDisplay,
             expandEquationPanel,
             setExpandEquationPanel
         }}/>
@@ -106,7 +106,7 @@ export const App = () => {
             setIsBold
         }}/>
         <ZoomPanel {...{zoomIndex, setZoomIndex}}/>
-        <EquationForm {...{equation, setEquations, displayEquationForm, setDisplayEquationForm}}/>
+        <EquationEditor {...{equation, setEquations, equationEditorDisplay, setEquationEditorDisplay}}/>
         <GlobalStyle/>
     </AppWrapper>;
 };
