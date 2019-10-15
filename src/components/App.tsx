@@ -36,11 +36,28 @@ export const App = () => {
     const [smooth, setSmooth] = useState<boolean>(true);
     const [isBold, setIsBold] = useState<boolean>(false);
     const [redrawing, setRedrawing] = useState<boolean>(false);
+
     const [equations, setEquations] = useState<Equation[]>([{
+        fx: 'y = asd 3 jdsjdhg sdj hsd fjh ds7 8 234 56 @ # $ %^ & * asd 3 jdsjdhg sdj hsd fjh ds7 8 234 56 @ # $ %^ & * asd 3 jdsjdhg sdj hsd fjh ds7 8 234 56 @ # $ %^ & * ',
+        color: '#f90',
+        displayed: true
+    }, {
         fx: 'Math.sin(x)',
-        color: '#099',
-        display: true
+        color: '#009',
+        displayed: true
+    }, {
+        fx: 'Math.sin(x)',
+        color: '#859',
+        displayed: true
+    }, {
+        fx: 'Math.sin(x)',
+        color: '#829',
+        displayed: true
     }]);
+
+    const equation = {fx: 'Math.sin(x)', color: '#062', displayed: true};
+
+
     const [displayEquationForm, setDisplayEquationForm] = useState<boolean>(false);
     const [displayEquationPanel, setDisplayEquationPanel] = useState<boolean>(true);
 
@@ -64,8 +81,6 @@ export const App = () => {
             removeEventListeners(onDragStart, onDragEnd, onMoving, onResizing);
         };
     }, []);
-
-    const equation = {fx: 'Math.sin(x)', color: '#062', display: true};
 
     return <AppWrapper {...{dragState}} ref={appRef}>
         <PreloadImages/>

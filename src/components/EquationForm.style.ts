@@ -54,7 +54,7 @@ export const Close = styled.a`
     }
 `;
 
-export const Textarea = styled.textarea`
+export const EquationTextarea = styled.textarea`
     display: block;
     resize: none;
     width: 100%;
@@ -65,7 +65,7 @@ export const Textarea = styled.textarea`
     font-family: monospace, consolas, courier;
     outline: none;
     padding: 5px 10px;
-    font-size: 14px;
+    font-size: 12px;
     line-height: 20px;
 `;
 
@@ -75,6 +75,9 @@ export const ButtonWrapper = styled.div`
 `;
 
 export const AddButton = styled.button`
+    cursor: pointer;
+    font-size: 0;
+    line-height: 0;
     border: medium none;
     height: 28px;
     width: 28px;

@@ -7,7 +7,7 @@ export type Size = [number, number];
 export interface Equation {
     fx: string;
     color: string;
-    display: boolean;
+    displayed: boolean;
 }
 
 export const deviceRatio: number = (() => window.devicePixelRatio || 1)();
@@ -16,6 +16,10 @@ export const ZoomRange: number[] = range(deviceRatio * 2, deviceRatio * 2 + 16);
 
 export function parseZoom(zoomIndex: number): number {
     return Math.pow(ZoomUnit, ZoomRange[zoomIndex]);
+}
+
+export function clone<T = any>(a: any): T {
+    return JSON.parse(JSON.stringify(a));
 }
 
 export function getClient(event: DragEvent): Coordinate {
@@ -160,7 +164,7 @@ export const removeEventListeners = (
 
 export const stopPropagation = {
     [JSXDragEvents[DragState.start]]: (event: Event) => event.stopPropagation(),
-    [JSXDragEvents[DragState.moving]]: (event: Event) => event.stopPropagation(),
+    // [JSXDragEvents[DragState.moving]]: (event: Event) => event.stopPropagation(),
     [JSXDragEvents[DragState.end]]: (event: Event) => event.stopPropagation(),
     onClick: (event: SyntheticEvent) => event.stopPropagation()
 };

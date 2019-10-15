@@ -5,7 +5,7 @@ import {
     EquationFormBackground,
     EquationFormInner,
     EquationFormWrapper,
-    Textarea,
+    EquationTextarea,
     Title
 } from './EquationForm.style';
 import {Equation, stopPropagation} from './App.function';
@@ -19,23 +19,23 @@ export interface EquationFormProps {
 }
 
 export const EquationForm = (props: EquationFormProps) => {
-    const {equation: {fx, color, display}, displayEquationForm, setDisplayEquationForm} = props;
+    const {equation: {fx, color, displayed}, displayEquationForm, setDisplayEquationForm} = props;
     const [equationColor, setEquationColor] = useState<string>(color);
     const close: MouseEventHandler = () => setDisplayEquationForm(false);
 
-    return displayEquationForm && <EquationFormBackground {...stopPropagation} onClick={close}>
-      <EquationFormWrapper {...stopPropagation}>
-        <Title>
-          Add Equation
-          <Close onClick={close}/>
-        </Title>
-        <EquationFormInner {...stopPropagation}>
-          <Textarea defaultValue={fx} style={{color: equationColor, borderColor: equationColor}}/>
-          <Palette {...{equationColor, setEquationColor}}/>
-          <ButtonWrapper>
-            <AddButton/>
-          </ButtonWrapper>
-        </EquationFormInner>
-      </EquationFormWrapper>
-    </EquationFormBackground>;
+    return displayEquationForm ? <EquationFormBackground {...stopPropagation} onClick={close}>
+        <EquationFormWrapper {...stopPropagation}>
+            <Title>
+                Add Equation
+                <Close onClick={close}/>
+            </Title>
+            <EquationFormInner {...stopPropagation}>
+                <EquationTextarea defaultValue={fx} style={{color: equationColor, borderColor: equationColor}}/>
+                <Palette {...{equationColor, setEquationColor}}/>
+                <ButtonWrapper>
+                    <AddButton>Add</AddButton>
+                </ButtonWrapper>
+            </EquationFormInner>
+        </EquationFormWrapper>
+    </EquationFormBackground> : null;
 };
