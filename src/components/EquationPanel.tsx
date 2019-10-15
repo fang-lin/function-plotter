@@ -1,14 +1,16 @@
 import React, {Dispatch, SetStateAction} from 'react';
 import {
     EquationPanelWrapper,
-    DisplayToggle,
+    ExpandToggle,
     Title,
     EquationPanelInner,
     EquationsList,
     EquationItem,
     EquationText,
     EditButton,
-    RemoveButton, ButtonWrapper, DisplayButton
+    RemoveButton,
+    ButtonWrapper,
+    DisplayEquationButton, InfoButton
 } from './EquationPanel.style';
 import {clone, Equation, stopPropagation} from './App.function';
 import {AddButton} from "./EquationPanel.style";
@@ -17,8 +19,8 @@ export interface EquationPanelProps {
     equations: Equation[];
     setEquations: Dispatch<SetStateAction<Equation[]>>;
     setDisplayEquationForm: Dispatch<SetStateAction<boolean>>;
-    displayEquationPanel: boolean;
-    setDisplayEquationPanel: Dispatch<SetStateAction<boolean>>;
+    expandEquationPanel: boolean;
+    setExpandEquationPanel: Dispatch<SetStateAction<boolean>>;
 }
 
 export const EquationPanel = (props: EquationPanelProps) => {
@@ -26,8 +28,8 @@ export const EquationPanel = (props: EquationPanelProps) => {
         equations,
         setEquations,
         setDisplayEquationForm,
-        displayEquationPanel,
-        setDisplayEquationPanel
+        expandEquationPanel,
+        setExpandEquationPanel
     } = props;
 
 
@@ -45,17 +47,20 @@ export const EquationPanel = (props: EquationPanelProps) => {
         })
     };
 
-    return <EquationPanelWrapper  {...stopPropagation} displayEquationPanel={displayEquationPanel}>
+    return <EquationPanelWrapper  {...stopPropagation} displayEquationPanel={expandEquationPanel}>
         <Title>
-            List
-            <AddButton onClick={() => setDisplayEquationForm(true)}>Add</AddButton>
+            Equations
+            <ButtonWrapper>
+                <InfoButton>Info</InfoButton>
+                <AddButton onClick={() => setDisplayEquationForm(true)}>Add</AddButton>
+            </ButtonWrapper>
         </Title>
         <EquationPanelInner>
             <EquationsList>{
                 equations.map(({displayed, fx, color}, index) => {
                     return <EquationItem key={index} style={{borderTop: `${color} solid 1px`}}>
-                        <DisplayButton {...{displayed, color}} style={{backgroundColor: color}}
-                                       onClick={toggleEquationDisplayed(index)}/>
+                        <DisplayEquationButton {...{displayed, color}} style={{backgroundColor: color}}
+                                               onClick={toggleEquationDisplayed(index)}/>
                         <EquationText>{fx}</EquationText>
                         <ButtonWrapper>
                             <EditButton>Edit</EditButton>
@@ -65,7 +70,7 @@ export const EquationPanel = (props: EquationPanelProps) => {
                 })
             }</EquationsList>
         </EquationPanelInner>
-        <DisplayToggle displayEquationPanel={displayEquationPanel}
-                       onClick={() => setDisplayEquationPanel(_ => !_)}/>
+        <ExpandToggle expandEquationPanel={expandEquationPanel}
+                      onClick={() => setExpandEquationPanel(_ => !_)}/>
     </EquationPanelWrapper>;
 };

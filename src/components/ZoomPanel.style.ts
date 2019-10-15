@@ -51,7 +51,7 @@ export const ZoomPanelWrapper = styled.div`
     margin: -5px;
 `;
 
-export const Button = styled.button`
+export const LargeIconButton = styled.button`
     width: 28px;
     height: 28px;
     background-size: 28px 28px;
@@ -62,27 +62,36 @@ export const Button = styled.button`
     color: transparent;
     cursor: pointer;
     outline: none;
-    margin: 5px;
     padding: 0;
+    border-radius: 6px;
+    background-position: -1px -1px;
+    border: solid 1px #666;
+    background-color: #ccc;
+    :hover{
+        background-color: #666;
+    }    
 `;
 
-export const ZoomInButton = styled(Button)`
-    margin-right: -1px;
+export const ZoomInButton = styled(LargeIconButton)`
+    margin: 5px -1px 5px 5px;
+    border-radius: 6px 0 0 6px;
     background-image: url(${ZoomIn});
     :hover {
         background-image: url(${ZoomInHover});
     }
 `;
 
-export const ZoomOutButton = styled(Button)`
-    margin-left: 0;
+export const ZoomOutButton = styled(LargeIconButton)`
+    margin: 5px 5px 5px 0;
+    border-radius: 0 6px 6px 0;
     background-image: url(${ZoomOut});
     :hover {
         background-image: url(${ZoomOutHover});
     }
 `;
 
-export const ZoomLevelButton = styled(Button)<{ zoomIndex: number; }>`
+export const ZoomLevelButton = styled(LargeIconButton)<{ zoomIndex: number; }>`
+    margin: 5px;
     background-image: url(${({zoomIndex}) => levels[zoomIndex]});
     :hover{
         background-image: url(${({zoomIndex}) => hovers[zoomIndex]});

@@ -1,8 +1,7 @@
 import React from 'react';
 import {PreloadImagesWrapper} from './PreloadImages.style';
 import addHover from '../images/add-hover.png';
-import coordinate from '../images/coord.png';
-import editCancelHover from '../images/remove-hover.png';
+import coordinateOn from '../images/coord-on.png';
 import minus from '../images/minus.png';
 import x1Hover from '../images/x1-hover.png';
 import x12 from '../images/x12.png';
@@ -11,16 +10,15 @@ import x4 from '../images/x4.png';
 import x8Hover from '../images/x8-hover.png';
 import zoomOut from '../images/zoom-out.png';
 import add from '../images/add.png';
-import cornerOffHover from '../images/corner-off-hover.png';
-import editCancel from '../images/remove.png';
+import collapseHover from '../images/collapse-hover.png';
 import okHover from '../images/ok-hover.png';
 import x1 from '../images/x1.png';
 import x13Hover from '../images/x13-hover.png';
 import x16 from '../images/x16.png';
 import x5Hover from '../images/x5-hover.png';
 import x8 from '../images/x8.png';
-import centeredHover from '../images/centered-hover.png';
-import cornerOff from '../images/corner-off.png';
+import toCenterHover from '../images/to-center-hover.png';
+import collapse from '../images/collapse.png';
 import editHover from '../images/edit-hover.png';
 import ok from '../images/ok.png';
 import x10Hover from '../images/x10-hover.png';
@@ -28,17 +26,17 @@ import x13 from '../images/x13.png';
 import x2Hover from '../images/x2-hover.png';
 import x5 from '../images/x5.png';
 import x9Hover from '../images/x9-hover.png';
-import centered from '../images/centered.png';
-import cornerOnHover from '../images/corner-on-hover.png';
+import toCenter from '../images/to-center.png';
+import expandHover from '../images/expand-hover.png';
 import edit from '../images/edit.png';
-import smoothHover from '../images/smooth-hover.png';
+import smoothOnHover from '../images/smooth-on-hover.png';
 import x10 from '../images/x10.png';
 import x14Hover from '../images/x14-hover.png';
 import x2 from '../images/x2.png';
 import x6Hover from '../images/x6-hover.png';
 import x9 from '../images/x9.png';
-import coordinateHover from '../images/coord-hover.png';
-import cornerOn from '../images/corner-on.png';
+import coordinateOnHover from '../images/coord-on-hover.png';
+import expand from '../images/expand.png';
 import eyeClose from '../images/eye-closed.png';
 import smoothOffHover from '../images/smooth-off-hover.png';
 import x11Hover from '../images/x11-hover.png';
@@ -58,7 +56,7 @@ import zoomIn from '../images/zoom-in.png';
 import coordinateOff from '../images/coord-off.png';
 import cross from '../images/cross.png';
 import minusHover from '../images/minus-hover.png';
-import smooth from '../images/smooth.png';
+import smoothOn from '../images/smooth-on.png';
 import x12Hover from '../images/x12-hover.png';
 import x15 from '../images/x15.png';
 import x4Hover from '../images/x4-hover.png';
@@ -68,12 +66,13 @@ import lightCurve from '../images/light-curve.png';
 import lightCurveHover from '../images/light-curve-hover.png';
 import boldCurve from '../images/bold-curve.png';
 import boldCurveHover from '../images/bold-curve-hover.png';
+import info from '../images/info.png';
+import infoHover from '../images/info-hover.png';
 
 export const PreloadImages = () => {
     return <PreloadImagesWrapper>
         <img src={addHover} alt="AddHover"/>
-        <img src={coordinate} alt="Coordinate"/>
-        <img src={editCancelHover} alt="EditCancelHover"/>
+        <img src={coordinateOn} alt="CoordinateOn"/>
         <img src={minus} alt="Minus"/>
         <img src={x1Hover} alt="X1Hover"/>
         <img src={x12} alt="X12"/>
@@ -82,16 +81,15 @@ export const PreloadImages = () => {
         <img src={x8Hover} alt="X8Hover"/>
         <img src={zoomOut} alt="ZoomOut"/>
         <img src={add} alt="Add"/>
-        <img src={cornerOffHover} alt="CornerOffHover"/>
-        <img src={editCancel} alt="EditCancel"/>
+        <img src={collapseHover} alt="CollapseHover"/>
         <img src={okHover} alt="OkHover"/>
         <img src={x1} alt="X1"/>
         <img src={x13Hover} alt="X13Hover"/>
         <img src={x16} alt="X16"/>
         <img src={x5Hover} alt="X5Hover"/>
         <img src={x8} alt="X8"/>
-        <img src={centeredHover} alt="CenteredHover"/>
-        <img src={cornerOff} alt="CornerOff"/>
+        <img src={toCenterHover} alt="ToCenterHover"/>
+        <img src={collapse} alt="Collapse"/>
         <img src={editHover} alt="EditHover"/>
         <img src={ok} alt="Ok"/>
         <img src={x10Hover} alt="X10Hover"/>
@@ -99,17 +97,17 @@ export const PreloadImages = () => {
         <img src={x2Hover} alt="X2Hover"/>
         <img src={x5} alt="X5"/>
         <img src={x9Hover} alt="X9Hover"/>
-        <img src={centered} alt="Centered"/>
-        <img src={cornerOnHover} alt="CornerOnHover"/>
+        <img src={toCenter} alt="ToCenter"/>
+        <img src={expandHover} alt="ExpandHover"/>
         <img src={edit} alt="Edit"/>
-        <img src={smoothHover} alt="SmoothHover"/>
+        <img src={smoothOnHover} alt="SmoothOnHover"/>
         <img src={x10} alt="X10"/>
         <img src={x14Hover} alt="X14Hover"/>
         <img src={x2} alt="X2"/>
         <img src={x6Hover} alt="X6Hover"/>
         <img src={x9} alt="X9"/>
-        <img src={coordinateHover} alt="CoordinateHover"/>
-        <img src={cornerOn} alt="CornerOn"/>
+        <img src={coordinateOnHover} alt="CoordinateOnHover"/>
+        <img src={expand} alt="Expand"/>
         <img src={eyeClose} alt="EyeClose"/>
         <img src={smoothOffHover} alt="SmoothOffHover"/>
         <img src={x11Hover} alt="X11Hover"/>
@@ -129,7 +127,7 @@ export const PreloadImages = () => {
         <img src={coordinateOff} alt="CoordinateOff"/>
         <img src={cross} alt="Cross"/>
         <img src={minusHover} alt="MinusHover"/>
-        <img src={smooth} alt="Smooth"/>
+        <img src={smoothOn} alt="SmoothOn"/>
         <img src={x12Hover} alt="X12Hover"/>
         <img src={x15} alt="X15"/>
         <img src={x4Hover} alt="X4Hover"/>
@@ -139,6 +137,8 @@ export const PreloadImages = () => {
         <img src={lightCurveHover} alt="lightCurveHover"/>
         <img src={boldCurve} alt="boldCurve"/>
         <img src={boldCurveHover} alt="boldCurveHover"/>
+        <img src={info} alt="Info"/>
+        <img src={infoHover} alt="InfoHover"/>
     </PreloadImagesWrapper>;
 };
 

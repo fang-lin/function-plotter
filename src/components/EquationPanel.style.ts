@@ -1,16 +1,18 @@
 import styled from 'styled-components';
-import cornerOff from '../images/corner-off.png';
-import cornerOffHover from '../images/corner-off-hover.png';
-import cornerOn from '../images/corner-on.png';
-import cornerOnHover from '../images/corner-on-hover.png';
+import collapse from '../images/collapse.png';
+import collapseHover from '../images/collapse-hover.png';
+import expand from '../images/expand.png';
+import expandHover from '../images/expand-hover.png';
 import add from '../images/add.png';
 import addHover from '../images/add-hover.png';
 import edit from '../images/edit.png';
 import editHover from '../images/edit-hover.png';
-import remove from '../images/remove.png';
-import removeHover from '../images/remove-hover.png';
+import cross from '../images/cross.png';
+import crossHover from '../images/cross-hover.png';
 import eyeOpened from '../images/eye-opened.png';
 import eyeClosed from '../images/eye-closed.png';
+import info from '../images/info.png';
+import infoHover from '../images/info-hover.png';
 
 const width = 320;
 
@@ -50,48 +52,63 @@ export const Title = styled.div`
     text-shadow: 0 1px 1px rgba(255,255,255,.7);
 `;
 
-export const DisplayToggle = styled.button<{
-    displayEquationPanel: boolean
+export const IconButton = styled.button`
+    font-size: 0;
+    line-height: 0;
+    padding: 0;
+    border-radius: 4px;
+    cursor: pointer;
+    outline: none;
+    background-size: 16px 16px;
+    background-position: -1px -1px;
+    height: 16px;
+    width: 16px;
+    border: solid 1px #666;
+    background-color: #ccc;
+    :hover{
+        background-color: #666;
+    }
+`;
+
+const LeftIconButton = styled(IconButton)`
+    border-radius: 4px 0 0 4px;
+`;
+
+const RightIconButton = styled(IconButton)`
+    border-radius: 0 4px 4px 0;
+    margin: 0 0 0 -1px;
+`;
+
+export const ExpandToggle = styled(IconButton)<{
+    expandEquationPanel: boolean
 }>`
     position: absolute;
     left: 0;
     bottom: 0;
-    border: medium none;
-    height: 16px;
-    width: 16px;
-    outline: none;
-    background-image: url(${({displayEquationPanel}) => displayEquationPanel ? cornerOn : cornerOff});
-    background-size: 16px 16px;
+    border-radius: 0 4px 0 0;
+    border-width: 1px 1px 0 0;
+    background-position: 0 -1px;
+    background-image: url(${({expandEquationPanel}) => expandEquationPanel ? collapse : expand});
     :hover{
-        background-image: url(${({displayEquationPanel}) => displayEquationPanel ? cornerOnHover : cornerOffHover});
+        background-image: url(${({expandEquationPanel}) => expandEquationPanel ? collapseHover : expandHover});
     }
 `;
 
 export const ButtonWrapper = styled.div`
     display: flex;
     flex: none;
-    padding: 0 15px 0 0;
+    padding: 0;
 `;
 
-const BaseButton = styled.button`
+export const DisplayEquationButton = styled.button<{
+    displayed: boolean;
+}>`
     cursor: pointer;
     font-size: 0;
     line-height: 0;
     display: block;
     border: medium none;
     outline: none;
-    background-color: transparent;
-`;
-
-const IconButton = styled(BaseButton)`
-    background-size: 16px 16px;
-    height: 16px;
-    width: 16px;
-`;
-
-export const DisplayButton = styled(BaseButton)<{
-    displayed: boolean;
-}>`
     padding: 0;
     align-self: stretch;
     flex: none;
@@ -103,6 +120,15 @@ export const DisplayButton = styled(BaseButton)<{
    
 `;
 
+export const InfoButton = styled(IconButton)`
+    border-radius: 8px;
+    margin: 0 10px 0 0;
+    background-image: url(${info});
+    :hover{
+        background-image: url(${infoHover});
+    }
+`;
+
 export const AddButton = styled(IconButton)`
     background-image: url(${add});
     :hover{
@@ -110,18 +136,17 @@ export const AddButton = styled(IconButton)`
     }
 `;
 
-export const EditButton = styled(IconButton)`
+export const EditButton = styled(LeftIconButton)`
     background-image: url(${edit});
     :hover{
         background-image: url(${editHover});
     }
 `;
 
-export const RemoveButton = styled(IconButton)`
-    margin: 0 0 0 -1px;
-    background-image: url(${remove});
+export const RemoveButton = styled(RightIconButton)`
+    background-image: url(${cross});
     :hover{
-        background-image: url(${removeHover});
+        background-image: url(${crossHover});
     }
 `;
 
@@ -135,6 +160,7 @@ export const EquationItem = styled.li`
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding: 0 15px 0 0;
     background-color: #fff;
     :last-child{
         border-bottom: #666 solid 1px;

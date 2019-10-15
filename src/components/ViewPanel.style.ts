@@ -1,14 +1,14 @@
 import styled from 'styled-components';
-import {Button} from './ZoomPanel.style';
-import centered from '../images/centered.png';
-import smooth from '../images/smooth.png';
+import {LargeIconButton} from './ZoomPanel.style';
+import toCenter from '../images/to-center.png';
+import smoothOn from '../images/smooth-on.png';
 import smoothOff from '../images/smooth-off.png';
-import coordinate from '../images/coord.png';
+import coordinateOn from '../images/coord-on.png';
 import coordinateOff from '../images/coord-off.png';
-import centeredHover from '../images/centered-hover.png';
-import smoothHover from '../images/smooth-hover.png';
+import toCenterHover from '../images/to-center-hover.png';
+import smoothOnHover from '../images/smooth-on-hover.png';
 import smoothOffHover from '../images/smooth-off-hover.png';
-import coordinateHover from '../images/coord-hover.png';
+import coordinateOnHover from '../images/coord-on-hover.png';
 import coordinateOffHover from '../images/coord-off-hover.png';
 import lightCurve from '../images/light-curve.png';
 import lightCurveHover from '../images/light-curve-hover.png';
@@ -22,30 +22,34 @@ export const ViewPanelWrapper = styled.div`
     margin: -5px;
 `;
 
-export const CenteredButton = styled(Button)`
-    background-image: url(${centered});
+export const CenteredButton = styled(LargeIconButton)`
+    margin-right: 5px;
+    background-image: url(${toCenter});
     :hover{
-        background-image: url(${centeredHover});
+        background-image: url(${toCenterHover});
     }
 `;
 
-export const SmoothButton = styled(Button)<{ isSmooth: boolean; }>`
-    background-image: url(${({isSmooth}) => isSmooth ? smooth : smoothOff});
+export const SmoothButton = styled(LargeIconButton)<{ isSmooth: boolean; }>`
+    margin-right: 5px;
+    background-image: url(${({isSmooth}) => isSmooth ? smoothOn : smoothOff});
     :hover{
-        background-image: url(${({isSmooth}) => isSmooth ? smoothHover : smoothOffHover});
+        background-image: url(${({isSmooth}) => isSmooth ? smoothOnHover : smoothOffHover});
     }
 `;
 
-export const WeightButton = styled(Button)<{ isBold: boolean; }>`
+export const WeightButton = styled(LargeIconButton)<{ isBold: boolean; }>`
+    margin-right: 5px;
     background-image: url(${({isBold}) => isBold ? boldCurve : lightCurve});
     :hover{
         background-image: url(${({isBold}) => isBold ? boldCurveHover : lightCurveHover});
     }
 `;
 
-export const CoordinateButton = styled(Button)<{ showCoordinate: boolean; }>`
-    background-image: url(${({showCoordinate}) => showCoordinate ? coordinate : coordinateOff});
+export const CoordinateButton = styled(LargeIconButton)<{ showCoordinate: boolean; }>`
+    margin-right: 5px;
+    background-image: url(${({showCoordinate}) => showCoordinate ? coordinateOn : coordinateOff});
     :hover{
-        background-image: url(${({showCoordinate}) => showCoordinate ? coordinateHover : coordinateOffHover});
+        background-image: url(${({showCoordinate}) => showCoordinate ? coordinateOnHover : coordinateOffHover});
     }
 `;

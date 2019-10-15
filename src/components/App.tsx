@@ -59,7 +59,7 @@ export const App = () => {
 
 
     const [displayEquationForm, setDisplayEquationForm] = useState<boolean>(false);
-    const [displayEquationPanel, setDisplayEquationPanel] = useState<boolean>(true);
+    const [expandEquationPanel, setExpandEquationPanel] = useState<boolean>(true);
 
     const [zoomIndex, setZoomIndex] = useState<number>(7);
 
@@ -91,8 +91,8 @@ export const App = () => {
             equations,
             setEquations,
             setDisplayEquationForm,
-            displayEquationPanel,
-            setDisplayEquationPanel
+            expandEquationPanel,
+            setExpandEquationPanel
         }}/>
         <ViewPanel {...{
             getCenteredOrigin,

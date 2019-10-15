@@ -3,6 +3,8 @@ import cross from '../images/cross.png';
 import crossHover from '../images/cross-hover.png';
 import ok from '../images/ok.png';
 import okHover from '../images/ok-hover.png';
+import {IconButton} from './EquationPanel.style';
+import {LargeIconButton} from './ZoomPanel.style';
 
 export const EquationFormBackground = styled.div`
     position: absolute;
@@ -13,6 +15,7 @@ export const EquationFormBackground = styled.div`
     right: 0;
     bottom: 0;
     left: 0;
+    background-color: rgba(0,0,0,.3);
 `;
 
 export const EquationFormWrapper = styled.div`
@@ -42,13 +45,8 @@ export const Title = styled.div`
     text-shadow: 0 1px 1px rgba(255,255,255,.7);
 `;
 
-export const Close = styled.a`
-    width: 16px;
-    height: 16px;
-    display: block;
+export const Close = styled(IconButton)`
     background-image: url(${cross});
-    background-size: 16px 16px;
-    cursor: pointer;
     :hover{
         background-image: url(${crossHover});
     }
@@ -74,17 +72,8 @@ export const ButtonWrapper = styled.div`
     justify-content: flex-end;
 `;
 
-export const AddButton = styled.button`
-    cursor: pointer;
-    font-size: 0;
-    line-height: 0;
-    border: medium none;
-    height: 28px;
-    width: 28px;
-    outline: none;
-    background-color: transparent;
+export const AddButton = styled(LargeIconButton)`
     background-image: url(${ok});
-    background-size: 28px 28px;
     :hover{
         background-image: url(${okHover});
     }
