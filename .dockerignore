@@ -1,0 +1,7 @@
+.cache
+.nyc_output
+bank
+coverage
+dist
+node_modules
+npm-debug.log

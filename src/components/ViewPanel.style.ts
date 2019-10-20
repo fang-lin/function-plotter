@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import {LargeIconButton} from './ZoomPanel.style';
 import toCenter from '../images/to-center.png';
 import smoothOn from '../images/smooth-on.png';
 import smoothOff from '../images/smooth-off.png';
@@ -14,6 +13,7 @@ import lightCurve from '../images/light-curve.png';
 import lightCurveHover from '../images/light-curve-hover.png';
 import boldCurve from '../images/bold-curve.png';
 import boldCurveHover from '../images/bold-curve-hover.png';
+import {LargeIconButton} from "./Base.style";
 
 export const ViewPanelWrapper = styled.div`
     position: absolute;

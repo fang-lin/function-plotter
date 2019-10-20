@@ -104,9 +104,14 @@ export const onDraggingHOF = (
     setDragState(DragState.moving);
 };
 
+let xxx: any;
+
 export const onDragEndHOF = (
     setTransform: Dispatch<SetStateAction<Coordinate>>,
-    setOrigin: Dispatch<SetStateAction<Coordinate>>,
+    // setOrigin: Dispatch<SetStateAction<Coordinate>>,
+    setOrigin: any,
+    toURL: (param: Partial<ConvertedParams>) => string,
+    history: any,
     setDragState: Dispatch<SetStateAction<DragState>>,
     setClient: Dispatch<SetStateAction<Coordinate>>,
     onDragging: (event: DragEvent) => void
@@ -116,10 +121,14 @@ export const onDragEndHOF = (
     setTransform([0, 0]);
     setClient((client: Coordinate) => {
         if (!isNaN(client[0]) && !isNaN(client[1])) {
-            setOrigin((origin: Coordinate) => [
-                origin[0] + (_client[0] - client[0]),
-                origin[1] + (_client[1] - client[1])
-            ]);
+            setOrigin((origin: any) => {
+                console.log(origin);
+                const ORIGIN = [
+                    origin[0] + (_client[0] - client[0]),
+                    origin[1] + (_client[1] - client[1])
+                ] as Coordinate;
+                history.push(toURL({ORIGIN}));
+            });
         }
         return [NaN, NaN];
     });
@@ -168,3 +177,75 @@ export const stopPropagation = {
     [JSXDragEvents[DragState.end]]: (event: Event) => event.stopPropagation(),
     onClick: (event: SyntheticEvent) => event.stopPropagation()
 };
+
+
+export interface Params {
+    ZOOM_INDEX: string;
+    ORIGIN: string;
+    SHOW_COORDINATE: string;
+    SMOOTH: string;
+    IS_BOLD: string;
+    EQUATIONS: string;
+}
+
+export interface ConvertedParams {
+    ZOOM_INDEX: number;
+    ORIGIN: Coordinate;
+    SHOW_COORDINATE: boolean;
+    SMOOTH: boolean;
+    IS_BOLD: boolean;
+    EQUATIONS: Equation[];
+}
+
+export function decodeParams(params: Params): ConvertedParams {
+    const ZOOM_INDEX = normalizeZoomIndex(parseInt(params.ZOOM_INDEX));
+    const ORIGIN = params.ORIGIN.split('+').map<number>(parseFloat) as Coordinate;
+
+    const SHOW_COORDINATE = params.SHOW_COORDINATE === 'on';
+    const SMOOTH = params.SMOOTH === 'on';
+    const IS_BOLD = params.IS_BOLD === 'on';
+    return {
+        ZOOM_INDEX,
+        ORIGIN,
+        SHOW_COORDINATE,
+        SMOOTH,
+        IS_BOLD,
+        EQUATIONS: []
+    };
+}
+
+export function encodeParams(params: ConvertedParams): Params {
+    const ZOOM_INDEX = params.ZOOM_INDEX.toString();
+    const ORIGIN = params.ORIGIN.join('+');
+
+    const SHOW_COORDINATE = params.SHOW_COORDINATE ? 'on' : 'off';
+    const SMOOTH = params.SMOOTH ? 'on' : 'off';
+    const IS_BOLD = params.IS_BOLD ? 'on' : 'off';
+    return {
+        ZOOM_INDEX,
+        ORIGIN,
+        SHOW_COORDINATE,
+        SMOOTH,
+        IS_BOLD,
+        EQUATIONS: '---'
+    };
+}
+
+export const paramsToURL = (params: Params) => (param: Partial<ConvertedParams>): string => {
+    const {
+        ZOOM_INDEX,
+        ORIGIN,
+        SHOW_COORDINATE,
+        SMOOTH,
+        IS_BOLD,
+        EQUATIONS
+    } = encodeParams({...decodeParams(params), ...param});
+    return `/${ZOOM_INDEX}/${ORIGIN}/${SHOW_COORDINATE}/${SMOOTH}/${IS_BOLD}/${EQUATIONS}`;
+};
+
+export function normalizeZoomIndex(zoomIndex: number, offset?: -1 | 1): number {
+    if (typeof offset === 'undefined') {
+        return ZoomRange[zoomIndex] ? zoomIndex : 7;
+    }
+    return ZoomRange[zoomIndex + offset] ? zoomIndex + offset : zoomIndex;
+}

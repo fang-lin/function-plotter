@@ -1,5 +1,6 @@
 import React, {useEffect, useRef, useState} from 'react';
 import debounce from 'lodash/debounce';
+import isEqual from 'lodash/isEqual';
 import {AppWrapper, GlobalStyle} from './AppWrapper';
 import {PreloadImages} from './PreloadImages';
 import {Stage} from './Stage';
@@ -18,24 +19,32 @@ import {
     onDraggingHOF,
     onDragStartHOF,
     onMovingHOF,
-    Size, Equation
+    Size, Equation, decodeParams, Params, paramsToURL
 } from './App.function';
 import {EquationPanel} from './EquationPanel';
-import {EquationEditor} from "./EquationEditor";
+import {EquationDialog} from './EquationDialog';
+import {InfoDialog} from './InfoDialog';
+import {useHistory, useParams} from "react-router";
 
-export const App = () => {
+
+export const App = (props: any) => {
     const appRef: any = useRef<HTMLDivElement>();
+
+    const {ZOOM_INDEX, ORIGIN, SHOW_COORDINATE, EQUATIONS, IS_BOLD, SMOOTH} = decodeParams(useParams<Params>());
+    const toURL = paramsToURL(useParams<Params>());
+    const history = useHistory();
 
     const [dragState, setDragState] = useState<DragState>(DragState.end);
     const [, setClient] = useState<Coordinate>([NaN, NaN]);
     const [transform, setTransform] = useState<Coordinate>([0, 0]);
     const [cursor, setCursor] = useState<Coordinate>([NaN, NaN]);
     const [size, setSize] = useState<Size>([0, 0]);
-    const [origin, setOrigin] = useState<Coordinate>([0, 0]);
-    const [showCoordinate, setShowCoordinate] = useState<boolean>(false);
-    const [smooth, setSmooth] = useState<boolean>(true);
-    const [isBold, setIsBold] = useState<boolean>(false);
+    const [origin, setOrigin] = useState<Coordinate>(ORIGIN);
+    const [showCoordinate, setShowCoordinate] = useState<boolean>(SHOW_COORDINATE);
+    const [smooth, setSmooth] = useState<boolean>(SMOOTH);
+    const [isBold, setIsBold] = useState<boolean>(IS_BOLD);
     const [redrawing, setRedrawing] = useState<boolean>(false);
+    const [zoomIndex, setZoomIndex] = useState<number>(ZOOM_INDEX);
 
     const [equations, setEquations] = useState<Equation[]>([{
         fx: 'y = asd 3 jdsjdhg sdj hsd fjh ds7 8 234 56 @ # $ %^ & * asd 3 jdsjdhg sdj hsd fjh ds7 8 234 56 @ # $ %^ & * asd 3 jdsjdhg sdj hsd fjh ds7 8 234 56 @ # $ %^ & * ',
@@ -51,28 +60,31 @@ export const App = () => {
         displayed: true
     }, {
         fx: 'Math.sin(x)',
-        color: '#829',
+        color: '#899',
         displayed: true
     }]);
 
     const equation = {fx: 'Math.sin(x)', color: '#062', displayed: true};
 
-
-    const [equationEditorDisplay, setEquationEditorDisplay] = useState<boolean>(false);
+    const [equationDialogDisplay, setEquationDialogDisplay] = useState<boolean>(false);
+    const [infoDialogDisplay, setInfoDialogDisplay] = useState<boolean>(false);
     const [expandEquationPanel, setExpandEquationPanel] = useState<boolean>(true);
 
-    const [zoomIndex, setZoomIndex] = useState<number>(7);
+    let ori: Coordinate;
+
 
     useEffect(() => {
         const onDragging = onDraggingHOF(setTransform, setDragState, setClient);
         const onDragStart = onDragStartHOF(setClient, setDragState, onDragging);
-        const onDragEnd = onDragEndHOF(setTransform, setOrigin, setDragState, setClient, onDragging);
+        const onDragEnd = onDragEndHOF(setTransform, (cb: any) => {
+            console.log('ori', ori);
+            cb(ori);
+        }, toURL, history, setDragState, setClient, onDragging);
         const onMoving = onMovingHOF(setDragState, setCursor);
 
         const onResizing = debounce(() => setSize(getStageSize(appRef.current)), 200);
         const stageSize = getStageSize(appRef.current);
 
-        setOrigin(getCenteredOrigin(stageSize));
         setSize(stageSize);
 
         addEventListeners(onDragStart, onDragEnd, onMoving, onResizing);
@@ -82,6 +94,16 @@ export const App = () => {
         };
     }, []);
 
+    useEffect(() => setZoomIndex(ZOOM_INDEX), [ZOOM_INDEX]);
+    useEffect(() => {
+        ori = ORIGIN;
+        setOrigin(origin => isEqual(origin, ORIGIN) ? origin : ORIGIN);
+    }, [ORIGIN]);
+    useEffect(() => setSmooth(SMOOTH), [SMOOTH]);
+    useEffect(() => setShowCoordinate(SHOW_COORDINATE), [SHOW_COORDINATE]);
+    useEffect(() => setIsBold(IS_BOLD), [IS_BOLD]);
+
+
     return <AppWrapper {...{dragState}} ref={appRef}>
         <PreloadImages/>
         <Stage {...{size, transform, zoomIndex, origin, setRedrawing, smooth, isBold}}/>
@@ -90,23 +112,19 @@ export const App = () => {
         <EquationPanel {...{
             equations,
             setEquations,
-            setEquationEditorDisplay,
+            setEquationDialogDisplay,
             expandEquationPanel,
-            setExpandEquationPanel
+            setExpandEquationPanel,
+            setInfoDialogDisplay
         }}/>
         <ViewPanel {...{
             getCenteredOrigin,
             setOrigin,
-            size,
-            smooth,
-            setSmooth,
-            showCoordinate,
-            setShowCoordinate,
-            isBold,
-            setIsBold
+            size
         }}/>
-        <ZoomPanel {...{zoomIndex, setZoomIndex}}/>
-        <EquationEditor {...{equation, setEquations, equationEditorDisplay, setEquationEditorDisplay}}/>
+        <ZoomPanel/>
+        <EquationDialog {...{equation, setEquations, equationDialogDisplay, setEquationDialogDisplay}}/>
+        <InfoDialog {...{infoDialogDisplay, setInfoDialogDisplay}}/>
         <GlobalStyle/>
     </AppWrapper>;
 };

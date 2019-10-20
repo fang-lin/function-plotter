@@ -35,6 +35,7 @@ import x13Hover from '../images/x13-hover.png';
 import x14Hover from '../images/x14-hover.png';
 import x15Hover from '../images/x15-hover.png';
 import x16Hover from '../images/x16-hover.png';
+import {LargeIconButton} from "./Base.style";
 
 const levels = [x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, x11, x12, x13, x14, x15, x16];
 const hovers = [
@@ -49,27 +50,6 @@ export const ZoomPanelWrapper = styled.div`
     bottom: 20px;
     right: 20px;
     margin: -5px;
-`;
-
-export const LargeIconButton = styled.button`
-    width: 28px;
-    height: 28px;
-    background-size: 28px 28px;
-    border: none medium;
-    background-color: transparent;
-    font-size: 0;
-    line-height: 0;
-    color: transparent;
-    cursor: pointer;
-    outline: none;
-    padding: 0;
-    border-radius: 6px;
-    background-position: -1px -1px;
-    border: solid 1px #666;
-    background-color: #ccc;
-    :hover{
-        background-color: #666;
-    }    
 `;
 
 export const ZoomInButton = styled(LargeIconButton)`

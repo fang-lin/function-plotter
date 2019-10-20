@@ -13,7 +13,7 @@ import eyeOpened from '../images/eye-opened.png';
 import eyeClosed from '../images/eye-closed.png';
 import info from '../images/info.png';
 import infoHover from '../images/info-hover.png';
-import {SmallIconButton, Title} from './EquationEditor.style';
+import {SmallIconButton, TitleBar} from "./Base.style";
 
 const width = 320;
 
@@ -40,7 +40,7 @@ export const EquationPanelInner = styled.div`
     padding: 30px 0;
 `;
 
-export const EquationPanelTitle = styled(Title)`
+export const EquationPanelTitleBar = styled(TitleBar)`
     padding: 15px 15px 15px 30px;
 `;
 
@@ -104,6 +104,7 @@ export const InfoButton = styled(SmallIconButton)`
 `;
 
 export const AddButton = styled(SmallIconButton)`
+    border-radius: 8px;
     background-image: url(${add});
     :hover{
         background-image: url(${addHover});

@@ -2,7 +2,7 @@ import React, {Dispatch, SetStateAction} from 'react';
 import {
     EquationPanelWrapper,
     ExpandToggle,
-    EquationPanelTitle,
+    EquationPanelTitleBar,
     EquationPanelInner,
     EquationsList,
     EquationItem,
@@ -14,23 +14,26 @@ import {
     InfoButton
 } from './EquationPanel.style';
 import {clone, Equation, stopPropagation} from './App.function';
-import {AddButton} from "./EquationPanel.style";
+import {AddButton} from './EquationPanel.style';
+import {Title} from './Base.style';
 
 export interface EquationPanelProps {
     equations: Equation[];
     setEquations: Dispatch<SetStateAction<Equation[]>>;
-    setEquationEditorDisplay: Dispatch<SetStateAction<boolean>>;
+    setEquationDialogDisplay: Dispatch<SetStateAction<boolean>>;
     expandEquationPanel: boolean;
     setExpandEquationPanel: Dispatch<SetStateAction<boolean>>;
+    setInfoDialogDisplay: Dispatch<SetStateAction<boolean>>;
 }
 
 export const EquationPanel = (props: EquationPanelProps) => {
     const {
         equations,
         setEquations,
-        setEquationEditorDisplay,
+        setEquationDialogDisplay,
         expandEquationPanel,
-        setExpandEquationPanel
+        setExpandEquationPanel,
+        setInfoDialogDisplay
     } = props;
 
 
@@ -49,13 +52,13 @@ export const EquationPanel = (props: EquationPanelProps) => {
     };
 
     return <EquationPanelWrapper  {...stopPropagation} displayEquationPanel={expandEquationPanel}>
-        <EquationPanelTitle>
-            Equations
+        <EquationPanelTitleBar>
+            <Title>Equations</Title>
             <ButtonWrapper>
-                <InfoButton>Info</InfoButton>
-                <AddButton onClick={() => setEquationEditorDisplay(true)}>Add</AddButton>
+                <InfoButton onClick={() => setInfoDialogDisplay(true)}>Info</InfoButton>
+                <AddButton onClick={() => setEquationDialogDisplay(true)}>Add</AddButton>
             </ButtonWrapper>
-        </EquationPanelTitle>
+        </EquationPanelTitleBar>
         <EquationPanelInner>
             <EquationsList>{
                 equations.map(({displayed, fx, color}, index) => {
