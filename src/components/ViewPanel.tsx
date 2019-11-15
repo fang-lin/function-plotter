@@ -1,6 +1,6 @@
 import React, {Dispatch, SetStateAction} from 'react';
 import {ViewPanelWrapper, CenteredButton, SmoothButton, CoordinateButton, WeightButton} from './ViewPanel.style';
-import {Coordinate, decodeParams, normalizeZoomIndex, Params, paramsToURL, Size, stopPropagation} from './App.function';
+import {Coordinate, decodeParams, normalizeZoomIndex, Params, paramsToPath, Size, stopPropagation} from './App.function';
 import {useHistory, useParams} from "react-router";
 
 interface ViewPanelProps {
@@ -11,7 +11,7 @@ interface ViewPanelProps {
 export const ViewPanel = (props: ViewPanelProps) => {
     const {SMOOTH, IS_BOLD, SHOW_COORDINATE} = decodeParams(useParams<Params>());
     const history = useHistory();
-    const toURL = paramsToURL(useParams<Params>());
+    const toURL = paramsToPath(useParams<Params>());
 
     const {getCenteredOrigin, size} = props;
     const smoothText = `Smooth: ${SMOOTH ? 'On' : 'Off'}`;

@@ -12,7 +12,7 @@ if (dom) {
             <Route exact path="/:ZOOM_INDEX/:ORIGIN/:SHOW_COORDINATE/:SMOOTH/:IS_BOLD/:EQUATIONS">
                 <App/>
             </Route>
-            <Redirect from="/" to="/8/960+340.5/off/on/off/equations"/>
+            {/*<Redirect from="/" to="/8/960+340.5/off/on/off/equations"/>*/}
         </Switch>
     </Router>, dom);
 }

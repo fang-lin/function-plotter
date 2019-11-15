@@ -19,19 +19,32 @@ import {
     onDraggingHOF,
     onDragStartHOF,
     onMovingHOF,
-    Size, Equation, decodeParams, Params, paramsToURL
+    Size, Equation, decodeParams, Params, paramsToPath
 } from './App.function';
 import {EquationPanel} from './EquationPanel';
 import {EquationDialog} from './EquationDialog';
 import {InfoDialog} from './InfoDialog';
 import {useHistory, useParams} from "react-router";
 
+const ZOOM_INDEX = 8;
+const ORIGIN: Coordinate = [761, 36];
+const SHOW_COORDINATE = true;
+const EQUATIONS = [];
+const IS_BOLD = false;
+const SMOOTH = true;
 
-export const App = (props: any) => {
+export const App = () => {
     const appRef: any = useRef<HTMLDivElement>();
 
-    const {ZOOM_INDEX, ORIGIN, SHOW_COORDINATE, EQUATIONS, IS_BOLD, SMOOTH} = decodeParams(useParams<Params>());
-    const toURL = paramsToURL(useParams<Params>());
+
+    // const [usingRouter, setUsingRouter] = useState(false);
+    //
+    // if(usingRouter){
+    //     const {ZOOM_INDEX, ORIGIN, SHOW_COORDINATE, EQUATIONS, IS_BOLD, SMOOTH} = decodeParams(useParams<Params>());
+    // }
+
+    // let {ZOOM_INDEX, ORIGIN, SHOW_COORDINATE, EQUATIONS, IS_BOLD, SMOOTH} = decodeParams(useParams<Params>());
+    const newPath = paramsToPath(useParams<Params>());
     const history = useHistory();
 
     const [dragState, setDragState] = useState<DragState>(DragState.end);
@@ -70,16 +83,10 @@ export const App = (props: any) => {
     const [infoDialogDisplay, setInfoDialogDisplay] = useState<boolean>(false);
     const [expandEquationPanel, setExpandEquationPanel] = useState<boolean>(true);
 
-    let ori: Coordinate;
-
-
     useEffect(() => {
         const onDragging = onDraggingHOF(setTransform, setDragState, setClient);
         const onDragStart = onDragStartHOF(setClient, setDragState, onDragging);
-        const onDragEnd = onDragEndHOF(setTransform, (cb: any) => {
-            console.log('ori', ori);
-            cb(ori);
-        }, toURL, history, setDragState, setClient, onDragging);
+        const onDragEnd = onDragEndHOF(setTransform, setOrigin, newPath, history, setDragState, setClient, onDragging);
         const onMoving = onMovingHOF(setDragState, setCursor);
 
         const onResizing = debounce(() => setSize(getStageSize(appRef.current)), 200);
@@ -96,13 +103,11 @@ export const App = (props: any) => {
 
     useEffect(() => setZoomIndex(ZOOM_INDEX), [ZOOM_INDEX]);
     useEffect(() => {
-        ori = ORIGIN;
         setOrigin(origin => isEqual(origin, ORIGIN) ? origin : ORIGIN);
     }, [ORIGIN]);
     useEffect(() => setSmooth(SMOOTH), [SMOOTH]);
     useEffect(() => setShowCoordinate(SHOW_COORDINATE), [SHOW_COORDINATE]);
     useEffect(() => setIsBold(IS_BOLD), [IS_BOLD]);
-
 
     return <AppWrapper {...{dragState}} ref={appRef}>
         <PreloadImages/>

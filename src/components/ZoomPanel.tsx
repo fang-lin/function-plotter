@@ -1,12 +1,12 @@
 import React from 'react';
 import {ZoomInButton, ZoomLevelButton, ZoomOutButton, ZoomPanelWrapper} from './ZoomPanel.style';
 import {useHistory, useParams, Link} from 'react-router-dom';
-import {decodeParams, normalizeZoomIndex, Params, paramsToURL, stopPropagation} from './App.function';
+import {decodeParams, normalizeZoomIndex, Params, paramsToPath, stopPropagation} from './App.function';
 
 export const ZoomPanel = () => {
     const {ZOOM_INDEX} = decodeParams(useParams<Params>());
     const history = useHistory();
-    const toURL = paramsToURL(useParams<Params>());
+    const toURL = paramsToPath(useParams<Params>());
 
     return (
         <ZoomPanelWrapper>

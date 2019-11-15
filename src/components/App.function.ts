@@ -22,8 +22,12 @@ export function clone<T = any>(a: any): T {
     return JSON.parse(JSON.stringify(a));
 }
 
+function isTouchEvent(event: DragEvent): event is TouchEvent {
+    return window.TouchEvent && event instanceof TouchEvent;
+}
+
 export function getClient(event: DragEvent): Coordinate {
-    const {clientX, clientY} = event instanceof TouchEvent ? event.changedTouches[0] : event;
+    const {clientX, clientY} = isTouchEvent(event) ? event.changedTouches[0] : event;
     return [clientX, clientY];
 }
 
@@ -46,7 +50,7 @@ export enum DragState {
     end
 }
 
-export type DragEvent = TouchEvent | MouseEvent;
+export type DragEvent = MouseEvent | TouchEvent;
 
 export const DragEvents: Record<DragState, keyof WindowEventMap> = isMobile ? {
     [DragState.start]: 'touchstart',
@@ -108,9 +112,8 @@ let xxx: any;
 
 export const onDragEndHOF = (
     setTransform: Dispatch<SetStateAction<Coordinate>>,
-    // setOrigin: Dispatch<SetStateAction<Coordinate>>,
-    setOrigin: any,
-    toURL: (param: Partial<ConvertedParams>) => string,
+    setOrigin: Dispatch<SetStateAction<Coordinate>>,
+    newPath: (param: Partial<ConvertedParams>) => string,
     history: any,
     setDragState: Dispatch<SetStateAction<DragState>>,
     setClient: Dispatch<SetStateAction<Coordinate>>,
@@ -121,13 +124,15 @@ export const onDragEndHOF = (
     setTransform([0, 0]);
     setClient((client: Coordinate) => {
         if (!isNaN(client[0]) && !isNaN(client[1])) {
-            setOrigin((origin: any) => {
-                console.log(origin);
-                const ORIGIN = [
+            let ORIGIN;
+            setOrigin((origin: Coordinate) => {
+                ORIGIN = [
                     origin[0] + (_client[0] - client[0]),
                     origin[1] + (_client[1] - client[1])
                 ] as Coordinate;
-                history.push(toURL({ORIGIN}));
+                // history.push(newPath({ORIGIN}));
+                console.log('--------------');
+                return ORIGIN;
             });
         }
         return [NaN, NaN];
@@ -231,7 +236,7 @@ export function encodeParams(params: ConvertedParams): Params {
     };
 }
 
-export const paramsToURL = (params: Params) => (param: Partial<ConvertedParams>): string => {
+export const paramsToPath = (params: Params) => (param: Partial<ConvertedParams>): string => {
     const {
         ZOOM_INDEX,
         ORIGIN,
