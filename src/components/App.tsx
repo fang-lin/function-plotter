@@ -1,7 +1,7 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {Component, MutableRefObject, RefObject, useEffect, useRef, useState} from 'react';
 import debounce from 'lodash/debounce';
-import isEqual from 'lodash/isEqual';
-import {AppWrapper, GlobalStyle} from './AppWrapper';
+import flowRight from 'lodash/flowRight';
+import {AppWrapper} from './AppWrapper';
 import {PreloadImages} from './PreloadImages';
 import {Stage} from './Stage';
 import {StateBar} from './StateBar';
@@ -18,33 +18,24 @@ import {
     onDragEndHOF,
     onDraggingHOF,
     onDragStartHOF,
-    onMovingHOF,
-    Size, Equation, decodeParams, Params, paramsToPath
+    onMoving,
+    Size, Equation, decodeParams, Params, paramsToPath, getClient, DragEvents
 } from './App.function';
 import {EquationPanel} from './EquationPanel';
 import {EquationDialog} from './EquationDialog';
 import {InfoDialog} from './InfoDialog';
-import {useHistory, useParams} from "react-router";
-
-const ZOOM_INDEX = 8;
-const ORIGIN: Coordinate = [761, 36];
-const SHOW_COORDINATE = true;
-const EQUATIONS = [];
-const IS_BOLD = false;
-const SMOOTH = true;
-
-export const App = () => {
-    const appRef: any = useRef<HTMLDivElement>();
+import {RouteComponentProps, useHistory, useParams} from 'react-router-dom';
 
 
-    // const [usingRouter, setUsingRouter] = useState(false);
-    //
-    // if(usingRouter){
-    //     const {ZOOM_INDEX, ORIGIN, SHOW_COORDINATE, EQUATIONS, IS_BOLD, SMOOTH} = decodeParams(useParams<Params>());
-    // }
+let params: Params;
+let onDragStart: any;
+let onDragEnd: any;
 
-    // let {ZOOM_INDEX, ORIGIN, SHOW_COORDINATE, EQUATIONS, IS_BOLD, SMOOTH} = decodeParams(useParams<Params>());
-    const newPath = paramsToPath(useParams<Params>());
+export const App2 = () => {
+    const appRef: MutableRefObject<any> = useRef<HTMLDivElement>();
+
+    const {ZOOM_INDEX, ORIGIN, SHOW_COORDINATE, EQUATIONS, IS_BOLD, SMOOTH} = decodeParams(useParams<Params>());
+    params = useParams<Params>();
     const history = useHistory();
 
     const [dragState, setDragState] = useState<DragState>(DragState.end);
@@ -52,30 +43,9 @@ export const App = () => {
     const [transform, setTransform] = useState<Coordinate>([0, 0]);
     const [cursor, setCursor] = useState<Coordinate>([NaN, NaN]);
     const [size, setSize] = useState<Size>([0, 0]);
-    const [origin, setOrigin] = useState<Coordinate>(ORIGIN);
-    const [showCoordinate, setShowCoordinate] = useState<boolean>(SHOW_COORDINATE);
-    const [smooth, setSmooth] = useState<boolean>(SMOOTH);
-    const [isBold, setIsBold] = useState<boolean>(IS_BOLD);
     const [redrawing, setRedrawing] = useState<boolean>(false);
-    const [zoomIndex, setZoomIndex] = useState<number>(ZOOM_INDEX);
 
-    const [equations, setEquations] = useState<Equation[]>([{
-        fx: 'y = asd 3 jdsjdhg sdj hsd fjh ds7 8 234 56 @ # $ %^ & * asd 3 jdsjdhg sdj hsd fjh ds7 8 234 56 @ # $ %^ & * asd 3 jdsjdhg sdj hsd fjh ds7 8 234 56 @ # $ %^ & * ',
-        color: '#f90',
-        displayed: true
-    }, {
-        fx: 'Math.sin(x)',
-        color: '#009',
-        displayed: true
-    }, {
-        fx: 'Math.sin(x)',
-        color: '#859',
-        displayed: true
-    }, {
-        fx: 'Math.sin(x)',
-        color: '#899',
-        displayed: true
-    }]);
+    const [equations, setEquations] = useState<Equation[]>();
 
     const equation = {fx: 'Math.sin(x)', color: '#062', displayed: true};
 
@@ -84,36 +54,63 @@ export const App = () => {
     const [expandEquationPanel, setExpandEquationPanel] = useState<boolean>(true);
 
     useEffect(() => {
-        const onDragging = onDraggingHOF(setTransform, setDragState, setClient);
-        const onDragStart = onDragStartHOF(setClient, setDragState, onDragging);
-        const onDragEnd = onDragEndHOF(setTransform, setOrigin, newPath, history, setDragState, setClient, onDragging);
-        const onMoving = onMovingHOF(setDragState, setCursor);
-
-        const onResizing = debounce(() => setSize(getStageSize(appRef.current)), 200);
-        const stageSize = getStageSize(appRef.current);
-
-        setSize(stageSize);
-
-        addEventListeners(onDragStart, onDragEnd, onMoving, onResizing);
-
+        const onMoving = flowRight([setCursor, getClient]);
+        if (SHOW_COORDINATE && dragState === DragState.end) {
+            window.addEventListener('mousemove', onMoving);
+        }
         return () => {
-            removeEventListeners(onDragStart, onDragEnd, onMoving, onResizing);
+            window.removeEventListener('mousemove', onMoving);
+        };
+
+    }, [SHOW_COORDINATE]);
+
+    useEffect(() => {
+        const toPath = paramsToPath(params);
+        const {ORIGIN} = decodeParams(params);
+        const onDragging = onDraggingHOF({setTransform, setDragState, setClient});
+        onDragStart = onDragStartHOF({setClient, setDragState, onDragging});
+        onDragEnd = onDragEndHOF({
+            setTransform,
+            ORIGIN,
+            toPath,
+            history,
+            setDragState,
+            setClient,
+            onDragging
+        });
+
+    }, [ZOOM_INDEX, ORIGIN]);
+
+
+    useEffect(() => {
+        addEventListeners({onDragStart, onDragEnd});
+        return () => {
+            removeEventListeners({onDragStart, onDragEnd});
         };
     }, []);
 
-    useEffect(() => setZoomIndex(ZOOM_INDEX), [ZOOM_INDEX]);
+
     useEffect(() => {
-        setOrigin(origin => isEqual(origin, ORIGIN) ? origin : ORIGIN);
-    }, [ORIGIN]);
-    useEffect(() => setSmooth(SMOOTH), [SMOOTH]);
-    useEffect(() => setShowCoordinate(SHOW_COORDINATE), [SHOW_COORDINATE]);
-    useEffect(() => setIsBold(IS_BOLD), [IS_BOLD]);
+        const resetSize = () => setSize(getStageSize(appRef.current));
+        resetSize();
+        window.addEventListener('resize', debounce(resetSize, 200));
+    }, []);
+
+    useEffect(() => {
+        const onResizing = debounce(() => setSize(getStageSize(appRef.current)), 200);
+
+        window.addEventListener('resize', onResizing);
+
+        return () => {
+            window.removeEventListener('resize', onResizing);
+        };
+    }, []);
 
     return <AppWrapper {...{dragState}} ref={appRef}>
         <PreloadImages/>
-        <Stage {...{size, transform, zoomIndex, origin, setRedrawing, smooth, isBold}}/>
-        {showCoordinate && dragState === DragState.end && <CrossLine {...{cursor, size}}/>}
-        <StateBar  {...{origin, zoomIndex, cursor, redrawing}}/>
+        <Stage {...{size, transform, setRedrawing, SMOOTH, IS_BOLD, ZOOM_INDEX, ORIGIN}}/>
+        {SHOW_COORDINATE && <CrossLine {...{cursor, size}}/>}
+        <StateBar {...{ORIGIN, ZOOM_INDEX, cursor, redrawing}}/>
         <EquationPanel {...{
             equations,
             setEquations,
@@ -124,15 +121,189 @@ export const App = () => {
         }}/>
         <ViewPanel {...{
             getCenteredOrigin,
-            setOrigin,
             size
         }}/>
         <ZoomPanel/>
         <EquationDialog {...{equation, setEquations, equationDialogDisplay, setEquationDialogDisplay}}/>
         <InfoDialog {...{infoDialogDisplay, setInfoDialogDisplay}}/>
-        <GlobalStyle/>
     </AppWrapper>;
 };
+
+
+interface State {
+    dragState: DragState;
+    size: Size;
+    redrawing: boolean;
+    transform: Coordinate;
+    cursor: Coordinate;
+    equations: Equation[];
+    equation: any;
+    equationDialogDisplay: boolean;
+    expandEquationPanel: boolean;
+    infoDialogDisplay: boolean;
+    client: Coordinate;
+}
+
+
+export class App extends Component<RouteComponentProps & any, State> {
+    private readonly appRef: RefObject<HTMLDivElement>;
+
+    constructor(props: any) {
+        super(props);
+
+        console.log(props);
+
+        this.appRef = React.createRef();
+
+        const {ZOOM_INDEX, ORIGIN, SHOW_COORDINATE, EQUATIONS, IS_BOLD, SMOOTH} = decodeParams(props.match.params);
+
+        this.state = {
+            dragState: DragState.end,
+            size: [0, 0],
+            redrawing: false,
+            transform: [0, 0],
+            cursor: [0, 0],
+            equation: {fx: 'Math.sin(x)', color: '#062', displayed: true},
+            equationDialogDisplay: false,
+            expandEquationPanel: false,
+            infoDialogDisplay: false,
+            equations: [{
+                fx: 'y = asd 3 jdsjdhg sdj hsd fjh ds7 8 234 56 @ # $ %^ & * asd 3 jdsjdhg sdj hsd fjh ds7 8 234 56 @ # $ %^ & * asd 3 jdsjdhg sdj hsd fjh ds7 8 234 56 @ # $ %^ & * ',
+                color: '#f90',
+                displayed: true
+            }, {
+                fx: 'Math.sin(x)',
+                color: '#009',
+                displayed: true
+            }, {
+                fx: 'Math.sin(x)',
+                color: '#859',
+                displayed: true
+            }, {
+                fx: 'Math.sin(x)',
+                color: '#899',
+                displayed: true
+            }],
+            client: [0, 0]
+        };
+    }
+
+
+    resetSize = () => this.setState({
+        size: (getStageSize(this.appRef.current))
+    });
+
+    setCursor = (cursor: Coordinate) => this.setState({cursor});
+
+    setEquations = () => {
+
+    };
+
+    setEquationDialogDisplay = (equationDialogDisplay: boolean) => this.setState({
+        equationDialogDisplay
+    });
+
+    setExpandEquationPanel = (expandEquationPanel: boolean) => this.setState({
+        expandEquationPanel
+    });
+
+    setInfoDialogDisplay = (infoDialogDisplay: boolean) => this.setState({
+        infoDialogDisplay
+    });
+
+    setRedrawing = (redrawing: boolean) => {
+        this.setState({redrawing});
+    };
+
+    onResizing = debounce(this.resetSize, 200);
+    onMoving = (event: any) => this.setCursor(getClient(event));
+
+    onDragStart = (event: any) => {
+        this.setState({
+            client: getClient(event),
+            dragState: DragState.start
+        });
+        window.addEventListener(DragEvents[DragState.moving], this.onDragging);
+    };
+
+    onDragging = (event: any) => {
+        const _client = getClient(event);
+        const {client} = this.state;
+
+        this.setState({
+            transform: [_client[0] - client[0], _client[1] - client[1]],
+            dragState: DragState.moving
+        });
+    };
+    onDragEnd = (event: any) => {
+        window.removeEventListener(DragEvents[DragState.moving], this.onDragging);
+        const _client = getClient(event);
+
+
+        this.setState({
+            transform: [0, 0],
+            dragState: DragState.end,
+            client: [0, 0]
+        });
+
+        const params: Params = decodeParams(this.props.match.params);
+        const {ORIGIN} = decodeParams(this.props.match.params);
+
+        this.props.history.push(paramsToPath(params, {
+            ORIGIN: [
+                ORIGIN[0] + _client[0] - this.state.client[0],
+                ORIGIN[1] + _client[1] - this.state.client[1]
+            ]
+        }));
+
+    };
+
+    componentDidMount() {
+        this.resetSize();
+        window.addEventListener('resize', this.onResizing);
+        window.addEventListener('resize', this.onDragStart);
+        window.addEventListener('resize', this.onDragEnd);
+
+        const {SHOW_COORDINATE} = decodeParams(this.props.match.params);
+        if (SHOW_COORDINATE && this.state.dragState === DragState.end) {
+            window.addEventListener('mousemove', this.onMoving);
+        }
+    }
+
+
+    componentWillUnmount() {
+        window.removeEventListener('resize', this.onResizing);
+        window.removeEventListener('mousemove', this.onMoving);
+    }
+
+    render() {
+        const {ZOOM_INDEX, ORIGIN, SHOW_COORDINATE, EQUATIONS, IS_BOLD, SMOOTH} = decodeParams(this.props.match.params);
+        const {dragState, size, transform, cursor, redrawing, equations, equationDialogDisplay, expandEquationPanel, equation, infoDialogDisplay} = this.state;
+        const {setRedrawing, setEquations, setEquationDialogDisplay, setExpandEquationPanel, setInfoDialogDisplay} = this;
+
+        return <AppWrapper {...{dragState}} ref={this.appRef}>
+            <PreloadImages/>
+            <Stage {...{size, transform, setRedrawing, SMOOTH, IS_BOLD, ZOOM_INDEX, ORIGIN}}/>
+            {SHOW_COORDINATE && <CrossLine {...{cursor, size}}/>}
+            <StateBar {...{ORIGIN, ZOOM_INDEX, cursor, redrawing}}/>
+            <EquationPanel {...{
+                equations,
+                setEquations,
+                setEquationDialogDisplay,
+                expandEquationPanel,
+                setExpandEquationPanel,
+                setInfoDialogDisplay
+            }}/>
+            <ViewPanel {...{
+                getCenteredOrigin,
+                size
+            }}/>
+            <ZoomPanel/>
+            <EquationDialog {...{equation, setEquations, equationDialogDisplay, setEquationDialogDisplay}}/>
+            <InfoDialog {...{infoDialogDisplay, setInfoDialogDisplay}}/>
+        </AppWrapper>;
+    }
+}
 
 
 

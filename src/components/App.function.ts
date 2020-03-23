@@ -1,5 +1,8 @@
 import {Dispatch, DOMAttributes, SetStateAction, SyntheticEvent} from 'react';
+import {History} from 'history';
 import range from 'lodash/range';
+import moment from 'moment';
+import {useParams} from "react-router";
 
 export type Coordinate = [number, number];
 export type Size = [number, number];
@@ -73,7 +76,7 @@ export const JSXDragEvents: Record<DragState, keyof DOMAttributes<any>> = isMobi
 };
 
 
-export const getStageSize = (content: Element): Size => {
+export const getStageSize = (content: Element | null): Size => {
     if (content) {
         const {width, height} = content.getBoundingClientRect();
         return [width, height];
@@ -86,9 +89,11 @@ export const getCenteredOrigin = (size: Size): Coordinate => {
 };
 
 export const onDragStartHOF = (
-    setClient: Dispatch<SetStateAction<Coordinate>>,
-    setDragState: Dispatch<SetStateAction<DragState>>,
-    onDragging: (event: DragEvent) => void
+    {setClient, setDragState, onDragging}: {
+        setClient: Dispatch<SetStateAction<Coordinate>>,
+        setDragState: Dispatch<SetStateAction<DragState>>,
+        onDragging: (event: DragEvent) => void
+    }
 ) => (event: DragEvent): void => {
     setDragState(DragState.start);
     setClient(getClient(event));
@@ -96,9 +101,11 @@ export const onDragStartHOF = (
 };
 
 export const onDraggingHOF = (
-    setTransform: Dispatch<SetStateAction<Coordinate>>,
-    setDragState: Dispatch<SetStateAction<DragState>>,
-    setClient: Dispatch<SetStateAction<Coordinate>>
+    {setTransform, setDragState, setClient}: {
+        setTransform: Dispatch<SetStateAction<Coordinate>>,
+        setDragState: Dispatch<SetStateAction<DragState>>,
+        setClient: Dispatch<SetStateAction<Coordinate>>
+    }
 ) => (event: DragEvent): void => {
     const _client = getClient(event);
     setClient((client: Coordinate) => {
@@ -108,72 +115,91 @@ export const onDraggingHOF = (
     setDragState(DragState.moving);
 };
 
-let xxx: any;
-
 export const onDragEndHOF = (
-    setTransform: Dispatch<SetStateAction<Coordinate>>,
-    setOrigin: Dispatch<SetStateAction<Coordinate>>,
-    newPath: (param: Partial<ConvertedParams>) => string,
-    history: any,
-    setDragState: Dispatch<SetStateAction<DragState>>,
-    setClient: Dispatch<SetStateAction<Coordinate>>,
-    onDragging: (event: DragEvent) => void
+    {setTransform, ORIGIN, toPath, history, setDragState, setClient, onDragging}: {
+        setTransform: Dispatch<SetStateAction<Coordinate>>,
+        // setOrigin: Dispatch<SetStateAction<Coordinate>>,
+        ORIGIN: Coordinate,
+        toPath: (param: Partial<ConvertedParams>) => string,
+        history: History,
+        setDragState: Dispatch<SetStateAction<DragState>>,
+        setClient: Dispatch<SetStateAction<Coordinate>>,
+        onDragging: (event: DragEvent) => void
+    }
 ) => (event: DragEvent): void => {
     window.removeEventListener(DragEvents[DragState.moving], onDragging);
     const _client = getClient(event);
     setTransform([0, 0]);
+    setDragState(DragState.end);
+
+    // console.log('ORIGIN', ORIGIN);
+
     setClient((client: Coordinate) => {
-        if (!isNaN(client[0]) && !isNaN(client[1])) {
-            let ORIGIN;
-            setOrigin((origin: Coordinate) => {
-                ORIGIN = [
-                    origin[0] + (_client[0] - client[0]),
-                    origin[1] + (_client[1] - client[1])
-                ] as Coordinate;
-                // history.push(newPath({ORIGIN}));
-                console.log('--------------');
-                return ORIGIN;
-            });
-        }
+        history.push(toPath({
+            ORIGIN: [
+                ORIGIN[0] + _client[0] - client[0],
+                ORIGIN[1] + _client[1] - client[1]
+            ]
+        }));
         return [NaN, NaN];
     });
-    setDragState(DragState.end);
+
+
+    // setClient((client: Coordinate) => {
+    //     if (!isNaN(client[0]) && !isNaN(client[1])) {
+    //         // ORIGIN =  as Coordinate;
+    //         // history.push(toPath({
+    //         //     ORIGIN: [
+    //         //         ORIGIN[0] + (_client[0] - client[0]),
+    //         //         ORIGIN[1] + (_client[1] - client[1])
+    //         //     ]
+    //         // }));
+    //
+    //         // console.log('--------------');
+    //         // return [NaN, NaN];
+    //         // return ORIGIN;
+    //
+    //         // let ORIGIN;
+    //         // setOrigin((origin: Coordinate) => {
+    //         //     ORIGIN = [
+    //         //         origin[0] + (_client[0] - client[0]),
+    //         //         origin[1] + (_client[1] - client[1])
+    //         //     ] as Coordinate;
+    //         //     // history.push(toPath({ORIGIN}));
+    //         //     // console.log('--------------');
+    //         //     // return [NaN, NaN];
+    //         //     return ORIGIN;
+    //         // });
+    //     }
+    //     return [NaN, NaN];
+    // });
 };
 
-export const onMovingHOF = (
-    setDragState: Dispatch<SetStateAction<DragState>>,
+export const onMoving = (
     setCursor: Dispatch<SetStateAction<Coordinate>>
 ) => (event: MouseEvent) => {
-    setDragState((dragState: DragState) => {
-        if (dragState === DragState.end) {
-            setCursor(getClient(event));
-        }
-        return dragState;
-    });
+    setCursor(getClient(event));
 };
 
 export const addEventListeners = (
-    onDragStart: (event: DragEvent) => void,
-    onDragEnd: (event: DragEvent) => void,
-    onMoving: (event: MouseEvent) => void,
-    onResizing: () => void
+    {onDragStart, onDragEnd}: {
+        onDragStart: (event: DragEvent) => void,
+        onDragEnd: (event: DragEvent) => void,
+    }
 ): void => {
     window.addEventListener(DragEvents[DragState.start], onDragStart);
     window.addEventListener(DragEvents[DragState.end], onDragEnd);
-    window.addEventListener('mousemove', onMoving);
-    window.addEventListener('resize', onResizing);
 };
 
 export const removeEventListeners = (
-    onDragStart: (event: DragEvent) => void,
-    onDragEnd: (event: DragEvent) => void,
-    onMoving: (event: MouseEvent) => void,
-    onResizing: () => void
+    {onDragStart, onDragEnd}: {
+        onDragStart: (event: DragEvent) => void,
+        onDragEnd: (event: DragEvent) => void,
+    }
 ): void => {
     window.removeEventListener(DragEvents[DragState.start], onDragStart);
     window.removeEventListener(DragEvents[DragState.end], onDragEnd);
-    window.removeEventListener('mousemove', onMoving);
-    window.removeEventListener('resize', onResizing);
+
 };
 
 export const stopPropagation = {
@@ -203,6 +229,7 @@ export interface ConvertedParams {
 }
 
 export function decodeParams(params: Params): ConvertedParams {
+    console.log(moment().format(), 'decodeParams', params);
     const ZOOM_INDEX = normalizeZoomIndex(parseInt(params.ZOOM_INDEX));
     const ORIGIN = params.ORIGIN.split('+').map<number>(parseFloat) as Coordinate;
 
@@ -222,7 +249,7 @@ export function decodeParams(params: Params): ConvertedParams {
 export function encodeParams(params: ConvertedParams): Params {
     const ZOOM_INDEX = params.ZOOM_INDEX.toString();
     const ORIGIN = params.ORIGIN.join('+');
-
+    console.log('ZOOM_INDEX', ZOOM_INDEX);
     const SHOW_COORDINATE = params.SHOW_COORDINATE ? 'on' : 'off';
     const SMOOTH = params.SMOOTH ? 'on' : 'off';
     const IS_BOLD = params.IS_BOLD ? 'on' : 'off';
@@ -236,7 +263,7 @@ export function encodeParams(params: ConvertedParams): Params {
     };
 }
 
-export const paramsToPath = (params: Params) => (param: Partial<ConvertedParams>): string => {
+export const paramsToPath = (params: Params, param: Partial<ConvertedParams>): string => {
     const {
         ZOOM_INDEX,
         ORIGIN,

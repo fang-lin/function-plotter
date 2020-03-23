@@ -1,12 +1,12 @@
 import React from 'react';
 import {ZoomInButton, ZoomLevelButton, ZoomOutButton, ZoomPanelWrapper} from './ZoomPanel.style';
-import {useHistory, useParams, Link} from 'react-router-dom';
+import {useHistory, useParams} from 'react-router-dom';
 import {decodeParams, normalizeZoomIndex, Params, paramsToPath, stopPropagation} from './App.function';
 
 export const ZoomPanel = () => {
     const {ZOOM_INDEX} = decodeParams(useParams<Params>());
     const history = useHistory();
-    const toURL = paramsToPath(useParams<Params>());
+    const toPath = paramsToPath(useParams<Params>());
 
     return (
         <ZoomPanelWrapper>
@@ -14,13 +14,13 @@ export const ZoomPanel = () => {
                 title="Zoom In"
                 {...stopPropagation}
                 onClick={() =>
-                    history.push(toURL({ZOOM_INDEX: normalizeZoomIndex(ZOOM_INDEX, 1)}))
+                    history.push(toPath({ZOOM_INDEX: normalizeZoomIndex(ZOOM_INDEX, 1)}))
                 }>Zoom In</ZoomInButton>
             <ZoomOutButton
                 title="Zoom Out"
                 {...stopPropagation}
                 onClick={() =>
-                    history.push(toURL({ZOOM_INDEX: normalizeZoomIndex(ZOOM_INDEX, -1)}))
+                    history.push(toPath({ZOOM_INDEX: normalizeZoomIndex(ZOOM_INDEX, -1)}))
                 }>Zoom Out</ZoomOutButton>
             <ZoomLevelButton zoomIndex={ZOOM_INDEX} title={`x${ZOOM_INDEX}`}>{`x${ZOOM_INDEX}`}</ZoomLevelButton>
         </ZoomPanelWrapper>

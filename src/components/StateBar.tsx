@@ -8,16 +8,16 @@ const getCoordinate = (offset: number, zoomLevel: number): string => {
 };
 
 export interface StateBarProps {
-    origin: Coordinate;
-    zoomIndex: number;
+    ORIGIN: Coordinate;
+    ZOOM_INDEX: number;
     cursor: Coordinate;
     redrawing: boolean;
 }
 
 export const StateBar = (props: StateBarProps) => {
-    const {origin, zoomIndex, cursor, redrawing} = props;
-    const x = getCoordinate(cursor[0] - origin[0], zoomIndex);
-    const y = getCoordinate(origin[1] - cursor[1], zoomIndex);
+    const {ORIGIN, ZOOM_INDEX, cursor, redrawing} = props;
+    const x = getCoordinate(cursor[0] - ORIGIN[0], ZOOM_INDEX);
+    const y = getCoordinate(ORIGIN[1] - cursor[1], ZOOM_INDEX);
     return (<StateBarWrapper>
         <AppTitle><a href="/">Function Diagram {version}</a></AppTitle>
         <CoordinateLabel>x: {x}, y: {y}</CoordinateLabel>
