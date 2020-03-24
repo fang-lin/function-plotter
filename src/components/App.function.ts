@@ -1,8 +1,7 @@
 import {Dispatch, DOMAttributes, SetStateAction, SyntheticEvent} from 'react';
 import {History} from 'history';
 import range from 'lodash/range';
-import moment from 'moment';
-import {useParams} from "react-router";
+import isUndefined from 'lodash/isUndefined';
 
 export type Coordinate = [number, number];
 export type Size = [number, number];
@@ -132,8 +131,6 @@ export const onDragEndHOF = (
     setTransform([0, 0]);
     setDragState(DragState.end);
 
-    // console.log('ORIGIN', ORIGIN);
-
     setClient((client: Coordinate) => {
         history.push(toPath({
             ORIGIN: [
@@ -143,36 +140,6 @@ export const onDragEndHOF = (
         }));
         return [NaN, NaN];
     });
-
-
-    // setClient((client: Coordinate) => {
-    //     if (!isNaN(client[0]) && !isNaN(client[1])) {
-    //         // ORIGIN =  as Coordinate;
-    //         // history.push(toPath({
-    //         //     ORIGIN: [
-    //         //         ORIGIN[0] + (_client[0] - client[0]),
-    //         //         ORIGIN[1] + (_client[1] - client[1])
-    //         //     ]
-    //         // }));
-    //
-    //         // console.log('--------------');
-    //         // return [NaN, NaN];
-    //         // return ORIGIN;
-    //
-    //         // let ORIGIN;
-    //         // setOrigin((origin: Coordinate) => {
-    //         //     ORIGIN = [
-    //         //         origin[0] + (_client[0] - client[0]),
-    //         //         origin[1] + (_client[1] - client[1])
-    //         //     ] as Coordinate;
-    //         //     // history.push(toPath({ORIGIN}));
-    //         //     // console.log('--------------');
-    //         //     // return [NaN, NaN];
-    //         //     return ORIGIN;
-    //         // });
-    //     }
-    //     return [NaN, NaN];
-    // });
 };
 
 export const onMoving = (
@@ -209,16 +176,6 @@ export const stopPropagation = {
     onClick: (event: SyntheticEvent) => event.stopPropagation()
 };
 
-
-export interface Params {
-    ZOOM_INDEX: string;
-    ORIGIN: string;
-    SHOW_COORDINATE: string;
-    SMOOTH: string;
-    IS_BOLD: string;
-    EQUATIONS: string;
-}
-
 export interface ConvertedParams {
     ZOOM_INDEX: number;
     ORIGIN: Coordinate;
@@ -226,57 +183,96 @@ export interface ConvertedParams {
     SMOOTH: boolean;
     IS_BOLD: boolean;
     EQUATIONS: Equation[];
+    EQUATION_DIALOG_DISPLAY: boolean;
+    EXPAND_EQUATION_PANEL: boolean;
+    INFO_DIALOG_DISPLAY: boolean;
 }
 
-export function decodeParams(params: Params): ConvertedParams {
-    console.log(moment().format(), 'decodeParams', params);
-    const ZOOM_INDEX = normalizeZoomIndex(parseInt(params.ZOOM_INDEX));
-    const ORIGIN = params.ORIGIN.split('+').map<number>(parseFloat) as Coordinate;
-
-    const SHOW_COORDINATE = params.SHOW_COORDINATE === 'on';
-    const SMOOTH = params.SMOOTH === 'on';
-    const IS_BOLD = params.IS_BOLD === 'on';
-    return {
-        ZOOM_INDEX,
-        ORIGIN,
-        SHOW_COORDINATE,
-        SMOOTH,
-        IS_BOLD,
-        EQUATIONS: []
-    };
+export type PathParams = {
+    [key in keyof ConvertedParams]: string;
 }
 
-export function encodeParams(params: ConvertedParams): Params {
-    const ZOOM_INDEX = params.ZOOM_INDEX.toString();
-    const ORIGIN = params.ORIGIN.join('+');
-    console.log('ZOOM_INDEX', ZOOM_INDEX);
-    const SHOW_COORDINATE = params.SHOW_COORDINATE ? 'on' : 'off';
-    const SMOOTH = params.SMOOTH ? 'on' : 'off';
-    const IS_BOLD = params.IS_BOLD ? 'on' : 'off';
-    return {
-        ZOOM_INDEX,
-        ORIGIN,
-        SHOW_COORDINATE,
-        SMOOTH,
-        IS_BOLD,
-        EQUATIONS: '---'
-    };
-}
-
-export const paramsToPath = (params: Params, param: Partial<ConvertedParams>): string => {
+export function decodeParams(params: PathParams): ConvertedParams {
     const {
         ZOOM_INDEX,
         ORIGIN,
         SHOW_COORDINATE,
         SMOOTH,
         IS_BOLD,
-        EQUATIONS
-    } = encodeParams({...decodeParams(params), ...param});
-    return `/${ZOOM_INDEX}/${ORIGIN}/${SHOW_COORDINATE}/${SMOOTH}/${IS_BOLD}/${EQUATIONS}`;
-};
+        EQUATION_DIALOG_DISPLAY,
+        EXPAND_EQUATION_PANEL,
+        INFO_DIALOG_DISPLAY
+    } = params;
+
+    return {
+        ZOOM_INDEX: normalizeZoomIndex(parseInt(ZOOM_INDEX)),
+        ORIGIN: ORIGIN.split('+').map<number>(parseFloat) as Coordinate,
+        SHOW_COORDINATE: SHOW_COORDINATE === '+',
+        SMOOTH: SMOOTH === '+',
+        IS_BOLD: IS_BOLD === '+',
+        EQUATIONS: [],
+        EQUATION_DIALOG_DISPLAY: EQUATION_DIALOG_DISPLAY === '+',
+        EXPAND_EQUATION_PANEL: EXPAND_EQUATION_PANEL === '+',
+        INFO_DIALOG_DISPLAY: INFO_DIALOG_DISPLAY === '+'
+    };
+}
+
+export function encodeParams(params: Partial<ConvertedParams>): Partial<PathParams> {
+    const returned: Partial<PathParams> = {};
+    const {
+        ZOOM_INDEX,
+        ORIGIN,
+        SHOW_COORDINATE,
+        SMOOTH,
+        IS_BOLD,
+        EQUATION_DIALOG_DISPLAY,
+        EXPAND_EQUATION_PANEL,
+        INFO_DIALOG_DISPLAY
+    } = params;
+    if (!isUndefined(ZOOM_INDEX)) {
+        returned.ZOOM_INDEX = ZOOM_INDEX.toString();
+    }
+    if (!isUndefined(ORIGIN)) {
+        returned.ORIGIN = ORIGIN.join('+');
+    }
+    if (!isUndefined(SHOW_COORDINATE)) {
+        returned.SHOW_COORDINATE = SHOW_COORDINATE ? '+' : '-';
+    }
+    if (!isUndefined(SMOOTH)) {
+        returned.SMOOTH = SMOOTH ? '+' : '-';
+    }
+    if (!isUndefined(IS_BOLD)) {
+        returned.IS_BOLD = IS_BOLD ? '+' : '-';
+    }
+    if (!isUndefined(EQUATION_DIALOG_DISPLAY)) {
+        returned.EQUATION_DIALOG_DISPLAY = EQUATION_DIALOG_DISPLAY ? '+' : '-';
+    }
+    if (!isUndefined(EXPAND_EQUATION_PANEL)) {
+        returned.EXPAND_EQUATION_PANEL = EXPAND_EQUATION_PANEL ? '+' : '-';
+    }
+    if (!isUndefined(INFO_DIALOG_DISPLAY)) {
+        returned.INFO_DIALOG_DISPLAY = INFO_DIALOG_DISPLAY ? '+' : '-';
+    }
+    return returned;
+}
+
+export function combineURL(params: ConvertedParams) {
+    const {
+        ZOOM_INDEX,
+        ORIGIN,
+        SHOW_COORDINATE,
+        SMOOTH,
+        IS_BOLD,
+        EQUATIONS,
+        EQUATION_DIALOG_DISPLAY,
+        EXPAND_EQUATION_PANEL,
+        INFO_DIALOG_DISPLAY
+    } = params;
+    return `/${ZOOM_INDEX}/${ORIGIN}/${SHOW_COORDINATE}/${SMOOTH}/${IS_BOLD}/${EQUATION_DIALOG_DISPLAY}/${EXPAND_EQUATION_PANEL}/${INFO_DIALOG_DISPLAY}/${EQUATIONS}`;
+}
 
 export function normalizeZoomIndex(zoomIndex: number, offset?: -1 | 1): number {
-    if (typeof offset === 'undefined') {
+    if (isUndefined(offset)) {
         return ZoomRange[zoomIndex] ? zoomIndex : 7;
     }
     return ZoomRange[zoomIndex + offset] ? zoomIndex + offset : zoomIndex;

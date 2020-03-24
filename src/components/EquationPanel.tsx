@@ -13,29 +13,26 @@ import {
     DisplayEquationButton,
     InfoButton
 } from './EquationPanel.style';
-import {clone, Equation, stopPropagation} from './App.function';
+import {clone, ConvertedParams, Equation, stopPropagation} from './App.function';
 import {AddButton} from './EquationPanel.style';
 import {Title} from './Base.style';
 
 export interface EquationPanelProps {
     equations: Equation[];
     setEquations: Dispatch<SetStateAction<Equation[]>>;
-    setEquationDialogDisplay: Dispatch<SetStateAction<boolean>>;
-    expandEquationPanel: boolean;
-    setExpandEquationPanel: Dispatch<SetStateAction<boolean>>;
-    setInfoDialogDisplay: Dispatch<SetStateAction<boolean>>;
+    pushToHistory: (params: Partial<ConvertedParams>) => void;
+    params: ConvertedParams;
 }
 
 export const EquationPanel = (props: EquationPanelProps) => {
     const {
         equations,
         setEquations,
-        setEquationDialogDisplay,
-        expandEquationPanel,
-        setExpandEquationPanel,
-        setInfoDialogDisplay
+        params,
+        pushToHistory
     } = props;
 
+    const {EXPAND_EQUATION_PANEL, INFO_DIALOG_DISPLAY, EQUATION_DIALOG_DISPLAY} = params;
 
     const toggleEquationDisplayed = (index: number) => () => {
         setEquations((equations) => {
@@ -51,12 +48,12 @@ export const EquationPanel = (props: EquationPanelProps) => {
         })
     };
 
-    return <EquationPanelWrapper  {...stopPropagation} displayEquationPanel={expandEquationPanel}>
+    return <EquationPanelWrapper  {...stopPropagation} displayEquationPanel={EXPAND_EQUATION_PANEL}>
         <EquationPanelTitleBar>
             <Title>Equations</Title>
             <ButtonWrapper>
-                <InfoButton onClick={() => setInfoDialogDisplay(true)}>Info</InfoButton>
-                <AddButton onClick={() => setEquationDialogDisplay(true)}>Add</AddButton>
+                <InfoButton onClick={() => pushToHistory({INFO_DIALOG_DISPLAY: true})}>Info</InfoButton>
+                <AddButton onClick={() => pushToHistory({EQUATION_DIALOG_DISPLAY: true})}>Add</AddButton>
             </ButtonWrapper>
         </EquationPanelTitleBar>
         <EquationPanelInner>
@@ -74,7 +71,7 @@ export const EquationPanel = (props: EquationPanelProps) => {
                 })
             }</EquationsList>
         </EquationPanelInner>
-        <ExpandToggle expandEquationPanel={expandEquationPanel}
-                      onClick={() => setExpandEquationPanel(_ => !_)}/>
+        <ExpandToggle expandEquationPanel={EXPAND_EQUATION_PANEL}
+                      onClick={() => pushToHistory({EXPAND_EQUATION_PANEL: !EXPAND_EQUATION_PANEL})}/>
     </EquationPanelWrapper>;
 };

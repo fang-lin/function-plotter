@@ -11,9 +11,9 @@ if (dom) {
     render(<Router history={history}>
         <GlobalStyle/>
         <Switch>
-            <Route exact path="/:ZOOM_INDEX/:ORIGIN/:SHOW_COORDINATE/:SMOOTH/:IS_BOLD/:EQUATIONS" component={App}>
+            <Route exact path="/:ZOOM_INDEX/:ORIGIN/:SHOW_COORDINATE/:SMOOTH/:IS_BOLD/:EQUATION_DIALOG_DISPLAY/:EXPAND_EQUATION_PANEL/:INFO_DIALOG_DISPLAY/:EQUATIONS" component={App}>
             </Route>
-            <Redirect from="/" to="/8/960+340.5/off/on/off/equations"/>
+            <Redirect from="/" to="/8/NaN+NaN/-/+/+/-/+/-/equations"/>
         </Switch>
     </Router>, dom);
 }

@@ -4,24 +4,22 @@ import {
     StageWrapper,
     GridCanvas,
     AxisCanvas,
-    EquationCanvas, BackgroundCanvas
+    EquationCanvas,
+    BackgroundCanvas
 } from './Stage.style';
-import {Coordinate, deviceRatio, parseZoom, Size} from './App.function';
+import {ConvertedParams, Coordinate, deviceRatio, parseZoom, Size} from './App.function';
 import {drawEquation, erasure, redrawAxis, redrawGrid} from './Stage.function';
 
 interface StageProps {
     size: Size;
-    ORIGIN: Coordinate;
-    ZOOM_INDEX: number;
     transform: Coordinate;
-    SMOOTH: boolean;
-    IS_BOLD: boolean;
     setRedrawing: Dispatch<SetStateAction<boolean>>;
+    params: ConvertedParams;
 }
 
 export const Stage = (props: StageProps) => {
-
-    const {size, ORIGIN, ZOOM_INDEX, transform, setRedrawing, SMOOTH, IS_BOLD} = props;
+    const {size, transform, setRedrawing} = props;
+    const {ORIGIN, ZOOM_INDEX, SMOOTH, IS_BOLD} = props.params;
     const gridRef: any = useRef<HTMLCanvasElement>();
     const axisRef: any = useRef<HTMLCanvasElement>();
     const equationRefs: any[] = [
@@ -40,7 +38,6 @@ export const Stage = (props: StageProps) => {
     // const moving = {transform: `translate(${transform[0]}px, ${transform[1]}px)`};
 
     useEffect(() => {
-        console.log(props.ORIGIN, '=========', ORIGIN, size, ZOOM_INDEX, ZOOM_INDEX, IS_BOLD);
         redrawGrid(gridRef.current, ORIGIN, size, parseZoom(ZOOM_INDEX));
         redrawAxis(axisRef.current, ORIGIN, size);
 
