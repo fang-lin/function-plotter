@@ -1,6 +1,5 @@
 import {Dispatch, MouseEvent, SetStateAction} from "react";
 import {withCanvasContext} from "./Stage.function";
-import Color from 'color';
 import {deviceRatio, Size} from "./App.function";
 
 export const toHex = (n: number): string => n.toString(16);

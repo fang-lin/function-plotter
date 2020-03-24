@@ -277,3 +277,11 @@ export function normalizeZoomIndex(zoomIndex: number, offset?: -1 | 1): number {
     }
     return ZoomRange[zoomIndex + offset] ? zoomIndex + offset : zoomIndex;
 }
+
+export function utoa(data: string): string {
+    return window.btoa(unescape(encodeURIComponent(data)));
+}
+
+export function atou(data: string): string {
+    return decodeURIComponent(escape(window.atob(data)));
+}
