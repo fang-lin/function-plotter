@@ -13,7 +13,8 @@ import {
     DialogWrapper,
     TitleBar,
     Title
-} from "./Base.style";
+} from "./Dialog.style";
+import {Dialog} from "./Dialog";
 
 export interface EquationFormProps {
     equation: Equation;
@@ -26,20 +27,18 @@ export const EquationDialog = (props: EquationFormProps) => {
     const {EQUATION_DIALOG_DISPLAY} = params;
     const [equationColor, setEquationColor] = useState<string>(color);
 
-    return EQUATION_DIALOG_DISPLAY ?
-        <DialogBackground {...stopPropagation} onClick={() => pushToHistory({EQUATION_DIALOG_DISPLAY: false})}>
-            <DialogWrapper {...stopPropagation}>
-                <TitleBar>
-                    <Title>Add Equation</Title>
-                    <Close onClick={() => pushToHistory({EQUATION_DIALOG_DISPLAY: false})}/>
-                </TitleBar>
-                <DialogInner {...stopPropagation}>
-                    <EquationTextarea defaultValue={fx} style={{color: equationColor, borderColor: equationColor}}/>
-                    <Palette {...{equationColor, setEquationColor}}/>
-                    <ButtonWrapper>
-                        <AddButton>Add</AddButton>
-                    </ButtonWrapper>
-                </DialogInner>
-            </DialogWrapper>
-        </DialogBackground> : null;
+    return <Dialog show={EQUATION_DIALOG_DISPLAY} {...stopPropagation}
+                   onClick={() => pushToHistory({EQUATION_DIALOG_DISPLAY: false})}>
+        <TitleBar>
+            <Title>Add Equation</Title>
+            <Close onClick={() => pushToHistory({EQUATION_DIALOG_DISPLAY: false})}/>
+        </TitleBar>
+        <DialogInner {...stopPropagation}>
+            <EquationTextarea defaultValue={fx} style={{color: equationColor, borderColor: equationColor}}/>
+            <Palette {...{equationColor, setEquationColor}}/>
+            <ButtonWrapper>
+                <AddButton>Add</AddButton>
+            </ButtonWrapper>
+        </DialogInner>
+    </Dialog>;
 };

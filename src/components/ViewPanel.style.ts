@@ -13,7 +13,7 @@ import lightCurve from '../images/light-curve.png';
 import lightCurveHover from '../images/light-curve-hover.png';
 import boldCurve from '../images/bold-curve.png';
 import boldCurveHover from '../images/bold-curve-hover.png';
-import {LargeIconButton} from "./Base.style";
+import {LargeIconButton} from "./Dialog.style";
 
 export const ViewPanelWrapper = styled.div`
     position: absolute;

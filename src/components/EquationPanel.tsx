@@ -15,7 +15,7 @@ import {
 } from './EquationPanel.style';
 import {clone, ConvertedParams, Equation, stopPropagation} from './App.function';
 import {AddButton} from './EquationPanel.style';
-import {Title} from './Base.style';
+import {Title} from './Dialog.style';
 
 export interface EquationPanelProps {
     equations: Equation[];

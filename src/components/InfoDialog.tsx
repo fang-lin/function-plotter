@@ -8,7 +8,8 @@ import {
     DialogWrapper,
     TitleBar,
     Title
-} from "./Base.style";
+} from "./Dialog.style";
+import {Dialog} from "./Dialog";
 
 export interface InfoDialogProps {
     pushToHistory: (params: Partial<ConvertedParams>) => void;
@@ -18,17 +19,14 @@ export interface InfoDialogProps {
 export const InfoDialog = (props: InfoDialogProps) => {
     const {pushToHistory, params} = props;
     const {INFO_DIALOG_DISPLAY} = params;
-
-    return INFO_DIALOG_DISPLAY ?
-        <DialogBackground {...stopPropagation} onClick={() => pushToHistory({INFO_DIALOG_DISPLAY: false})}>
-            <DialogWrapper {...stopPropagation}>
-                <TitleBar>
-                    <Title>About Function Diagram {version}</Title>
-                    <Close onClick={() => pushToHistory({INFO_DIALOG_DISPLAY: false})}/>
-                </TitleBar>
-                <DialogInner {...stopPropagation}>
-                    Text
-                </DialogInner>
-            </DialogWrapper>
-        </DialogBackground> : null;
+    return <Dialog {...stopPropagation} show={INFO_DIALOG_DISPLAY}
+                   onClick={() => pushToHistory({INFO_DIALOG_DISPLAY: false})}>
+        <TitleBar>
+            <Title>About Function Diagram {version}</Title>
+            <Close onClick={() => pushToHistory({INFO_DIALOG_DISPLAY: false})}/>
+        </TitleBar>
+        <DialogInner {...stopPropagation}>
+            Text
+        </DialogInner>
+    </Dialog>;
 };

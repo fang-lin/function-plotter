@@ -13,7 +13,7 @@ import eyeOpened from '../images/eye-opened.png';
 import eyeClosed from '../images/eye-closed.png';
 import info from '../images/info.png';
 import infoHover from '../images/info-hover.png';
-import {SmallIconButton, TitleBar} from "./Base.style";
+import {SmallIconButton, TitleBar} from "./Dialog.style";
 
 const width = 320;
 
@@ -22,8 +22,11 @@ export const EquationPanelWrapper = styled.div<{
 }>`
     cursor: auto;
     position: absolute;
-    ${({displayEquationPanel}) => displayEquationPanel ? 'top: 0' : 'bottom: calc(100% - 24px)'};
-    right: ${({displayEquationPanel}) => displayEquationPanel ? 0 : 24 - width}px;
+    top: 0;
+    right: 0;
+    transition: all .5s cubic-bezier(0.4, 0, 0.2, 1);
+    ${({displayEquationPanel}) => displayEquationPanel ? '' : `
+    transform: translateX(100%) translateX(-24px) translateY(-100%) translateY(24px);`}
     width: ${width}px;
     padding: 20px 0 0 0;
     background: #eee;
@@ -31,7 +34,7 @@ export const EquationPanelWrapper = styled.div<{
     border-style: solid;
     border-color: #666;
     border-width: 0 0 1px 1px;
-    box-shadow: 0 5px 20px rgba(0,0,0,.7);
+    box-shadow: 0 5px 20px rgba(0, 0, 0, .7);
     overflow: hidden;
     background-color: #eee;
 `;
