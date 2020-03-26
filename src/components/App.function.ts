@@ -287,41 +287,10 @@ export function normalizeZoomIndex(zoomIndex: number, offset?: -1 | 1): number {
     return ZoomRange[zoomIndex + offset] ? zoomIndex + offset : zoomIndex;
 }
 
-
-function toBinary(code: string): string {
-    const codeUnits = new Uint16Array(code.length);
-    for (let i = 0; i < codeUnits.length; i++) {
-        codeUnits[i] = code.charCodeAt(i);
-    }
-    // @ts-ignore
-    return String.fromCharCode(...new Uint8Array(codeUnits.buffer));
-}
-
-function fromBinary(binary: string): string {
-    const bytes = new Uint8Array(binary.length);
-    for (let i = 0; i < bytes.length; i++) {
-        bytes[i] = binary.charCodeAt(i);
-    }
-    // @ts-ignore
-    return String.fromCharCode(...new Uint16Array(bytes.buffer));
-}
-
 export function utoa(code: string): string {
     return window.btoa(unescape(encodeURIComponent(code)));
 }
 
 export function atou(code: string): string {
     return decodeURIComponent(escape(window.atob(code)));
-}
-
-export function ifThen<T = any>(param: keyof T, then: string | FlattenSimpleInterpolation) {
-    return (props: T) => props[param] ? then : '';
-}
-
-export function elseThen<T = any>(param: keyof T, then: string | FlattenSimpleInterpolation) {
-    return (props: T) => props[param] ? '' : then;
-}
-
-export function ifElse<T = any>(param: keyof T, ifThen: string | FlattenSimpleInterpolation, elseThen: string | FlattenSimpleInterpolation) {
-    return (props: T) => props[param] ? ifThen : elseThen;
 }
