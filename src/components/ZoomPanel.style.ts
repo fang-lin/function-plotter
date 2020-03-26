@@ -52,19 +52,27 @@ export const ZoomPanelWrapper = styled.div`
     margin: -5px;
 `;
 
+export const ShadowWrapper = styled.div`
+    margin: 5px;
+    display: inline-block;
+    border-radius: 6px;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .3);
+`;
+
 export const ZoomInButton = styled(LargeIconButton)`
-    margin: 5px -1px 5px 5px;
     border-radius: 6px 0 0 6px;
+    margin-right: -1px;
     background-image: url(${ZoomIn});
+    box-shadow: none;
     :hover {
         background-image: url(${ZoomInHover});
     }
 `;
 
 export const ZoomOutButton = styled(LargeIconButton)`
-    margin: 5px 5px 5px 0;
     border-radius: 0 6px 6px 0;
     background-image: url(${ZoomOut});
+    box-shadow: none;
     :hover {
         background-image: url(${ZoomOutHover});
     }

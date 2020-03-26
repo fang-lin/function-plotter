@@ -24,9 +24,6 @@ export const EquationPanelWrapper = styled.div<{
     position: absolute;
     top: 0;
     right: 0;
-    transition: all .2s ease-in-out;
-    ${({displayEquationPanel}) => displayEquationPanel ? '' :
-    `transform: translateX(100%) translateX(-24px) translateY(-100%) translateY(24px);`}
     width: ${width}px;
     padding: 20px 0 0 0;
     background: #eee;
@@ -37,6 +34,9 @@ export const EquationPanelWrapper = styled.div<{
     box-shadow: 0 5px 20px rgba(0, 0, 0, .7);
     overflow: hidden;
     background-color: #eee;
+    transition: all .2s ease-in-out;
+    ${({displayEquationPanel}) => displayEquationPanel ? '' :
+    `transform: translateX(100%) translateX(-24px) translateY(-100%) translateY(24px);`}
 `;
 
 export const EquationPanelInner = styled.div`

@@ -17,7 +17,7 @@ export const erasure = (canvas: HTMLCanvasElement, size: Size): void => {
     });
 };
 
-export const redrawAxis = (canvas: HTMLCanvasElement, origin: Coordinate, size: Size): void => {
+export const redrawAxis = (canvas: HTMLCanvasElement, origin: Coordinate, size: Size, color: string = GRID_COLOR): void => {
     withCanvasContext(canvas, context => {
         erasure(canvas, size);
         context.beginPath();
@@ -26,7 +26,7 @@ export const redrawAxis = (canvas: HTMLCanvasElement, origin: Coordinate, size: 
         context.moveTo(Math.floor(origin[0] * deviceRatio) + 0.5, 0);
         context.lineTo(Math.floor(origin[0] * deviceRatio) + 0.5, size[1] * deviceRatio);
 
-        context.strokeStyle = GRID_COLOR;
+        context.strokeStyle = color;
         context.stroke();
     });
 };

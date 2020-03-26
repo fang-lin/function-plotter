@@ -25,6 +25,6 @@ export const Color = styled.a`
         width: 16px;
         height: 16px;
         margin: -3px;
-        box-shadow: 0 0 1px #000;
+        box-shadow: 0 3px 7px 1px rgba(0, 0, 0, .7);
     }
 `;

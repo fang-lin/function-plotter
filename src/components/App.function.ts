@@ -3,7 +3,6 @@ import {History} from 'history';
 import range from 'lodash/range';
 import isUndefined from 'lodash/isUndefined';
 import {Equations} from "../services/Equations";
-import {FlattenSimpleInterpolation} from "styled-components";
 
 export type Coordinate = [number, number];
 export type Size = [number, number];

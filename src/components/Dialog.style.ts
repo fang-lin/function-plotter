@@ -39,6 +39,14 @@ export const DialogWrapper = styled.div<{ appearance: boolean }>`
 
 export const DialogInner = styled.div`
     padding: 30px;
+    font-size: 12px;
+    line-height: 18px;
+    h3{
+        margin: 8px 0;
+    }
+    p{
+        margin: 8px 0;
+    }
 `;
 
 export const TitleBar = styled.div`
@@ -75,6 +83,7 @@ const BaseIconButton = styled.button`
     border: solid 1px #666;
     background-position: -1px -1px;
     background-color: #ccc;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .3);
     :hover{
         background-color: #666;
     }

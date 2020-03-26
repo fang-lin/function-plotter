@@ -37,7 +37,6 @@ export const Stage: FunctionComponent<StageProps> = (props) => {
         height: `${size[1]}px`,
         transform: `translate(${transform[0]}px, ${transform[1]}px)`
     };
-    // const moving = {transform: `translate(${transform[0]}px, ${transform[1]}px)`};
 
     useEffect(() => {
         redrawGrid(gridRef.current, origin, size, parseZoom(zoomIndex));
@@ -64,7 +63,7 @@ export const Stage: FunctionComponent<StageProps> = (props) => {
 
     useEffect(() => {
         if (showCrossCursor) {
-            redrawAxis(crossRef.current, cursor, size);
+            redrawAxis(crossRef.current, cursor, size, 'rgba(0, 0, 0, 0.3)');
         }
     }, [cursor, size]);
 
