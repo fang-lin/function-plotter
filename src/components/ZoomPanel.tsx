@@ -3,28 +3,28 @@ import {ZoomInButton, ZoomLevelButton, ZoomOutButton, ZoomPanelWrapper} from './
 import {
     normalizeZoomIndex,
     stopPropagation,
-    ConvertedParams
+    ParsedParams
 } from './App.function';
 
 export interface ZoomPanelProps {
-    params: ConvertedParams;
-    pushToHistory: (params: Partial<ConvertedParams>) => void;
+    params: ParsedParams;
+    pushToHistory: (params: Partial<ParsedParams>) => void;
 }
 
 export const ZoomPanel = (props: ZoomPanelProps) => {
     const {pushToHistory} = props;
-    const {ZOOM_INDEX} = props.params;
+    const {zoomIndex} = props.params;
     return (
         <ZoomPanelWrapper>
             <ZoomInButton
                 title="Zoom In"
                 {...stopPropagation}
-                onClick={() => pushToHistory({ZOOM_INDEX: normalizeZoomIndex(ZOOM_INDEX, 1)})}>Zoom In</ZoomInButton>
+                onClick={() => pushToHistory({zoomIndex: normalizeZoomIndex(zoomIndex, 1)})}>Zoom In</ZoomInButton>
             <ZoomOutButton
                 title="Zoom Out"
                 {...stopPropagation}
-                onClick={() => pushToHistory({ZOOM_INDEX: normalizeZoomIndex(ZOOM_INDEX, -1)})}>Zoom Out</ZoomOutButton>
-            <ZoomLevelButton zoomIndex={ZOOM_INDEX} title={`x${ZOOM_INDEX}`}>{`x${ZOOM_INDEX}`}</ZoomLevelButton>
+                onClick={() => pushToHistory({zoomIndex: normalizeZoomIndex(zoomIndex, -1)})}>Zoom Out</ZoomOutButton>
+            <ZoomLevelButton zoomIndex={zoomIndex} title={`x${zoomIndex}`}>{`x${zoomIndex}`}</ZoomLevelButton>
         </ZoomPanelWrapper>
     );
 };

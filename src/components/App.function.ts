@@ -2,15 +2,11 @@ import {Dispatch, DOMAttributes, SetStateAction, SyntheticEvent} from 'react';
 import {History} from 'history';
 import range from 'lodash/range';
 import isUndefined from 'lodash/isUndefined';
+import {Equations} from "../services/Equations";
+import {FlattenSimpleInterpolation} from "styled-components";
 
 export type Coordinate = [number, number];
 export type Size = [number, number];
-
-export interface Equation {
-    fx: string;
-    color: string;
-    displayed: boolean;
-}
 
 export const deviceRatio: number = (() => window.devicePixelRatio || 1)();
 export const ZoomUnit: number = 2 ** .5;
@@ -115,11 +111,11 @@ export const onDraggingHOF = (
 };
 
 export const onDragEndHOF = (
-    {setTransform, ORIGIN, toPath, history, setDragState, setClient, onDragging}: {
+    {setTransform, origin, toPath, history, setDragState, setClient, onDragging}: {
         setTransform: Dispatch<SetStateAction<Coordinate>>,
         // setOrigin: Dispatch<SetStateAction<Coordinate>>,
-        ORIGIN: Coordinate,
-        toPath: (param: Partial<ConvertedParams>) => string,
+        origin: Coordinate,
+        toPath: (param: Partial<ParsedParams>) => string,
         history: History,
         setDragState: Dispatch<SetStateAction<DragState>>,
         setClient: Dispatch<SetStateAction<Coordinate>>,
@@ -133,9 +129,9 @@ export const onDragEndHOF = (
 
     setClient((client: Coordinate) => {
         history.push(toPath({
-            ORIGIN: [
-                ORIGIN[0] + _client[0] - client[0],
-                ORIGIN[1] + _client[1] - client[1]
+            origin: [
+                origin[0] + _client[0] - client[0],
+                origin[1] + _client[1] - client[1]
             ]
         }));
         return [NaN, NaN];
@@ -171,104 +167,117 @@ export const removeEventListeners = (
 
 export const stopPropagation = {
     [JSXDragEvents[DragState.start]]: (event: Event) => event.stopPropagation(),
-    // [JSXDragEvents[DragState.moving]]: (event: Event) => event.stopPropagation(),
+    [JSXDragEvents[DragState.moving]]: (event: Event) => event.stopPropagation(),
     [JSXDragEvents[DragState.end]]: (event: Event) => event.stopPropagation(),
     onClick: (event: SyntheticEvent) => event.stopPropagation()
 };
 
-export interface ConvertedParams {
-    ZOOM_INDEX: number;
-    ORIGIN: Coordinate;
-    SHOW_COORDINATE: boolean;
-    SMOOTH: boolean;
-    IS_BOLD: boolean;
-    EQUATIONS: Equation[];
-    EQUATION_DIALOG_DISPLAY: boolean;
-    EXPAND_EQUATION_PANEL: boolean;
-    INFO_DIALOG_DISPLAY: boolean;
+export interface ParsedParams {
+    zoomIndex: number;
+    origin: Coordinate;
+    showCoordinate: boolean;
+    isSmooth: boolean;
+    isBold: boolean;
+    equations: Equations;
+    displayEquationDialog: boolean;
+    expandEquationPanel: boolean;
+    displayInfoDialog: boolean;
 }
 
-export type PathParams = {
-    [key in keyof ConvertedParams]: string;
+export type OriginalParams = {
+    [key in keyof ParsedParams]: string;
 }
 
-export function decodeParams(params: PathParams): ConvertedParams {
+export function parseParams(params: OriginalParams): ParsedParams {
     const {
-        ZOOM_INDEX,
-        ORIGIN,
-        SHOW_COORDINATE,
-        SMOOTH,
-        IS_BOLD,
-        EQUATION_DIALOG_DISPLAY,
-        EXPAND_EQUATION_PANEL,
-        INFO_DIALOG_DISPLAY
+        zoomIndex,
+        origin,
+        showCoordinate,
+        isSmooth,
+        isBold,
+        displayEquationDialog,
+        expandEquationPanel,
+        displayInfoDialog,
+        equations
     } = params;
 
     return {
-        ZOOM_INDEX: normalizeZoomIndex(parseInt(ZOOM_INDEX)),
-        ORIGIN: ORIGIN.split('+').map<number>(parseFloat) as Coordinate,
-        SHOW_COORDINATE: SHOW_COORDINATE === '+',
-        SMOOTH: SMOOTH === '+',
-        IS_BOLD: IS_BOLD === '+',
-        EQUATIONS: [],
-        EQUATION_DIALOG_DISPLAY: EQUATION_DIALOG_DISPLAY === '+',
-        EXPAND_EQUATION_PANEL: EXPAND_EQUATION_PANEL === '+',
-        INFO_DIALOG_DISPLAY: INFO_DIALOG_DISPLAY === '+'
+        zoomIndex: normalizeZoomIndex(parseInt(zoomIndex)),
+        origin: origin.split('+').map<number>(parseFloat) as Coordinate,
+        showCoordinate: parseToggle(showCoordinate),
+        isSmooth: parseToggle(isSmooth),
+        isBold: parseToggle(isBold),
+        equations: Equations.parse(equations),
+        displayEquationDialog: parseToggle(displayEquationDialog),
+        expandEquationPanel: parseToggle(expandEquationPanel),
+        displayInfoDialog: parseToggle(displayInfoDialog),
     };
 }
 
-export function encodeParams(params: Partial<ConvertedParams>): Partial<PathParams> {
-    const returned: Partial<PathParams> = {};
+export function stringifyParams(params: Partial<ParsedParams>): Partial<OriginalParams> {
+    const returned: Partial<OriginalParams> = {};
     const {
-        ZOOM_INDEX,
-        ORIGIN,
-        SHOW_COORDINATE,
-        SMOOTH,
-        IS_BOLD,
-        EQUATION_DIALOG_DISPLAY,
-        EXPAND_EQUATION_PANEL,
-        INFO_DIALOG_DISPLAY
+        zoomIndex,
+        origin,
+        showCoordinate,
+        isSmooth,
+        isBold,
+        displayEquationDialog,
+        expandEquationPanel,
+        displayInfoDialog,
+        equations
     } = params;
-    if (!isUndefined(ZOOM_INDEX)) {
-        returned.ZOOM_INDEX = ZOOM_INDEX.toString();
+    if (!isUndefined(zoomIndex)) {
+        returned.zoomIndex = zoomIndex.toString();
     }
-    if (!isUndefined(ORIGIN)) {
-        returned.ORIGIN = ORIGIN.join('+');
+    if (!isUndefined(origin)) {
+        returned.origin = origin.join('+');
     }
-    if (!isUndefined(SHOW_COORDINATE)) {
-        returned.SHOW_COORDINATE = SHOW_COORDINATE ? '+' : '-';
+    if (!isUndefined(showCoordinate)) {
+        returned.showCoordinate = stringifyToggle(showCoordinate);
     }
-    if (!isUndefined(SMOOTH)) {
-        returned.SMOOTH = SMOOTH ? '+' : '-';
+    if (!isUndefined(isSmooth)) {
+        returned.isSmooth = stringifyToggle(isSmooth);
     }
-    if (!isUndefined(IS_BOLD)) {
-        returned.IS_BOLD = IS_BOLD ? '+' : '-';
+    if (!isUndefined(isBold)) {
+        returned.isBold = stringifyToggle(isBold);
     }
-    if (!isUndefined(EQUATION_DIALOG_DISPLAY)) {
-        returned.EQUATION_DIALOG_DISPLAY = EQUATION_DIALOG_DISPLAY ? '+' : '-';
+    if (!isUndefined(displayEquationDialog)) {
+        returned.displayEquationDialog = stringifyToggle(displayEquationDialog);
     }
-    if (!isUndefined(EXPAND_EQUATION_PANEL)) {
-        returned.EXPAND_EQUATION_PANEL = EXPAND_EQUATION_PANEL ? '+' : '-';
+    if (!isUndefined(expandEquationPanel)) {
+        returned.expandEquationPanel = stringifyToggle(expandEquationPanel);
     }
-    if (!isUndefined(INFO_DIALOG_DISPLAY)) {
-        returned.INFO_DIALOG_DISPLAY = INFO_DIALOG_DISPLAY ? '+' : '-';
+    if (!isUndefined(displayInfoDialog)) {
+        returned.displayInfoDialog = stringifyToggle(displayInfoDialog);
+    }
+    if (!isUndefined(equations)) {
+        returned.equations = equations.stringify();
     }
     return returned;
 }
 
-export function combineURL(params: ConvertedParams) {
+export function parseToggle(toggle: string): boolean {
+    return toggle === '+';
+}
+
+export function stringifyToggle(toggle: boolean): string {
+    return toggle ? '+' : '-';
+}
+
+export function combineURL(params: ParsedParams) {
     const {
-        ZOOM_INDEX,
-        ORIGIN,
-        SHOW_COORDINATE,
-        SMOOTH,
-        IS_BOLD,
-        EQUATIONS,
-        EQUATION_DIALOG_DISPLAY,
-        EXPAND_EQUATION_PANEL,
-        INFO_DIALOG_DISPLAY
+        zoomIndex,
+        origin,
+        showCoordinate,
+        isSmooth,
+        isBold,
+        equations,
+        displayEquationDialog,
+        expandEquationPanel,
+        displayInfoDialog
     } = params;
-    return `/${ZOOM_INDEX}/${ORIGIN}/${SHOW_COORDINATE}/${SMOOTH}/${IS_BOLD}/${EQUATION_DIALOG_DISPLAY}/${EXPAND_EQUATION_PANEL}/${INFO_DIALOG_DISPLAY}/${EQUATIONS}`;
+    return `/${zoomIndex}/${origin}/${showCoordinate}/${isSmooth}/${isBold}/${displayEquationDialog}/${expandEquationPanel}/${displayInfoDialog}/${equations}`;
 }
 
 export function normalizeZoomIndex(zoomIndex: number, offset?: -1 | 1): number {
@@ -278,10 +287,41 @@ export function normalizeZoomIndex(zoomIndex: number, offset?: -1 | 1): number {
     return ZoomRange[zoomIndex + offset] ? zoomIndex + offset : zoomIndex;
 }
 
-export function utoa(data: string): string {
-    return window.btoa(unescape(encodeURIComponent(data)));
+
+function toBinary(code: string): string {
+    const codeUnits = new Uint16Array(code.length);
+    for (let i = 0; i < codeUnits.length; i++) {
+        codeUnits[i] = code.charCodeAt(i);
+    }
+    // @ts-ignore
+    return String.fromCharCode(...new Uint8Array(codeUnits.buffer));
 }
 
-export function atou(data: string): string {
-    return decodeURIComponent(escape(window.atob(data)));
+function fromBinary(binary: string): string {
+    const bytes = new Uint8Array(binary.length);
+    for (let i = 0; i < bytes.length; i++) {
+        bytes[i] = binary.charCodeAt(i);
+    }
+    // @ts-ignore
+    return String.fromCharCode(...new Uint16Array(bytes.buffer));
+}
+
+export function utoa(code: string): string {
+    return window.btoa(unescape(encodeURIComponent(code)));
+}
+
+export function atou(code: string): string {
+    return decodeURIComponent(escape(window.atob(code)));
+}
+
+export function ifThen<T = any>(param: keyof T, then: string | FlattenSimpleInterpolation) {
+    return (props: T) => props[param] ? then : '';
+}
+
+export function elseThen<T = any>(param: keyof T, then: string | FlattenSimpleInterpolation) {
+    return (props: T) => props[param] ? '' : then;
+}
+
+export function ifElse<T = any>(param: keyof T, ifThen: string | FlattenSimpleInterpolation, elseThen: string | FlattenSimpleInterpolation) {
+    return (props: T) => props[param] ? ifThen : elseThen;
 }

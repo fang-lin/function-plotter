@@ -25,8 +25,8 @@ export const EquationPanelWrapper = styled.div<{
     top: 0;
     right: 0;
     transition: all .5s cubic-bezier(0.4, 0, 0.2, 1);
-    ${({displayEquationPanel}) => displayEquationPanel ? '' : `
-    transform: translateX(100%) translateX(-24px) translateY(-100%) translateY(24px);`}
+    ${({displayEquationPanel}) => displayEquationPanel ? '' : 
+    `transform: translateX(100%) translateX(-24px) translateY(-100%) translateY(24px);`}
     width: ${width}px;
     padding: 20px 0 0 0;
     background: #eee;
@@ -144,8 +144,9 @@ export const EquationItem = styled.li`
         border-bottom: #666 solid 1px;
     }
 `;
-export const EquationText = styled.div`
+export const EquationText = styled.div<{ displayed: boolean; }>`
     flex: auto;
     font-size: 12px;
     padding: 15px;
+    ${({displayed}) => displayed ? '' : 'text-decoration:line-through;'}
 `;

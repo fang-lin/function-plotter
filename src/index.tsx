@@ -4,16 +4,21 @@ import {Redirect, Route, Router, Switch} from 'react-router';
 import {createBrowserHistory} from 'history';
 import {App} from './components/App';
 import {GlobalStyle} from "./components/AppWrapper";
+import {utoa} from "./components/App.function";
 
 const dom = document.getElementById('root');
 if (dom) {
     const history = createBrowserHistory();
+    const defaultURL = `/8/NaN+NaN/-/+/+/-/+/-/${utoa('y=sin(x),#080,+')}`;
+
     render(<Router history={history}>
         <GlobalStyle/>
         <Switch>
-            <Route exact path="/:ZOOM_INDEX/:ORIGIN/:SHOW_COORDINATE/:SMOOTH/:IS_BOLD/:EQUATION_DIALOG_DISPLAY/:EXPAND_EQUATION_PANEL/:INFO_DIALOG_DISPLAY/:EQUATIONS" component={App}>
+            <Route exact
+                   path="/:zoomIndex/:origin/:showCoordinate/:isSmooth/:isBold/:displayEquationDialog/:expandEquationPanel/:displayInfoDialog/:equations"
+                   component={App}>
             </Route>
-            <Redirect from="/" to="/8/NaN+NaN/-/+/+/-/+/-/equations"/>
+            <Redirect from="/" to={defaultURL}/>
         </Switch>
     </Router>, dom);
 }

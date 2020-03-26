@@ -41,9 +41,7 @@ const scaleOut = keyframes`
   }
 `;
 
-export const DialogBackground = styled.div<{
-    show?: boolean
-}>`
+export const DialogBackground = styled.div<{ show?: boolean }>`
     animation: ${fadeIn} .3s linear;
     position: absolute;
     display: flex;
@@ -57,9 +55,7 @@ export const DialogBackground = styled.div<{
     ${({show}) => show ? '' : css`animation: ${fadeOut} .3s linear;`}
 `;
 
-export const DialogWrapper = styled.div<{
-    show?: boolean
-}>`
+export const DialogWrapper = styled.div<{ show?: boolean }>`
     animation: ${scaleIn} .5s cubic-bezier(0.4, 0, 0.2, 1);
     padding: 20px 0 0 0;
     background: #eee;

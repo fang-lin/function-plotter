@@ -1,52 +1,52 @@
-import React, {Dispatch, SetStateAction} from 'react';
+import React from 'react';
 import {ViewPanelWrapper, CenteredButton, SmoothButton, CoordinateButton, WeightButton} from './ViewPanel.style';
 import {
     Coordinate,
     Size,
     stopPropagation,
-    ConvertedParams
+    ParsedParams
 } from './App.function';
 
 interface ViewPanelProps {
     getCenteredOrigin: (size: Size) => Coordinate;
     size: Size;
-    pushToHistory: (params: Partial<ConvertedParams>) => void;
-    params: ConvertedParams;
+    pushToHistory: (params: Partial<ParsedParams>) => void;
+    params: ParsedParams;
 }
 
 export const ViewPanel = (props: ViewPanelProps) => {
     const {getCenteredOrigin, size, pushToHistory, params} = props;
-    const {SMOOTH, IS_BOLD, SHOW_COORDINATE} = params;
-    const smoothText = `Smooth: ${SMOOTH ? 'On' : 'Off'}`;
-    const isBoldText = `Weight: ${IS_BOLD ? 'Bold' : 'Light'}`;
-    const coordinateText = `Coordinate: ${SHOW_COORDINATE ? 'On' : 'Off'}`;
+    const {isSmooth, isBold, showCoordinate} = params;
+    const smoothText = `Smooth: ${isSmooth ? 'On' : 'Off'}`;
+    const isBoldText = `Weight: ${isBold ? 'Bold' : 'Light'}`;
+    const coordinateText = `Coordinate: ${showCoordinate ? 'On' : 'Off'}`;
 
     return <ViewPanelWrapper>
         <CenteredButton
             title="Centered"
             {...stopPropagation}
-            onClick={() => pushToHistory({ORIGIN: getCenteredOrigin(size)})}>
+            onClick={() => pushToHistory({origin: getCenteredOrigin(size)})}>
             Centered
         </CenteredButton>
         <SmoothButton
-            isSmooth={SMOOTH}
+            isSmooth={isSmooth}
             title={smoothText}
             {...stopPropagation}
-            onClick={() => pushToHistory({SMOOTH: !SMOOTH})}>
+            onClick={() => pushToHistory({isSmooth: !isSmooth})}>
             {smoothText}
         </SmoothButton>
         <WeightButton
-            isBold={IS_BOLD}
+            isBold={isBold}
             title={isBoldText}
             {...stopPropagation}
-            onClick={() => pushToHistory({IS_BOLD: !IS_BOLD})}>
+            onClick={() => pushToHistory({isBold: !isBold})}>
             {isBoldText}
         </WeightButton>
         <CoordinateButton
-            showCoordinate={SHOW_COORDINATE}
+            showCoordinate={showCoordinate}
             title={coordinateText}
             {...stopPropagation}
-            onClick={() => pushToHistory({SHOW_COORDINATE: !SHOW_COORDINATE})}>
+            onClick={() => pushToHistory({showCoordinate: !showCoordinate})}>
             {coordinateText}
         </CoordinateButton>
     </ViewPanelWrapper>;

@@ -13,13 +13,12 @@ import {
     getCenteredOrigin,
     getStageSize,
     Size,
-    Equation,
-    decodeParams,
-    PathParams,
+    parseParams,
+    OriginalParams,
     getClient,
     DragEvents,
-    ConvertedParams,
-    encodeParams,
+    ParsedParams,
+    stringifyParams,
     combineURL,
     DragEvent
 } from './App.function';
@@ -34,12 +33,11 @@ interface State {
     redrawing: boolean;
     transform: Coordinate;
     cursor: Coordinate;
-    equations: Equation[];
-    equation: any;
+    editingEquationIndex: number;
     client: Coordinate;
 }
 
-export class App extends Component<RouteComponentProps<PathParams> & any, State> {
+export class App extends Component<RouteComponentProps<OriginalParams> & any, State> {
     private readonly appRef: RefObject<HTMLDivElement>;
 
     constructor(props: any) {
@@ -51,24 +49,7 @@ export class App extends Component<RouteComponentProps<PathParams> & any, State>
             redrawing: false,
             transform: [0, 0],
             cursor: [0, 0],
-            equation: {fx: 'Math.sin(x)', color: '#062', displayed: true},
-            equations: [{
-                fx: 'y = asd 3 jdsjdhg sdj hsd fjh ds7 8 234 56 @ # $ %^ & * asd 3 jdsjdhg sdj hsd fjh ds7 8 234 56 @ # $ %^ & * asd 3 jdsjdhg sdj hsd fjh ds7 8 234 56 @ # $ %^ & * ',
-                color: '#f90',
-                displayed: true
-            }, {
-                fx: 'Math.sin(x)',
-                color: '#009',
-                displayed: true
-            }, {
-                fx: 'Math.sin(x)',
-                color: '#859',
-                displayed: true
-            }, {
-                fx: 'Math.sin(x)',
-                color: '#899',
-                displayed: true
-            }],
+            editingEquationIndex: -1,
             client: [0, 0]
         };
     }
@@ -79,9 +60,7 @@ export class App extends Component<RouteComponentProps<PathParams> & any, State>
 
     setCursor = (cursor: Coordinate) => this.setState({cursor});
 
-    setEquations = () => {
-
-    };
+    setEditingEquationIndex = (editingEquationIndex: number) => this.setState({editingEquationIndex});
 
     setRedrawing = (redrawing: boolean) => {
         this.setState({redrawing});
@@ -91,7 +70,6 @@ export class App extends Component<RouteComponentProps<PathParams> & any, State>
     onMoving = (event: DragEvent) => this.setCursor(getClient(event));
 
     onDragStart = (event: DragEvent) => {
-        console.log('<<<<<');
         this.setState({
             client: getClient(event),
             dragState: DragState.start
@@ -112,12 +90,12 @@ export class App extends Component<RouteComponentProps<PathParams> & any, State>
 
     onDragEnd = (event: DragEvent) => {
         const _client = getClient(event);
-        const {ORIGIN} = decodeParams(this.props.match.params);
+        const {origin} = parseParams(this.props.match.params);
 
         this.pushToHistory({
-            ORIGIN: [
-                ORIGIN[0] + _client[0] - this.state.client[0],
-                ORIGIN[1] + _client[1] - this.state.client[1]
+            origin: [
+                origin[0] + _client[0] - this.state.client[0],
+                origin[1] + _client[1] - this.state.client[1]
             ]
         });
         this.setState({
@@ -129,8 +107,8 @@ export class App extends Component<RouteComponentProps<PathParams> & any, State>
         window.removeEventListener(DragEvents[DragState.end], this.onDragEnd);
     };
 
-    pushToHistory = (params: Partial<ConvertedParams>) => {
-        this.props.history.push(combineURL({...this.props.match.params, ...encodeParams(params)}));
+    pushToHistory = (params: Partial<ParsedParams>) => {
+        this.props.history.push(combineURL({...this.props.match.params, ...stringifyParams(params)}));
     };
 
     componentDidMount() {
@@ -139,14 +117,14 @@ export class App extends Component<RouteComponentProps<PathParams> & any, State>
         window.addEventListener(DragEvents[DragState.moving], this.onMoving);
         window.addEventListener(DragEvents[DragState.start], this.onDragStart);
 
-        const {SHOW_COORDINATE, ORIGIN} = decodeParams(this.props.match.params);
+        const {showCoordinate, origin} = parseParams(this.props.match.params);
 
-        if (SHOW_COORDINATE && this.state.dragState === DragState.end) {
+        if (showCoordinate && this.state.dragState === DragState.end) {
             window.addEventListener('mousemove', this.onMoving);
         }
 
-        if (isNaN(ORIGIN[0]) || isNaN(ORIGIN[1])) {
-            this.pushToHistory({ORIGIN: getCenteredOrigin(getStageSize(this.appRef.current))});
+        if (isNaN(origin[0]) || isNaN(origin[1])) {
+            this.pushToHistory({origin: getCenteredOrigin(getStageSize(this.appRef.current))});
         }
     }
 
@@ -154,24 +132,22 @@ export class App extends Component<RouteComponentProps<PathParams> & any, State>
         window.removeEventListener('resize', this.onResizing);
         window.removeEventListener(DragEvents[DragState.moving], this.onMoving);
         window.removeEventListener(DragEvents[DragState.start], this.onDragStart);
-        // window.removeEventListener(DragEvents[DragState.end], this.onDragEnd);
     }
 
     render() {
-        const params = decodeParams(this.props.match.params);
-        const {dragState, size, transform, cursor, redrawing, equations, equation} = this.state;
-        const {setRedrawing, setEquations, pushToHistory} = this;
+        const params = parseParams(this.props.match.params);
+        const {dragState, size, transform, cursor, redrawing, editingEquationIndex} = this.state;
+        const {setRedrawing, pushToHistory, setEditingEquationIndex} = this;
 
         return <AppWrapper {...{dragState}} ref={this.appRef}>
             <PreloadImages/>
             <Stage {...{size, transform, setRedrawing, params}}/>
-            {params.SHOW_COORDINATE && <CrossLine {...{cursor, size}}/>}
+            {params.showCoordinate && <CrossLine {...{cursor, size}}/>}
             <StateBar {...{params, cursor, redrawing}}/>
             <EquationPanel {...{
-                equations,
-                setEquations,
                 pushToHistory,
                 params,
+                setEditingEquationIndex
             }}/>
             <ViewPanel {...{
                 getCenteredOrigin,
@@ -183,7 +159,7 @@ export class App extends Component<RouteComponentProps<PathParams> & any, State>
                 pushToHistory,
                 params,
             }}/>
-            <EquationDialog {...{equation, setEquations, pushToHistory, params}}/>
+            <EquationDialog {...{editingEquationIndex, setEditingEquationIndex, pushToHistory, params}}/>
             <InfoDialog {...{pushToHistory, params}}/>
         </AppWrapper>;
     }

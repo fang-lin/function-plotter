@@ -1,16 +1,9 @@
 import React, {useEffect, useState} from 'react';
-import {ConvertedParams, stopPropagation} from './App.function';
-import {version} from '../../package.json';
+import {stopPropagation} from './App.function';
 import {
-    Close,
     DialogBackground,
-    DialogInner,
     DialogWrapper,
-    TitleBar,
-    Title, ButtonWrapper
-} from "./Dialog.style";
-import {AddButton, EquationTextarea} from "./EquationDialog.style";
-import {Palette} from "./Palette";
+} from './Dialog.style';
 
 export interface DialogProps {
     show: boolean;
@@ -32,8 +25,8 @@ export const Dialog = (props: DialogProps) => {
     }, [show]);
 
     return visibility ?
-        <DialogBackground {...stopPropagation} {...props}>
-            <DialogWrapper {...stopPropagation} {...props}>
+        <DialogBackground {...props} {...stopPropagation} >
+            <DialogWrapper {...props} {...stopPropagation} >
                 {props.children}
             </DialogWrapper>
         </DialogBackground> : null;
