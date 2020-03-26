@@ -1,69 +1,40 @@
-import styled, {css, keyframes} from 'styled-components';
+import styled from 'styled-components';
 import cross from '../images/cross.png';
 import crossHover from '../images/cross-hover.png';
+import {transitionDuration} from "./Dialog";
 
-const fadeIn = keyframes`
-  from {
-    background-color: rgba(0, 0, 0, 0);
-  }
-  to {
-    background-color: rgba(0, 0, 0, .3);
-  }
-`;
-const fadeOut = keyframes`
-  from {
-    background-color: rgba(0, 0, 0, .3);
-  }
-  to {
-    background-color: rgba(0, 0, 0, 0);
-  }
-`;
-
-const scaleIn = keyframes`
-  from {
-    transform: scale(.5);
-    opacity: 0;
-  }
-  to {
-    transform: scale(1);
-    opacity: 1;
-  }
-`;
-
-const scaleOut = keyframes`
-  from {
-    transform: scale(1);
-    opacity: 1;
-  }
-  to {
-    transform: scale(.5);
-    opacity: 0;
-  }
-`;
-
-export const DialogBackground = styled.div<{ show?: boolean }>`
-    animation: ${fadeIn} .3s linear;
+export const DialogMask = styled.div<{ appearance: boolean }>`
     position: absolute;
-    display: flex;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, .3);
+    transition: all .3s;
+    opacity: ${({appearance}) => appearance ? '1' : '0'};
+`;
+
+export const DialogBackground = styled.div`
+    position: absolute;
     justify-content: center;
     align-items: center;
     top: 0;
     right: 0;
     bottom: 0;
     left: 0;
-    background-color: rgba(0, 0, 0, .3);
-    ${({show}) => show ? '' : css`animation: ${fadeOut} .3s linear;`}
+    display: flex;
 `;
 
-export const DialogWrapper = styled.div<{ show?: boolean }>`
-    animation: ${scaleIn} .5s cubic-bezier(0.4, 0, 0.2, 1);
+export const DialogWrapper = styled.div<{ appearance: boolean }>`
     padding: 20px 0 0 0;
     background: #eee;
     border-radius: 8px;
     border: solid 1px #666;
     box-shadow: 0 10px 30px rgba(0, 0, 0, .7);
+    opacity: ${({appearance}) => appearance ? '1' : '0'};
+    transition: opacity ${transitionDuration}ms ease-in-out, transform ${transitionDuration}ms cubic-bezier(0.5, 0, 0.27, 1.55);
+    transform: ${({appearance}) => appearance ? 'scale(1)' : 'scale(.5)'};
     cursor: auto;
-    ${({show}) => show ? '' : css`animation: ${scaleOut} .3s linear;`}
 `;
 
 export const DialogInner = styled.div`

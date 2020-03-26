@@ -1,4 +1,4 @@
-import React, {Dispatch, SetStateAction} from 'react';
+import React, {Dispatch, FunctionComponent, SetStateAction} from 'react';
 import {
     EquationPanelWrapper,
     ExpandToggle,
@@ -24,7 +24,7 @@ export interface EquationPanelProps {
     setEditingEquationIndex: (index: number) => void;
 }
 
-export const EquationPanel = (props: EquationPanelProps) => {
+export const EquationPanel: FunctionComponent<EquationPanelProps> = (props) => {
     const {
         params,
         pushToHistory,

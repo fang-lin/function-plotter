@@ -1,27 +1,29 @@
-import React, {Dispatch, SetStateAction, useEffect, useRef} from 'react';
+import React, {Dispatch, FunctionComponent, SetStateAction, useEffect, useRef} from 'react';
 import {arithmetic} from '../services/arithmetic';
 import {
     StageWrapper,
     GridCanvas,
     AxisCanvas,
-    EquationCanvas,
-    BackgroundCanvas
+    BackgroundCanvas,
+    CrossCanvas
 } from './Stage.style';
 import {ParsedParams, Coordinate, deviceRatio, parseZoom, Size} from './App.function';
 import {drawEquation, erasure, redrawAxis, redrawGrid} from './Stage.function';
 
 interface StageProps {
+    cursor: Coordinate;
     size: Size;
     transform: Coordinate;
     setRedrawing: Dispatch<SetStateAction<boolean>>;
     params: ParsedParams;
 }
 
-export const Stage = (props: StageProps) => {
-    const {size, transform, setRedrawing} = props;
-    const {origin, zoomIndex, isSmooth, isBold} = props.params;
+export const Stage: FunctionComponent<StageProps> = (props) => {
+    const {cursor, size, transform, setRedrawing} = props;
+    const {origin, zoomIndex, isSmooth, isBold, showCrossCursor} = props.params;
     const gridRef: any = useRef<HTMLCanvasElement>();
     const axisRef: any = useRef<HTMLCanvasElement>();
+    const crossRef: any = useRef<HTMLCanvasElement>();
     const equationRefs: any[] = [
         useRef<HTMLCanvasElement>()
     ];
@@ -60,11 +62,20 @@ export const Stage = (props: StageProps) => {
         }
     }, [origin, size, zoomIndex, isSmooth, isBold]);
 
+    useEffect(() => {
+        if (showCrossCursor) {
+            redrawAxis(crossRef.current, cursor, size);
+        }
+    }, [cursor, size]);
+
+    useEffect(() => erasure(crossRef.current, size), [showCrossCursor]);
+
     return <StageWrapper>
         <BackgroundCanvas ref={axisRef} {...{style}} {...attributes}/>
         {/*{equationRefs.map((equationRef, index) => <EquationCanvas key={index}*/}
         {/*                                                          ref={equationRef} {...{style}} {...attributes}/>)}*/}
         <GridCanvas ref={gridRef} {...{style}} {...attributes}/>
         <AxisCanvas ref={axisRef} {...{style}} {...attributes}/>
+        <CrossCanvas ref={crossRef} {...{style}} {...attributes}/>
     </StageWrapper>;
 };

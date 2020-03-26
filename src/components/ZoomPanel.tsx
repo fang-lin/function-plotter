@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {FunctionComponent} from 'react';
 import {ZoomInButton, ZoomLevelButton, ZoomOutButton, ZoomPanelWrapper} from './ZoomPanel.style';
 import {
     normalizeZoomIndex,
@@ -11,7 +11,7 @@ export interface ZoomPanelProps {
     pushToHistory: (params: Partial<ParsedParams>) => void;
 }
 
-export const ZoomPanel = (props: ZoomPanelProps) => {
+export const ZoomPanel: FunctionComponent<ZoomPanelProps> = (props) => {
     const {pushToHistory} = props;
     const {zoomIndex} = props.params;
     return (

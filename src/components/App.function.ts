@@ -175,7 +175,7 @@ export const stopPropagation = {
 export interface ParsedParams {
     zoomIndex: number;
     origin: Coordinate;
-    showCoordinate: boolean;
+    showCrossCursor: boolean;
     isSmooth: boolean;
     isBold: boolean;
     equations: Equations;
@@ -192,7 +192,7 @@ export function parseParams(params: OriginalParams): ParsedParams {
     const {
         zoomIndex,
         origin,
-        showCoordinate,
+        showCrossCursor,
         isSmooth,
         isBold,
         displayEquationDialog,
@@ -204,7 +204,7 @@ export function parseParams(params: OriginalParams): ParsedParams {
     return {
         zoomIndex: normalizeZoomIndex(parseInt(zoomIndex)),
         origin: origin.split('+').map<number>(parseFloat) as Coordinate,
-        showCoordinate: parseToggle(showCoordinate),
+        showCrossCursor: parseToggle(showCrossCursor),
         isSmooth: parseToggle(isSmooth),
         isBold: parseToggle(isBold),
         equations: Equations.parse(equations),
@@ -219,7 +219,7 @@ export function stringifyParams(params: Partial<ParsedParams>): Partial<Original
     const {
         zoomIndex,
         origin,
-        showCoordinate,
+        showCrossCursor,
         isSmooth,
         isBold,
         displayEquationDialog,
@@ -233,8 +233,8 @@ export function stringifyParams(params: Partial<ParsedParams>): Partial<Original
     if (!isUndefined(origin)) {
         returned.origin = origin.join('+');
     }
-    if (!isUndefined(showCoordinate)) {
-        returned.showCoordinate = stringifyToggle(showCoordinate);
+    if (!isUndefined(showCrossCursor)) {
+        returned.showCrossCursor = stringifyToggle(showCrossCursor);
     }
     if (!isUndefined(isSmooth)) {
         returned.isSmooth = stringifyToggle(isSmooth);
@@ -269,7 +269,7 @@ export function combineURL(params: ParsedParams) {
     const {
         zoomIndex,
         origin,
-        showCoordinate,
+        showCrossCursor,
         isSmooth,
         isBold,
         equations,
@@ -277,7 +277,7 @@ export function combineURL(params: ParsedParams) {
         expandEquationPanel,
         displayInfoDialog
     } = params;
-    return `/${zoomIndex}/${origin}/${showCoordinate}/${isSmooth}/${isBold}/${displayEquationDialog}/${expandEquationPanel}/${displayInfoDialog}/${equations}`;
+    return `/${zoomIndex}/${origin}/${showCrossCursor}/${isSmooth}/${isBold}/${displayEquationDialog}/${expandEquationPanel}/${displayInfoDialog}/${equations}`;
 }
 
 export function normalizeZoomIndex(zoomIndex: number, offset?: -1 | 1): number {

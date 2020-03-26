@@ -4,7 +4,6 @@ import {AppWrapper} from './AppWrapper';
 import {PreloadImages} from './PreloadImages';
 import {Stage} from './Stage';
 import {StateBar} from './StateBar';
-import {CrossLine} from './CrossLine';
 import {ViewPanel} from './ViewPanel';
 import {ZoomPanel} from './ZoomPanel';
 import {
@@ -76,6 +75,7 @@ export class App extends Component<RouteComponentProps<OriginalParams> & any, St
         });
         window.addEventListener(DragEvents[DragState.moving], this.onDragging);
         window.addEventListener(DragEvents[DragState.end], this.onDragEnd);
+        window.removeEventListener(DragEvents[DragState.moving], this.onMoving);
     };
 
     onDragging = (event: DragEvent) => {
@@ -105,6 +105,7 @@ export class App extends Component<RouteComponentProps<OriginalParams> & any, St
         });
         window.removeEventListener(DragEvents[DragState.moving], this.onDragging);
         window.removeEventListener(DragEvents[DragState.end], this.onDragEnd);
+        window.addEventListener(DragEvents[DragState.moving], this.onMoving);
     };
 
     pushToHistory = (params: Partial<ParsedParams>) => {
@@ -116,12 +117,7 @@ export class App extends Component<RouteComponentProps<OriginalParams> & any, St
         window.addEventListener('resize', this.onResizing);
         window.addEventListener(DragEvents[DragState.moving], this.onMoving);
         window.addEventListener(DragEvents[DragState.start], this.onDragStart);
-
-        const {showCoordinate, origin} = parseParams(this.props.match.params);
-
-        if (showCoordinate && this.state.dragState === DragState.end) {
-            window.addEventListener('mousemove', this.onMoving);
-        }
+        const {origin} = parseParams(this.props.match.params);
 
         if (isNaN(origin[0]) || isNaN(origin[1])) {
             this.pushToHistory({origin: getCenteredOrigin(getStageSize(this.appRef.current))});
@@ -141,8 +137,7 @@ export class App extends Component<RouteComponentProps<OriginalParams> & any, St
 
         return <AppWrapper {...{dragState}} ref={this.appRef}>
             <PreloadImages/>
-            <Stage {...{size, transform, setRedrawing, params}}/>
-            {params.showCoordinate && <CrossLine {...{cursor, size}}/>}
+            <Stage {...{cursor, size, transform, setRedrawing, params}}/>
             <StateBar {...{params, cursor, redrawing}}/>
             <EquationPanel {...{
                 pushToHistory,

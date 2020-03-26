@@ -1,5 +1,4 @@
-import React, {ChangeEvent, Component, useEffect, useState} from 'react';
-import isUndefined from 'lodash/isUndefined';
+import React, {FunctionComponent, useEffect, useState} from 'react';
 import {
     AddButton,
     EquationTextarea
@@ -13,10 +12,10 @@ import {
     TitleBar,
     Title
 } from "./Dialog.style";
-import {Dialog} from "./Dialog";
+import {Dialog, DialogProps} from "./Dialog";
 import {Equation} from "../services/Equation";
 
-export const EquationDialog = (props: EquationFormProps) => {
+export const EquationDialog: FunctionComponent<EquationFormProps> = (props) => {
     const {editingEquationIndex, params, pushToHistory} = props;
     const {displayEquationDialog, equations} = params;
     const [fx, setFx] = useState<string>('');
@@ -64,7 +63,7 @@ export const EquationDialog = (props: EquationFormProps) => {
         reset();
     };
 
-    return <Dialog show={displayEquationDialog} onClick={close}>
+    return <Dialog {...{isShow: displayEquationDialog, close}} >
         <TitleBar>
             <Title onClick={addEquation}>Add Equation</Title>
             <Close onClick={close}/>

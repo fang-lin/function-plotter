@@ -15,7 +15,7 @@ if (dom) {
         <GlobalStyle/>
         <Switch>
             <Route exact
-                   path="/:zoomIndex/:origin/:showCoordinate/:isSmooth/:isBold/:displayEquationDialog/:expandEquationPanel/:displayInfoDialog/:equations"
+                   path="/:zoomIndex/:origin/:showCrossCursor/:isSmooth/:isBold/:displayEquationDialog/:expandEquationPanel/:displayInfoDialog/:equations"
                    component={App}>
             </Route>
             <Redirect from="/" to={defaultURL}/>

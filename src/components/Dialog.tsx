@@ -1,35 +1,38 @@
-import React, {useEffect, useState} from 'react';
+import React, {FunctionComponent, ReactChildren, useEffect, useState} from 'react';
 import {stopPropagation} from './App.function';
 import {
     DialogBackground,
+    DialogMask,
     DialogWrapper,
 } from './Dialog.style';
 
 export interface DialogProps {
-    show: boolean;
-    onClick: any;
-    children: any;
+    isShow: boolean;
+    close: () => void;
 }
 
-export const Dialog = (props: DialogProps) => {
-    const {show} = props;
+export const transitionDuration: number = 200;
 
-    const [visibility, setVisibility] = useState(false);
+export const Dialog: FunctionComponent<DialogProps> = (props) => {
+    const {isShow, close, children} = props;
+
+    const [accessibility, setAccessibility] = useState<boolean>(false);
+    const [appearance, setAppearance] = useState<boolean>(false);
 
     useEffect(() => {
-        if (show) {
-            setVisibility(true);
+        if (isShow) {
+            setAccessibility(true);
+            setTimeout(() => setAppearance(true), 0);
         } else {
-            setTimeout(() => setVisibility(false), 300);
+            setAppearance(false);
+            setTimeout(() => setAccessibility(false), transitionDuration);
         }
-    }, [show]);
+    }, [isShow]);
 
-    return visibility ?
-        <DialogBackground {...props} {...stopPropagation} >
-            <DialogWrapper {...props} {...stopPropagation} >
-                {props.children}
-            </DialogWrapper>
-        </DialogBackground> : null;
-
-
+    return accessibility ? <>
+        <DialogMask {...{appearance}}/>
+        <DialogBackground {...stopPropagation} onClick={close}>
+            <DialogWrapper {...stopPropagation} {...{appearance}} > {children}</DialogWrapper>
+        </DialogBackground>
+    </> : null;
 };

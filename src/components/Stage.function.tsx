@@ -54,7 +54,6 @@ export const redrawGrid = (canvas: HTMLCanvasElement, origin: Coordinate, size: 
 
 export const drawEquation = (canvas: HTMLCanvasElement, matrix: Coordinate[], isBold: boolean): void => {
     withCanvasContext(canvas, context => {
-        console.log('drawEquation');
         context.fillStyle = '#0f0';
         if (isBold) {
             matrix.map(point => {

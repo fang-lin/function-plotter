@@ -24,8 +24,8 @@ export const EquationPanelWrapper = styled.div<{
     position: absolute;
     top: 0;
     right: 0;
-    transition: all .5s cubic-bezier(0.4, 0, 0.2, 1);
-    ${({displayEquationPanel}) => displayEquationPanel ? '' : 
+    transition: all .2s ease-in-out;
+    ${({displayEquationPanel}) => displayEquationPanel ? '' :
     `transform: translateX(100%) translateX(-24px) translateY(-100%) translateY(24px);`}
     width: ${width}px;
     padding: 20px 0 0 0;

@@ -23,3 +23,7 @@ export const AxisCanvas = styled.canvas`
 export const EquationCanvas = styled.canvas`
     position: absolute;
 `;
+
+export const CrossCanvas = styled.canvas`
+    position: absolute;
+`;

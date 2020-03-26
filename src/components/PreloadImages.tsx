@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {FunctionComponent} from 'react';
 import {PreloadImagesWrapper} from './PreloadImages.style';
 import addHover from '../images/add-hover.png';
 import coordinateOn from '../images/coord-on.png';
@@ -69,7 +69,7 @@ import boldCurveHover from '../images/bold-curve-hover.png';
 import info from '../images/info.png';
 import infoHover from '../images/info-hover.png';
 
-export const PreloadImages = () => {
+export const PreloadImages: FunctionComponent = () => {
     return <PreloadImagesWrapper>
         <img src={addHover} alt="AddHover"/>
         <img src={coordinateOn} alt="CoordinateOn"/>

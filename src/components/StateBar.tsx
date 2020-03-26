@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {FunctionComponent} from 'react';
 import {StateBarWrapper, AppTitle, CoordinateLabel, IsDrawing} from './StateBar.style';
 import {version} from '../../package.json';
 import {ParsedParams, Coordinate, deviceRatio, parseZoom} from "./App.function";
@@ -13,7 +13,7 @@ export interface StateBarProps {
     params: ParsedParams;
 }
 
-export const StateBar = (props: StateBarProps) => {
+export const StateBar: FunctionComponent<StateBarProps> = (props) => {
     const {cursor, redrawing} = props;
     const {origin, zoomIndex} = props.params;
     const x = getCoordinate(cursor[0] - origin[0], zoomIndex);

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {FunctionComponent} from 'react';
 import {ParsedParams, stopPropagation} from './App.function';
 import {version} from '../../package.json';
 import {
@@ -14,11 +14,11 @@ export interface InfoDialogProps {
     params: ParsedParams;
 }
 
-export const InfoDialog = (props: InfoDialogProps) => {
+export const InfoDialog: FunctionComponent<InfoDialogProps> = (props) => {
     const {pushToHistory, params} = props;
+    const close = () => pushToHistory({displayInfoDialog: false});
     const {displayInfoDialog} = params;
-    return <Dialog {...stopPropagation} show={displayInfoDialog}
-                   onClick={() => pushToHistory({displayInfoDialog: false})}>
+    return <Dialog {...stopPropagation} {...{isShow: displayInfoDialog, close}}>
         <TitleBar>
             <Title>About Function Diagram {version}</Title>
             <Close onClick={() => pushToHistory({displayInfoDialog: false})}/>

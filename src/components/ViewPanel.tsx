@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {FunctionComponent} from 'react';
 import {ViewPanelWrapper, CenteredButton, SmoothButton, CoordinateButton, WeightButton} from './ViewPanel.style';
 import {
     Coordinate,
@@ -14,12 +14,12 @@ interface ViewPanelProps {
     params: ParsedParams;
 }
 
-export const ViewPanel = (props: ViewPanelProps) => {
+export const ViewPanel: FunctionComponent<ViewPanelProps> = (props) => {
     const {getCenteredOrigin, size, pushToHistory, params} = props;
-    const {isSmooth, isBold, showCoordinate} = params;
+    const {isSmooth, isBold, showCrossCursor} = params;
     const smoothText = `Smooth: ${isSmooth ? 'On' : 'Off'}`;
     const isBoldText = `Weight: ${isBold ? 'Bold' : 'Light'}`;
-    const coordinateText = `Coordinate: ${showCoordinate ? 'On' : 'Off'}`;
+    const coordinateText = `Coordinate: ${showCrossCursor ? 'On' : 'Off'}`;
 
     return <ViewPanelWrapper>
         <CenteredButton
@@ -43,10 +43,10 @@ export const ViewPanel = (props: ViewPanelProps) => {
             {isBoldText}
         </WeightButton>
         <CoordinateButton
-            showCoordinate={showCoordinate}
+            showCoordinate={showCrossCursor}
             title={coordinateText}
             {...stopPropagation}
-            onClick={() => pushToHistory({showCoordinate: !showCoordinate})}>
+            onClick={() => pushToHistory({showCrossCursor: !showCrossCursor})}>
             {coordinateText}
         </CoordinateButton>
     </ViewPanelWrapper>;
