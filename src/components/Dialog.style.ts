@@ -10,7 +10,7 @@ export const DialogMask = styled.div<{ appearance: boolean }>`
     bottom: 0;
     left: 0;
     background-color: rgba(0, 0, 0, .3);
-    transition: all .3s;
+    transition: all ${transitionDuration}ms;
     opacity: ${({appearance}) => appearance ? '1' : '0'};
 `;
 

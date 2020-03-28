@@ -22,7 +22,8 @@ export const Dialog: FunctionComponent<DialogProps> = (props) => {
     useEffect(() => {
         if (isShow) {
             setAccessibility(true);
-            setTimeout(() => setAppearance(true), 0);
+            // setTimeout(() => setAppearance(true), 50);
+            requestAnimationFrame(() => setAppearance(true));
         } else {
             setAppearance(false);
             setTimeout(() => setAccessibility(false), transitionDuration);
