@@ -6,7 +6,7 @@
   "scripts": {
     "start": "parcel ./src/index.html -p 3031",
     "lint": "eslint",
-    "build": "parcel build ./src/index.html",
+    "build": "parcel build ./src/index.html --no-source-maps",
     "test": "mocha -r ts-node/register src/**/*.test.ts --exit",
     "testWithCoverage": "nyc --reporter=lcov npm run test"
   },
