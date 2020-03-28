@@ -6,27 +6,30 @@ export interface IEquation {
     displayed: boolean;
 }
 
+export type EquationSerial = [string, string, string]
+
 export class Equation implements IEquation {
     public color: string;
     public fx: string;
+    public func: string;
     public displayed: boolean;
 
-    constructor(value: IEquation) {
-        this.fx = value.fx;
-        this.color = value.color;
-        this.displayed = value.displayed;
+    constructor({fx, color, displayed}: IEquation) {
+        this.fx = fx;
+        this.color = color;
+        this.displayed = displayed;
+        this.func = fx;
     }
 
-    stringify(): string {
-        return `${this.fx},${this.color},${stringifyToggle(this.displayed)}`;
+    serialization(): EquationSerial {
+        return [this.fx, this.color, stringifyToggle(this.displayed)]
     }
 
-    static parse(equation: string): Equation {
-        const items = equation.split(',');
+    static parse(serial: EquationSerial): Equation {
         return new Equation({
-            fx: items[0],
-            color: items[1],
-            displayed: parseToggle(items[2])
+            fx: serial[0],
+            color: serial[1],
+            displayed: parseToggle(serial[2])
         });
     }
 }

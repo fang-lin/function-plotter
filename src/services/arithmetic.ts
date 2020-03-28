@@ -3,14 +3,14 @@ import {Coordinate, Size} from "../components/App.function";
 
 const workerPool = pool();
 
-interface Fx {
+export interface Fn {
     (x: number): number
 }
 
 export interface Input {
     range: [Size, Size];
     origin: Coordinate;
-    fx: string;
+    func: string;
     zoom: number;
     isSmooth: boolean;
 }
@@ -40,13 +40,14 @@ export function parameterEquation(input: Input): Coordinate[] {
     const MAX_DELTA_Z: number = 1.1;
 
     const MAX_ITERATION: number = 4294967296;
-    const MAX_DX_ITERATION_COUNT: number = 10;
+    const MAX_DX_ITERATION_COUNT: number = 32;
 
-    function dxComputer(fx: Fx, dx: number, y: number, x: number, zoom: number): number {
+    function dxComputer(fx: Fn, dx: number, y: number, x: number, zoom: number): number {
         let dz, dy;
         let dxIterationCount = 0;
         let lower = 0;
         let upper = NaN;
+        const k = dx > 0 ? 1 : -1;
         do {
             dy = fx(x + dx) - y;
             dz = (dx ** 2 + dy ** 2) ** 0.5;
@@ -65,16 +66,25 @@ export function parameterEquation(input: Input): Coordinate[] {
                 break;
             }
 
-        } while (++dxIterationCount < MAX_DX_ITERATION_COUNT);
+            if (Math.abs(dx) < MIN_DELTA) {
+                dx = k * MIN_DELTA;
+                break;
+            }
+
+        } while (dxIterationCount++ < MAX_DX_ITERATION_COUNT);
+
+        if (isNaN(dx)) {
+            dx = k * MIN_DELTA;
+        }
 
         return dx;
     }
 
     const {
-        range, origin, zoom, isSmooth, fx
+        range, origin, zoom, isSmooth, func
     } = input;
 
-    const fn = <Fx>new Function('x', `return ${fx};`);
+    const fn = <Fn>new Function('x', `return ${func};`);
 
     const defaultDx = 1 / zoom;
     let px, py, matrix = [];
@@ -93,12 +103,14 @@ export function parameterEquation(input: Input): Coordinate[] {
                 // draw to negative direction
                 x = tx;
                 y = fn(x);
+                dx = defaultDx;
                 dx = dxComputer(fn, dx, y, x, zoom);
                 overflow = false;
             } else {
                 dx = defaultDx;
                 overflow = true;
             }
+
             x += dx;
             y = fn(x);
 
@@ -132,8 +144,11 @@ export function parameterEquation(input: Input): Coordinate[] {
 
 export async function arithmetic(input: Input): Promise<Coordinate[]> {
     try {
+        // return new Promise(resolve => {
+        //     return resolve(parameterEquation(input));
+        // })
         return await workerPool.exec(parameterEquation, [input]);
     } catch (err) {
-        return [];
+        throw err;
     }
 }

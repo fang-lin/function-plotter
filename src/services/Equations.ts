@@ -1,5 +1,6 @@
 import {atou, utoa} from '../components/App.function';
-import {Equation} from './Equation';
+import {Equation, EquationSerial} from './Equation';
+
 
 export class Equations extends Array<Equation> {
     constructor(...equations: Equation[]) {
@@ -7,17 +8,22 @@ export class Equations extends Array<Equation> {
         Object.setPrototypeOf(this, Equations.prototype);
     }
 
+    serialization() {
+        return this.map(equation => equation.serialization());
+    }
+
     stringify(): string {
         if (this.length === 0) {
             return '-';
         }
-        return utoa(this.map(equation => equation.stringify()).join(';'));
+        return utoa(JSON.stringify(this.serialization()));
     }
 
-    static parse(equations: string): Equations {
-        if (equations === '-') {
+    static parse(code: string): Equations {
+        if (code === '-') {
             return new Equations();
         }
-        return new Equations(...atou(equations).split(';').map(item => Equation.parse(item)));
+        const equations: EquationSerial[] = JSON.parse(atou(code));
+        return new Equations(...equations.map(item => Equation.parse(item)));
     }
 }

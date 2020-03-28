@@ -62,15 +62,17 @@ export const Stage: FunctionComponent<StageProps> = (props) => {
 
         (async () => {
             setRedrawing(true);
-            await Promise.all(equations.map(({fx, color, displayed}, index) => {
+            console.log(Date.now());
+            await Promise.all(equations.map(({func, color}, index) => {
                 const canvas = document.querySelector<HTMLCanvasElement>(`#equation-${code}-${index}`);
                 withCanvasContext(canvas, async context => {
                     erasure(context, size);
-                    const matrix = await arithmetic({range, fx, origin, zoom, isSmooth});
+                    const matrix = await arithmetic({range, func, origin, zoom, isSmooth});
                     erasure(context, size);
                     drawEquation(context, matrix, isBold, color);
                 });
             }));
+            console.log(Date.now());
             setRedrawing(false);
         })();
     }, [origin[0], origin[1], size[0], size[1], zoomIndex, isSmooth, isBold]);
