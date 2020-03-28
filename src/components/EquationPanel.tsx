@@ -11,7 +11,7 @@ import {
     RemoveButton,
     ButtonWrapper,
     DisplayEquationButton,
-    InfoButton
+    InfoButton, EditButtonWrapper
 } from './EquationPanel.style';
 import {ParsedParams, stopPropagation} from './App.function';
 import {AddButton} from './EquationPanel.style';
@@ -69,10 +69,10 @@ export const EquationPanel: FunctionComponent<EquationPanelProps> = (props) => {
                         <DisplayEquationButton {...{displayed, color}} style={{backgroundColor: color}}
                                                onClick={toggleEquationDisplayed(index)}/>
                         <EquationText {...{displayed}}>{fx}</EquationText>
-                        <ButtonWrapper>
+                        <EditButtonWrapper>
                             <EditButton onClick={editEquation(index)}>Edit</EditButton>
                             <RemoveButton onClick={removeEquation(index)}>Remove</RemoveButton>
-                        </ButtonWrapper>
+                        </EditButtonWrapper>
                     </EquationItem>;
                 })
             }</EquationsList>

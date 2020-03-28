@@ -77,6 +77,11 @@ export const ButtonWrapper = styled.div`
     padding: 0;
 `;
 
+export const EditButtonWrapper = styled(ButtonWrapper)`
+    border-radius: 6px;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .3);
+`;
+
 export const DisplayEquationButton = styled.button<{
     displayed: boolean;
 }>`
@@ -115,6 +120,7 @@ export const AddButton = styled(SmallIconButton)`
 `;
 
 export const EditButton = styled(LeftIconButton)`
+    box-shadow: none;
     background-image: url(${edit});
     :hover{
         background-image: url(${editHover});
@@ -122,6 +128,7 @@ export const EditButton = styled(LeftIconButton)`
 `;
 
 export const RemoveButton = styled(RightIconButton)`
+    box-shadow: none;
     background-image: url(${cross});
     :hover{
         background-image: url(${crossHover});
