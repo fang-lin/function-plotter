@@ -174,20 +174,55 @@ export const stopPropagation = {
 export interface ParsedParams {
     zoomIndex: number;
     origin: Coordinate;
-    showCrossCursor: boolean;
-    isSmooth: boolean;
-    isBold: boolean;
     equations: Equations;
     displayEquationDialog: boolean;
     expandEquationPanel: boolean;
     displayInfoDialog: boolean;
+    showCrossCursor: boolean;
+    isSmooth: boolean;
+    isBold: boolean;
 }
 
 export type OriginalParams = {
-    [key in keyof ParsedParams]: string;
+    zoomIndex: string;
+    originX: string;
+    originY: string;
+    equations: string;
+    toggles: string;
 }
 
 export function parseParams(params: OriginalParams): ParsedParams {
+    const {
+        zoomIndex,
+        originX,
+        originY,
+        equations,
+        toggles
+    } = params;
+
+    const [
+        displayEquationDialog,
+        expandEquationPanel,
+        displayInfoDialog,
+        showCrossCursor,
+        isSmooth,
+        isBold
+    ] = toggles.split('');
+
+    return {
+        zoomIndex: normalizeZoomIndex(parseInt(zoomIndex)),
+        origin: [parseFloat(originX), parseFloat(originY)],
+        showCrossCursor: parseToggle(showCrossCursor),
+        isSmooth: parseToggle(isSmooth),
+        isBold: parseToggle(isBold),
+        equations: Equations.parse(equations),
+        displayEquationDialog: parseToggle(displayEquationDialog),
+        expandEquationPanel: parseToggle(expandEquationPanel),
+        displayInfoDialog: parseToggle(displayInfoDialog),
+    };
+}
+
+export function stringifyParams(params: ParsedParams): OriginalParams {
     const {
         zoomIndex,
         origin,
@@ -201,82 +236,39 @@ export function parseParams(params: OriginalParams): ParsedParams {
     } = params;
 
     return {
-        zoomIndex: normalizeZoomIndex(parseInt(zoomIndex)),
-        origin: origin.split('+').map<number>(parseFloat) as Coordinate,
-        showCrossCursor: parseToggle(showCrossCursor),
-        isSmooth: parseToggle(isSmooth),
-        isBold: parseToggle(isBold),
-        equations: Equations.parse(equations),
-        displayEquationDialog: parseToggle(displayEquationDialog),
-        expandEquationPanel: parseToggle(expandEquationPanel),
-        displayInfoDialog: parseToggle(displayInfoDialog),
-    };
+        zoomIndex: zoomIndex.toString(),
+        originX: origin[0].toString(),
+        originY: origin[1].toString(),
+        equations: equations.stringify(),
+        toggles: [
+            displayEquationDialog,
+            expandEquationPanel,
+            displayInfoDialog,
+            showCrossCursor,
+            isSmooth,
+            isBold
+        ].map(stringifyToggle).join('')
+    }
 }
 
-export function stringifyParams(params: Partial<ParsedParams>): Partial<OriginalParams> {
-    const returned: Partial<OriginalParams> = {};
+export function combineURL(params: OriginalParams, partialParams: Partial<ParsedParams>): string {
     const {
         zoomIndex,
-        origin,
-        showCrossCursor,
-        isSmooth,
-        isBold,
-        displayEquationDialog,
-        expandEquationPanel,
-        displayInfoDialog,
-        equations
-    } = params;
-    if (!isUndefined(zoomIndex)) {
-        returned.zoomIndex = zoomIndex.toString();
-    }
-    if (!isUndefined(origin)) {
-        returned.origin = origin.join('+');
-    }
-    if (!isUndefined(showCrossCursor)) {
-        returned.showCrossCursor = stringifyToggle(showCrossCursor);
-    }
-    if (!isUndefined(isSmooth)) {
-        returned.isSmooth = stringifyToggle(isSmooth);
-    }
-    if (!isUndefined(isBold)) {
-        returned.isBold = stringifyToggle(isBold);
-    }
-    if (!isUndefined(displayEquationDialog)) {
-        returned.displayEquationDialog = stringifyToggle(displayEquationDialog);
-    }
-    if (!isUndefined(expandEquationPanel)) {
-        returned.expandEquationPanel = stringifyToggle(expandEquationPanel);
-    }
-    if (!isUndefined(displayInfoDialog)) {
-        returned.displayInfoDialog = stringifyToggle(displayInfoDialog);
-    }
-    if (!isUndefined(equations)) {
-        returned.equations = equations.stringify();
-    }
-    return returned;
+        originX,
+        originY,
+        equations,
+        toggles
+    } = stringifyParams({...parseParams(params), ...partialParams});
+
+    return `/${zoomIndex}/${originX}/${originY}/${toggles}/${equations}`;
 }
 
 export function parseToggle(toggle: string): boolean {
-    return toggle === '+';
+    return toggle === '1';
 }
 
 export function stringifyToggle(toggle: boolean): string {
-    return toggle ? '+' : '-';
-}
-
-export function combineURL(params: ParsedParams) {
-    const {
-        zoomIndex,
-        origin,
-        showCrossCursor,
-        isSmooth,
-        isBold,
-        equations,
-        displayEquationDialog,
-        expandEquationPanel,
-        displayInfoDialog
-    } = params;
-    return `/${zoomIndex}/${origin}/${showCrossCursor}/${isSmooth}/${isBold}/${displayEquationDialog}/${expandEquationPanel}/${displayInfoDialog}/${equations}`;
+    return toggle ? '1' : '0';
 }
 
 export function normalizeZoomIndex(zoomIndex: number, offset?: -1 | 1): number {

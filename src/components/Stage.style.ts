@@ -13,11 +13,6 @@ export const BackgroundCanvas = styled.canvas`
 
 export const GridCanvas = styled.canvas`
     position: absolute;
-    opacity: 0.2;
-`;
-
-export const AxisCanvas = styled.canvas`
-    position: absolute;
 `;
 
 export const EquationCanvas = styled.canvas`

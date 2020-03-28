@@ -8,9 +8,8 @@ interface Fx {
 }
 
 export interface Input {
-    rangeX: Size;
-    rangeY: Size;
-    offset: Coordinate;
+    range: [Size, Size];
+    origin: Coordinate;
     fx: string;
     zoom: number;
     isSmooth: boolean;
@@ -72,7 +71,7 @@ export function parameterEquation(input: Input): Coordinate[] {
     }
 
     const {
-        rangeX, rangeY, offset, zoom, isSmooth, fx
+        range, origin, zoom, isSmooth, fx
     } = input;
 
     const fn = <Fx>new Function('x', `return ${fx};`);
@@ -80,7 +79,7 @@ export function parameterEquation(input: Input): Coordinate[] {
     const defaultDx = 1 / zoom;
     let px, py, matrix = [];
 
-    let x = rangeX[0],
+    let x = range[0][0],
         y = fn(x),
         dx = defaultDx;
 
@@ -89,7 +88,7 @@ export function parameterEquation(input: Input): Coordinate[] {
         tx = NaN;
 
     do {
-        if (isNaN(y) || Math.abs(y) >= MAX_VALUE || y < rangeY[0] || y > rangeY[1]) {
+        if (isNaN(y) || Math.abs(y) >= MAX_VALUE || y < range[1][0] || y > range[1][1]) {
             if (!overflow && dx < 0) {
                 // draw to negative direction
                 x = tx;
@@ -112,8 +111,8 @@ export function parameterEquation(input: Input): Coordinate[] {
             }
             overflow = false;
 
-            px = offset[0] + x * zoom;
-            py = offset[1] - y * zoom;
+            px = origin[0] + x * zoom;
+            py = origin[1] - y * zoom;
 
             const point: Coordinate = isSmooth ? [px, py] : [Math.round(px), Math.round(py)];
             // point.time = Date.now();
@@ -126,17 +125,15 @@ export function parameterEquation(input: Input): Coordinate[] {
             x += dx;
             y = fn(x);
         }
-    } while (x < rangeX[1] && ++iterationTimes < MAX_ITERATION);
+    } while (x < range[0][1] && ++iterationTimes < MAX_ITERATION);
 
     return matrix;
 }
 
-export async function arithmetic(input: Input, callback: (result: Coordinate[]) => void) {
+export async function arithmetic(input: Input): Promise<Coordinate[]> {
     try {
-        const matrix = await workerPool.exec(parameterEquation, [input]);
-        // console.log(matrix);
-        callback(matrix);
+        return await workerPool.exec(parameterEquation, [input]);
     } catch (err) {
-        console.error(err);
+        return [];
     }
 }

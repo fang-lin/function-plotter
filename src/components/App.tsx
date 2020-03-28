@@ -17,7 +17,6 @@ import {
     getClient,
     DragEvents,
     ParsedParams,
-    stringifyParams,
     combineURL,
     DragEvent
 } from './App.function';
@@ -36,7 +35,7 @@ interface State {
     client: Coordinate;
 }
 
-export class App extends Component<RouteComponentProps<OriginalParams> & any, State> {
+export class App extends Component<RouteComponentProps<OriginalParams>, State> {
     private readonly appRef: RefObject<HTMLDivElement>;
 
     constructor(props: any) {
@@ -79,23 +78,24 @@ export class App extends Component<RouteComponentProps<OriginalParams> & any, St
     };
 
     onDragging = (event: DragEvent) => {
-        const _client = getClient(event);
+        const instantaneousClient = getClient(event);
         const {client} = this.state;
 
         this.setState({
-            transform: [_client[0] - client[0], _client[1] - client[1]],
+            transform: [instantaneousClient[0] - client[0], instantaneousClient[1] - client[1]],
             dragState: DragState.moving
         });
     };
 
     onDragEnd = (event: DragEvent) => {
-        const _client = getClient(event);
+        const instantaneousClient = getClient(event);
+        const {client} = this.state;
         const {origin} = parseParams(this.props.match.params);
 
         this.pushToHistory({
             origin: [
-                origin[0] + _client[0] - this.state.client[0],
-                origin[1] + _client[1] - this.state.client[1]
+                origin[0] + instantaneousClient[0] - client[0],
+                origin[1] + instantaneousClient[1] - client[1]
             ]
         });
         this.setState({
@@ -109,7 +109,7 @@ export class App extends Component<RouteComponentProps<OriginalParams> & any, St
     };
 
     pushToHistory = (params: Partial<ParsedParams>) => {
-        this.props.history.push(combineURL({...this.props.match.params, ...stringifyParams(params)}));
+        this.props.history.push(combineURL(this.props.match.params, params));
     };
 
     componentDidMount() {

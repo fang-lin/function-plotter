@@ -9,13 +9,13 @@ import {utoa} from "./components/App.function";
 const dom = document.getElementById('root');
 if (dom) {
     const history = createBrowserHistory();
-    const defaultURL = `/8/NaN+NaN/-/+/+/-/+/-/${utoa('y=sin(x),#080,+')}`;
+    const defaultURL = `/8/NaN/NaN/010110/${utoa('Math.sin(x),#080,1')}`;
 
     render(<Router history={history}>
         <GlobalStyle/>
         <Switch>
             <Route exact
-                   path="/:zoomIndex/:origin/:showCrossCursor/:isSmooth/:isBold/:displayEquationDialog/:expandEquationPanel/:displayInfoDialog/:equations"
+                   path="/:zoomIndex/:originX/:originY/:toggles/:equations"
                    component={App}>
             </Route>
             <Redirect from="/" to={defaultURL}/>
