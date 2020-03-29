@@ -11,7 +11,7 @@ export interface Input {
     range: [Size, Size];
     origin: Coordinate;
     func: string;
-    zoom: number;
+    scale: number;
     isSmooth: boolean;
 }
 
@@ -30,8 +30,7 @@ interface DxOutput {
     iterationCount: number
 }
 
-
-export function parameterEquation(input: Input): Coordinate[] {
+export function parameterEquation2(input: Input): Coordinate[] {
 
     const MIN_DELTA: number = 1e-7;
     const MAX_VALUE: number = 1e100;
@@ -81,12 +80,12 @@ export function parameterEquation(input: Input): Coordinate[] {
     }
 
     const {
-        range, origin, zoom, isSmooth, func
+        range, origin, scale, isSmooth, func
     } = input;
 
     const fn = <Fn>new Function('x', `return ${func};`);
 
-    const defaultDx = 1 / zoom;
+    const defaultDx = 1 / scale;
     let px, py, matrix = [];
 
     let x = range[0][0],
@@ -104,7 +103,7 @@ export function parameterEquation(input: Input): Coordinate[] {
                 x = tx;
                 y = fn(x);
                 dx = defaultDx;
-                dx = dxComputer(fn, dx, y, x, zoom);
+                dx = dxComputer(fn, dx, y, x, scale);
                 overflow = false;
             } else {
                 dx = defaultDx;
@@ -123,13 +122,13 @@ export function parameterEquation(input: Input): Coordinate[] {
             }
             overflow = false;
 
-            px = origin[0] + x * zoom;
-            py = origin[1] - y * zoom;
+            px = origin[0] + x * scale;
+            py = origin[1] - y * scale;
 
             const point: Coordinate = isSmooth ? [px, py] : [Math.round(px), Math.round(py)];
             // point.time = Date.now();
 
-            dx = dxComputer(fn, dx, y, x, zoom);
+            dx = dxComputer(fn, dx, y, x, scale);
 
             // point.time = Date.now() - point.time;
             matrix.push(point);
@@ -142,11 +141,76 @@ export function parameterEquation(input: Input): Coordinate[] {
     return matrix;
 }
 
+export function parameterEquation(input: Input): Coordinate[] {
+
+    const {
+        range, scale, func
+    } = input;
+
+    const fn = <Fn>new Function('x', `return ${func};`);
+
+    const unit = 1 / scale / 2;
+    let level = 0;
+    let dx = unit;
+    let x: number = range[0][0];
+
+    let finalPoints: Coordinate[] = [];
+    let nextLevelPoints: Coordinate[] = [];
+
+    while (level < 19) {
+        dx /= 2;
+        if (level === 0) {
+            let last: Coordinate | null = null;
+            while (x < range[0][1]) {
+                x += dx;
+                const current: Coordinate = [x, fn(x)];
+                if (last) {
+                    const z = (dx ** 2 + (current[1] - last[1]) ** 2) ** .5;
+                    if (z < unit) {
+                        finalPoints.push(last);
+                    } else {
+                        nextLevelPoints.push(last);
+                    }
+                }
+                last = current;
+            }
+        } else {
+            const newPoints: Coordinate[] = [];
+            nextLevelPoints.forEach(last => {
+                const current: Coordinate = [last[0] + dx, fn(last[0] + dx)];
+                const lastToCurrent = (dx ** 2 + (current[1] - last[1]) ** 2) ** .5;
+                if (lastToCurrent < unit) {
+                    finalPoints.push(last);
+                } else {
+                    newPoints.push(last);
+                }
+                const currentToNext = (dx ** 2 + (current[1] - fn(current[0] + dx)) ** 2) ** .5;
+                if (currentToNext > unit) {
+                    newPoints.push(current);
+                }
+            });
+            if (nextLevelPoints.length === 0) {
+                break;
+            }
+            nextLevelPoints = newPoints;
+        }
+        level++;
+    }
+    return finalPoints;
+}
+
+export const transformer = (origin: Coordinate, zoom: number) => (point: Coordinate): Coordinate => {
+    return [
+        origin[0] + point[0] * zoom,
+        origin[1] - point[1] * zoom
+    ];
+};
+
 export async function arithmetic(input: Input): Promise<Coordinate[]> {
     try {
         // return new Promise(resolve => {
         //     return resolve(parameterEquation(input));
-        // })
+        // });
         return await workerPool.exec(parameterEquation, [input]);
     } catch (err) {
         throw err;

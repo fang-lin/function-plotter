@@ -11,8 +11,8 @@ export const deviceRatio: number = (() => window.devicePixelRatio || 1)();
 export const ZoomUnit: number = 2 ** .5;
 export const ZoomRange: number[] = range(deviceRatio * 2, deviceRatio * 2 + 16);
 
-export function parseZoom(zoomIndex: number): number {
-    return Math.pow(ZoomUnit, ZoomRange[zoomIndex]);
+export function parseZoom(zoom: number): number {
+    return Math.pow(ZoomUnit, ZoomRange[zoom]);
 }
 
 export function clone<T = any>(a: any): T {
@@ -172,7 +172,7 @@ export const stopPropagation = {
 };
 
 export interface ParsedParams {
-    zoomIndex: number;
+    zoom: number;
     origin: Coordinate;
     equations: Equations;
     displayEquationDialog: boolean;
@@ -210,7 +210,7 @@ export function parseParams(params: OriginalParams): ParsedParams {
     ] = toggles.split('');
 
     return {
-        zoomIndex: normalizeZoomIndex(parseInt(zoomIndex)),
+        zoom: normalizeZoomIndex(parseInt(zoomIndex)),
         origin: [parseFloat(originX), parseFloat(originY)],
         showCrossCursor: parseToggle(showCrossCursor),
         isSmooth: parseToggle(isSmooth),
@@ -224,7 +224,7 @@ export function parseParams(params: OriginalParams): ParsedParams {
 
 export function stringifyParams(params: ParsedParams): OriginalParams {
     const {
-        zoomIndex,
+        zoom,
         origin,
         showCrossCursor,
         isSmooth,
@@ -236,7 +236,7 @@ export function stringifyParams(params: ParsedParams): OriginalParams {
     } = params;
 
     return {
-        zoomIndex: zoomIndex.toString(),
+        zoomIndex: zoom.toString(),
         originX: origin[0].toString(),
         originY: origin[1].toString(),
         equations: equations.stringify(),

@@ -15,9 +15,9 @@ export interface StateBarProps {
 
 export const StateBar: FunctionComponent<StateBarProps> = (props) => {
     const {cursor, redrawing} = props;
-    const {origin, zoomIndex} = props.params;
-    const x = getCoordinate(cursor[0] - origin[0], zoomIndex);
-    const y = getCoordinate(origin[1] - cursor[1], zoomIndex);
+    const {origin, zoom} = props.params;
+    const x = getCoordinate(cursor[0] - origin[0], zoom);
+    const y = getCoordinate(origin[1] - cursor[1], zoom);
     return (<StateBarWrapper>
         <AppTitle><a href="/">Function Diagram {version}</a></AppTitle>
         <CoordinateLabel>x: {x}, y: {y}</CoordinateLabel>

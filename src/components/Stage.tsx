@@ -1,6 +1,6 @@
 import React, {Dispatch, FunctionComponent, SetStateAction, useEffect, useRef} from 'react';
 import random from 'lodash/random';
-import {arithmetic} from '../services/arithmetic';
+import {arithmetic, transformer} from '../services/arithmetic';
 import {
     StageWrapper,
     GridCanvas,
@@ -30,7 +30,10 @@ const code = random(1000, 9999);
 
 export const Stage: FunctionComponent<StageProps> = (props) => {
     const {cursor, size, transform, setRedrawing} = props;
-    const {origin, zoomIndex, isSmooth, isBold, showCrossCursor, equations} = props.params;
+    const {origin, zoom, isSmooth, isBold, showCrossCursor, equations} = props.params;
+    const scale = parseZoom(zoom) / deviceRatio;
+    const translation = transformer(origin, scale);
+
     const gridRef: any = useRef<HTMLCanvasElement>();
     const crossRef: any = useRef<HTMLCanvasElement>();
 
@@ -46,36 +49,32 @@ export const Stage: FunctionComponent<StageProps> = (props) => {
     useEffect(() => {
         withCanvasContext(gridRef.current, context => {
             erasure(context, size);
-            redrawGrid(context, origin, size, parseZoom(zoomIndex), GRID_COLOR);
+            redrawGrid(context, origin, size, parseZoom(zoom), GRID_COLOR);
             redrawAxis(context, origin, size, AXIS_COLOR);
         });
 
         const range: [Size, Size] = [[
-            -origin[0] / parseZoom(zoomIndex) * deviceRatio,
-            (size[0] - origin[0]) / parseZoom(zoomIndex) * deviceRatio
+            -origin[0] / scale,
+            (size[0] - origin[0]) / scale
         ], [
-            (origin[1] - size[1]) / parseZoom(zoomIndex) * deviceRatio,
-            origin[1] / parseZoom(zoomIndex) * deviceRatio
+            (origin[1] - size[1]) / scale,
+            origin[1] / scale
         ]];
-
-        const zoom = parseZoom(zoomIndex) / deviceRatio;
 
         (async () => {
             setRedrawing(true);
-            console.log(Date.now());
             await Promise.all(equations.map(({func, color}, index) => {
                 const canvas = document.querySelector<HTMLCanvasElement>(`#equation-${code}-${index}`);
                 withCanvasContext(canvas, async context => {
                     erasure(context, size);
-                    const matrix = await arithmetic({range, func, origin, zoom, isSmooth});
+                    const matrix = await arithmetic({range, func, origin, scale, isSmooth});
                     erasure(context, size);
-                    drawEquation(context, matrix, isBold, color);
+                    drawEquation(context, matrix.map(translation), isBold, color);
                 });
             }));
-            console.log(Date.now());
             setRedrawing(false);
         })();
-    }, [origin[0], origin[1], size[0], size[1], zoomIndex, isSmooth, isBold]);
+    }, [origin[0], origin[1], size[0], size[1], zoom, isSmooth, isBold]);
 
     useEffect(() => {
         if (showCrossCursor) {

@@ -13,20 +13,20 @@ export interface ZoomPanelProps {
 
 export const ZoomPanel: FunctionComponent<ZoomPanelProps> = (props) => {
     const {pushToHistory} = props;
-    const {zoomIndex} = props.params;
+    const {zoom} = props.params;
     return (
         <ZoomPanelWrapper>
             <ShadowWrapper>
                 <ZoomInButton
                     title="Zoom In"
                     {...stopPropagation}
-                    onClick={() => pushToHistory({zoomIndex: normalizeZoomIndex(zoomIndex, 1)})}>Zoom In</ZoomInButton>
+                    onClick={() => pushToHistory({zoom: normalizeZoomIndex(zoom, 1)})}>Zoom In</ZoomInButton>
                 <ZoomOutButton
                     title="Zoom Out"
                     {...stopPropagation}
-                    onClick={() => pushToHistory({zoomIndex: normalizeZoomIndex(zoomIndex, -1)})}>Zoom Out</ZoomOutButton>
+                    onClick={() => pushToHistory({zoom: normalizeZoomIndex(zoom, -1)})}>Zoom Out</ZoomOutButton>
             </ShadowWrapper>
-            <ZoomLevelButton zoomIndex={zoomIndex} title={`x${zoomIndex}`}>{`x${zoomIndex}`}</ZoomLevelButton>
+            <ZoomLevelButton zoomIndex={zoom} title={`x${zoom}`}>{`x${zoom}`}</ZoomLevelButton>
         </ZoomPanelWrapper>
     );
 };
