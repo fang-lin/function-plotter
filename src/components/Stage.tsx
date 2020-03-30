@@ -1,6 +1,6 @@
 import React, {Dispatch, FunctionComponent, MutableRefObject, SetStateAction, useEffect, useRef} from 'react';
 import random from 'lodash/random';
-import {arithmetic} from '../services/arithmetic';
+import {executeCalculate, terminateCalculate} from '../services/executeCalculate';
 import {
     StageWrapper,
     GridCanvas,
@@ -62,15 +62,17 @@ export const Stage: FunctionComponent<StageProps> = (props) => {
 
         (async (): Promise<void> => {
             setRedrawing(true);
+            await terminateCalculate();
             await Promise.all(equations.map(({func, color}, index) => {
                 const canvas = document.querySelector<HTMLCanvasElement>(`#equation-${code}-${index}`);
                 withCanvasContext(async context => {
                     erasure(context, size);
-                    const matrix = await arithmetic({range, func, origin, scale, isSmooth});
+                    const matrix = await executeCalculate({range, func, origin, scale, isSmooth});
                     erasure(context, size);
                     drawEquation(context, matrix, isBold, color);
                 }, canvas);
             }));
+            await terminateCalculate();
             setRedrawing(false);
         })();
     }, [origin[0], origin[1], size[0], size[1], zoom, isSmooth, isBold]);

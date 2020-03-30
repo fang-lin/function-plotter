@@ -80,9 +80,14 @@ export function calculate(input: Input): Coordinate[] {
     return calculateFinalPoints();
 }
 
-export async function arithmetic(input: Input): Promise<Coordinate[]> {
+export async function executeCalculate(input: Input): Promise<Coordinate[]> {
     // return new Promise(resolve => resolve(parameterEquation(input)));
-    const finalPoints = await workerPool.exec(calculate, [input]);
-    await workerPool.terminate();
-    return finalPoints;
+    // await workerPool.terminate();
+    return await workerPool.exec(calculate, [input]);
 }
+
+export async function terminateCalculate(): Promise<unknown> {
+    return (await workerPool.terminate()) as unknown;
+}
+
+
