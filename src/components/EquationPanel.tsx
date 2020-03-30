@@ -1,4 +1,4 @@
-import React, {Dispatch, FunctionComponent, SetStateAction} from 'react';
+import React, {FunctionComponent} from 'react';
 import {
     EquationPanelWrapper,
     ExpandToggle,
@@ -16,7 +16,7 @@ import {
 import {ParsedParams, stopPropagation} from './App.function';
 import {AddButton} from './EquationPanel.style';
 import {Title} from './Dialog.style';
-import {Equation} from "../services/Equation";
+import {Equation} from '../services/Equation';
 
 export interface EquationPanelProps {
     pushToHistory: (params: Partial<ParsedParams>) => void;
@@ -33,23 +33,23 @@ export const EquationPanel: FunctionComponent<EquationPanelProps> = (props) => {
 
     const {expandEquationPanel, equations} = params;
 
-    const toggleEquationDisplayed = (index: number) => () => {
+    const toggleEquationDisplayed = (index: number) => (): void => {
         const equation = equations[index];
         equations[index] = new Equation({...equation, ...{displayed: !equation.displayed}});
         pushToHistory({equations});
     };
 
-    const removeEquation = (index: number) => () => {
+    const removeEquation = (index: number) => (): void => {
         equations.splice(index, 1);
         pushToHistory({equations});
     };
 
-    const editEquation = (index: number) => () => {
+    const editEquation = (index: number) => (): void => {
         setEditingEquationIndex(index);
         pushToHistory({displayEquationDialog: true});
     };
 
-    const addEquation = () => {
+    const addEquation = (): void => {
         setEditingEquationIndex(-1);
         pushToHistory({displayEquationDialog: true});
     };
@@ -58,7 +58,7 @@ export const EquationPanel: FunctionComponent<EquationPanelProps> = (props) => {
         <EquationPanelTitleBar>
             <Title>Equations</Title>
             <ButtonWrapper>
-                <InfoButton onClick={() => pushToHistory({displayInfoDialog: true})}>Info</InfoButton>
+                <InfoButton onClick={(): void => pushToHistory({displayInfoDialog: true})}>Info</InfoButton>
                 <AddButton onClick={addEquation}>Add</AddButton>
             </ButtonWrapper>
         </EquationPanelTitleBar>
@@ -67,7 +67,7 @@ export const EquationPanel: FunctionComponent<EquationPanelProps> = (props) => {
                 equations.map(({displayed, fx, color}, index) => {
                     return <EquationItem key={index} style={{borderTop: `${color} solid 1px`}}>
                         <DisplayEquationButton {...{displayed, color}} style={{backgroundColor: color}}
-                                               onClick={toggleEquationDisplayed(index)}/>
+                            onClick={toggleEquationDisplayed(index)}/>
                         <EquationText {...{displayed}}>{fx}</EquationText>
                         <EditButtonWrapper>
                             <EditButton onClick={editEquation(index)}>Edit</EditButton>
@@ -78,6 +78,6 @@ export const EquationPanel: FunctionComponent<EquationPanelProps> = (props) => {
             }</EquationsList>
         </EquationPanelInner>
         <ExpandToggle expandEquationPanel={expandEquationPanel}
-                      onClick={() => pushToHistory({expandEquationPanel: !expandEquationPanel})}/>
+            onClick={(): void => pushToHistory({expandEquationPanel: !expandEquationPanel})}/>
     </EquationPanelWrapper>;
 };

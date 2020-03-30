@@ -3,8 +3,8 @@ import React from 'react';
 import {Redirect, Route, Router, Switch} from 'react-router';
 import {createBrowserHistory} from 'history';
 import {App} from './components/App';
-import {GlobalStyle} from "./components/AppWrapper";
-import {utoa} from "./components/App.function";
+import {GlobalStyle} from './components/AppWrapper';
+import {utoa} from './components/App.function';
 
 const dom = document.getElementById('root');
 if (dom) {
@@ -15,8 +15,8 @@ if (dom) {
         <GlobalStyle/>
         <Switch>
             <Route exact
-                   path="/:zoomIndex/:originX/:originY/:toggles/:equations"
-                   component={App}>
+                path="/:zoom/:originX/:originY/:toggles/:equations"
+                component={App}>
             </Route>
             <Redirect from="/" to={defaultURL}/>
         </Switch>

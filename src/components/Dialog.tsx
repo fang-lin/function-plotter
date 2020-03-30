@@ -1,4 +1,4 @@
-import React, {FunctionComponent, ReactChildren, useEffect, useState} from 'react';
+import React, {FunctionComponent, useEffect, useState} from 'react';
 import {stopPropagation} from './App.function';
 import {
     DialogBackground,
@@ -11,7 +11,7 @@ export interface DialogProps {
     close: () => void;
 }
 
-export const transitionDuration: number = 200;
+export const transitionDuration = 200;
 
 export const Dialog: FunctionComponent<DialogProps> = (props) => {
     const {isShow, close, children} = props;

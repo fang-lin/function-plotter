@@ -1,6 +1,6 @@
 import {parseToggle, stringifyToggle} from '../components/App.function';
 
-export interface IEquation {
+export interface EquationInterface {
     fx: string;
     color: string;
     displayed: boolean;
@@ -8,13 +8,13 @@ export interface IEquation {
 
 export type EquationSerial = [string, string, string]
 
-export class Equation implements IEquation {
+export class Equation implements EquationInterface {
     public color: string;
     public fx: string;
     public func: string;
     public displayed: boolean;
 
-    constructor({fx, color, displayed}: IEquation) {
+    constructor({fx, color, displayed}: EquationInterface) {
         this.fx = fx;
         this.color = color;
         this.displayed = displayed;
@@ -22,7 +22,7 @@ export class Equation implements IEquation {
     }
 
     serialization(): EquationSerial {
-        return [this.fx, this.color, stringifyToggle(this.displayed)]
+        return [this.fx, this.color, stringifyToggle(this.displayed)];
     }
 
     static parse(serial: EquationSerial): Equation {

@@ -20,11 +20,11 @@ export const ZoomPanel: FunctionComponent<ZoomPanelProps> = (props) => {
                 <ZoomInButton
                     title="Zoom In"
                     {...stopPropagation}
-                    onClick={() => pushToHistory({zoom: normalizeZoomIndex(zoom, 1)})}>Zoom In</ZoomInButton>
+                    onClick={(): void => pushToHistory({zoom: normalizeZoomIndex(zoom, 1)})}>Zoom In</ZoomInButton>
                 <ZoomOutButton
                     title="Zoom Out"
                     {...stopPropagation}
-                    onClick={() => pushToHistory({zoom: normalizeZoomIndex(zoom, -1)})}>Zoom Out</ZoomOutButton>
+                    onClick={(): void => pushToHistory({zoom: normalizeZoomIndex(zoom, -1)})}>Zoom Out</ZoomOutButton>
             </ShadowWrapper>
             <ZoomLevelButton zoomIndex={zoom} title={`x${zoom}`}>{`x${zoom}`}</ZoomLevelButton>
         </ZoomPanelWrapper>

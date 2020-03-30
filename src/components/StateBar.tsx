@@ -1,7 +1,7 @@
 import React, {FunctionComponent} from 'react';
 import {StateBarWrapper, AppTitle, CoordinateLabel, IsDrawing} from './StateBar.style';
 import {version} from '../../package.json';
-import {ParsedParams, Coordinate, deviceRatio, parseZoom} from "./App.function";
+import {ParsedParams, Coordinate, deviceRatio, parseZoom} from './App.function';
 
 const getCoordinate = (offset: number, zoomLevel: number): string => {
     return isNaN(offset) ? '--' : (offset / parseZoom(zoomLevel) * deviceRatio).toFixed(2);

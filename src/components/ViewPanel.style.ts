@@ -13,7 +13,7 @@ import lightCurve from '../images/light-curve.png';
 import lightCurveHover from '../images/light-curve-hover.png';
 import boldCurve from '../images/bold-curve.png';
 import boldCurveHover from '../images/bold-curve-hover.png';
-import {LargeIconButton} from "./Dialog.style";
+import {LargeIconButton} from './Dialog.style';
 
 export const ViewPanelWrapper = styled.div`
     position: absolute;
@@ -30,26 +30,26 @@ export const CenteredButton = styled(LargeIconButton)`
     }
 `;
 
-export const SmoothButton = styled(LargeIconButton)<{ isSmooth: boolean; }>`
+export const SmoothButton = styled(LargeIconButton)<{ isSmooth: boolean }>`
     margin-right: 5px;
-    background-image: url(${({isSmooth}) => isSmooth ? smoothOn : smoothOff});
+    background-image: url(${({isSmooth}): string => isSmooth ? smoothOn : smoothOff});
     :hover{
-        background-image: url(${({isSmooth}) => isSmooth ? smoothOnHover : smoothOffHover});
+        background-image: url(${({isSmooth}): string => isSmooth ? smoothOnHover : smoothOffHover});
     }
 `;
 
-export const WeightButton = styled(LargeIconButton)<{ isBold: boolean; }>`
+export const WeightButton = styled(LargeIconButton)<{ isBold: boolean }>`
     margin-right: 5px;
-    background-image: url(${({isBold}) => isBold ? boldCurve : lightCurve});
+    background-image: url(${({isBold}): string => isBold ? boldCurve : lightCurve});
     :hover{
-        background-image: url(${({isBold}) => isBold ? boldCurveHover : lightCurveHover});
+        background-image: url(${({isBold}): string => isBold ? boldCurveHover : lightCurveHover});
     }
 `;
 
-export const CoordinateButton = styled(LargeIconButton)<{ showCoordinate: boolean; }>`
+export const CoordinateButton = styled(LargeIconButton)<{ showCoordinate: boolean }>`
     margin-right: 5px;
-    background-image: url(${({showCoordinate}) => showCoordinate ? coordinateOn : coordinateOff});
+    background-image: url(${({showCoordinate}): string => showCoordinate ? coordinateOn : coordinateOff});
     :hover{
-        background-image: url(${({showCoordinate}) => showCoordinate ? coordinateOnHover : coordinateOffHover});
+        background-image: url(${({showCoordinate}): string => showCoordinate ? coordinateOnHover : coordinateOffHover});
     }
 `;

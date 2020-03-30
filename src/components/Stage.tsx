@@ -1,6 +1,6 @@
-import React, {Dispatch, FunctionComponent, SetStateAction, useEffect, useRef} from 'react';
+import React, {Dispatch, FunctionComponent, MutableRefObject, SetStateAction, useEffect, useRef} from 'react';
 import random from 'lodash/random';
-import {arithmetic, transformer} from '../services/arithmetic';
+import {arithmetic} from '../services/arithmetic';
 import {
     StageWrapper,
     GridCanvas,
@@ -32,10 +32,9 @@ export const Stage: FunctionComponent<StageProps> = (props) => {
     const {cursor, size, transform, setRedrawing} = props;
     const {origin, zoom, isSmooth, isBold, showCrossCursor, equations} = props.params;
     const scale = parseZoom(zoom) / deviceRatio;
-    const translation = transformer(origin, scale);
 
-    const gridRef: any = useRef<HTMLCanvasElement>();
-    const crossRef: any = useRef<HTMLCanvasElement>();
+    const gridRef: MutableRefObject<HTMLCanvasElement | undefined> = useRef<HTMLCanvasElement>();
+    const crossRef: MutableRefObject<HTMLCanvasElement | undefined> = useRef<HTMLCanvasElement>();
 
     const attributes = {
         width: size[0] * deviceRatio,
@@ -47,11 +46,11 @@ export const Stage: FunctionComponent<StageProps> = (props) => {
     };
 
     useEffect(() => {
-        withCanvasContext(gridRef.current, context => {
+        withCanvasContext(context => {
             erasure(context, size);
             redrawGrid(context, origin, size, parseZoom(zoom), GRID_COLOR);
             redrawAxis(context, origin, size, AXIS_COLOR);
-        });
+        }, gridRef.current);
 
         const range: [Size, Size] = [[
             -origin[0] / scale,
@@ -61,16 +60,16 @@ export const Stage: FunctionComponent<StageProps> = (props) => {
             origin[1] / scale
         ]];
 
-        (async () => {
+        (async (): Promise<void> => {
             setRedrawing(true);
             await Promise.all(equations.map(({func, color}, index) => {
                 const canvas = document.querySelector<HTMLCanvasElement>(`#equation-${code}-${index}`);
-                withCanvasContext(canvas, async context => {
+                withCanvasContext(async context => {
                     erasure(context, size);
                     const matrix = await arithmetic({range, func, origin, scale, isSmooth});
                     erasure(context, size);
-                    drawEquation(context, matrix.map(translation), isBold, color);
-                });
+                    drawEquation(context, matrix, isBold, color);
+                }, canvas);
             }));
             setRedrawing(false);
         })();
@@ -78,21 +77,21 @@ export const Stage: FunctionComponent<StageProps> = (props) => {
 
     useEffect(() => {
         if (showCrossCursor) {
-            withCanvasContext(crossRef.current, context => {
+            withCanvasContext(context => {
                 erasure(context, size);
                 redrawAxis(context, cursor, size, 'rgba(0, 0, 0, 0.3)');
-            });
+            }, crossRef.current);
         }
     }, [cursor[0], cursor[1]]);
 
-    useEffect(() => withCanvasContext(crossRef.current, context => erasure(context, size)), [showCrossCursor]);
+    useEffect(() => withCanvasContext(context => erasure(context, size), crossRef.current), [showCrossCursor, size]);
 
     return <StageWrapper style={{transform: `translate(${transform[0]}px, ${transform[1]}px)`}}>
         <BackgroundCanvas style={{...canvasSize}} {...attributes}/>
         {equations.map(({displayed}, index) => {
             const display = displayed ? 'block' : 'none';
             return <EquationCanvas id={`equation-${code}-${index}`}
-                                   key={index} style={{...canvasSize, display}} {...attributes}/>;
+                key={index} style={{...canvasSize, display}} {...attributes}/>;
         })}
         <GridCanvas ref={gridRef} style={{...canvasSize}} {...attributes}/>
         <CrossCanvas ref={crossRef} style={{...canvasSize}} {...attributes}/>

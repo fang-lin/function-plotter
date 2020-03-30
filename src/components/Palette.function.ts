@@ -1,14 +1,14 @@
-import {Dispatch, MouseEvent, SetStateAction} from "react";
-import {withCanvasContext} from "./Stage.function";
-import {deviceRatio, Size} from "./App.function";
+import {Dispatch, MouseEvent, SetStateAction} from 'react';
+import {withCanvasContext} from './Stage.function';
+import {deviceRatio, Size} from './App.function';
 
 export const toHex = (n: number): string => n.toString(16);
 
 const toHexs = (redIndex: number, greenIndex: number, blueIndex: number): string => {
-    return `#${toHex(redIndex * 2)}${toHex(greenIndex * 2)}${toHex(blueIndex * 2)}`
+    return `#${toHex(redIndex * 2)}${toHex(greenIndex * 2)}${toHex(blueIndex * 2)}`;
 };
 const toNavHex = (redIndex: number, greenIndex: number, blueIndex: number): string => {
-    return `#${toHex(15 - redIndex * 2)}${toHex(15 - greenIndex * 2)}${toHex(15 - blueIndex * 2)}`
+    return `#${toHex(15 - redIndex * 2)}${toHex(15 - greenIndex * 2)}${toHex(15 - blueIndex * 2)}`;
 };
 
 export const primary = [0, 2, 4, 6, 8, 10, 12, 14];
@@ -29,14 +29,7 @@ export const pickerAttributes = {
     height: (height + padding * 2) * deviceRatio
 };
 
-const drawCircle = (context: CanvasRenderingContext2D, x: number, y: number, radius: number, color: string): void => {
-    context.beginPath();
-    context.fillStyle = color;
-    context.arc(x, y, radius, 0, 2 * Math.PI);
-    context.fill();
-};
-
-export const onMouseMove = (canvas: HTMLCanvasElement, setHoveredColor: Dispatch<SetStateAction<string>>) => (event: MouseEvent<Element>) => {
+export const onMouseMove = (canvas: HTMLCanvasElement, setHoveredColor: Dispatch<SetStateAction<string>>) => (event: MouseEvent<Element>): void => {
     const {clientX, clientY} = event;
     const {left, top} = event.currentTarget.getBoundingClientRect();
     const position = [clientX - left, clientY - top];
@@ -47,7 +40,7 @@ export const onMouseMove = (canvas: HTMLCanvasElement, setHoveredColor: Dispatch
         const color = toHexs(redIndex, greenIndex, blueIndex);
 
         if (prevColor !== color) {
-            withCanvasContext(canvas, context => {
+            withCanvasContext(context => {
                 const x = ((redIndex * primary.length + greenIndex) * cellSize + padding) * deviceRatio;
                 const y = (blueIndex * cellSize + padding) * deviceRatio;
 
@@ -56,15 +49,15 @@ export const onMouseMove = (canvas: HTMLCanvasElement, setHoveredColor: Dispatch
                 context.strokeStyle = toNavHex(redIndex, greenIndex, blueIndex);
                 context.lineWidth = deviceRatio;
                 context.strokeRect(x, y, cellSize * deviceRatio, cellSize * deviceRatio);
-            });
+            }, canvas);
             return color;
         }
         return prevColor;
     });
 };
 
-export const drawPalette = <Color>(canvas: HTMLCanvasElement) => {
-    withCanvasContext(canvas, context => {
+export const drawPalette = <Color>(canvas: HTMLCanvasElement): void => {
+    withCanvasContext(context => {
         primary.map((r, rIndex) => primary.map((g, gIndex) => primary.map((b, bIndex) => {
             context.fillStyle = `#${toHex(r)}${toHex(g)}${toHex(b)}`;
             context.fillRect(
@@ -74,5 +67,5 @@ export const drawPalette = <Color>(canvas: HTMLCanvasElement) => {
                 deviceRatio * cellSize
             );
         })));
-    });
+    }, canvas);
 };

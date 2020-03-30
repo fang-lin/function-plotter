@@ -8,7 +8,7 @@ export class Equations extends Array<Equation> {
         Object.setPrototypeOf(this, Equations.prototype);
     }
 
-    serialization() {
+    serialization(): EquationSerial[] {
         return this.map(equation => equation.serialization());
     }
 

@@ -16,8 +16,8 @@ export const AppTitle = styled.h1`
 export const CoordinateLabel = styled.div`
     margin: 3px 5px;
 `;
-export const IsDrawing = styled.div<{ redrawing: boolean; }>`
+export const IsDrawing = styled.div<{ redrawing: boolean }>`
     margin: 3px 5px;
     transition: all .3s;
-    opacity: ${({redrawing}) => redrawing ? '1' : '0'};
+    opacity: ${({redrawing}): string => redrawing ? '1' : '0'};
 `;

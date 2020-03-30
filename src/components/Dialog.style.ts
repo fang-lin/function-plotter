@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import cross from '../images/cross.png';
 import crossHover from '../images/cross-hover.png';
-import {transitionDuration} from "./Dialog";
+import {transitionDuration} from './Dialog';
 
 export const DialogMask = styled.div<{ appearance: boolean }>`
     position: absolute;
@@ -11,7 +11,7 @@ export const DialogMask = styled.div<{ appearance: boolean }>`
     left: 0;
     background-color: rgba(0, 0, 0, .3);
     transition: all ${transitionDuration}ms;
-    opacity: ${({appearance}) => appearance ? '1' : '0'};
+    opacity: ${({appearance}): string => appearance ? '1' : '0'};
 `;
 
 export const DialogBackground = styled.div`
@@ -31,9 +31,9 @@ export const DialogWrapper = styled.div<{ appearance: boolean }>`
     border-radius: 8px;
     border: solid 1px #666;
     box-shadow: 0 10px 30px rgba(0, 0, 0, .7);
-    opacity: ${({appearance}) => appearance ? '1' : '0'};
+    opacity: ${({appearance}): string => appearance ? '1' : '0'};
     transition: opacity ${transitionDuration}ms ease-in-out, transform ${transitionDuration}ms cubic-bezier(0.5, 0, 0.27, 1.55);
-    transform: ${({appearance}) => appearance ? 'scale(1)' : 'scale(.5)'};
+    transform: ${({appearance}): string => appearance ? 'scale(1)' : 'scale(.5)'};
     cursor: auto;
 `;
 

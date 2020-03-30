@@ -6,6 +6,7 @@ module.exports = {
   'extends': [
     'eslint:recommended',
     'plugin:@typescript-eslint/eslint-recommended',
+    'plugin:@typescript-eslint/recommended',
     'plugin:react/recommended',
   ],
   'globals': {
@@ -28,6 +29,7 @@ module.exports = {
   'rules': {
     'react-hooks/rules-of-hooks': 'error',
     'react-hooks/exhaustive-deps': 'warn',
+    'react/prop-types': 'off',
     'indent': [
       'error',
       4
@@ -44,5 +46,10 @@ module.exports = {
       'error',
       'always'
     ]
+  },
+  'settings': {
+    'react': {
+      'version': 'detect'
+    }
   }
 };

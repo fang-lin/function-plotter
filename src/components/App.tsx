@@ -1,4 +1,4 @@
-import React, {Component, RefObject} from 'react';
+import React, {Component, ReactNode, RefObject} from 'react';
 import debounce from 'lodash/debounce';
 import {AppWrapper} from './AppWrapper';
 import {PreloadImages} from './PreloadImages';
@@ -38,7 +38,7 @@ interface State {
 export class App extends Component<RouteComponentProps<OriginalParams>, State> {
     private readonly appRef: RefObject<HTMLDivElement>;
 
-    constructor(props: any) {
+    constructor(props: RouteComponentProps<OriginalParams>) {
         super(props);
         this.appRef = React.createRef();
         this.state = {
@@ -52,22 +52,22 @@ export class App extends Component<RouteComponentProps<OriginalParams>, State> {
         };
     }
 
-    resetSize = () => this.setState({
+    resetSize = (): void => this.setState({
         size: (getStageSize(this.appRef.current))
     });
 
-    setCursor = (cursor: Coordinate) => this.setState({cursor});
+    setCursor = (cursor: Coordinate): void => this.setState({cursor});
 
-    setEditingEquationIndex = (editingEquationIndex: number) => this.setState({editingEquationIndex});
+    setEditingEquationIndex = (editingEquationIndex: number): void => this.setState({editingEquationIndex});
 
-    setRedrawing = (redrawing: boolean) => {
+    setRedrawing = (redrawing: boolean): void => {
         this.setState({redrawing});
     };
 
     onResizing = debounce(this.resetSize, 200);
-    onMoving = (event: DragEvent) => this.setCursor(getClient(event));
+    onMoving = (event: DragEvent): void => this.setCursor(getClient(event));
 
-    onDragStart = (event: DragEvent) => {
+    onDragStart = (event: DragEvent): void => {
         this.setState({
             client: getClient(event),
             dragState: DragState.start
@@ -77,7 +77,7 @@ export class App extends Component<RouteComponentProps<OriginalParams>, State> {
         window.removeEventListener(DragEvents[DragState.moving], this.onMoving);
     };
 
-    onDragging = (event: DragEvent) => {
+    onDragging = (event: DragEvent): void => {
         const instantaneousClient = getClient(event);
         const {client} = this.state;
 
@@ -87,7 +87,7 @@ export class App extends Component<RouteComponentProps<OriginalParams>, State> {
         });
     };
 
-    onDragEnd = (event: DragEvent) => {
+    onDragEnd = (event: DragEvent): void => {
         const instantaneousClient = getClient(event);
         const {client} = this.state;
         const {origin} = parseParams(this.props.match.params);
@@ -108,11 +108,11 @@ export class App extends Component<RouteComponentProps<OriginalParams>, State> {
         window.addEventListener(DragEvents[DragState.moving], this.onMoving);
     };
 
-    pushToHistory = (params: Partial<ParsedParams>) => {
+    pushToHistory = (params: Partial<ParsedParams>): void => {
         this.props.history.push(combineURL(this.props.match.params, params));
     };
 
-    componentDidMount() {
+    componentDidMount(): void {
         this.resetSize();
         window.addEventListener('resize', this.onResizing);
         window.addEventListener(DragEvents[DragState.moving], this.onMoving);
@@ -124,13 +124,13 @@ export class App extends Component<RouteComponentProps<OriginalParams>, State> {
         }
     }
 
-    componentWillUnmount() {
+    componentWillUnmount(): void {
         window.removeEventListener('resize', this.onResizing);
         window.removeEventListener(DragEvents[DragState.moving], this.onMoving);
         window.removeEventListener(DragEvents[DragState.start], this.onDragStart);
     }
 
-    render() {
+    render(): ReactNode {
         const params = parseParams(this.props.match.params);
         const {dragState, size, transform, cursor, redrawing, editingEquationIndex} = this.state;
         const {setRedrawing, pushToHistory, setEditingEquationIndex} = this;

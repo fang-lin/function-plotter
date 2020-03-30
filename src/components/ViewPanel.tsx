@@ -25,28 +25,28 @@ export const ViewPanel: FunctionComponent<ViewPanelProps> = (props) => {
         <CenteredButton
             title="Centered"
             {...stopPropagation}
-            onClick={() => pushToHistory({origin: getCenteredOrigin(size)})}>
+            onClick={(): void => pushToHistory({origin: getCenteredOrigin(size)})}>
             Centered
         </CenteredButton>
         <SmoothButton
             isSmooth={isSmooth}
             title={smoothText}
             {...stopPropagation}
-            onClick={() => pushToHistory({isSmooth: !isSmooth})}>
+            onClick={(): void => pushToHistory({isSmooth: !isSmooth})}>
             {smoothText}
         </SmoothButton>
         <WeightButton
             isBold={isBold}
             title={isBoldText}
             {...stopPropagation}
-            onClick={() => pushToHistory({isBold: !isBold})}>
+            onClick={(): void => pushToHistory({isBold: !isBold})}>
             {isBoldText}
         </WeightButton>
         <CoordinateButton
             showCoordinate={showCrossCursor}
             title={coordinateText}
             {...stopPropagation}
-            onClick={() => pushToHistory({showCrossCursor: !showCrossCursor})}>
+            onClick={(): void => pushToHistory({showCrossCursor: !showCrossCursor})}>
             {coordinateText}
         </CoordinateButton>
     </ViewPanelWrapper>;

@@ -35,7 +35,7 @@ import x13Hover from '../images/x13-hover.png';
 import x14Hover from '../images/x14-hover.png';
 import x15Hover from '../images/x15-hover.png';
 import x16Hover from '../images/x16-hover.png';
-import {LargeIconButton} from "./Dialog.style";
+import {LargeIconButton} from './Dialog.style';
 
 const levels = [x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, x11, x12, x13, x14, x15, x16];
 const hovers = [
@@ -78,10 +78,10 @@ export const ZoomOutButton = styled(LargeIconButton)`
     }
 `;
 
-export const ZoomLevelButton = styled(LargeIconButton)<{ zoomIndex: number; }>`
+export const ZoomLevelButton = styled(LargeIconButton)<{ zoomIndex: number }>`
     margin: 5px;
-    background-image: url(${({zoomIndex}) => levels[zoomIndex]});
+    background-image: url(${({zoomIndex}): string => levels[zoomIndex]});
     :hover{
-        background-image: url(${({zoomIndex}) => hovers[zoomIndex]});
+        background-image: url(${({zoomIndex}): string => hovers[zoomIndex]});
     }
 `;

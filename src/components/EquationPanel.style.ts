@@ -13,12 +13,12 @@ import eyeOpened from '../images/eye-opened.png';
 import eyeClosed from '../images/eye-closed.png';
 import info from '../images/info.png';
 import infoHover from '../images/info-hover.png';
-import {SmallIconButton, TitleBar} from "./Dialog.style";
+import {SmallIconButton, TitleBar} from './Dialog.style';
 
 const width = 320;
 
 export const EquationPanelWrapper = styled.div<{
-    displayEquationPanel: boolean
+    displayEquationPanel: boolean;
 }>`
     cursor: auto;
     position: absolute;
@@ -35,8 +35,8 @@ export const EquationPanelWrapper = styled.div<{
     overflow: hidden;
     background-color: #eee;
     transition: all .2s ease-in-out;
-    ${({displayEquationPanel}) => displayEquationPanel ? '' :
-    `transform: translateX(100%) translateX(-24px) translateY(-100%) translateY(24px);`}
+    ${({displayEquationPanel}): string => displayEquationPanel ? '' :
+        'transform: translateX(100%) translateX(-24px) translateY(-100%) translateY(24px);'}
 `;
 
 export const EquationPanelInner = styled.div`
@@ -57,7 +57,7 @@ const RightIconButton = styled(SmallIconButton)`
 `;
 
 export const ExpandToggle = styled(SmallIconButton)<{
-    expandEquationPanel: boolean
+    expandEquationPanel: boolean;
 }>`
     position: absolute;
     left: 0;
@@ -65,9 +65,9 @@ export const ExpandToggle = styled(SmallIconButton)<{
     border-radius: 0 4px 0 0;
     border-width: 1px 1px 0 0;
     background-position: 0 -1px;
-    background-image: url(${({expandEquationPanel}) => expandEquationPanel ? collapse : expand});
+    background-image: url(${({expandEquationPanel}): string => expandEquationPanel ? collapse : expand});
     :hover{
-        background-image: url(${({expandEquationPanel}) => expandEquationPanel ? collapseHover : expandHover});
+        background-image: url(${({expandEquationPanel}): string => expandEquationPanel ? collapseHover : expandHover});
     }
 `;
 
@@ -96,7 +96,7 @@ export const DisplayEquationButton = styled.button<{
     flex: none;
     width: 36px;
     background-size: 16px 16px;
-    background-image: url(${({displayed}) => displayed ? eyeOpened : eyeClosed});
+    background-image: url(${({displayed}): string => displayed ? eyeOpened : eyeClosed});
     background-repeat: no-repeat;
     background-position: 50% 50%;
    
@@ -151,9 +151,9 @@ export const EquationItem = styled.li`
         border-bottom: #666 solid 1px;
     }
 `;
-export const EquationText = styled.div<{ displayed: boolean; }>`
+export const EquationText = styled.div<{ displayed: boolean }>`
     flex: auto;
     font-size: 12px;
     padding: 15px;
-    ${({displayed}) => displayed ? '' : 'text-decoration:line-through;'}
+    ${({displayed}): string => displayed ? '' : 'text-decoration:line-through;'}
 `;
