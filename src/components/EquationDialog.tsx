@@ -44,7 +44,7 @@ export const EquationDialog: FunctionComponent<EquationFormProps> = (props) => {
             setFx(equation.fx);
             setColor(equation.color);
         });
-    }, [editingEquationIndex, merge]);
+    }, [merge]);
 
     const addEquation = (): void => {
         merge(() => {
