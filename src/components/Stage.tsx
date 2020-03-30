@@ -75,6 +75,7 @@ export const Stage: FunctionComponent<StageProps> = (props) => {
             await terminateCalculate();
             setRedrawing(false);
         })();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [origin[0], origin[1], size[0], size[1], zoom, isSmooth, isBold]);
 
     useEffect(() => {
@@ -84,7 +85,8 @@ export const Stage: FunctionComponent<StageProps> = (props) => {
                 redrawAxis(context, cursor, size, 'rgba(0, 0, 0, 0.3)');
             });
         }
-    }, [cursor[0], cursor[1]]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [cursor[0], cursor[1], size[0], size[1], showCrossCursor]);
 
     useEffect(() => withCanvasContext(crossRef.current, context => erasure(context, size)), [showCrossCursor, size]);
 
