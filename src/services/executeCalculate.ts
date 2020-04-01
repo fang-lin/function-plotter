@@ -17,23 +17,38 @@ export interface Input {
 
 export function calculate(input: Input): Coordinate[] {
     const {range, origin, scale, func, isSmooth} = input;
+    const fn = (new Function('x', `return ${func};`)) as Fn;
+    const unit = 1 / scale / 2;
 
     function transformer(point: Coordinate): Coordinate {
         const x = origin[0] + point[0] * scale;
         const y = origin[1] - point[1] * scale;
-        return isSmooth ? [Math.round(x), Math.round(y)] : [x, y];
+        return isSmooth ? [x, y] : [Math.round(x), Math.round(y)];
+    }
+
+
+    function isPointInRange(point: Coordinate): boolean {
+        return point[1] > range[1][0] && point[1] < range[1][1];
+    }
+
+    function distributePoint(result: Coordinate[], next: Coordinate[], lastPoint: Coordinate, currentPoint: Coordinate, dx: number): void {
+        const z = (dx ** 2 + (currentPoint[1] - lastPoint[1]) ** 2) ** .5;
+        if (isPointInRange(lastPoint) || !isPointInRange(lastPoint) && isPointInRange(currentPoint)) {
+            if (z < unit) {
+                result.push(transformer(lastPoint));
+            } else {
+                next.push(lastPoint);
+            }
+        }
     }
 
     function calculateFinalPoints(): Coordinate[] {
-        const fn = (new Function('x', `return ${func};`)) as Fn;
-
-        const unit = 1 / scale / 2;
         let level = 0;
         let dx = unit;
         let x: number = range[0][0];
 
-        const finalPoints: Coordinate[] = [];
-        let nextLevelPoints: Coordinate[] = [];
+        const resultPoints: Coordinate[] = [];
+        let nextPoints: Coordinate[] = [];
 
         while (level < 16) {
             dx /= 2;
@@ -43,38 +58,28 @@ export function calculate(input: Input): Coordinate[] {
                     x += dx;
                     const current: Coordinate = [x, fn(x)];
                     if (last) {
-                        const z = (dx ** 2 + (current[1] - last[1]) ** 2) ** .5;
-                        if (z < unit) {
-                            finalPoints.push(transformer(last));
-                        } else {
-                            nextLevelPoints.push(last);
-                        }
+                        distributePoint(resultPoints, nextPoints, last, current, dx);
                     }
                     last = current;
                 }
             } else {
-                const newPoints: Coordinate[] = [];
-                nextLevelPoints.forEach(last => {
+                const nextNextPoints: Coordinate[] = [];
+                nextPoints.forEach(last => {
                     const current: Coordinate = [last[0] + dx, fn(last[0] + dx)];
-                    const lastToCurrent = (dx ** 2 + (current[1] - last[1]) ** 2) ** .5;
-                    if (lastToCurrent < unit) {
-                        finalPoints.push(transformer(last));
-                    } else {
-                        newPoints.push(last);
-                    }
-                    const currentToNext = (dx ** 2 + (current[1] - fn(current[0] + dx)) ** 2) ** .5;
-                    if (currentToNext > unit) {
-                        newPoints.push(current);
+                    distributePoint(resultPoints, nextNextPoints, last, current, dx);
+                    const z = (dx ** 2 + (current[1] - fn(current[0] + dx)) ** 2) ** .5;
+                    if (z > unit) {
+                        nextNextPoints.push(current);
                     }
                 });
-                if (nextLevelPoints.length === 0) {
+                if (nextPoints.length === 0) {
                     break;
                 }
-                nextLevelPoints = newPoints;
+                nextPoints = nextNextPoints;
             }
             level++;
         }
-        return finalPoints;
+        return resultPoints;
     }
 
     return calculateFinalPoints();
