@@ -7,7 +7,7 @@
     "start": "parcel ./src/index.html -p 3031",
     "lint": "eslint src --ext .js,.jsx,.ts,.tsx",
     "build": "parcel build ./src/index.html --no-source-maps",
-    "test": "mocha -r ts-node/register src/**/*.test.ts --exit",
+    "test": "jest",
     "testWithCoverage": "nyc --reporter=lcov npm run test"
   },
   "dependencies": {
@@ -16,6 +16,7 @@
     "@types/color": "^3.0.1",
     "@types/history": "^4.7.5",
     "@types/lodash": "^4.14.149",
+    "@types/mathjs": "^6.0.5",
     "@types/mocha": "^5.2.7",
     "@types/react": "^16.9.25",
     "@types/react-dom": "^16.9.5",
@@ -30,9 +31,10 @@
     "eslint-plugin-react": "^7.19.0",
     "eslint-plugin-react-hooks": "^2.5.1",
     "history": "^4.10.1",
+    "jest": "^25.2.7",
+    "jest-extended": "^0.11.5",
     "lodash": "^4.17.15",
     "mathjs": "^6.6.1",
-    "mocha": "^6.2.2",
     "moment": "^2.24.0",
     "nyc": "^14.1.1",
     "parcel-bundler": "^1.12.4",
@@ -43,6 +45,7 @@
     "style.css": "^1.0.0",
     "styled-components": "^4.4.1",
     "threads": "^0.11.0",
+    "ts-jest": "^25.3.1",
     "ts-node": "^8.8.1",
     "typescript": "^3.8.3",
     "workerpool": "^5.0.4"

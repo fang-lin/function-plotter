@@ -1,6 +1,11 @@
 import React, {Dispatch, FunctionComponent, SetStateAction, useEffect, useRef} from 'react';
 import random from 'lodash/random';
-import {executeCalculate, terminateCalculate} from '../services/executeCalculate';
+import {
+    executeCalculate,
+    FunctionEquationInput,
+    ParametricEquationInput,
+    terminateCalculate
+} from '../services/executeCalculate';
 import {
     StageWrapper,
     GridCanvas,
@@ -63,13 +68,14 @@ export const Stage: FunctionComponent<StageProps> = (props) => {
         (async (): Promise<void> => {
             setRedrawing(true);
             await terminateCalculate();
-            await Promise.all(equations.map(({func, color}, index) => {
+            await Promise.all(equations.map((equation, index) => {
                 const canvas = document.querySelector<HTMLCanvasElement>(`#equation-${code}-${index}`);
                 withCanvasContext(canvas, async context => {
                     erasure(context, size);
-                    const matrix = await executeCalculate({range, func, origin, scale, isSmooth});
+                    const matrix = await executeCalculate<FunctionEquationInput | ParametricEquationInput>
+                    (equation, {range, origin, scale, isSmooth});
                     erasure(context, size);
-                    drawEquation(context, matrix, isBold, color);
+                    drawEquation(context, matrix, isBold, equation.color);
                 });
             }));
             await terminateCalculate();

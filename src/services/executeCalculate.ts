@@ -1,5 +1,9 @@
 import {pool} from 'workerpool';
+import {parse} from 'mathjs';
 import {Coordinate, Size} from '../components/App.function';
+import {FunctionEquation, isFunctionEquation} from './FunctionEquation';
+import {Equation} from './Equation';
+import {isParametricEquation, ParametricEquation} from './ParametricEquation';
 
 const workerPool = pool();
 
@@ -7,17 +11,19 @@ export interface Fn {
     (x: number): number;
 }
 
-export interface Input {
+interface Input {
     range: [Size, Size];
     origin: Coordinate;
-    func: string;
     scale: number;
     isSmooth: boolean;
 }
 
-export function calculate(input: Input): Coordinate[] {
-    const {range, origin, scale, func, isSmooth} = input;
-    const fn = (new Function('x', `return ${func};`)) as Fn;
+function calculateFunctionEquation(equation: FunctionEquation, input: Input): Coordinate[] {
+    const {range, origin, scale, isSmooth} = input;
+    const {fn} = equation;
+    // const func = (new Function('x', `return ${fn};`)) as Fn;
+    const s = parse(fn).compile();
+    const func = (x: number): number => s.evaluate({x});
     const unit = 1 / scale / 2;
 
     function transformer(point: Coordinate): Coordinate {
@@ -25,7 +31,6 @@ export function calculate(input: Input): Coordinate[] {
         const y = origin[1] - point[1] * scale;
         return isSmooth ? [x, y] : [Math.round(x), Math.round(y)];
     }
-
 
     function isPointInRange(point: Coordinate): boolean {
         return point[1] > range[1][0] && point[1] < range[1][1];
@@ -42,7 +47,7 @@ export function calculate(input: Input): Coordinate[] {
         }
     }
 
-    function calculateFinalPoints(): Coordinate[] {
+    function main(): Coordinate[] {
         let level = 0;
         let dx = unit;
         let x: number = range[0][0];
@@ -56,7 +61,7 @@ export function calculate(input: Input): Coordinate[] {
                 let last: Coordinate | null = null;
                 while (x < range[0][1]) {
                     x += dx;
-                    const current: Coordinate = [x, fn(x)];
+                    const current: Coordinate = [x, func(x)];
                     if (last) {
                         distributePoint(resultPoints, nextPoints, last, current, dx);
                     }
@@ -65,9 +70,9 @@ export function calculate(input: Input): Coordinate[] {
             } else {
                 const nextNextPoints: Coordinate[] = [];
                 nextPoints.forEach(last => {
-                    const current: Coordinate = [last[0] + dx, fn(last[0] + dx)];
+                    const current: Coordinate = [last[0] + dx, func(last[0] + dx)];
                     distributePoint(resultPoints, nextNextPoints, last, current, dx);
-                    const z = (dx ** 2 + (current[1] - fn(current[0] + dx)) ** 2) ** .5;
+                    const z = (dx ** 2 + (current[1] - func(current[0] + dx)) ** 2) ** .5;
                     if (z > unit) {
                         nextNextPoints.push(current);
                     }
@@ -82,13 +87,33 @@ export function calculate(input: Input): Coordinate[] {
         return resultPoints;
     }
 
-    return calculateFinalPoints();
+    return main();
 }
 
-export async function executeCalculate(input: Input): Promise<Coordinate[]> {
-    // return new Promise(resolve => resolve(parameterEquation(input)));
+function calculateParametricEquation(equation: ParametricEquation, input: Input): Coordinate[] {
+    // const {range, origin, scale, fx, fy, isSmooth} = input;
+    // const fn = (new Function('x', `return ${fn};`)) as Fn;
+    // const unit = 1 / scale / 2;
+
+    function main(): Coordinate[] {
+        return [];
+    }
+
+    return main();
+}
+
+export async function executeCalculate<T extends Equation>(equation: T, input: Input): Promise<Coordinate[]> {
+    return new Promise(resolve => resolve(calculateFunctionEquation(equation, input)));
     // await workerPool.terminate();
-    return await workerPool.exec(calculate, [input]);
+    // const p = parse('y=x+2').compile();
+    // // console.log(p.evaluate({x: 3}));
+    // if (isFunctionEquation(equation)) {
+    //     return await workerPool.exec(calculateFunctionEquation, [equation, input, p]);
+    // }
+    // if (isParametricEquation((equation))) {
+    //     return await workerPool.exec(calculateParametricEquation, [equation, input]);
+    // }
+    // return await new Promise(() => []);
 }
 
 export async function terminateCalculate(): Promise<unknown> {

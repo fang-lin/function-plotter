@@ -3,6 +3,8 @@ import {History} from 'history';
 import range from 'lodash/range';
 import isUndefined from 'lodash/isUndefined';
 import {Equations} from '../services/Equations';
+import {FunctionEquation} from '../services/FunctionEquation';
+import {ParametricEquation} from '../services/ParametricEquation';
 
 export type Coordinate = [number, number];
 export type Size = [number, number];
@@ -10,7 +12,7 @@ export type Size = [number, number];
 export interface ParsedParams {
     zoom: number;
     origin: Coordinate;
-    equations: Equations;
+    equations: Equations<FunctionEquation | ParametricEquation>;
     displayEquationDialog: boolean;
     expandEquationPanel: boolean;
     displayInfoDialog: boolean;

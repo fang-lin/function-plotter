@@ -14,11 +14,12 @@ import {
 } from './Dialog.style';
 import {Dialog} from './Dialog';
 import {Equation} from '../services/Equation';
+import {FunctionEquation} from "../services/FunctionEquation";
 
 export const EquationDialog: FunctionComponent<EquationFormProps> = (props) => {
     const {editingEquationIndex, params, pushToHistory} = props;
     const {displayEquationDialog, equations} = params;
-    const [fx, setFx] = useState<string>('');
+    const [expression, setExpression] = useState<string>('');
     const [color, setColor] = useState<string>('');
 
     const merge = useCallback(
@@ -35,23 +36,23 @@ export const EquationDialog: FunctionComponent<EquationFormProps> = (props) => {
     );
 
     const reset = (): void => {
-        setFx('');
+        setExpression('');
         setColor('#090');
     };
 
     useEffect(() => {
         merge(reset, (equation) => {
-            setFx(equation.fx);
+            setExpression(equation.expression);
             setColor(equation.color);
         });
     }, [merge]);
 
     const addEquation = (): void => {
         merge(() => {
-            equations.push(new Equation({fx, color, displayed: true}));
+            equations.push(new FunctionEquation([expression, color, true]));
         }, (equation) => {
             const {displayed} = equation;
-            equations[editingEquationIndex] = new Equation({fx, color, displayed});
+            equations[editingEquationIndex] = new FunctionEquation([expression, color, displayed]);
         });
         pushToHistory({
             equations,
@@ -71,8 +72,8 @@ export const EquationDialog: FunctionComponent<EquationFormProps> = (props) => {
             <Close onClick={close}/>
         </TitleBar>
         <DialogInner>
-            <EquationTextarea style={{color, borderColor: color}} value={fx}
-                onChange={(event): void => setFx(event.target.value)}/>
+            <EquationTextarea style={{color, borderColor: color}} value={expression}
+                              onChange={(event): void => setExpression(event.target.value)}/>
             <Palette {...{color, setColor}}/>
             <ButtonWrapper>
                 <AddButton onClick={addEquation}>Add</AddButton>
