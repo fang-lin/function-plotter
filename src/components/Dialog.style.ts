@@ -104,8 +104,8 @@ export const LargeIconButton = styled(BaseIconButton)`
 `;
 
 export const Close = styled(SmallIconButton)`
-    background-image: url(${cross});
+    background-image: url(/${cross});
     :hover{
-        background-image: url(${crossHover});
+        background-image: url(/${crossHover});
     }
 `;

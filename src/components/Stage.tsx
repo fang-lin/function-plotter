@@ -2,8 +2,6 @@ import React, {Dispatch, FunctionComponent, SetStateAction, useEffect, useRef} f
 import random from 'lodash/random';
 import {
     executeCalculate,
-    FunctionEquationInput,
-    ParametricEquationInput,
     terminateCalculate
 } from '../services/executeCalculate';
 import {
@@ -22,6 +20,8 @@ import {
     redrawGrid,
     withCanvasContext
 } from './Stage.function';
+import {FunctionEquation} from '../services/FunctionEquation';
+import {ParametricEquation} from '../services/ParametricEquation';
 
 interface StageProps {
     cursor: Coordinate;
@@ -72,7 +72,7 @@ export const Stage: FunctionComponent<StageProps> = (props) => {
                 const canvas = document.querySelector<HTMLCanvasElement>(`#equation-${code}-${index}`);
                 withCanvasContext(canvas, async context => {
                     erasure(context, size);
-                    const matrix = await executeCalculate<FunctionEquationInput | ParametricEquationInput>
+                    const matrix = await executeCalculate<FunctionEquation | ParametricEquation>
                     (equation, {range, origin, scale, isSmooth});
                     erasure(context, size);
                     drawEquation(context, matrix, isBold, equation.color);

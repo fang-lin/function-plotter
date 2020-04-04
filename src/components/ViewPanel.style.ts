@@ -24,32 +24,32 @@ export const ViewPanelWrapper = styled.div`
 
 export const CenteredButton = styled(LargeIconButton)`
     margin-right: 5px;
-    background-image: url(${toCenter});
+    background-image: url(/${toCenter});
     :hover{
-        background-image: url(${toCenterHover});
+        background-image: url(/${toCenterHover});
     }
 `;
 
 export const SmoothButton = styled(LargeIconButton)<{ isSmooth: boolean }>`
     margin-right: 5px;
-    background-image: url(${({isSmooth}): string => isSmooth ? smoothOn : smoothOff});
+    background-image: url(/${({isSmooth}): string => isSmooth ? smoothOn : smoothOff});
     :hover{
-        background-image: url(${({isSmooth}): string => isSmooth ? smoothOnHover : smoothOffHover});
+        background-image: url(/${({isSmooth}): string => isSmooth ? smoothOnHover : smoothOffHover});
     }
 `;
 
 export const WeightButton = styled(LargeIconButton)<{ isBold: boolean }>`
     margin-right: 5px;
-    background-image: url(${({isBold}): string => isBold ? boldCurve : lightCurve});
+    background-image: url(/${({isBold}): string => isBold ? boldCurve : lightCurve});
     :hover{
-        background-image: url(${({isBold}): string => isBold ? boldCurveHover : lightCurveHover});
+        background-image: url(/${({isBold}): string => isBold ? boldCurveHover : lightCurveHover});
     }
 `;
 
 export const CoordinateButton = styled(LargeIconButton)<{ showCoordinate: boolean }>`
     margin-right: 5px;
-    background-image: url(${({showCoordinate}): string => showCoordinate ? coordinateOn : coordinateOff});
+    background-image: url(/${({showCoordinate}): string => showCoordinate ? coordinateOn : coordinateOff});
     :hover{
-        background-image: url(${({showCoordinate}): string => showCoordinate ? coordinateOnHover : coordinateOffHover});
+        background-image: url(/${({showCoordinate}): string => showCoordinate ? coordinateOnHover : coordinateOffHover});
     }
 `;

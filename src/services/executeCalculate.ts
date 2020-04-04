@@ -103,7 +103,10 @@ function calculateParametricEquation(equation: ParametricEquation, input: Input)
 }
 
 export async function executeCalculate<T extends Equation>(equation: T, input: Input): Promise<Coordinate[]> {
-    return new Promise(resolve => resolve(calculateFunctionEquation(equation, input)));
+    if (isFunctionEquation(equation)) {
+        return new Promise(resolve => resolve(calculateFunctionEquation(equation, input)));
+    }
+
     // await workerPool.terminate();
     // const p = parse('y=x+2').compile();
     // // console.log(p.evaluate({x: 3}));
@@ -113,7 +116,7 @@ export async function executeCalculate<T extends Equation>(equation: T, input: I
     // if (isParametricEquation((equation))) {
     //     return await workerPool.exec(calculateParametricEquation, [equation, input]);
     // }
-    // return await new Promise(() => []);
+    return await new Promise(() => []);
 }
 
 export async function terminateCalculate(): Promise<unknown> {

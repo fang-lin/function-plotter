@@ -1,5 +1,4 @@
 import {Equation, EquationSerial} from './Equation';
-import {parseToggle, stringifyToggle} from '../components/App.function';
 
 export interface Fxy {
     fx: string;
@@ -19,11 +18,11 @@ export class ParametricEquation implements Equation<Fxy> {
         this.fx = fx;
         this.fy = fy;
         this.color = color;
-        this.displayed = parseToggle(displayed);
+        this.displayed = displayed;
     }
 
     serialization(): EquationSerial {
-        return [this.expression, this.color, stringifyToggle(this.displayed)];
+        return [this.expression, this.color, this.displayed];
     }
 
     compile(expression: string): Fxy {
