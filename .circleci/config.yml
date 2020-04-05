@@ -34,10 +34,8 @@ jobs:
 #          to: 's3://my-s3-bucket-name'
 workflows:
   test-and-deploy:
-      jobs:
-        - test
-        - deploy:
-            requires: test
-            filters:
-              branches:
-                only: master
+    jobs:
+      - test
+      - deploy:
+          requires:
+            - test
