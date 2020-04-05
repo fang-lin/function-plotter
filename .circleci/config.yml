@@ -10,8 +10,8 @@ jobs:
       - checkout
 #      - node/with-cache:
       - node/install-packages
-      - npm run lint
-      - npm run test
+      - run: npm run lint
+      - run: npm run test
 #  deploy:
 #    executor:
 #      name: node/default
