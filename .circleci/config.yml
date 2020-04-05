@@ -8,16 +8,16 @@ jobs:
       name: node/default
     steps:
       - checkout
-#      - node/with-cache:
       - node/install-packages
       - run: npm run lint
       - run: npm run test
-#  deploy:
-#    executor:
-#      name: node/default
-#    steps:
-#      - checkout
-#      - npm run build
+  deploy:
+    executor:
+      name: node/default
+    steps:
+      - checkout
+      - node/install-packages
+      - run: npm run build
 #      - aws-s3/sync:
 #          arguments: |
 #            --acl public-read \
@@ -35,7 +35,7 @@ jobs:
 workflows:
   test-and-deploy:
     jobs:
+      - deploy:
+          requires:
+            - test
       - test
-#      - deploy:
-#          requires:
-#            - test
