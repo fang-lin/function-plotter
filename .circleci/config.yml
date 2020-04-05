@@ -9,7 +9,7 @@ jobs:
     steps:
       - checkout
       - node/install-packages
-      - run: npm run lint
+#      - run: npm run lint
       - run: npm run test
   deploy:
     executor:
@@ -38,4 +38,7 @@ workflows:
       - deploy:
           requires:
             - test
+          filters:
+            branches:
+              only: master
       - test
