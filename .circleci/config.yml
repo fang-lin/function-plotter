@@ -9,9 +9,10 @@ jobs:
     steps:
       - checkout
       - node/with-cache:
-      - node/install-packages
-      - npm run lint
-      - npm run test
+          steps:
+            - run: npm install
+            - run: npm run lint
+            - run: npm test
 #  deploy:
 #    executor:
 #      name: node/default
