@@ -19,8 +19,8 @@ export const EquationTextarea = styled.textarea`
 `;
 
 export const AddButton = styled(LargeIconButton)`
-    background-image: url(/${ok});
+    background-image: url(${ok});
     :hover{
-        background-image: url(/${okHover});
+        background-image: url(${okHover});
     }
 `;

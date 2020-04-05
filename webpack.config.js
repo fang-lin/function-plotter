@@ -1,5 +1,6 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 
 module.exports = {
     entry: './src/index.tsx',
@@ -42,15 +43,14 @@ module.exports = {
             },
         ]
     },
-    // externals: {
-    //     react: 'React',
-    //     'react-dom': 'ReactDOM'
-    // },
     plugins: [
         new HtmlWebpackPlugin({
             title: 'Custom template',
-            // Load a custom template (lodash by default)
             template: 'src/index.html'
-        })
-    ]
+        }),
+    ],
+    optimization: {
+        minimize: true,
+        minimizer: [new TerserPlugin()]
+    }
 };

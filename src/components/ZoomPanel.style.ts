@@ -62,26 +62,26 @@ export const ShadowWrapper = styled.div`
 export const ZoomInButton = styled(LargeIconButton)`
     border-radius: 6px 0 0 6px;
     margin-right: -1px;
-    background-image: url(/${ZoomIn});
+    background-image: url(${ZoomIn});
     box-shadow: none;
     :hover {
-        background-image: url(/${ZoomInHover});
+        background-image: url(${ZoomInHover});
     }
 `;
 
 export const ZoomOutButton = styled(LargeIconButton)`
     border-radius: 0 6px 6px 0;
-    background-image: url(/${ZoomOut});
+    background-image: url(${ZoomOut});
     box-shadow: none;
     :hover {
-        background-image: url(/${ZoomOutHover});
+        background-image: url(${ZoomOutHover});
     }
 `;
 
 export const ZoomLevelButton = styled(LargeIconButton)<{ zoomIndex: number }>`
     margin: 5px;
-    background-image: url(/${({zoomIndex}): string => levels[zoomIndex]});
+    background-image: url(${({zoomIndex}): string => levels[zoomIndex]});
     :hover{
-        background-image: url(/${({zoomIndex}): string => hovers[zoomIndex]});
+        background-image: url(${({zoomIndex}): string => hovers[zoomIndex]});
     }
 `;

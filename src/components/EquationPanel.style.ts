@@ -65,9 +65,9 @@ export const ExpandToggle = styled(SmallIconButton)<{
     border-radius: 0 4px 0 0;
     border-width: 1px 1px 0 0;
     background-position: 0 -1px;
-    background-image: url(/${({expandEquationPanel}): string => expandEquationPanel ? collapse : expand});
+    background-image: url(${({expandEquationPanel}): string => expandEquationPanel ? collapse : expand});
     :hover{
-        background-image: url(/${({expandEquationPanel}): string => expandEquationPanel ? collapseHover : expandHover});
+        background-image: url(${({expandEquationPanel}): string => expandEquationPanel ? collapseHover : expandHover});
     }
 `;
 
@@ -96,7 +96,7 @@ export const DisplayEquationButton = styled.button<{
     flex: none;
     width: 36px;
     background-size: 16px 16px;
-    background-image: url(/${({displayed}): string => displayed ? eyeOpened : eyeClosed});
+    background-image: url(${({displayed}): string => displayed ? eyeOpened : eyeClosed});
     background-repeat: no-repeat;
     background-position: 50% 50%;
    
@@ -105,33 +105,33 @@ export const DisplayEquationButton = styled.button<{
 export const InfoButton = styled(SmallIconButton)`
     border-radius: 8px;
     margin: 0 10px 0 0;
-    background-image: url(/${info});
+    background-image: url(${info});
     :hover{
-        background-image: url(/${infoHover});
+        background-image: url(${infoHover});
     }
 `;
 
 export const AddButton = styled(SmallIconButton)`
     border-radius: 8px;
-    background-image: url(/${add});
+    background-image: url(${add});
     :hover{
-        background-image: url(/${addHover});
+        background-image: url(${addHover});
     }
 `;
 
 export const EditButton = styled(LeftIconButton)`
     box-shadow: none;
-    background-image: url(/${edit});
+    background-image: url(${edit});
     :hover{
-        background-image: url(/${editHover});
+        background-image: url(${editHover});
     }
 `;
 
 export const RemoveButton = styled(RightIconButton)`
     box-shadow: none;
-    background-image: url(/${cross});
+    background-image: url(${cross});
     :hover{
-        background-image: url(/${crossHover});
+        background-image: url(${crossHover});
     }
 `;
 

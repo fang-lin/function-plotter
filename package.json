@@ -1,12 +1,11 @@
 {
   "name": "function-diagraph",
   "version": "3.0.0",
-  "main": "index.js",
   "license": "MIT",
   "scripts": {
     "start": "webpack-dev-server --mode development",
     "lint": "eslint src --ext .js,.jsx,.ts,.tsx",
-    "build": "webpack --config webpack.config.js",
+    "build": "webpack --config webpack.config.js --mode production --devtool none",
     "test": "jest",
     "testWithCoverage": "nyc --reporter=lcov npm run test"
   },
