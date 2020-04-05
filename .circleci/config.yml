@@ -12,12 +12,12 @@ jobs:
       - node/install-packages
       - npm run lint
       - npm run test
-  deploy:
-    executor:
-      name: node/default
-    steps:
-      - checkout
-      - npm run build
+#  deploy:
+#    executor:
+#      name: node/default
+#    steps:
+#      - checkout
+#      - npm run build
 #      - aws-s3/sync:
 #          arguments: |
 #            --acl public-read \
@@ -36,6 +36,6 @@ workflows:
   test-and-deploy:
     jobs:
       - test
-      - deploy:
-          requires:
-            - test
+#      - deploy:
+#          requires:
+#            - test
