@@ -1,10 +1,6 @@
 import React, {Dispatch, FunctionComponent, SetStateAction, useEffect, useRef} from 'react';
 import random from 'lodash/random';
 import {
-    executeCalculate,
-    terminateCalculate
-} from '../services/executeCalculate';
-import {
     StageWrapper,
     GridCanvas,
     BackgroundCanvas,
@@ -20,8 +16,7 @@ import {
     redrawGrid,
     withCanvasContext
 } from './Stage.function';
-import {FunctionEquation} from '../services/FunctionEquation';
-import {ParametricEquation} from '../services/ParametricEquation';
+import {workerPool} from '../services/workerPool';
 
 interface StageProps {
     cursor: Coordinate;
@@ -67,22 +62,22 @@ export const Stage: FunctionComponent<StageProps> = (props) => {
 
         (async (): Promise<void> => {
             setRedrawing(true);
-            await terminateCalculate();
             await Promise.all(equations.map((equation, index) => {
                 const canvas = document.querySelector<HTMLCanvasElement>(`#equation-${code}-${index}`);
-                withCanvasContext(canvas, async context => {
+                return withCanvasContext(canvas, async context => {
                     erasure(context, size);
-                    const matrix = await executeCalculate<FunctionEquation | ParametricEquation>
-                    (equation, {range, origin, scale, isSmooth});
-                    erasure(context, size);
-                    drawEquation(context, matrix, isBold, equation.color);
+                    if (equation.displayed) {
+                        const matrix = await workerPool.exec({equation, range, origin, scale, isSmooth});
+                        erasure(context, size);
+                        drawEquation(context, matrix, isBold, equation.color);
+                        return;
+                    }
                 });
             }));
-            await terminateCalculate();
             setRedrawing(false);
         })();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [origin[0], origin[1], size[0], size[1], zoom, isSmooth, isBold]);
+    }, [origin[0], origin[1], size[0], size[1], zoom, isSmooth, isBold, equations.serialization().join()]);
 
     useEffect(() => {
         if (showCrossCursor) {
@@ -98,11 +93,8 @@ export const Stage: FunctionComponent<StageProps> = (props) => {
 
     return <StageWrapper style={{transform: `translate(${transform[0]}px, ${transform[1]}px)`}}>
         <BackgroundCanvas style={{...canvasSize}} {...attributes}/>
-        {equations.map(({displayed}, index) => {
-            const display = displayed ? 'block' : 'none';
-            return <EquationCanvas id={`equation-${code}-${index}`}
-                key={index} style={{...canvasSize, display}} {...attributes}/>;
-        })}
+        {equations.map((e, index) => <EquationCanvas
+            id={`equation-${code}-${index}`} key={index} style={{...canvasSize}} {...attributes}/>)}
         <GridCanvas ref={gridRef} style={{...canvasSize}} {...attributes}/>
         <CrossCanvas ref={crossRef} style={{...canvasSize}} {...attributes}/>
     </StageWrapper>;

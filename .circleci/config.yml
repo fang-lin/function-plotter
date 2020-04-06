@@ -3,14 +3,13 @@ orbs:
   node: circleci/node@2.0.1
   aws-s3: circleci/aws-s3@1.0.15
 jobs:
-  test:
+  lint:
     executor:
       name: node/default
     steps:
       - checkout
       - node/install-packages
-#      - run: npm run lint
-      - run: npm run test
+      - run: npm run lint
   deploy:
     executor:
       name: node/default
@@ -37,8 +36,8 @@ workflows:
     jobs:
       - deploy:
           requires:
-            - test
+            - lint
           filters:
             branches:
               only: master
-      - test
+      - lint

@@ -1,6 +1,6 @@
 import React, {Component, ReactNode, RefObject} from 'react';
 import debounce from 'lodash/debounce';
-import {AppWrapper} from './AppWrapper';
+import {AppWrapper} from './App.style';
 import {PreloadImages} from './PreloadImages';
 import {Stage} from './Stage';
 import {StateBar} from './StateBar';

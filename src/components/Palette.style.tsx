@@ -1,15 +1,20 @@
 import styled from 'styled-components';
 import {Size} from './App.function';
+import {device} from './App.style';
 
 export const PaletteWrapper = styled.div<{
     size: Size;
 }>`
     cursor: pointer;
-    margin: 20px 0;
-    width: 640px;
-    height: 80px;
+    margin: 20px auto;
     display: flex;
     flex-wrap: wrap;
+    width: 320px;
+    height: 160px;
+    @media ${device.tablet} { 
+        width: 640px;
+        height: 80px;
+    }
 `;
 
 export const Color = styled.a`

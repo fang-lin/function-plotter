@@ -1,12 +1,13 @@
-import React, {FunctionComponent, useEffect, useState, useCallback} from 'react';
+import React, {FunctionComponent, useEffect, useState, useCallback, ChangeEvent} from 'react';
+import {parse} from 'mathjs';
 import {
-    AddButton,
-    EquationTextarea
+    AddButton, ButtonWrapper,
+    EquationTextarea,
+    ErrorLabel
 } from './EquationDialog.style';
 import {ParsedParams} from './App.function';
 import {Palette} from './Palette';
 import {
-    ButtonWrapper,
     Close,
     DialogInner,
     TitleBar,
@@ -14,13 +15,14 @@ import {
 } from './Dialog.style';
 import {Dialog} from './Dialog';
 import {Equation} from '../services/Equation';
-import {FunctionEquation} from "../services/FunctionEquation";
+import {FunctionEquation} from '../services/FunctionEquation';
 
 export const EquationDialog: FunctionComponent<EquationFormProps> = (props) => {
     const {editingEquationIndex, params, pushToHistory} = props;
     const {displayEquationDialog, equations} = params;
     const [expression, setExpression] = useState<string>('');
     const [color, setColor] = useState<string>('');
+    const [error, setError] = useState<string | null>(null);
 
     const merge = useCallback(
         (adding: () => void, editing: (equation: Equation) => void): void => {
@@ -38,6 +40,7 @@ export const EquationDialog: FunctionComponent<EquationFormProps> = (props) => {
     const reset = (): void => {
         setExpression('');
         setColor('#090');
+        setError(null);
     };
 
     useEffect(() => {
@@ -48,6 +51,12 @@ export const EquationDialog: FunctionComponent<EquationFormProps> = (props) => {
     }, [merge]);
 
     const addEquation = (): void => {
+        try {
+            parse(expression).compile().evaluate({x: 0});
+        } catch (e) {
+            setError(e.message);
+            return;
+        }
         merge(() => {
             equations.push(new FunctionEquation([expression, color, true]));
         }, (equation) => {
@@ -61,6 +70,11 @@ export const EquationDialog: FunctionComponent<EquationFormProps> = (props) => {
         reset();
     };
 
+    const changeEquation = (event: ChangeEvent<HTMLTextAreaElement>): void => {
+        setError(null);
+        setExpression(event.target.value);
+    };
+
     const close = (): void => {
         pushToHistory({displayEquationDialog: false});
         reset();
@@ -72,10 +86,10 @@ export const EquationDialog: FunctionComponent<EquationFormProps> = (props) => {
             <Close onClick={close}/>
         </TitleBar>
         <DialogInner>
-            <EquationTextarea style={{color, borderColor: color}} value={expression}
-                              onChange={(event): void => setExpression(event.target.value)}/>
+            <EquationTextarea style={{color, borderColor: color}} value={expression} onChange={changeEquation}/>
             <Palette {...{color, setColor}}/>
             <ButtonWrapper>
+                <ErrorLabel style={{color}}>{error && `Error: ${error}`}</ErrorLabel>
                 <AddButton onClick={addEquation}>Add</AddButton>
             </ButtonWrapper>
         </DialogInner>

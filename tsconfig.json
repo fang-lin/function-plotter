@@ -11,6 +11,7 @@
     "jsx": "react",
     "lib": [
       "es2018",
+      "webworker",
       "dom"
     ]
   },

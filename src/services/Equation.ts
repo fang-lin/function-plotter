@@ -1,11 +1,10 @@
-export interface Equation<Fn = unknown> {
+export interface Equation {
     expression: string;
     color: string;
     displayed: boolean;
+    type: string;
 
     serialization(): EquationSerial;
-
-    compile(expression: string): Fn;
 }
 
 export type EquationSerial = [string, string, boolean]

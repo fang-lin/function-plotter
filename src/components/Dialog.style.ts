@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import cross from '../images/cross.png';
 import crossHover from '../images/cross-hover.png';
 import {transitionDuration} from './Dialog';
+import {device} from './App.style';
 
 export const DialogMask = styled.div<{ appearance: boolean }>`
     position: absolute;
@@ -35,17 +36,19 @@ export const DialogWrapper = styled.div<{ appearance: boolean }>`
     transition: opacity ${transitionDuration}ms ease-in-out, transform ${transitionDuration}ms cubic-bezier(0.5, 0, 0.27, 1.55);
     transform: ${({appearance}): string => appearance ? 'scale(1)' : 'scale(.5)'};
     cursor: auto;
+    width: 100%;
+    box-sizing: border-box;
+    @media ${device.tablet} { 
+        width: auto;
+    }
 `;
 
 export const DialogInner = styled.div`
-    padding: 30px;
     font-size: 12px;
     line-height: 18px;
-    h3{
-        margin: 8px 0;
-    }
-    p{
-        margin: 8px 0;
+    padding: 30px 0;
+    @media ${device.tablet} { 
+        padding: 30px;
     }
 `;
 
@@ -66,11 +69,6 @@ export const Title = styled.h3`
     text-shadow: 0 1px 1px rgba(255, 255, 255, .7);
     margin: 0 15px 0 0;
     padding: 0;
-`;
-
-export const ButtonWrapper = styled.div`
-    display: flex;
-    justify-content: flex-end;
 `;
 
 const BaseIconButton = styled.button`

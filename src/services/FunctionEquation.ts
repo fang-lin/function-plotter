@@ -1,15 +1,23 @@
 import {Equation, EquationSerial} from './Equation';
-import {parseToggle, stringifyToggle} from '../components/App.function';
+import {Coordinate, Size} from '../components/App.function';
 
-export class FunctionEquation implements Equation<string> {
+export interface CalculateOptions {
+    range: [Size, Size];
+    origin: Coordinate;
+    scale: number;
+    isSmooth: boolean;
+}
+
+export class FunctionEquation implements Equation {
     public color: string;
     public expression: string;
     public fn: string;
     public displayed: boolean;
+    readonly type = 'FunctionEquation';
 
     constructor([expression, color, displayed]: EquationSerial) {
         this.expression = expression;
-        this.fn = this.compile(expression);
+        this.fn = expression;
         this.color = color;
         this.displayed = displayed;
     }
@@ -17,14 +25,8 @@ export class FunctionEquation implements Equation<string> {
     serialization(): EquationSerial {
         return [this.expression, this.color, this.displayed];
     }
-
-    compile(expression: string): string {
-        const x = expression.replace(/\r/, '');
-        console.log(x);
-        return x;
-    }
 }
 
 export function isFunctionEquation(equation: Equation): equation is FunctionEquation {
-    return equation instanceof FunctionEquation;
+    return equation.type === 'FunctionEquation';
 }
