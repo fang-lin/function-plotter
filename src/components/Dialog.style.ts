@@ -24,6 +24,7 @@ export const DialogBackground = styled.div`
     bottom: 0;
     left: 0;
     display: flex;
+    overflow: auto;
 `;
 
 export const DialogWrapper = styled.div<{ appearance: boolean }>`

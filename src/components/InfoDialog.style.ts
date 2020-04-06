@@ -17,7 +17,6 @@ export const Info = styled.div`
 
 export const InfoDialogBackground = styled(DialogBackground)`
     display: block;
-    overflow: scroll;
     @media ${device.tablet} { 
         display: flex;
     }
