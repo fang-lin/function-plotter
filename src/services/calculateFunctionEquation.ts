@@ -1,4 +1,4 @@
-import {EvalFunction, parse} from 'mathjs';
+import {parse} from 'mathjs';
 import {Coordinate, Size} from '../components/App.function';
 import {CalculateOptions, FunctionEquation} from './FunctionEquation';
 
@@ -28,13 +28,7 @@ function distributePoint(result: Coordinate[], next: Coordinate[], lastPoint: Co
 export function calculateFunctionEquation(equation: FunctionEquation, options: CalculateOptions): Coordinate[] {
     const {range, scale} = options;
     const {fn} = equation;
-    let s: EvalFunction;
-    try {
-        s = parse(fn).compile();
-    } catch (e) {
-        return [];
-    }
-    const func = (x: number): number => s.evaluate({x});
+    const func = parse(fn).compile();
     const unit = 1 / scale / 2;
 
     let level = 0;
@@ -50,7 +44,7 @@ export function calculateFunctionEquation(equation: FunctionEquation, options: C
             let last: Coordinate | null = null;
             while (x < range[0][1]) {
                 x += dx;
-                const current: Coordinate = [x, func(x)];
+                const current: Coordinate = [x, func.evaluate({x})];
                 if (last) {
                     distributePoint(resultPoints, nextPoints, last, current, dx, unit, options);
                 }
@@ -59,9 +53,9 @@ export function calculateFunctionEquation(equation: FunctionEquation, options: C
         } else {
             const nextNextPoints: Coordinate[] = [];
             nextPoints.forEach(last => {
-                const current: Coordinate = [last[0] + dx, func(last[0] + dx)];
+                const current: Coordinate = [last[0] + dx, func.evaluate({x: last[0] + dx})];
                 distributePoint(resultPoints, nextNextPoints, last, current, dx, unit, options);
-                const z = (dx ** 2 + (current[1] - func(current[0] + dx)) ** 2) ** .5;
+                const z = (dx ** 2 + (current[1] - func.evaluate({x: current[0] + dx})) ** 2) ** .5;
                 if (z > unit) {
                     nextNextPoints.push(current);
                 }
