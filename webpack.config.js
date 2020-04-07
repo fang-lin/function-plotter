@@ -3,6 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
 const WorkerPlugin = require('worker-plugin');
+const { version } = require('./package.json');
 
 module.exports = (env, argv) => {
     const config = {
@@ -47,7 +48,7 @@ module.exports = (env, argv) => {
         },
         plugins: [
             new HtmlWebpackPlugin({
-                title: 'Custom template',
+                title: `Function Diagram ${ version }`,
                 template: 'src/index.html',
                 inject: false
             }),
