@@ -4,8 +4,8 @@ import {WorkerInput} from './workerPool';
 import {calculateFunctionEquation} from './calculateFunctionEquation';
 
 addEventListener('message', (event: MessageEvent) => {
-    const {equation, range, origin, scale, isSmooth} = event.data as WorkerInput<FunctionEquation | ParametricEquation>;
+    const {equation, options} = event.data as WorkerInput<FunctionEquation | ParametricEquation>;
     if (isFunctionEquation(equation)) {
-        postMessage(calculateFunctionEquation(equation, {range, origin, scale, isSmooth}));
+        postMessage(calculateFunctionEquation(equation, options));
     }
 });

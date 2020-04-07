@@ -1,21 +1,14 @@
 import React, {FunctionComponent} from 'react';
 import {ViewPanelWrapper, CenteredButton, SmoothButton, CoordinateButton, WeightButton} from './ViewPanel.style';
-import {
-    Coordinate,
-    Size,
-    stopPropagation,
-    ParsedParams
-} from './App.function';
+import {stopPropagation, ParsedParams} from './App.function';
 
 interface ViewPanelProps {
-    getCenteredOrigin: (size: Size) => Coordinate;
-    size: Size;
     pushToHistory: (params: Partial<ParsedParams>) => void;
     params: ParsedParams;
 }
 
 export const ViewPanel: FunctionComponent<ViewPanelProps> = (props) => {
-    const {getCenteredOrigin, size, pushToHistory, params} = props;
+    const {pushToHistory, params} = props;
     const {isSmooth, isBold, showCrossCursor} = params;
     const smoothText = `Smooth: ${isSmooth ? 'On' : 'Off'}`;
     const isBoldText = `Weight: ${isBold ? 'Bold' : 'Light'}`;
@@ -25,7 +18,7 @@ export const ViewPanel: FunctionComponent<ViewPanelProps> = (props) => {
         <CenteredButton
             title="Centered"
             {...stopPropagation}
-            onClick={(): void => pushToHistory({origin: getCenteredOrigin(size)})}>
+            onClick={(): void => pushToHistory({origin: [0, 0]})}>
             Centered
         </CenteredButton>
         <SmoothButton

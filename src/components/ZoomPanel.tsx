@@ -1,9 +1,9 @@
 import React, {FunctionComponent} from 'react';
 import {ShadowWrapper, ZoomInButton, ZoomLevelButton, ZoomOutButton, ZoomPanelWrapper} from './ZoomPanel.style';
 import {
-    normalizeZoomIndex,
+    normalizeScaleIndex,
     stopPropagation,
-    ParsedParams
+    ParsedParams, getScaleLevel
 } from './App.function';
 
 export interface ZoomPanelProps {
@@ -13,20 +13,22 @@ export interface ZoomPanelProps {
 
 export const ZoomPanel: FunctionComponent<ZoomPanelProps> = (props) => {
     const {pushToHistory} = props;
-    const {zoom} = props.params;
+    const {scale} = props.params;
+    const scaleLevel = getScaleLevel(scale);
     return (
         <ZoomPanelWrapper>
             <ShadowWrapper>
                 <ZoomInButton
                     title="Zoom In"
                     {...stopPropagation}
-                    onClick={(): void => pushToHistory({zoom: normalizeZoomIndex(zoom, 1)})}>Zoom In</ZoomInButton>
+                    onClick={(): void => pushToHistory({scale: normalizeScaleIndex(scale, 1)})}>Zoom In</ZoomInButton>
                 <ZoomOutButton
                     title="Zoom Out"
                     {...stopPropagation}
-                    onClick={(): void => pushToHistory({zoom: normalizeZoomIndex(zoom, -1)})}>Zoom Out</ZoomOutButton>
+                    onClick={(): void => pushToHistory({scale: normalizeScaleIndex(scale, -1)})}>Zoom
+                    Out</ZoomOutButton>
             </ShadowWrapper>
-            <ZoomLevelButton zoomIndex={zoom} title={`x${zoom}`}>{`x${zoom}`}</ZoomLevelButton>
+            <ZoomLevelButton {...{scaleLevel, title: `x${scaleLevel}`}}>{`x${scaleLevel}`}</ZoomLevelButton>
         </ZoomPanelWrapper>
     );
 };

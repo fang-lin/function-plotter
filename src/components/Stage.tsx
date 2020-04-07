@@ -6,7 +6,7 @@ import {
     BackgroundCanvas,
     CrossCanvas, EquationCanvas
 } from './Stage.style';
-import {ParsedParams, Coordinate, deviceRatio, parseZoom, Size} from './App.function';
+import {ParsedParams, Coordinate, deviceRatio, Size} from './App.function';
 import {
     AXIS_COLOR,
     drawEquation,
@@ -30,8 +30,7 @@ const code = random(1000, 9999);
 
 export const Stage: FunctionComponent<StageProps> = (props) => {
     const {cursor, size, transform, setRedrawing} = props;
-    const {origin, zoom, isSmooth, isBold, showCrossCursor, equations} = props.params;
-    const scale = parseZoom(zoom) / deviceRatio;
+    const {origin, scale, isSmooth, isBold, showCrossCursor, equations} = props.params;
 
     const gridRef = useRef<HTMLCanvasElement>(null);
     const crossRef = useRef<HTMLCanvasElement>(null);
@@ -48,17 +47,12 @@ export const Stage: FunctionComponent<StageProps> = (props) => {
     useEffect(() => {
         withCanvasContext(gridRef.current, context => {
             erasure(context, size);
-            redrawGrid(context, origin, size, parseZoom(zoom), GRID_COLOR);
-            redrawAxis(context, origin, size, AXIS_COLOR);
+            redrawGrid(context, origin, size, scale, GRID_COLOR);
+            redrawAxis(context, [
+                Math.floor(size[0] / 2 + origin[0]),
+                Math.floor(size[1] / 2 + origin[1]),
+            ], size, AXIS_COLOR, 2);
         });
-
-        const range: [Size, Size] = [[
-            -origin[0] / scale,
-            (size[0] - origin[0]) / scale
-        ], [
-            (origin[1] - size[1]) / scale,
-            origin[1] / scale
-        ]];
 
         (async (): Promise<void> => {
             setRedrawing(true);
@@ -67,7 +61,8 @@ export const Stage: FunctionComponent<StageProps> = (props) => {
                 return withCanvasContext(canvas, async context => {
                     erasure(context, size);
                     if (equation.displayed) {
-                        const matrix = await workerPool.exec({equation, range, origin, scale, isSmooth});
+                        const options = {origin, size, scale, isSmooth, deviceRatio};
+                        const matrix = await workerPool.exec({equation, options});
                         erasure(context, size);
                         drawEquation(context, matrix, isBold, equation.color);
                         return;
@@ -77,7 +72,7 @@ export const Stage: FunctionComponent<StageProps> = (props) => {
             setRedrawing(false);
         })();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [origin[0], origin[1], size[0], size[1], zoom, isSmooth, isBold, equations.serialization().join()]);
+    }, [origin[0], origin[1], size[0], size[1], scale, isSmooth, isBold, equations.serialization().join()]);
 
     useEffect(() => {
         if (showCrossCursor) {

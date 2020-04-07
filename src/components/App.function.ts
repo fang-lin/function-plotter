@@ -1,7 +1,6 @@
 import {Dispatch, DOMAttributes, SetStateAction, SyntheticEvent} from 'react';
 import {History} from 'history';
 import range from 'lodash/range';
-import isUndefined from 'lodash/isUndefined';
 import {Equations} from '../services/Equations';
 import {FunctionEquation} from '../services/FunctionEquation';
 import {ParametricEquation} from '../services/ParametricEquation';
@@ -10,7 +9,7 @@ export type Coordinate = [number, number];
 export type Size = [number, number];
 
 export interface ParsedParams {
-    zoom: number;
+    scale: number;
     origin: Coordinate;
     equations: Equations<FunctionEquation | ParametricEquation>;
     displayEquationDialog: boolean;
@@ -22,7 +21,7 @@ export interface ParsedParams {
 }
 
 export type OriginalParams = {
-    zoom: string;
+    scaleLevel: string;
     originX: string;
     originY: string;
     equations: string;
@@ -30,22 +29,22 @@ export type OriginalParams = {
 }
 
 export const deviceRatio: number = ((): number => window.devicePixelRatio || 1)();
-export const ZoomUnit: number = 2 ** .5;
-export const ZoomRange: number[] = range(deviceRatio * 2, deviceRatio * 2 + 16);
+export const scaleRange: number[] = range(2, 26).map(scale => 1.4142135623730951 ** scale);
 
-export function parseZoom(zoom: number): number {
-    return Math.pow(ZoomUnit, ZoomRange[zoom]);
+export function parseScale(scaleLevel: number): number {
+    return scaleRange[scaleLevel - 1];
+}
+
+export function getScaleLevel(scale: number): number {
+    return scaleRange.indexOf(scale) + 1;
 }
 
 function isTouchEvent(event: DragEvent): event is TouchEvent {
     return window.TouchEvent && event instanceof TouchEvent;
 }
 
-export function normalizeZoomIndex(zoomIndex: number, offset?: -1 | 1): number {
-    if (isUndefined(offset)) {
-        return ZoomRange[zoomIndex] ? zoomIndex : 7;
-    }
-    return ZoomRange[zoomIndex + offset] ? zoomIndex + offset : zoomIndex;
+export function normalizeScaleIndex(scale: number, offset: -1 | 1): number {
+    return scaleRange[getScaleLevel(scale) + offset - 1];
 }
 
 export function getClient(event: DragEvent): Coordinate {
@@ -97,10 +96,6 @@ export const getStageSize = (content: Element | null): Size => {
         return [width, height];
     }
     return [0, 0];
-};
-
-export const getCenteredOrigin = (size: Size): Coordinate => {
-    return [size[0] / 2, size[1] / 2];
 };
 
 export const onDragStartHOF = (
@@ -210,7 +205,7 @@ export function atou(code: string): string {
 
 export function parseParams(params: OriginalParams): ParsedParams {
     const {
-        zoom,
+        scaleLevel,
         originX,
         originY,
         equations,
@@ -227,7 +222,7 @@ export function parseParams(params: OriginalParams): ParsedParams {
     ] = toggles.split('');
 
     return {
-        zoom: normalizeZoomIndex(parseInt(zoom)),
+        scale: parseScale(parseInt(scaleLevel)),
         origin: [parseFloat(originX), parseFloat(originY)],
         showCrossCursor: parseToggle(showCrossCursor),
         isSmooth: parseToggle(isSmooth),
@@ -241,7 +236,7 @@ export function parseParams(params: OriginalParams): ParsedParams {
 
 export function stringifyParams(params: ParsedParams): OriginalParams {
     const {
-        zoom,
+        scale,
         origin,
         showCrossCursor,
         isSmooth,
@@ -253,7 +248,7 @@ export function stringifyParams(params: ParsedParams): OriginalParams {
     } = params;
 
     return {
-        zoom: zoom.toString(),
+        scaleLevel: getScaleLevel(scale).toString(),
         originX: origin[0].toString(),
         originY: origin[1].toString(),
         equations: equations.stringify(),
@@ -270,12 +265,12 @@ export function stringifyParams(params: ParsedParams): OriginalParams {
 
 export function combineURL(params: OriginalParams, partialParams: Partial<ParsedParams>): string {
     const {
-        zoom,
+        scaleLevel,
         originX,
         originY,
         equations,
         toggles
     } = stringifyParams({...parseParams(params), ...partialParams});
 
-    return `/${zoom}/${originX}/${originY}/${toggles}/${equations}`;
+    return `/${scaleLevel}/${originX}/${originY}/${toggles}/${equations}`;
 }

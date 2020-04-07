@@ -9,7 +9,6 @@ import {ZoomPanel} from './ZoomPanel';
 import {
     Coordinate,
     DragState,
-    getCenteredOrigin,
     getStageSize,
     Size,
     parseParams,
@@ -117,11 +116,6 @@ export class App extends Component<RouteComponentProps<OriginalParams>, State> {
         window.addEventListener('resize', this.onResizing);
         window.addEventListener(DragEvents[DragState.moving], this.onMoving);
         window.addEventListener(DragEvents[DragState.start], this.onDragStart);
-        const {origin} = parseParams(this.props.match.params);
-
-        if (isNaN(origin[0]) || isNaN(origin[1])) {
-            this.pushToHistory({origin: getCenteredOrigin(getStageSize(this.appRef.current))});
-        }
     }
 
     componentWillUnmount(): void {
@@ -138,17 +132,15 @@ export class App extends Component<RouteComponentProps<OriginalParams>, State> {
         return <AppWrapper {...{dragState}} ref={this.appRef}>
             <PreloadImages/>
             <Stage {...{cursor, size, transform, setRedrawing, params}}/>
-            <StateBar {...{params, cursor, redrawing}}/>
+            <StateBar {...{params, cursor, size, redrawing}}/>
             <EquationPanel {...{
                 pushToHistory,
                 params,
                 setEditingEquationIndex
             }}/>
             <ViewPanel {...{
-                getCenteredOrigin,
                 pushToHistory,
-                params,
-                size
+                params
             }}/>
             <ZoomPanel {...{
                 pushToHistory,

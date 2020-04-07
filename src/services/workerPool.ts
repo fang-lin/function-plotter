@@ -3,12 +3,17 @@ import {Equation} from './Equation';
 import {FunctionEquation} from './FunctionEquation';
 import {ParametricEquation} from './ParametricEquation';
 
-export interface WorkerInput<T> {
-    equation: T;
-    range: [Size, Size];
+export interface CalculateOptions {
+    size: Size;
     origin: Coordinate;
     scale: number;
+    deviceRatio: number;
     isSmooth: boolean;
+}
+
+export type WorkerInput<T> = {
+    equation: T;
+    options: CalculateOptions;
 }
 
 class CalculateWorker {
