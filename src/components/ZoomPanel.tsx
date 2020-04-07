@@ -20,7 +20,7 @@ export const ZoomPanel: FunctionComponent<ZoomPanelProps> = (props) => {
     };
 
     const zoomOut = (): void => {
-        const newScale = scaleRange[getScaleLevel(scale - 2)];
+        const newScale = scaleRange[getScaleLevel(scale) - 2];
         if (newScale) {
             pushToHistory({scale: newScale});
         }
