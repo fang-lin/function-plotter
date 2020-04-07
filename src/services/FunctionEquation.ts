@@ -1,6 +1,4 @@
 import {Equation, EquationSerial} from './Equation';
-import {Coordinate, Size} from '../components/App.function';
-
 
 export class FunctionEquation implements Equation {
     public color: string;
