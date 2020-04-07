@@ -69,7 +69,6 @@ export const ZoomPanelWrapper = styled.div`
     right: 20px;
     margin: -5px;
 `;
-
 export const ShadowWrapper = styled.div`
     margin: 5px;
     display: inline-block;
@@ -79,7 +78,7 @@ export const ShadowWrapper = styled.div`
 
 export const ZoomInButton = styled(LargeIconButton)`
     border-radius: 6px 0 0 6px;
-    margin-right: -1px;
+    margin: 0 -1px 0 0;
     background-image: url(${ZoomIn});
     box-shadow: none;
     :hover {
@@ -89,6 +88,7 @@ export const ZoomInButton = styled(LargeIconButton)`
 
 export const ZoomOutButton = styled(LargeIconButton)`
     border-radius: 0 6px 6px 0;
+    margin: 0;
     background-image: url(${ZoomOut});
     box-shadow: none;
     :hover {
@@ -97,7 +97,6 @@ export const ZoomOutButton = styled(LargeIconButton)`
 `;
 
 export const ZoomLevelButton = styled(LargeIconButton)<{ scaleLevel: number }>`
-    margin: 5px;
     background-image: url(${({scaleLevel}): string => levels[scaleLevel - 1]});
     :hover{
         background-image: url(${({scaleLevel}): string => hovers[scaleLevel - 1]});

@@ -100,6 +100,7 @@ export const LargeIconButton = styled(BaseIconButton)`
     height: 28px;
     background-size: 28px 28px;
     border-radius: 6px;
+    margin: 5px;
 `;
 
 export const Close = styled(SmallIconButton)`
