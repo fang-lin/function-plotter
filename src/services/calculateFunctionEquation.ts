@@ -18,7 +18,6 @@ function getRange(options: CalculateOptions): [Size, Size] {
     const {scale, size, origin} = options;
     const x = -size[0] / 2 - origin[0];
     const y = -size[1] / 2 + origin[1];
-    console.log([[x / scale, (x + size[0]) / scale], [y / scale, (y + size[1]) / scale]]);
     return [[x / scale, (x + size[0]) / scale], [y / scale, (y + size[1]) / scale]];
 }
 
@@ -34,7 +33,7 @@ function distributePoint(result: Coordinate[], next: Coordinate[], lastPoint: Co
 }
 
 export function calculateFunctionEquation(equation: FunctionEquation, options: CalculateOptions): Coordinate[] {
-    const {scale, deviceRatio} = options;
+    const {scale} = options;
     const {fn} = equation;
     const func = parse(fn).compile();
     const unit = 1 / scale / 2;

@@ -9,7 +9,7 @@ import {utoa} from './components/App.function';
 const dom = document.getElementById('root');
 if (dom) {
     const history = createHashHistory();
-    const defaultURL = `/10/0/0/010110/${utoa('[["cos(51*x)*sin(x)","rgb(0, 136, 0)",true]]')}`;
+    const defaultURL = `/12/0/0/010110/${utoa('[["cos(51*x)*sin(x)","rgb(0, 136, 0)",true]]')}`;
 
     render(<Router history={history}>
         <GlobalStyle/>

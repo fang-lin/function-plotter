@@ -43,10 +43,6 @@ function isTouchEvent(event: DragEvent): event is TouchEvent {
     return window.TouchEvent && event instanceof TouchEvent;
 }
 
-export function normalizeScaleIndex(scale: number, offset: -1 | 1): number {
-    return scaleRange[getScaleLevel(scale) + offset - 1];
-}
-
 export function getClient(event: DragEvent): Coordinate {
     const {clientX, clientY} = isTouchEvent(event) ? event.changedTouches[0] : event;
     return [clientX, clientY];
