@@ -132,10 +132,11 @@ export class App extends Component<RouteComponentProps<OriginalParams>, State> {
         return <AppWrapper {...{dragState}} ref={this.appRef}>
             <PreloadImages/>
             <Stage {...{cursor, size, transform, setRedrawing, params}}/>
-            <StateBar {...{params, cursor, size, redrawing}}/>
+            <StateBar {...{params, cursor, size, redrawing, pushToHistory}}/>
             <EquationPanel {...{
                 pushToHistory,
                 params,
+                size,
                 setEditingEquationIndex
             }}/>
             <ViewPanel {...{

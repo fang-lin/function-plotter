@@ -13,7 +13,7 @@ import {
     DisplayEquationButton,
     InfoButton, EditButtonWrapper
 } from './EquationPanel.style';
-import {ParsedParams, stopPropagation} from './App.function';
+import {ParsedParams, Size, stopPropagation} from './App.function';
 import {AddButton} from './EquationPanel.style';
 import {Title} from './Dialog.style';
 import {FunctionEquation} from '../services/FunctionEquation';
@@ -21,12 +21,14 @@ import {FunctionEquation} from '../services/FunctionEquation';
 export interface EquationPanelProps {
     pushToHistory: (params: Partial<ParsedParams>) => void;
     params: ParsedParams;
+    size: Size;
     setEditingEquationIndex: (index: number) => void;
 }
 
 export const EquationPanel: FunctionComponent<EquationPanelProps> = (props) => {
     const {
         params,
+        size,
         pushToHistory,
         setEditingEquationIndex
     } = props;
@@ -54,7 +56,7 @@ export const EquationPanel: FunctionComponent<EquationPanelProps> = (props) => {
         pushToHistory({displayEquationDialog: true});
     };
 
-    return <EquationPanelWrapper  {...stopPropagation} displayEquationPanel={expandEquationPanel}>
+    return <EquationPanelWrapper {...stopPropagation} {...{expandEquationPanel}}>
         <EquationPanelTitleBar>
             <Title>Equations</Title>
             <ButtonWrapper>
@@ -63,9 +65,10 @@ export const EquationPanel: FunctionComponent<EquationPanelProps> = (props) => {
             </ButtonWrapper>
         </EquationPanelTitleBar>
         <EquationPanelInner>
-            <EquationsList>{
+            <EquationsList style={{maxHeight: `${size[1] - 200}px`}}>{
                 equations.map(({displayed, expression, color}, index) => {
-                    return <EquationItem key={index} style={{borderTop: `${color} solid 1px`}}>
+                    const style = index > 0 ? {borderTop: `${color} solid 1px`} : {};
+                    return <EquationItem key={index} {...{style}}>
                         <DisplayEquationButton {...{displayed, color}} style={{backgroundColor: color}}
                             onClick={toggleEquationDisplayed(index)}/>
                         <EquationText {...{displayed}}>{expression}</EquationText>

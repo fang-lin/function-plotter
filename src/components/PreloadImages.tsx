@@ -12,14 +12,18 @@ import zoomOut from '../images/zoom-out.png';
 import zoomOutHover from '../images/zoom-out-hover.png';
 import ok from '../images/ok.png';
 import okHover from '../images/ok-hover.png';
-import collapse from '../images/collapse.png';
-import collapseHover from '../images/collapse-hover.png';
+import expandTr from '../images/expand-tr.png';
+import expandTrHover from '../images/expand-tr-hover.png';
+import expandTl from '../images/expand-tl.png';
+import expandTlHover from '../images/expand-tl-hover.png';
 import toCenter from '../images/to-center.png';
 import toCenterHover from '../images/to-center-hover.png';
 import edit from '../images/edit.png';
 import editHover from '../images/edit-hover.png';
-import expand from '../images/expand.png';
-import expandHover from '../images/expand-hover.png';
+import expandBl from '../images/expand-bl.png';
+import expandBlHover from '../images/expand-bl-hover.png';
+import expandBr from '../images/expand-br.png';
+import expandBrHover from '../images/expand-br-hover.png';
 import cross from '../images/cross.png';
 import crossHover from '../images/cross-hover.png';
 import smoothOff from '../images/smooth-off.png';
@@ -95,14 +99,18 @@ export const PreloadImages: FunctionComponent = () => {
         <img src={addHover} alt="AddHover"/>
         <img src={ok} alt="Ok"/>
         <img src={okHover} alt="OkHover"/>
-        <img src={collapse} alt="Collapse"/>
-        <img src={collapseHover} alt="CollapseHover"/>
+        <img src={expandTr} alt="ExpandTr"/>
+        <img src={expandTrHover} alt="ExpandTrHover"/>
+        <img src={expandTl} alt="ExpandTl"/>
+        <img src={expandTlHover} alt="ExpandTlHover"/>
         <img src={edit} alt="Edit"/>
         <img src={editHover} alt="EditHover"/>
         <img src={toCenter} alt="ToCenter"/>
         <img src={toCenterHover} alt="ToCenterHover"/>
-        <img src={expand} alt="Expand"/>
-        <img src={expandHover} alt="ExpandHover"/>
+        <img src={expandBl} alt="ExpandBl"/>
+        <img src={expandBlHover} alt="ExpandBlHover"/>
+        <img src={expandBr} alt="Expand"/>
+        <img src={expandBrHover} alt="ExpandHover"/>
         <img src={coordinateOn} alt="CoordinateOn"/>
         <img src={coordinateOnHover} alt="CoordinateOnHover"/>
         <img src={cross} alt="Cross"/>

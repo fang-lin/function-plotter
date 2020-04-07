@@ -14,6 +14,7 @@ export interface ParsedParams {
     equations: Equations<FunctionEquation | ParametricEquation>;
     displayEquationDialog: boolean;
     expandEquationPanel: boolean;
+    expandStateBar: boolean;
     displayInfoDialog: boolean;
     showCrossCursor: boolean;
     isSmooth: boolean;
@@ -211,6 +212,7 @@ export function parseParams(params: OriginalParams): ParsedParams {
     const [
         displayEquationDialog,
         expandEquationPanel,
+        expandStateBar,
         displayInfoDialog,
         showCrossCursor,
         isSmooth,
@@ -226,6 +228,7 @@ export function parseParams(params: OriginalParams): ParsedParams {
         equations: Equations.parse(equations),
         displayEquationDialog: parseToggle(displayEquationDialog),
         expandEquationPanel: parseToggle(expandEquationPanel),
+        expandStateBar: parseToggle(expandStateBar),
         displayInfoDialog: parseToggle(displayInfoDialog),
     };
 }
@@ -239,6 +242,7 @@ export function stringifyParams(params: ParsedParams): OriginalParams {
         isBold,
         displayEquationDialog,
         expandEquationPanel,
+        expandStateBar,
         displayInfoDialog,
         equations
     } = params;
@@ -251,6 +255,7 @@ export function stringifyParams(params: ParsedParams): OriginalParams {
         toggles: [
             displayEquationDialog,
             expandEquationPanel,
+            expandStateBar,
             displayInfoDialog,
             showCrossCursor,
             isSmooth,

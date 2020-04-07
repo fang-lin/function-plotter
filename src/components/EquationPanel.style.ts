@@ -1,8 +1,8 @@
 import styled from 'styled-components';
-import collapse from '../images/collapse.png';
-import collapseHover from '../images/collapse-hover.png';
-import expand from '../images/expand.png';
-import expandHover from '../images/expand-hover.png';
+import expandTr from '../images/expand-tr.png';
+import expandTrHover from '../images/expand-tr-hover.png';
+import expandBl from '../images/expand-bl.png';
+import expandBlHover from '../images/expand-bl-hover.png';
 import add from '../images/add.png';
 import addHover from '../images/add-hover.png';
 import edit from '../images/edit.png';
@@ -18,7 +18,7 @@ import {SmallIconButton, TitleBar} from './Dialog.style';
 const width = 320;
 
 export const EquationPanelWrapper = styled.div<{
-    displayEquationPanel: boolean;
+    expandEquationPanel: boolean;
 }>`
     cursor: auto;
     position: absolute;
@@ -35,7 +35,7 @@ export const EquationPanelWrapper = styled.div<{
     overflow: hidden;
     background-color: #eee;
     transition: all .2s ease-in-out;
-    ${({displayEquationPanel}): string => displayEquationPanel ? '' :
+    ${({expandEquationPanel}): string => expandEquationPanel ? '' :
         'transform: translateX(100%) translateX(-24px) translateY(-100%) translateY(24px);'}
 `;
 
@@ -65,9 +65,9 @@ export const ExpandToggle = styled(SmallIconButton)<{
     border-radius: 0 4px 0 0;
     border-width: 1px 1px 0 0;
     background-position: 0 -1px;
-    background-image: url(${({expandEquationPanel}): string => expandEquationPanel ? collapse : expand});
+    background-image: url(${({expandEquationPanel}): string => expandEquationPanel ? expandTr : expandBl});
     :hover{
-        background-image: url(${({expandEquationPanel}): string => expandEquationPanel ? collapseHover : expandHover});
+        background-image: url(${({expandEquationPanel}): string => expandEquationPanel ? expandTrHover : expandBlHover});
     }
 `;
 
@@ -139,6 +139,10 @@ export const EquationsList = styled.ul`
     list-style: none;
     margin: 0;
     padding: 0;
+    overflow: auto;
+    border-style: solid;
+    border-color: #666;
+    border-width: 1px 0;
 `;
 
 export const EquationItem = styled.li`
@@ -147,9 +151,6 @@ export const EquationItem = styled.li`
     align-items: center;
     padding: 0 15px 0 0;
     background-color: #fff;
-    :last-child{
-        border-bottom: #666 solid 1px;
-    }
 `;
 export const EquationText = styled.div<{ displayed: boolean }>`
     flex: auto;
