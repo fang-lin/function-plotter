@@ -76,5 +76,5 @@ export function calculateFunctionEquation(equation: FunctionEquation, options: C
         level++;
     }
 
-    return resultPoints;
+    return resultPoints.sort((a, b) => a[0] - b[0]);
 }

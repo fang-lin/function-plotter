@@ -24,18 +24,16 @@ export const EquationDialog: FunctionComponent<EquationFormProps> = (props) => {
     const [color, setColor] = useState<string>('');
     const [error, setError] = useState<string | null>(null);
 
-    const merge = useCallback(
-        (adding: () => void, editing: (equation: Equation) => void): void => {
-            if (editingEquationIndex === -1) {
-                adding();
-            } else {
-                const equation = equations[editingEquationIndex];
-                if (equation) {
-                    editing(equation);
-                }
+    const merge = useCallback((adding: () => void, editing: (equation: Equation) => void): void => {
+        if (editingEquationIndex === -1) {
+            adding();
+        } else {
+            const equation = equations[editingEquationIndex];
+            if (equation) {
+                editing(equation);
             }
-        }, [editingEquationIndex, equations],
-    );
+        }
+    }, [editingEquationIndex, equations]);
 
     const reset = (): void => {
         setExpression('');

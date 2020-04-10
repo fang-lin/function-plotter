@@ -1,7 +1,7 @@
 import {Coordinate, deviceRatio, Size} from './App.function';
 
-export const GRID_COLOR = 'rgba(0, 0, 0, .3)';
-export const AXIS_COLOR = 'rgb(0, 0, 0)';
+export const gridColor = 'rgba(0, 0, 0, .3)';
+export const axisColor = 'rgb(0, 0, 0)';
 
 export function withCanvasContext<T = void>(canvas: HTMLCanvasElement | null, withContext: (context: CanvasRenderingContext2D) => T): T | void {
     const context = canvas?.getContext('2d');
@@ -60,6 +60,17 @@ export const drawEquation = (context: CanvasRenderingContext2D, matrix: Coordina
             );
         });
     } else {
+        // const h = setInterval(() => {
+        //     const point = matrix.shift();
+        //     if (point) {
+        //         setInterval(() => {
+        //             context.fillRect(point[0] * deviceRatio, point[1] * deviceRatio, deviceRatio, deviceRatio);
+        //         });
+        //     } else {
+        //         clearInterval(h);
+        //     }
+        // });
+
         matrix.map(point => {
             context.fillRect(point[0] * deviceRatio, point[1] * deviceRatio, deviceRatio, deviceRatio);
         });
