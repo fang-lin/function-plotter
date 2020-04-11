@@ -1,9 +1,13 @@
-import {Coordinate, Size} from '../components/App.function';
 import {Equation} from './Equation';
-import {FunctionEquation} from './FunctionEquation';
-import {ParametricEquation} from './ParametricEquation';
+import {Coordinate, Size} from '../components/App/App.function';
 
-export interface CalculateOptions {
+export interface WorkerInput {
+    type: string;
+}
+
+export interface EquationWorkerInput extends WorkerInput {
+    type: 'Equation';
+    equation: Equation;
     size: Size;
     origin: Coordinate;
     scale: number;
@@ -11,23 +15,28 @@ export interface CalculateOptions {
     isSmooth: boolean;
 }
 
-export type WorkerInput<T> = {
-    equation: T;
-    options: CalculateOptions;
+export interface TrackPointWorkerInput extends WorkerInput {
+    type: 'TrackPoint';
+    coordinates: Coordinate[];
+}
+
+interface Task<T> {
+    input: WorkerInput;
+    resolve: (value?: T | PromiseLike<T>) => void;
 }
 
 class CalculateWorker {
     public worker: Worker;
     public isFree: boolean;
-    private callback: (output: Coordinate[]) => void;
+    private callback: (output: unknown) => void;
 
     constructor() {
-        this.worker = new Worker('./calculate.worker.ts', {type: 'module'});
+        this.worker = new Worker('./worker.ts', {type: 'module'});
         this.isFree = true;
         this.worker.addEventListener('message', this.message);
     }
 
-    exec<T extends Equation>(input: WorkerInput<T>, callback: (output: Coordinate[]) => void): void {
+    exec<I extends WorkerInput, T extends Coordinate | Coordinate[]>(input: I, callback: (output: T) => void): void {
         if (this.isFree) {
             this.isFree = false;
             this.callback = callback;
@@ -41,17 +50,17 @@ class CalculateWorker {
     }
 }
 
-class WorkerPool<T extends Equation> {
+class WorkerPool {
     public pool: CalculateWorker[] = [];
-    public queue: { input: WorkerInput<T>; resolve: (value: Coordinate[]) => void }[] = [];
+    public queue: Task<Coordinate | Coordinate[]>[] = [];
     public workersMaxNum: number;
 
     constructor(workerMaxNum = 4) {
         this.workersMaxNum = workerMaxNum;
     }
 
-    async exec(input: WorkerInput<T>): Promise<Coordinate[]> {
-        return new Promise(resolve => {
+    async exec<I extends WorkerInput, T extends Coordinate | Coordinate[]>(input: I): Promise<T> {
+        return new Promise<T>(resolve => {
             this.queue.push({input, resolve});
             this.run();
         });
@@ -68,7 +77,7 @@ class WorkerPool<T extends Equation> {
             }
             if (worker) {
                 this.queue.shift();
-                worker.exec(input, (output: Coordinate[]) => {
+                worker.exec(input, (output) => {
                     this.run();
                     resolve(output);
                 });
@@ -78,4 +87,4 @@ class WorkerPool<T extends Equation> {
 
 }
 
-export const workerPool = new WorkerPool<FunctionEquation | ParametricEquation>(navigator.hardwareConcurrency);
+export const workerPool = new WorkerPool(navigator.hardwareConcurrency);

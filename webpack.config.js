@@ -60,7 +60,6 @@ module.exports = (env, argv) => {
 
     if (argv.mode !== 'development') {
         config.devtool = 'none';
-        config.plugins.push(new CompressionPlugin());
         config.optimization = {
             minimize: true,
             minimizer: [new TerserPlugin()]

@@ -2,9 +2,9 @@ import {render} from 'react-dom';
 import React from 'react';
 import {Redirect, Route, Router, Switch} from 'react-router';
 import {createHashHistory} from 'history';
-import {App} from './components/App';
-import {GlobalStyle} from './components/App.style';
-import {utoa} from './components/App.function';
+import {App} from './components/App/App';
+import {GlobalStyle} from './components/App/App.style';
+import {utoa} from './helpers/params';
 
 const dom = document.getElementById('root');
 if (dom) {

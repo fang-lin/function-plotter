@@ -1,7 +1,7 @@
-import {atou, utoa} from '../components/App.function';
 import {Equation, EquationSerial} from './Equation';
 import {FunctionEquation} from './FunctionEquation';
 import {ParametricEquation} from './ParametricEquation';
+import {atou, utoa} from '../helpers/params';
 
 export class Equations<T extends Equation> extends Array<T> {
     constructor(...equations: Array<T>) {

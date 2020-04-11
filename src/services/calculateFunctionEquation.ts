@@ -1,43 +1,44 @@
 import {parse} from 'mathjs';
-import {Coordinate, Size} from '../components/App.function';
 import {FunctionEquation} from './FunctionEquation';
-import {CalculateOptions} from './workerPool';
+import {EquationWorkerInput} from './workerPool';
+import {Coordinate, Size} from '../components/App/App.function';
+import {equationToCanvas} from '../helpers/coordinateTransform';
 
-function transformer(point: Coordinate, opitions: CalculateOptions): Coordinate {
-    const {origin, scale, isSmooth, size} = opitions;
-    const x = size[0] / 2 + origin[0] + point[0] * scale;
-    const y = size[1] / 2 + origin[1] - point[1] * scale;
-    return isSmooth ? [x, y] : [Math.round(x) + .5, Math.round(y) + .5];
+interface FunctionEquationWorkerInput extends EquationWorkerInput {
+    equation: FunctionEquation;
 }
 
 function isPointInRange(point: Coordinate, range: [Size, Size]): boolean {
     return point[1] > range[1][0] && point[1] < range[1][1];
 }
 
-function getRange(options: CalculateOptions): [Size, Size] {
-    const {scale, size, origin} = options;
+function getRange(input: FunctionEquationWorkerInput): [Size, Size] {
+    const {scale, size, origin} = input;
     const x = -size[0] / 2 - origin[0];
     const y = -size[1] / 2 + origin[1];
     return [[x / scale, (x + size[0]) / scale], [y / scale, (y + size[1]) / scale]];
 }
 
-function distributePoint(result: Coordinate[], next: Coordinate[], lastPoint: Coordinate, currentPoint: Coordinate, dx: number, unit: number, range: [Size, Size], options: CalculateOptions): void {
+function distributePoint(result: Coordinate[], next: Coordinate[], lastPoint: Coordinate, currentPoint: Coordinate, dx: number, unit: number, range: [Size, Size], input: FunctionEquationWorkerInput): void {
+    const {origin, size, scale, isSmooth} = input;
     const z = (dx ** 2 + (currentPoint[1] - lastPoint[1]) ** 2) ** .5;
     if (isPointInRange(lastPoint, range) || !isPointInRange(lastPoint, range) && isPointInRange(currentPoint, range)) {
         if (z < unit) {
-            result.push(transformer(lastPoint, options));
+            const [x, y] = equationToCanvas(lastPoint, origin, size, scale);
+            result.push(isSmooth ? [x, y] : [Math.round(x) + .5, Math.round(y) + .5]);
+            result.push(lastPoint);
         } else {
             next.push(lastPoint);
         }
     }
 }
 
-export function calculateFunctionEquation(equation: FunctionEquation, options: CalculateOptions): Coordinate[] {
-    const {scale} = options;
+export function calculateFunctionEquation(input: FunctionEquationWorkerInput): Coordinate[] {
+    const {scale, equation} = input;
     const {fn} = equation;
     const func = parse(fn).compile();
     const unit = 1 / scale / 2;
-    const range = getRange(options);
+    const range = getRange(input);
 
     let level = 0;
     let dx = unit;
@@ -54,7 +55,7 @@ export function calculateFunctionEquation(equation: FunctionEquation, options: C
                 x += dx;
                 const current: Coordinate = [x, func.evaluate({x})];
                 if (last) {
-                    distributePoint(resultPoints, nextPoints, last, current, dx, unit, range, options);
+                    distributePoint(resultPoints, nextPoints, last, current, dx, unit, range, input);
                 }
                 last = current;
             }
@@ -62,7 +63,7 @@ export function calculateFunctionEquation(equation: FunctionEquation, options: C
             const nextNextPoints: Coordinate[] = [];
             nextPoints.forEach(last => {
                 const current: Coordinate = [last[0] + dx, func.evaluate({x: last[0] + dx})];
-                distributePoint(resultPoints, nextNextPoints, last, current, dx, unit, range, options);
+                distributePoint(resultPoints, nextNextPoints, last, current, dx, unit, range, input);
                 const z = (dx ** 2 + (current[1] - func.evaluate({x: current[0] + dx})) ** 2) ** .5;
                 if (z > unit) {
                     nextNextPoints.push(current);
@@ -76,5 +77,5 @@ export function calculateFunctionEquation(equation: FunctionEquation, options: C
         level++;
     }
 
-    return resultPoints.sort((a, b) => a[0] - b[0]);
+    return resultPoints;
 }
