@@ -145,12 +145,12 @@ export const EquationsList = styled.ul`
     border-width: 1px 0;
 `;
 
-export const EquationItem = styled.li`
+export const EquationItem = styled.li<{ selected: boolean }>`
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 0 15px 0 0;
-    background-color: #fff;
+    background-color: ${({selected}): string => selected ? '#ddd' : '#fff'};
 `;
 export const EquationText = styled.div<{ displayed: boolean }>`
     flex: auto;

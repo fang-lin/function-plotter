@@ -24,6 +24,7 @@ export interface ParsedParams {
     scale: number;
     origin: Coordinate;
     equations: Equations<FunctionEquation | ParametricEquation>;
+    selectedEquationIndex: number;
     displayEquationDialog: boolean;
     expandEquationPanel: boolean;
     expandStateBar: boolean;
@@ -35,6 +36,7 @@ export interface ParsedParams {
 
 export type OriginalParams = {
     scaleLevel: string;
+    selectedEquationIndex: string;
     originX: string;
     originY: string;
     equations: string;
@@ -53,6 +55,7 @@ export function getScaleLevel(scale: number): number {
 export function parseParams(params: OriginalParams): ParsedParams {
     const {
         scaleLevel,
+        selectedEquationIndex,
         originX,
         originY,
         equations,
@@ -80,6 +83,7 @@ export function parseParams(params: OriginalParams): ParsedParams {
         expandEquationPanel: parseToggle(expandEquationPanel),
         expandStateBar: parseToggle(expandStateBar),
         displayInfoDialog: parseToggle(displayInfoDialog),
+        selectedEquationIndex: parseInt(selectedEquationIndex)
     };
 }
 
@@ -94,11 +98,13 @@ export function stringifyParams(params: ParsedParams): OriginalParams {
         expandEquationPanel,
         expandStateBar,
         displayInfoDialog,
-        equations
+        equations,
+        selectedEquationIndex
     } = params;
 
     return {
         scaleLevel: getScaleLevel(scale).toString(),
+        selectedEquationIndex: selectedEquationIndex.toString(),
         originX: origin[0].toString(),
         originY: origin[1].toString(),
         equations: equations.stringify(),
@@ -120,8 +126,9 @@ export function combineURL(params: OriginalParams, partialParams: Partial<Parsed
         originX,
         originY,
         equations,
-        toggles
+        toggles,
+        selectedEquationIndex
     } = stringifyParams({...parseParams(params), ...partialParams});
 
-    return `/${scaleLevel}/${originX}/${originY}/${toggles}/${equations}`;
+    return `/${scaleLevel}/${originX}/${originY}/${toggles}/${selectedEquationIndex}/${equations}`;
 }

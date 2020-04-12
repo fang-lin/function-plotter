@@ -19,10 +19,7 @@ interface StageProps {
 
 export const Stage: FunctionComponent<StageProps> = (props) => {
     const {cursor, size, transform, setRedrawing, params, setTrackPoint} = props;
-    const [equationWorkerOutput, setEquationWorkerOutput] = useState<EquationWorkerOutput>({
-        map: new Map<number, number>(),
-        coordinates: []
-    });
+    const [equationWorkerOutput, setEquationWorkerOutput] = useState<Map<number, EquationWorkerOutput>>(new Map());
 
     const attributes = {
         width: size[0] * deviceRatio,
@@ -35,7 +32,16 @@ export const Stage: FunctionComponent<StageProps> = (props) => {
 
     return <StageWrapper style={{transform: `translate(${transform[0]}px, ${transform[1]}px)`}}>
         <StageBackground {...{size, params, attributes, style}}/>
-        <StageEquation {...{size, cursor, params, attributes, style, setRedrawing, setEquationWorkerOutput}}/>
+        <StageEquation {...{
+            size,
+            cursor,
+            params,
+            attributes,
+            style,
+            setRedrawing,
+            equationWorkerOutput,
+            setEquationWorkerOutput
+        }}/>
         <StageCursor {...{size, cursor, params, attributes, style, equationWorkerOutput, setTrackPoint}}/>
     </StageWrapper>;
 };

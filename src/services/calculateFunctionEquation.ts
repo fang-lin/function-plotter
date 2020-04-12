@@ -26,15 +26,39 @@ function distributePoint(result: Coordinate[], next: Coordinate[], lastPoint: Co
         if (z < unit) {
             const [x, y] = equationToCanvas(lastPoint, origin, size, scale);
             result.push(isSmooth ? [x, y] : [Math.round(x) + .5, Math.round(y) + .5]);
-            result.push(lastPoint);
         } else {
             next.push(lastPoint);
         }
     }
 }
 
+function createMapping(sortedCoordinates: Coordinate[], length: number): number[] {
+    const mapping = (new Array(length)).fill(0);
+    const discontinuities: [number, number][] = [];
+    let lastDiscontinuity: [number, number] = [0, Infinity];
+    sortedCoordinates.forEach(([x], index) => {
+        const key = Math.floor(x);
+        if (mapping[key] === 0) {
+            mapping[key] = index;
+            if (mapping[key - 1] === 0 && index > 1) {
+                discontinuities.push([index, key]);
+            }
+            lastDiscontinuity = [index, key];
+        }
+    });
+    discontinuities.forEach(([value, index]) => {
+        for (let i = index - 1; mapping[i] === 0; i--) {
+            mapping[i] = value;
+        }
+    });
+    for (let i = lastDiscontinuity[1] + 1; mapping[i] === 0; i++) {
+        mapping[i] = lastDiscontinuity[0];
+    }
+    return mapping;
+}
+
 export function calculateFunctionEquation(input: FunctionEquationWorkerInput): EquationWorkerOutput {
-    const {scale, equation} = input;
+    const {scale, equation, size} = input;
     const {fn} = equation;
     const func = parse(fn).compile();
     const unit = 1 / scale / 2;
@@ -78,11 +102,6 @@ export function calculateFunctionEquation(input: FunctionEquationWorkerInput): E
     }
 
     const coordinates = resultCoordinates.sort((a, b) => a[0] - b[0]);
-    const map = new Map<number, number>();
-    coordinates.forEach(([x,], index) => {
-        if (map.get(Math.floor(x)) === undefined) {
-            map.set(Math.floor(x), index);
-        }
-    });
-    return {map, coordinates};
+    const mapping = createMapping(coordinates, size[0]);
+    return {mapping, coordinates};
 }

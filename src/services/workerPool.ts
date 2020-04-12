@@ -16,7 +16,7 @@ export interface EquationWorkerInput extends WorkerInput {
 }
 
 export interface EquationWorkerOutput {
-    map: Map<number, number>;
+    mapping: number[];
     coordinates: Coordinate[];
 }
 

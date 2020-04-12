@@ -1,4 +1,4 @@
-import React, {FunctionComponent} from 'react';
+import React, {FunctionComponent, SyntheticEvent} from 'react';
 import {
     EquationPanelWrapper,
     ExpandToggle,
@@ -34,7 +34,7 @@ export const EquationPanel: FunctionComponent<EquationPanelProps> = (props) => {
         setEditingEquationIndex
     } = props;
 
-    const {expandEquationPanel, equations} = params;
+    const {expandEquationPanel, equations, selectedEquationIndex} = params;
 
     const toggleEquationDisplayed = (index: number) => (): void => {
         const {expression, color, displayed} = equations[index];
@@ -42,19 +42,31 @@ export const EquationPanel: FunctionComponent<EquationPanelProps> = (props) => {
         pushToHistory({equations});
     };
 
-    const removeEquation = (index: number) => (): void => {
+    const removeEquation = (index: number) => (event: SyntheticEvent): void => {
+        event.stopPropagation();
         equations.splice(index, 1);
-        pushToHistory({equations});
+        const lastEquationIndex = equations.length - 1;
+        pushToHistory({
+            equations,
+            selectedEquationIndex: selectedEquationIndex > lastEquationIndex ? lastEquationIndex : selectedEquationIndex
+        });
     };
 
-    const editEquation = (index: number) => (): void => {
+    const editEquation = (index: number) => (event: SyntheticEvent): void => {
+        event.stopPropagation();
         setEditingEquationIndex(index);
         pushToHistory({displayEquationDialog: true});
     };
 
-    const addEquation = (): void => {
+    const addEquation = (event: SyntheticEvent): void => {
+        event.stopPropagation();
         setEditingEquationIndex(-1);
         pushToHistory({displayEquationDialog: true});
+    };
+
+    const selectEquation = (index: number) => (event: SyntheticEvent): void => {
+        event.stopPropagation();
+        pushToHistory({selectedEquationIndex: selectedEquationIndex === index ? -1 : index});
     };
 
     return <EquationPanelWrapper {...stopPropagation} {...{expandEquationPanel}}>
@@ -69,7 +81,8 @@ export const EquationPanel: FunctionComponent<EquationPanelProps> = (props) => {
             <EquationsList style={{maxHeight: `${size[1] - 200}px`}}>{
                 equations.map(({displayed, expression, color}, index) => {
                     const style = index > 0 ? {borderTop: `${color} solid 1px`} : {};
-                    return <EquationItem key={index} {...{style}}>
+                    return <EquationItem key={index} {...{style}} onClick={selectEquation(index)}
+                        selected={selectedEquationIndex === index}>
                         <DisplayEquationButton {...{displayed, color}} style={{backgroundColor: color}}
                             onClick={toggleEquationDisplayed(index)}/>
                         <EquationText {...{displayed}}>{expression}</EquationText>

@@ -13,7 +13,8 @@ import {drawEquation} from './StageEquations.function';
 
 interface StageProps {
     cursor: Coordinate;
-    setEquationWorkerOutput: Dispatch<SetStateAction<EquationWorkerOutput>>;
+    equationWorkerOutput: Map<number, EquationWorkerOutput>;
+    setEquationWorkerOutput: Dispatch<SetStateAction<Map<number, EquationWorkerOutput>>>;
     size: Size;
     setRedrawing: Dispatch<SetStateAction<boolean>>;
     attributes: {
@@ -27,7 +28,7 @@ interface StageProps {
 const code = random(1000, 9999);
 
 export const StageEquation: FunctionComponent<StageProps> = (props) => {
-    const {size, setRedrawing, params, style, attributes, setEquationWorkerOutput} = props;
+    const {size, setRedrawing, params, style, attributes, equationWorkerOutput, setEquationWorkerOutput} = props;
     const {origin, scale, isSmooth, isBold, equations} = params;
 
     useEffect(() => {
@@ -39,7 +40,7 @@ export const StageEquation: FunctionComponent<StageProps> = (props) => {
                 return withCanvasContext(canvas, async context => {
                     erasure(context, size);
                     if (equation.displayed) {
-                        const {map, coordinates} = await workerPool.exec<EquationWorkerInput>({
+                        const {mapping, coordinates} = await workerPool.exec<EquationWorkerInput>({
                             type: 'Equation',
                             equation,
                             origin,
@@ -48,7 +49,7 @@ export const StageEquation: FunctionComponent<StageProps> = (props) => {
                             isSmooth,
                             deviceRatio
                         });
-                        setEquationWorkerOutput({map, coordinates});
+                        setEquationWorkerOutput(equationWorkerOutput.set(index, {mapping, coordinates}));
                         erasure(context, size);
                         drawEquation(context, coordinates, isBold, equation.color);
                         return;
