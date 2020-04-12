@@ -16,6 +16,7 @@ export const DialogMask = styled.div<{ appearance: boolean }>`
 `;
 
 export const DialogBackground = styled.div`
+    cursor: auto;
     position: absolute;
     justify-content: center;
     align-items: center;

@@ -15,8 +15,8 @@ export interface EquationWorkerInput extends WorkerInput {
     isSmooth: boolean;
 }
 
-export interface TrackPointWorkerInput extends WorkerInput {
-    type: 'TrackPoint';
+export interface EquationWorkerOutput {
+    map: Map<number, number>;
     coordinates: Coordinate[];
 }
 
@@ -36,12 +36,16 @@ class CalculateWorker {
         this.worker.addEventListener('message', this.message);
     }
 
-    exec<I extends WorkerInput, T extends Coordinate | Coordinate[]>(input: I, callback: (output: T) => void): void {
+    exec<I extends WorkerInput>(input: I, callback: (output: EquationWorkerOutput) => void): void {
         if (this.isFree) {
             this.isFree = false;
             this.callback = callback;
             this.worker.postMessage(input);
         }
+    }
+
+    terminate(): void {
+        this.worker.terminate();
     }
 
     message = (event: MessageEvent): void => {
@@ -51,32 +55,38 @@ class CalculateWorker {
 }
 
 class WorkerPool {
-    public pool: CalculateWorker[] = [];
-    public queue: Task<Coordinate | Coordinate[]>[] = [];
+    public workers: CalculateWorker[] = [];
+    public tasks: Task<EquationWorkerOutput>[] = [];
     public workersMaxNum: number;
 
     constructor(workerMaxNum = 4) {
         this.workersMaxNum = workerMaxNum;
     }
 
-    async exec<I extends WorkerInput, T extends Coordinate | Coordinate[]>(input: I): Promise<T> {
-        return new Promise<T>(resolve => {
-            this.queue.push({input, resolve});
+    async exec<I extends WorkerInput>(input: I): Promise<EquationWorkerOutput> {
+        return new Promise<EquationWorkerOutput>(resolve => {
+            this.tasks.push({input, resolve});
             this.run();
         });
     }
 
+    terminate(): void {
+        this.tasks = [];
+        this.workers.map(worker => worker.terminate());
+        this.workers = [];
+    }
+
     run = (): void => {
-        const task = this.queue[0];
+        const task = this.tasks[0];
         if (task) {
             const {input, resolve} = task;
-            let worker = this.pool.filter(({isFree}) => isFree)[0];
-            if (!worker && this.pool.length < this.workersMaxNum) {
+            let worker = this.workers.filter(({isFree}) => isFree)[0];
+            if (!worker && this.workers.length < this.workersMaxNum) {
                 worker = new CalculateWorker();
-                this.pool.push(worker);
+                this.workers.push(worker);
             }
             if (worker) {
-                this.queue.shift();
+                this.tasks.shift();
                 worker.exec(input, (output) => {
                     this.run();
                     resolve(output);

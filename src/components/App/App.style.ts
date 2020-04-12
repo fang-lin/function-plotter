@@ -8,7 +8,6 @@ const FullScreen = `
     height: 100%;
     overflow: hidden;
     background: #ccc;
-    // cursor: crosshair;
     font-family: monospace, consolas, courier;
 `;
 
@@ -39,10 +38,11 @@ export const device = {
     desktopL: `(min-width: ${size.desktop})`
 };
 
-export const AppWrapper = styled.div<{ dragState: DragState }>`
+export const AppWrapper = styled.div<{ dragState: DragState; showCrossCursor: boolean }>`
     min-width: 320px;
     min-height: 320px;
     position: relative;
+    cursor: ${({showCrossCursor}): string => showCrossCursor ? 'none' : 'crosshair'};
     ${FullScreen}
     ${({dragState}): string => dragState === DragState.start ? 'cursor: grab;' : ''}
     ${({dragState}): string => dragState === DragState.moving ? 'cursor: grabbing;' : ''}

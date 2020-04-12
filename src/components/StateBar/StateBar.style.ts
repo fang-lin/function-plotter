@@ -8,13 +8,14 @@ import {SmallIconButton} from '../Dialog/Dialog.style';
 export const StateBarWrapper = styled.div<{
     expandStateBar: boolean;
 }>`
+    cursor: auto;
     position: absolute;
     top: 0;
     left: 0;
     font-size: 12px;
     font-weight: normal;
     margin: 0;
-    padding: 5px 10px;
+    padding: 10px 15px;
     background-color: #eee;
     border-radius: 0 0 4px 0;
     border-style: solid;

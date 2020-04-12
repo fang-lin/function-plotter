@@ -1,6 +1,6 @@
 import {parse} from 'mathjs';
 import {FunctionEquation} from './FunctionEquation';
-import {EquationWorkerInput} from './workerPool';
+import {EquationWorkerInput, EquationWorkerOutput} from './workerPool';
 import {Coordinate, Size} from '../components/App/App.function';
 import {equationToCanvas} from '../helpers/coordinateTransform';
 
@@ -33,7 +33,7 @@ function distributePoint(result: Coordinate[], next: Coordinate[], lastPoint: Co
     }
 }
 
-export function calculateFunctionEquation(input: FunctionEquationWorkerInput): Coordinate[] {
+export function calculateFunctionEquation(input: FunctionEquationWorkerInput): EquationWorkerOutput {
     const {scale, equation} = input;
     const {fn} = equation;
     const func = parse(fn).compile();
@@ -44,8 +44,8 @@ export function calculateFunctionEquation(input: FunctionEquationWorkerInput): C
     let dx = unit;
     let x: number = range[0][0];
 
-    const resultPoints: Coordinate[] = [];
-    let nextPoints: Coordinate[] = [];
+    const resultCoordinates: Coordinate[] = [];
+    let nextCoordinates: Coordinate[] = [];
 
     while (level < 16) {
         dx /= 2;
@@ -55,27 +55,34 @@ export function calculateFunctionEquation(input: FunctionEquationWorkerInput): C
                 x += dx;
                 const current: Coordinate = [x, func.evaluate({x})];
                 if (last) {
-                    distributePoint(resultPoints, nextPoints, last, current, dx, unit, range, input);
+                    distributePoint(resultCoordinates, nextCoordinates, last, current, dx, unit, range, input);
                 }
                 last = current;
             }
         } else {
-            const nextNextPoints: Coordinate[] = [];
-            nextPoints.forEach(last => {
+            const nextNextCoordinates: Coordinate[] = [];
+            nextCoordinates.forEach(last => {
                 const current: Coordinate = [last[0] + dx, func.evaluate({x: last[0] + dx})];
-                distributePoint(resultPoints, nextNextPoints, last, current, dx, unit, range, input);
+                distributePoint(resultCoordinates, nextNextCoordinates, last, current, dx, unit, range, input);
                 const z = (dx ** 2 + (current[1] - func.evaluate({x: current[0] + dx})) ** 2) ** .5;
                 if (z > unit) {
-                    nextNextPoints.push(current);
+                    nextNextCoordinates.push(current);
                 }
             });
-            if (nextPoints.length === 0) {
+            if (nextCoordinates.length === 0) {
                 break;
             }
-            nextPoints = nextNextPoints;
+            nextCoordinates = nextNextCoordinates;
         }
         level++;
     }
 
-    return resultPoints;
+    const coordinates = resultCoordinates.sort((a, b) => a[0] - b[0]);
+    const map = new Map<number, number>();
+    coordinates.forEach(([x,], index) => {
+        if (map.get(Math.floor(x)) === undefined) {
+            map.set(Math.floor(x), index);
+        }
+    });
+    return {map, coordinates};
 }

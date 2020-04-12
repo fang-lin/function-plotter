@@ -1,7 +1,6 @@
 import React, {Component, ReactNode, RefObject} from 'react';
 import debounce from 'lodash/debounce';
 import {AppWrapper} from './App.style';
-
 import {
     Coordinate,
     DragState,
@@ -11,7 +10,6 @@ import {
     DragEvents,
     DragEvent
 } from './App.function';
-
 import {RouteComponentProps} from 'react-router-dom';
 import {PreloadImages} from '../PreloadImages/PreloadImages';
 import {InfoDialog} from '../InfoDialog/InfoDialog';
@@ -20,7 +18,7 @@ import {Stage} from '../Stage/Stage';
 import {EquationDialog} from '../EquationDialog/EquationDialog';
 import {ZoomPanel} from '../ZoomPanel/ZoomPanel';
 import {ViewPanel} from '../ViewPanel/ViewPanel';
-import {StateBar} from '../State/StateBar';
+import {StateBar} from '../StateBar/StateBar';
 import {combineURL, OriginalParams, ParsedParams, parseParams} from '../../helpers/params';
 
 interface State {
@@ -128,13 +126,14 @@ export class App extends Component<RouteComponentProps<OriginalParams>, State> {
 
     render(): ReactNode {
         const params = parseParams(this.props.match.params);
+        const {showCrossCursor} = params;
         const {dragState, size, transform, cursor, redrawing, editingEquationIndex, trackPoint} = this.state;
         const {setRedrawing, pushToHistory, setEditingEquationIndex, setTrackPoint} = this;
 
-        return <AppWrapper {...{dragState}} ref={this.appRef}>
+        return <AppWrapper {...{dragState, showCrossCursor}} ref={this.appRef}>
             <PreloadImages/>
             <Stage {...{cursor, size, transform, setRedrawing, params, setTrackPoint}}/>
-            <StateBar {...{params, trackPoint, redrawing, pushToHistory}}/>
+            <StateBar {...{params, size, trackPoint, redrawing, pushToHistory}}/>
             <EquationPanel {...{
                 pushToHistory,
                 params,

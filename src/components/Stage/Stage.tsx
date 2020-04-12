@@ -6,6 +6,7 @@ import {StageCursor} from './StageCursor/StageCursor';
 import {ParsedParams} from '../../helpers/params';
 import {Coordinate, Size} from '../App/App.function';
 import {deviceRatio} from '../../helpers/deviceRatio';
+import {EquationWorkerOutput} from '../../services/workerPool';
 
 interface StageProps {
     cursor: Coordinate;
@@ -18,7 +19,10 @@ interface StageProps {
 
 export const Stage: FunctionComponent<StageProps> = (props) => {
     const {cursor, size, transform, setRedrawing, params, setTrackPoint} = props;
-    const [coordinates, setCoordinates] = useState<Coordinate[]>([]);
+    const [equationWorkerOutput, setEquationWorkerOutput] = useState<EquationWorkerOutput>({
+        map: new Map<number, number>(),
+        coordinates: []
+    });
 
     const attributes = {
         width: size[0] * deviceRatio,
@@ -31,7 +35,7 @@ export const Stage: FunctionComponent<StageProps> = (props) => {
 
     return <StageWrapper style={{transform: `translate(${transform[0]}px, ${transform[1]}px)`}}>
         <StageBackground {...{size, params, attributes, style}}/>
-        <StageEquation {...{size, cursor, params, attributes, style, setRedrawing, setCoordinates}}/>
-        <StageCursor {...{size, cursor, params, attributes, style, coordinates, setTrackPoint}}/>
+        <StageEquation {...{size, cursor, params, attributes, style, setRedrawing, setEquationWorkerOutput}}/>
+        <StageCursor {...{size, cursor, params, attributes, style, equationWorkerOutput, setTrackPoint}}/>
     </StageWrapper>;
 };
