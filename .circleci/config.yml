@@ -19,7 +19,7 @@ jobs:
 #      - run: sudo apt install nodejs
 #      - run: npm install
 #      - run: npm run build
-      - run: mkdir bucket && echo "lorem ipsum" > dist/build_asset.txt
+      - run: mkdir dist && echo "lorem ipsum" > dist/build_asset.txt
       - aws-s3/sync:
           arguments: |
             --acl public-read \
