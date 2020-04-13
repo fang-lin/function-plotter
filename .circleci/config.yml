@@ -31,9 +31,9 @@ workflows:
   test-and-deploy:
     jobs:
       - deploy:
-#          requires:
-#            - lint
-#          filters:
-#            branches:
-#              only: master
-#      - lint
+          requires:
+            - lint
+          filters:
+            branches:
+              only: master
+      - lint
