@@ -9,8 +9,8 @@ export interface ZoomPanelProps {
 }
 
 export const ZoomPanel: FunctionComponent<ZoomPanelProps> = (props) => {
-    const {pushToHistory} = props;
-    const {scale} = props.params;
+    const {pushToHistory, params: {scale}} = props;
+
     const scaleLevel = getScaleLevel(scale);
 
     const zoomIn = (): void => {

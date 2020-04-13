@@ -9,10 +9,12 @@ interface ViewPanelProps {
 }
 
 export const ViewPanel: FunctionComponent<ViewPanelProps> = (props) => {
-    const {pushToHistory, params} = props;
-    const {isSmooth, isBold, showCrossCursor} = params;
+    const {pushToHistory, params: {isSmooth, isBold, showCrossCursor}} = props;
+
     const smoothText = `Smooth: ${isSmooth ? 'On' : 'Off'}`;
+
     const isBoldText = `Weight: ${isBold ? 'Bold' : 'Light'}`;
+
     const coordinateText = `Coordinate: ${showCrossCursor ? 'On' : 'Off'}`;
 
     return <ViewPanelWrapper>

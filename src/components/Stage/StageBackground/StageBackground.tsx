@@ -21,8 +21,7 @@ interface StageBackgroundProps {
 }
 
 export const StageBackground: FunctionComponent<StageBackgroundProps> = (props) => {
-    const {size, style, attributes, params} = props;
-    const {origin, scale} = params;
+    const {size, style, attributes, params: {origin, scale}} = props;
 
     const gridRef = useRef<HTMLCanvasElement>(null);
 

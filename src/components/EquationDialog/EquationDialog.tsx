@@ -1,4 +1,4 @@
-import React, {FunctionComponent, useEffect, useState, useCallback, ChangeEvent} from 'react';
+import React, {ChangeEvent, Component, FunctionComponent, ReactNode, useCallback, useEffect, useState} from 'react';
 import {parse} from 'mathjs';
 import {
     AddButton, ButtonWrapper,
@@ -6,29 +6,24 @@ import {
     ErrorLabel
 } from './EquationDialog.style';
 import {Palette} from '../Palette/Palette';
-import {Equation} from '../../services/Equation';
 import {FunctionEquation} from '../../services/FunctionEquation';
 import {Close, DialogInner, Title, TitleBar} from '../Dialog/Dialog.style';
 import {Dialog} from '../Dialog/Dialog';
 import {ParsedParams} from '../../helpers/params';
 
-export const EquationDialog: FunctionComponent<EquationFormProps> = (props) => {
+interface EquationDialogProps {
+    editingEquationIndex: number;
+    setEditingEquationIndex: (index: number) => void;
+    pushToHistory: (params: Partial<ParsedParams>) => void;
+    params: ParsedParams;
+}
+
+export const EquationDialog: FunctionComponent<EquationDialogProps> = (props) => {
     const {editingEquationIndex, params, pushToHistory} = props;
     const {displayEquationDialog, equations} = params;
     const [expression, setExpression] = useState<string>('');
     const [color, setColor] = useState<string>('');
     const [error, setError] = useState<string | null>(null);
-
-    const merge = useCallback((adding: () => void, editing: (equation: Equation) => void): void => {
-        if (editingEquationIndex === -1) {
-            adding();
-        } else {
-            const equation = equations[editingEquationIndex];
-            if (equation) {
-                editing(equation);
-            }
-        }
-    }, [editingEquationIndex, equations]);
 
     const reset = (): void => {
         setExpression('');
@@ -37,11 +32,15 @@ export const EquationDialog: FunctionComponent<EquationFormProps> = (props) => {
     };
 
     useEffect(() => {
-        merge(reset, (equation) => {
-            setExpression(equation.expression);
-            setColor(equation.color);
-        });
-    }, [merge]);
+        const equation = equations[editingEquationIndex];
+        if (equation) {
+            const {expression, color} = equation;
+            setExpression(expression);
+            setColor(color);
+        }
+        setError(null);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [editingEquationIndex, equations.serialization().toString()]);
 
     const addEquation = (): void => {
         try {
@@ -50,12 +49,16 @@ export const EquationDialog: FunctionComponent<EquationFormProps> = (props) => {
             setError(e.message);
             return;
         }
-        merge(() => {
+
+        if (editingEquationIndex === -1) {
             equations.push(new FunctionEquation([expression, color, true]));
-        }, (equation) => {
-            const {displayed} = equation;
-            equations[editingEquationIndex] = new FunctionEquation([expression, color, displayed]);
-        });
+        } else {
+            const equation = equations[editingEquationIndex];
+            if (equation) {
+                const {displayed} = equation;
+                equations[editingEquationIndex] = new FunctionEquation([expression, color, displayed]);
+            }
+        }
         pushToHistory({
             equations,
             displayEquationDialog: false
@@ -88,11 +91,3 @@ export const EquationDialog: FunctionComponent<EquationFormProps> = (props) => {
         </DialogInner>
     </Dialog>;
 };
-
-interface EquationFormProps {
-    editingEquationIndex: number;
-    setEditingEquationIndex: (index: number) => void;
-    pushToHistory: (params: Partial<ParsedParams>) => void;
-    params: ParsedParams;
-}
-

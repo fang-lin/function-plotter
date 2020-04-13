@@ -19,12 +19,14 @@ interface StageProps {
 
 export const Stage: FunctionComponent<StageProps> = (props) => {
     const {cursor, size, transform, setRedrawing, params, setTrackPoint} = props;
+
     const [equationWorkerOutput, setEquationWorkerOutput] = useState<Map<number, EquationWorkerOutput>>(new Map());
 
     const attributes = {
         width: size[0] * deviceRatio,
         height: size[1] * deviceRatio
     };
+
     const style = {
         width: `${size[0]}px`,
         height: `${size[1]}px`,

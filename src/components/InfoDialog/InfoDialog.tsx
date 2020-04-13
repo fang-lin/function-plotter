@@ -12,9 +12,10 @@ export interface InfoDialogProps {
 }
 
 export const InfoDialog: FunctionComponent<InfoDialogProps> = (props) => {
-    const {pushToHistory, params} = props;
+    const {pushToHistory, params:{displayInfoDialog}} = props;
+
     const close = (): void => pushToHistory({displayInfoDialog: false});
-    const {displayInfoDialog} = params;
+
     return <Dialog {...{isShow: displayInfoDialog, close, Background: InfoDialogBackground}}>
         <TitleBar>
             <Title>About Function Diagram {version}</Title>

@@ -125,10 +125,9 @@ export class App extends Component<RouteComponentProps<OriginalParams>, State> {
     }
 
     render(): ReactNode {
-        const params = parseParams(this.props.match.params);
+        const {setRedrawing, pushToHistory, setEditingEquationIndex, setTrackPoint, state: {dragState, size, transform, cursor, redrawing, editingEquationIndex, trackPoint}, props: {match}} = this;
+        const params = parseParams(match.params);
         const {showCrossCursor} = params;
-        const {dragState, size, transform, cursor, redrawing, editingEquationIndex, trackPoint} = this.state;
-        const {setRedrawing, pushToHistory, setEditingEquationIndex, setTrackPoint} = this;
 
         return <AppWrapper {...{dragState, showCrossCursor}} ref={this.appRef}>
             <PreloadImages/>

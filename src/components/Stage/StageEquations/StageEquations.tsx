@@ -28,12 +28,10 @@ interface StageEquationProps {
 const code = random(1000, 9999);
 
 export const StageEquation: FunctionComponent<StageEquationProps> = (props) => {
-    const {size, setRedrawing, params, style, attributes, equationWorkerOutput, setEquationWorkerOutput} = props;
-    const {origin, scale, isSmooth, isBold, equations} = params;
+    const {size, setRedrawing, params: {origin, scale, isSmooth, isBold, equations}, style, attributes, equationWorkerOutput, setEquationWorkerOutput} = props;
 
     useEffect(() => {
         (async (): Promise<void> => {
-            workerPool.terminate();
             setRedrawing(true);
             await Promise.all(equations.map((equation, index) => {
                 const canvas = document.querySelector<HTMLCanvasElement>(`#equation-${code}-${index}`);
