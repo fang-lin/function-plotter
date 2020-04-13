@@ -29,7 +29,7 @@ jobs:
           aws-secret-access-key: AWS_SECRET_ACCESS_KEY_BLUE
           from: dist
           overwrite: true
-          to: 's3://function-diagraph.fanglin.me'
+          to: 's3://function-diagraph.fanglin.me/dist'
 workflows:
   test-and-deploy:
     jobs:
