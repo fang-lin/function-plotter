@@ -15,8 +15,8 @@ jobs:
       - image: circleci/buildpack-deps:latest
     steps:
       - checkout
-#      - run: curl -sL https://deb.nodesource.com/setup_13.x | sudo -E bash -
-#      - run: sudo apt install nodejs
+      - run: curl -sL https://deb.nodesource.com/setup_13.x | sudo -E bash -
+      - run: sudo apt install nodejs
       - run: npm install
       - run: npm run build
       - aws-s3/sync:
