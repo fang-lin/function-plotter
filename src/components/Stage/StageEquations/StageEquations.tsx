@@ -11,7 +11,7 @@ import {Coordinate, Size} from '../../App/App.function';
 import {deviceRatio} from '../../../helpers/deviceRatio';
 import {drawEquation} from './StageEquations.function';
 
-interface StageProps {
+interface StageEquationProps {
     cursor: Coordinate;
     equationWorkerOutput: Map<number, EquationWorkerOutput>;
     setEquationWorkerOutput: Dispatch<SetStateAction<Map<number, EquationWorkerOutput>>>;
@@ -27,7 +27,7 @@ interface StageProps {
 
 const code = random(1000, 9999);
 
-export const StageEquation: FunctionComponent<StageProps> = (props) => {
+export const StageEquation: FunctionComponent<StageEquationProps> = (props) => {
     const {size, setRedrawing, params, style, attributes, equationWorkerOutput, setEquationWorkerOutput} = props;
     const {origin, scale, isSmooth, isBold, equations} = params;
 

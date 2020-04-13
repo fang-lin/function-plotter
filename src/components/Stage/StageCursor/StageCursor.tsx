@@ -9,7 +9,7 @@ import {EquationWorkerOutput} from '../../../services/workerPool';
 import {ParsedParams} from '../../../helpers/params';
 import {Coordinate, Size} from '../../App/App.function';
 
-interface StageProps {
+interface StageCursorProps {
     cursor: Coordinate;
     equationWorkerOutput: Map<number, EquationWorkerOutput>;
     size: Size;
@@ -22,7 +22,7 @@ interface StageProps {
     setTrackPoint: Dispatch<SetStateAction<Coordinate>>;
 }
 
-export const StageCursor: FunctionComponent<StageProps> = (props) => {
+export const StageCursor: FunctionComponent<StageCursorProps> = (props) => {
     const {cursor, size, params: {showCrossCursor, selectedEquationIndex, equations, isBold}, attributes, style, equationWorkerOutput, setTrackPoint} = props;
     const crossRef = useRef<HTMLCanvasElement>(null);
 

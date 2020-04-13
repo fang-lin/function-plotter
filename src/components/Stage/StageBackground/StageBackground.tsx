@@ -10,7 +10,7 @@ import {redrawAxis, redrawGrid} from './StageBackground.function';
 import {ParsedParams} from '../../../helpers/params';
 import {Size} from '../../App/App.function';
 
-interface StageProps {
+interface StageBackgroundProps {
     size: Size;
     attributes: {
         width: number;
@@ -20,7 +20,7 @@ interface StageProps {
     params: ParsedParams;
 }
 
-export const StageBackground: FunctionComponent<StageProps> = (props) => {
+export const StageBackground: FunctionComponent<StageBackgroundProps> = (props) => {
     const {size, style, attributes, params} = props;
     const {origin, scale} = params;
 
