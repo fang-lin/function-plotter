@@ -30,7 +30,7 @@ jobs:
           overwrite: true
           to: 's3://function-diagraph.fanglin.me/'
 workflows:
-  test-and-deploy:
+  lint-and-deploy:
     jobs:
       - deploy-to-s3:
           requires:

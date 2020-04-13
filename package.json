@@ -1,11 +1,11 @@
 {
   "name": "function-diagraph",
-  "version": "4.2.0",
+  "version": "4.2.1",
   "license": "MIT",
   "scripts": {
     "start": "webpack-dev-server --mode development",
     "lint": "eslint src --ext .js,.jsx,.ts,.tsx",
-    "build": "webpack --mode production",
+    "build": "webpack --mode production && cp -R error dist/error",
     "test": "jest",
     "testWithCoverage": "nyc --reporter=lcov npm run test"
   },
