@@ -15,6 +15,7 @@ jobs:
       - image: buildpack-deps:trusty
 #      - image: python:3.6
       - image: node:13.12
+    working_directory: ~/
     steps:
       - checkout
       - run: npm install
