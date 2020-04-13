@@ -15,7 +15,7 @@ export const StateBarWrapper = styled.div<{
     font-size: 12px;
     font-weight: normal;
     margin: 0;
-    padding: 10px 15px;
+    padding: 10px 20px;
     background-color: #eee;
     border-radius: 0 0 4px 0;
     border-style: solid;
@@ -28,7 +28,7 @@ export const StateBarWrapper = styled.div<{
         'transform: translateX(-100%) translateX(24px) translateY(-100%) translateY(24px);'}
 `;
 export const AppTitle = styled.h1`
-    margin: 3px 0;
+    margin: 5px 0;
     font-size: 14px;
     line-height: 14px;
     a { 
@@ -38,11 +38,11 @@ export const AppTitle = styled.h1`
     }
 `;
 export const CoordinateLabel = styled.div`
-    margin: 3px 0;
+    margin: 5px 0;
 `;
 
 export const IsDrawing = styled.div<{ redrawing: boolean }>`
-    margin: 3px 0;
+    margin: 5px 0;
     transition: all .3s;
     opacity: ${({redrawing}): string => redrawing ? '1' : '0'};
 `;
