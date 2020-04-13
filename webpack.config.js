@@ -2,6 +2,7 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const WorkerPlugin = require('worker-plugin');
+const ManifestPlugin = require('webpack-manifest-plugin');
 const { version } = require('./package.json');
 
 module.exports = (env, argv) => {
@@ -53,8 +54,29 @@ module.exports = (env, argv) => {
             }),
             new WorkerPlugin({
                 globalObject: 'self'
+            }),
+            new ManifestPlugin({
+                seed: {
+                    /* eslint-disable @typescript-eslint/camelcase */
+                    name: 'Function Diagram',
+                    version: version,
+                    developer: {
+                        name: 'Lin Fang',
+                        url: 'http://www.fanglin.me'
+                    },
+                    icons: [{
+                        src: 'images/icon.png',
+                        sizes: '512x512',
+                        type: 'image/png'
+                    }]
+                    /* eslint-enable @typescript-eslint/camelcase */
+                },
+                filter: () => false
             })
-        ]
+        ],
+        devServer: {
+            contentBase: path.resolve('src'),
+        }
     };
 
     if (argv.mode !== 'development') {
