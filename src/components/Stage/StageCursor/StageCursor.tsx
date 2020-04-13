@@ -33,7 +33,7 @@ export const StageCursor: FunctionComponent<StageCursorProps> = (props) => {
                 const equation = equations[selectedEquationIndex];
                 let trackPoint = cursor;
                 let color = 'rgba(0, 0, 0, 0.3)';
-                if (output && equation) {
+                if (output && equation?.displayed) {
                     const {coordinates, mapping} = output;
                     color = equation.color;
                     trackPoint = calculateTrackPoint(cursor, coordinates, mapping);
@@ -48,7 +48,7 @@ export const StageCursor: FunctionComponent<StageCursorProps> = (props) => {
             setTrackPoint(cursor);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [cursor[0], cursor[1], size[0], size[1], showCrossCursor, selectedEquationIndex, isBold]);
+    }, [cursor[0], cursor[1], size[0], size[1], showCrossCursor, selectedEquationIndex, isBold, equations.serialization().join()]);
 
     useEffect(() => withCanvasContext(crossRef.current, context => erasure(context, size)), [size, showCrossCursor]);
 

@@ -27,7 +27,8 @@ export const EquationItem: FunctionComponent<EquationPanelProps> = (props) => {
         setEditingEquationIndex
     } = props;
 
-    const toggleEquationDisplayed = (): void => {
+    const toggleEquationDisplayed = (event: SyntheticEvent): void => {
+        event.stopPropagation();
         const {expression, color, displayed} = equations[index];
         equations[index] = new FunctionEquation([expression, color, !displayed]);
         pushToHistory({equations});
