@@ -1,24 +1,25 @@
 version: 2.1
 orbs:
-  node: circleci/node@2.0.1
+#  node: circleci/node@2.0.1
   aws-s3: circleci/aws-s3@1.0.15
 jobs:
-  lint:
-    executor:
-      name: node/default
-    steps:
-      - checkout
-      - node/install-packages
-      - run: npm run lint
+#  lint:
+#    executor:
+#      name: node/default
+#    steps:
+#      - checkout
+#      - node/install-packages
+#      - run: npm run lint
   deploy-to-s3:
     docker:
       - image: circleci/buildpack-deps:latest
     steps:
-      - checkout
-      - run: curl -sL https://deb.nodesource.com/setup_13.x | sudo -E bash -
-      - run: sudo apt install nodejs
-      - run: npm install
-      - run: npm run build
+#      - checkout
+#      - run: curl -sL https://deb.nodesource.com/setup_13.x | sudo -E bash -
+#      - run: sudo apt install nodejs
+#      - run: npm install
+#      - run: npm run build
+      - run: mkdir bucket && echo "lorem ipsum" > dist/build_asset.txt
       - aws-s3/sync:
           arguments: |
             --acl public-read \
@@ -32,10 +33,10 @@ jobs:
 workflows:
   test-and-deploy:
     jobs:
-      - deploy-to-s3:
-          requires:
-            - lint
-          filters:
-            branches:
-              only: master
-      - lint
+      - deploy-to-s3
+#          requires:
+#            - lint
+#          filters:
+#            branches:
+#              only: master
+#      - lint
