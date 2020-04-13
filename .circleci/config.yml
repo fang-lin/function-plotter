@@ -12,7 +12,8 @@ jobs:
       - run: npm run lint
   deploy:
     docker:
-      - image: circleci/python:3.6
+      - image: buildpack-deps:trusty
+      - image: python:3.6
       - image: node:13.12
     steps:
       - checkout
