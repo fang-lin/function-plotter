@@ -25,7 +25,7 @@ export interface ParsedParams {
     origin: Coordinate;
     equations: Equations<FunctionEquation | ParametricEquation>;
     selectedEquationIndex: number;
-    displayEquationDialog: boolean;
+    editingEquationIndex: number;
     expandEquationPanel: boolean;
     expandStateBar: boolean;
     displayInfoDialog: boolean;
@@ -37,6 +37,7 @@ export interface ParsedParams {
 export type OriginalParams = {
     scaleLevel: string;
     selectedEquationIndex: string;
+    editingEquationIndex: string;
     originX: string;
     originY: string;
     equations: string;
@@ -56,6 +57,7 @@ export function parseParams(params: OriginalParams): ParsedParams {
     const {
         scaleLevel,
         selectedEquationIndex,
+        editingEquationIndex,
         originX,
         originY,
         equations,
@@ -63,7 +65,6 @@ export function parseParams(params: OriginalParams): ParsedParams {
     } = params;
 
     const [
-        displayEquationDialog,
         expandEquationPanel,
         expandStateBar,
         displayInfoDialog,
@@ -79,11 +80,11 @@ export function parseParams(params: OriginalParams): ParsedParams {
         isSmooth: parseToggle(isSmooth),
         isBold: parseToggle(isBold),
         equations: Equations.parse(equations),
-        displayEquationDialog: parseToggle(displayEquationDialog),
         expandEquationPanel: parseToggle(expandEquationPanel),
         expandStateBar: parseToggle(expandStateBar),
         displayInfoDialog: parseToggle(displayInfoDialog),
-        selectedEquationIndex: parseInt(selectedEquationIndex)
+        selectedEquationIndex: parseInt(selectedEquationIndex),
+        editingEquationIndex: parseInt(editingEquationIndex)
     };
 }
 
@@ -94,22 +95,22 @@ export function stringifyParams(params: ParsedParams): OriginalParams {
         showCrossCursor,
         isSmooth,
         isBold,
-        displayEquationDialog,
         expandEquationPanel,
         expandStateBar,
         displayInfoDialog,
         equations,
-        selectedEquationIndex
+        selectedEquationIndex,
+        editingEquationIndex
     } = params;
 
     return {
         scaleLevel: getScaleLevel(scale).toString(),
         selectedEquationIndex: selectedEquationIndex.toString(),
+        editingEquationIndex: editingEquationIndex.toString(),
         originX: origin[0].toString(),
         originY: origin[1].toString(),
         equations: equations.stringify(),
         toggles: [
-            displayEquationDialog,
             expandEquationPanel,
             expandStateBar,
             displayInfoDialog,
@@ -127,8 +128,9 @@ export function combineURL(params: OriginalParams, partialParams: Partial<Parsed
         originY,
         equations,
         toggles,
-        selectedEquationIndex
+        selectedEquationIndex,
+        editingEquationIndex
     } = stringifyParams({...parseParams(params), ...partialParams});
 
-    return `/${scaleLevel}/${originX}/${originY}/${toggles}/${selectedEquationIndex}/${equations}`;
+    return `/${scaleLevel}/${originX}/${originY}/${toggles}/${selectedEquationIndex}/${editingEquationIndex}/${equations}`;
 }

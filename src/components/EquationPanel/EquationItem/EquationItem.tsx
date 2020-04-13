@@ -15,7 +15,6 @@ export interface EquationPanelProps {
     pushToHistory: (params: Partial<ParsedParams>) => void;
     params: ParsedParams;
     equation: Equation;
-    setEditingEquationIndex: (index: number) => void;
 }
 
 export const EquationItem: FunctionComponent<EquationPanelProps> = (props) => {
@@ -23,8 +22,7 @@ export const EquationItem: FunctionComponent<EquationPanelProps> = (props) => {
         params: {equations, selectedEquationIndex},
         equation: {expression, displayed, color},
         index,
-        pushToHistory,
-        setEditingEquationIndex
+        pushToHistory
     } = props;
 
     const toggleEquationDisplayed = (event: SyntheticEvent): void => {
@@ -46,8 +44,7 @@ export const EquationItem: FunctionComponent<EquationPanelProps> = (props) => {
 
     const editEquation = (event: SyntheticEvent): void => {
         event.stopPropagation();
-        setEditingEquationIndex(index);
-        pushToHistory({displayEquationDialog: true});
+        pushToHistory({editingEquationIndex: index});
     };
 
     const selectEquation = (event: SyntheticEvent): void => {

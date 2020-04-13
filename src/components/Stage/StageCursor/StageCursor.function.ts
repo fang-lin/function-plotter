@@ -1,7 +1,7 @@
 import {Coordinate, Size} from '../../App/App.function';
 import {deviceRatio} from '../../../helpers/deviceRatio';
 
-const attractionRadius = 20;
+const attractionRadius = 10;
 
 export function redrawCursor(context: CanvasRenderingContext2D, origin: Coordinate, size: Size, color: string): void {
     const [x, y] = [origin[0] * deviceRatio, origin[1] * deviceRatio];

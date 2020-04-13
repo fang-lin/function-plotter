@@ -28,7 +28,6 @@ interface State {
     transform: Coordinate;
     cursor: Coordinate;
     trackPoint: Coordinate;
-    editingEquationIndex: number;
     client: Coordinate;
 }
 
@@ -45,7 +44,6 @@ export class App extends Component<RouteComponentProps<OriginalParams>, State> {
             transform: [0, 0],
             cursor: [0, 0],
             trackPoint: [0, 0],
-            editingEquationIndex: -1,
             client: [0, 0]
         };
     }
@@ -56,8 +54,6 @@ export class App extends Component<RouteComponentProps<OriginalParams>, State> {
 
     setCursor = (cursor: Coordinate): void => this.setState({cursor});
     setTrackPoint = (trackPoint: Coordinate): void => this.setState({trackPoint});
-
-    setEditingEquationIndex = (editingEquationIndex: number): void => this.setState({editingEquationIndex});
 
     setRedrawing = (redrawing: boolean): void => {
         this.setState({redrawing});
@@ -88,8 +84,8 @@ export class App extends Component<RouteComponentProps<OriginalParams>, State> {
 
     onDragEnd = (event: DragEvent): void => {
         const instantaneousClient = getClient(event);
-        const {client} = this.state;
-        const {origin} = parseParams(this.props.match.params);
+        const {state: {client}, props: {match: {params}}} = this;
+        const {origin} = parseParams(params);
 
         this.pushToHistory({
             origin: [
@@ -125,31 +121,34 @@ export class App extends Component<RouteComponentProps<OriginalParams>, State> {
     }
 
     render(): ReactNode {
-        const {setRedrawing, pushToHistory, setEditingEquationIndex, setTrackPoint, state: {dragState, size, transform, cursor, redrawing, editingEquationIndex, trackPoint}, props: {match}} = this;
-        const params = parseParams(match.params);
-        const {showCrossCursor} = params;
+        try {
+            const {setRedrawing, pushToHistory, setTrackPoint, state: {dragState, size, transform, cursor, redrawing, trackPoint}, props: {match}} = this;
+            const params = parseParams(match.params);
+            const {showCrossCursor} = params;
 
-        return <AppWrapper {...{dragState, showCrossCursor}} ref={this.appRef}>
-            <PreloadImages/>
-            <Stage {...{cursor, size, transform, setRedrawing, params, setTrackPoint}}/>
-            <StateBar {...{params, size, trackPoint, redrawing, pushToHistory}}/>
-            <EquationPanel {...{
-                pushToHistory,
-                params,
-                size,
-                setEditingEquationIndex
-            }}/>
-            <ViewPanel {...{
-                pushToHistory,
-                params
-            }}/>
-            <ZoomPanel {...{
-                pushToHistory,
-                params,
-            }}/>
-            <EquationDialog {...{editingEquationIndex, setEditingEquationIndex, pushToHistory, params}}/>
-            <InfoDialog {...{pushToHistory, params}}/>
-        </AppWrapper>;
+            return <AppWrapper {...{dragState, showCrossCursor}} ref={this.appRef}>
+                <PreloadImages/>
+                <Stage {...{cursor, size, transform, setRedrawing, params, setTrackPoint}}/>
+                <StateBar {...{params, size, trackPoint, redrawing, pushToHistory}}/>
+                <EquationPanel {...{
+                    pushToHistory,
+                    params,
+                    size
+                }}/>
+                <ViewPanel {...{
+                    pushToHistory,
+                    params
+                }}/>
+                <ZoomPanel {...{
+                    pushToHistory,
+                    params,
+                }}/>
+                <EquationDialog {...{pushToHistory, params}}/>
+                <InfoDialog {...{pushToHistory, params}}/>
+            </AppWrapper>;
+        } catch (e) {
+            window.location.assign('error.html');
+        }
     }
 }
 

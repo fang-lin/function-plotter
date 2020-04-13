@@ -9,13 +9,13 @@ import {utoa} from './helpers/params';
 const dom = document.getElementById('root');
 if (dom) {
     const history = createHashHistory();
-    const defaultURL = `/13/0/0/0110111/4/${utoa('[["sin(x)","rgb(238, 102, 0)",true],["-sin(x)","rgb(0, 136, 204)",true],["tan(x)","rgb(136, 34, 0)",true],["tan(-x)","rgb(238, 170, 0)",true],["cos(31*x)*sin(x)","rgb(0, 136, 0)",true]]')}`;
+    const defaultURL = `/13/0/0/110011/4/-2/${utoa('[["sin(x)","rgb(238, 102, 0)",true],["-sin(x)","rgb(0, 136, 204)",true],["tan(x)","rgb(136, 34, 0)",true],["tan(-x)","rgb(238, 170, 0)",true],["cos(31*x)*sin(x)","rgb(0, 136, 0)",true]]')}`;
 
     render(<Router history={history}>
         <GlobalStyle/>
         <Switch>
             <Route exact
-                path="/:scaleLevel/:originX/:originY/:toggles/:selectedEquationIndex/:equations"
+                path="/:scaleLevel/:originX/:originY/:toggles/:selectedEquationIndex/:editingEquationIndex/:equations"
                 component={App}>
             </Route>
             <Redirect from="/" to={defaultURL}/>

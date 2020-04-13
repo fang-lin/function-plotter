@@ -17,23 +17,20 @@ export interface EquationPanelProps {
     pushToHistory: (params: Partial<ParsedParams>) => void;
     params: ParsedParams;
     size: Size;
-    setEditingEquationIndex: (index: number) => void;
 }
 
 export const EquationPanel: FunctionComponent<EquationPanelProps> = (props) => {
     const {
         params,
         size,
-        pushToHistory,
-        setEditingEquationIndex
+        pushToHistory
     } = props;
 
     const {expandEquationPanel, equations} = params;
 
     const addEquation = (event: SyntheticEvent): void => {
         event.stopPropagation();
-        setEditingEquationIndex(-1);
-        pushToHistory({displayEquationDialog: true});
+        pushToHistory({editingEquationIndex: -1});
     };
 
     return <EquationPanelWrapper {...stopPropagation} {...{expandEquationPanel}}>
@@ -49,7 +46,6 @@ export const EquationPanel: FunctionComponent<EquationPanelProps> = (props) => {
                 equations.map((equation, index) => <EquationItem key={index} {...{
                     equation,
                     index,
-                    setEditingEquationIndex,
                     params,
                     pushToHistory
                 }}/>)

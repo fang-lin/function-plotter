@@ -1,4 +1,4 @@
-import React, {ChangeEvent, Component, FunctionComponent, ReactNode, useCallback, useEffect, useState} from 'react';
+import React, {ChangeEvent, FunctionComponent, useEffect, useState} from 'react';
 import {parse} from 'mathjs';
 import {
     AddButton, ButtonWrapper,
@@ -12,35 +12,33 @@ import {Dialog} from '../Dialog/Dialog';
 import {ParsedParams} from '../../helpers/params';
 
 interface EquationDialogProps {
-    editingEquationIndex: number;
-    setEditingEquationIndex: (index: number) => void;
     pushToHistory: (params: Partial<ParsedParams>) => void;
     params: ParsedParams;
 }
 
 export const EquationDialog: FunctionComponent<EquationDialogProps> = (props) => {
-    const {editingEquationIndex, params, pushToHistory} = props;
-    const {displayEquationDialog, equations} = params;
+    const {params, pushToHistory} = props;
+    const {editingEquationIndex, equations} = params;
     const [expression, setExpression] = useState<string>('');
     const [color, setColor] = useState<string>('');
     const [error, setError] = useState<string | null>(null);
 
-    const reset = (): void => {
-        setExpression('');
-        setColor('#090');
-        setError(null);
-    };
-
     useEffect(() => {
-        const equation = equations[editingEquationIndex];
-        if (equation) {
-            const {expression, color} = equation;
-            setExpression(expression);
-            setColor(color);
+        if (editingEquationIndex < -1) {
+            setExpression('');
+            setColor('#090');
+            setError(null);
+        } else {
+            const equation = equations[editingEquationIndex];
+            if (equation) {
+                const {expression, color} = equation;
+                setExpression(expression);
+                setColor(color);
+                setError(null);
+            }
         }
-        setError(null);
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [editingEquationIndex, equations.serialization().toString()]);
+    }, [editingEquationIndex]);
 
     const addEquation = (): void => {
         try {
@@ -50,20 +48,17 @@ export const EquationDialog: FunctionComponent<EquationDialogProps> = (props) =>
             return;
         }
 
-        if (editingEquationIndex === -1) {
-            equations.push(new FunctionEquation([expression, color, true]));
+        const equation = equations[editingEquationIndex];
+        if (equation) {
+            equations[editingEquationIndex] = new FunctionEquation([expression, color, equation.displayed]);
         } else {
-            const equation = equations[editingEquationIndex];
-            if (equation) {
-                const {displayed} = equation;
-                equations[editingEquationIndex] = new FunctionEquation([expression, color, displayed]);
-            }
+            equations.push(new FunctionEquation([expression, color, true]));
         }
+
         pushToHistory({
             equations,
-            displayEquationDialog: false
+            editingEquationIndex: -2
         });
-        reset();
     };
 
     const changeEquation = (event: ChangeEvent<HTMLTextAreaElement>): void => {
@@ -72,11 +67,10 @@ export const EquationDialog: FunctionComponent<EquationDialogProps> = (props) =>
     };
 
     const close = (): void => {
-        pushToHistory({displayEquationDialog: false});
-        reset();
+        pushToHistory({editingEquationIndex: -2});
     };
 
-    return <Dialog {...{isShow: displayEquationDialog, close}} >
+    return <Dialog {...{isShow: editingEquationIndex > -2, close}} >
         <TitleBar>
             <Title onClick={addEquation}>Add Equation</Title>
             <Close onClick={close}/>
