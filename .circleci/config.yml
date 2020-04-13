@@ -12,12 +12,11 @@ jobs:
   #      - run: npm run lint
   deploy-to-s3:
     docker:
-      - image: buildpack-deps:trusty
-      #      - image: python:3.6
-      - image: node:13.12
-    working_directory: ~/
+      - image: circleci/buildpack-deps
     steps:
-      #      - checkout
+      - checkout
+      - run: curl -sL https://deb.nodesource.com/setup_13.x | sudo -E bash -
+      - run: sudo apt install nodejs
       - run: npm install
       - run: npm run build
       - aws-s3/sync:
