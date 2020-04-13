@@ -14,11 +14,9 @@ jobs:
     docker:
       - image: cimg/python:3.6
       - image: node:13.12
-    executor:
-      name: node/default
     steps:
       - checkout
-      - node/install-packages
+      - run: npm install
       - run: npm run build
       - aws-s3/sync:
           aws-access-key-id: AWS_ACCESS_KEY_ID_BLUE
