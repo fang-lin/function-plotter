@@ -3,13 +3,13 @@ orbs:
   node: circleci/node@2.0.1
   aws-s3: circleci/aws-s3@1.0.15
 jobs:
-  lint:
-    executor:
-      name: node/default
-    steps:
-      - checkout
-      - node/install-packages
-      - run: npm run lint
+#  lint:
+#    executor:
+#      name: node/default
+#    steps:
+#      - checkout
+#      - node/install-packages
+#      - run: npm run lint
   deploy:
     docker:
       - image: buildpack-deps:trusty
@@ -17,7 +17,7 @@ jobs:
       - image: node:13.12
     working_directory: ~/
     steps:
-      - checkout
+#      - checkout
       - run: npm install
       - run: npm run build
       - aws-s3/sync:
@@ -31,9 +31,9 @@ workflows:
   test-and-deploy:
     jobs:
       - deploy:
-          requires:
-            - lint
-          filters:
-            branches:
-              only: master
-      - lint
+#          requires:
+#            - lint
+#          filters:
+#            branches:
+#              only: master
+#      - lint
