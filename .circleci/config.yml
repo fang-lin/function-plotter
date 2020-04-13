@@ -12,20 +12,22 @@ jobs:
   #      - run: npm run lint
   deploy-to-s3:
     docker:
-      - image: circleci/buildpack-deps
+      - image: circleci/buildpack-deps:latest
     steps:
       - checkout
-      - run: curl -sL https://deb.nodesource.com/setup_13.x | sudo -E bash -
-      - run: sudo apt install nodejs
+#      - run: curl -sL https://deb.nodesource.com/setup_13.x | sudo -E bash -
+#      - run: sudo apt install nodejs
       - run: npm install
       - run: npm run build
       - aws-s3/sync:
+          arguments: |
+            --acl public-read \
+            --cache-control "max-age=86400"
           aws-access-key-id: AWS_ACCESS_KEY_ID_BLUE
           aws-region: AWS_REGION_BLUE
           aws-secret-access-key: AWS_SECRET_ACCESS_KEY_BLUE
-          arguments: '--dry-run'
-          overwrite: true
           from: dist
+          overwrite: true
           to: 's3://function-diagraph.fanglin.me'
 workflows:
   test-and-deploy:
