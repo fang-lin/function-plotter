@@ -57,7 +57,6 @@ module.exports = (env, argv) => {
             }),
             new ManifestPlugin({
                 seed: {
-                    /* eslint-disable @typescript-eslint/camelcase */
                     name: 'Function Diagram',
                     version: version,
                     developer: {
@@ -69,7 +68,6 @@ module.exports = (env, argv) => {
                         sizes: '512x512',
                         type: 'image/png'
                     }]
-                    /* eslint-enable @typescript-eslint/camelcase */
                 },
                 filter: () => false
             })

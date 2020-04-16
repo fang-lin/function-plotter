@@ -8,7 +8,6 @@ import {stopPropagation} from '../App/App.function';
 
 export interface DialogProps {
     isShow: boolean;
-    close: () => void;
     Background?: ComponentType;
     Wrapper?: ComponentType;
 }
@@ -16,7 +15,7 @@ export interface DialogProps {
 export const transitionDuration = 200;
 
 export const Dialog: FunctionComponent<DialogProps> = (props) => {
-    const {isShow, close, children, Wrapper = DialogWrapper, Background = DialogBackground} = props;
+    const {isShow, children, Wrapper = DialogWrapper, Background = DialogBackground} = props;
 
     const [accessibility, setAccessibility] = useState<boolean>(false);
     const [appearance, setAppearance] = useState<boolean>(false);
@@ -33,7 +32,7 @@ export const Dialog: FunctionComponent<DialogProps> = (props) => {
 
     return accessibility ? <>
         <DialogMask {...{appearance}}/>
-        <Background {...stopPropagation} onClick={close}>
+        <Background {...stopPropagation}>
             <Wrapper {...stopPropagation} {...{appearance}} > {children}</Wrapper>
         </Background>
     </> : null;

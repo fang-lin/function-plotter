@@ -70,7 +70,7 @@ export const EquationDialog: FunctionComponent<EquationDialogProps> = (props) =>
         pushToHistory({editingEquationIndex: -2});
     };
 
-    return <Dialog {...{isShow: editingEquationIndex > -2, close}} >
+    return <Dialog {...{isShow: editingEquationIndex > -2}} >
         <TitleBar>
             <Title onClick={addEquation}>Add Equation</Title>
             <Close onClick={close}/>

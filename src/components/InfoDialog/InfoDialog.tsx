@@ -16,10 +16,10 @@ export const InfoDialog: FunctionComponent<InfoDialogProps> = (props) => {
 
     const close = (): void => pushToHistory({displayInfoDialog: false});
 
-    return <Dialog {...{isShow: displayInfoDialog, close, Background: InfoDialogBackground}}>
+    return <Dialog {...{isShow: displayInfoDialog, Background: InfoDialogBackground}}>
         <TitleBar>
             <Title>About Function Diagram {version}</Title>
-            <Close onClick={(): void => pushToHistory({displayInfoDialog: false})}/>
+            <Close onClick={close}/>
         </TitleBar>
         <DialogInner {...stopPropagation}>
             <Info>
