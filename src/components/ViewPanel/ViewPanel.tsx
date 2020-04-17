@@ -1,5 +1,5 @@
 import React, {FunctionComponent} from 'react';
-import {ViewPanelWrapper, CenteredButton, SmoothButton, CoordinateButton, WeightButton} from './ViewPanel.style';
+import {CenteredButton, CoordinateButton, SmoothButton, ViewPanelWrapper, WeightButton} from './ViewPanel.style';
 import {ParsedParams} from '../../helpers/params';
 import {stopPropagation} from '../App/App.function';
 

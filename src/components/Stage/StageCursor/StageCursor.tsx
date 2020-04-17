@@ -1,8 +1,5 @@
 import React, {CSSProperties, Dispatch, FunctionComponent, SetStateAction, useEffect, useRef} from 'react';
-import {
-    erasure,
-    withCanvasContext
-} from '../Stage.function';
+import {erasure, withCanvasContext} from '../Stage.function';
 import {CursorCanvas} from './StageCursor.style';
 import {calculateTrackPoint, redrawCursor, redrawTrackPoint} from './StageCursor.function';
 import {EquationWorkerOutput} from '../../../services/workerPool';

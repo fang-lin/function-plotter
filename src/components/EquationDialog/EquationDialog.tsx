@@ -1,9 +1,5 @@
 import React, {ChangeEvent, FunctionComponent, useEffect, useState} from 'react';
-import {
-    AddButton, ButtonWrapper,
-    EquationTextarea,
-    ErrorLabel
-} from './EquationDialog.style';
+import {AddButton, ButtonWrapper, EquationTextarea, ErrorLabel} from './EquationDialog.style';
 import {Palette} from '../Palette/Palette';
 import {Close, DialogInner, Title, TitleBar} from '../Dialog/Dialog.style';
 import {Dialog} from '../Dialog/Dialog';

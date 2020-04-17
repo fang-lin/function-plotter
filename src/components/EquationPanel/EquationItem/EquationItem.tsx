@@ -7,7 +7,8 @@ import {
     EditButton,
     EditButtonWrapper,
     EquationItemWrapper,
-    EquationText, RemoveButton
+    EquationText,
+    RemoveButton
 } from './EquationItem.style';
 
 export interface EquationPanelProps {

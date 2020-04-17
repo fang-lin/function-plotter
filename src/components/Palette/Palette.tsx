@@ -1,9 +1,6 @@
 import React, {Dispatch, FunctionComponent, SetStateAction} from 'react';
-import {PaletteWrapper, Color} from './Palette.style';
-import {
-    primary,
-    size, toHex
-} from './Palette.function';
+import {Color, PaletteWrapper} from './Palette.style';
+import {primary, size, toHex} from './Palette.function';
 
 export interface PaletteProps {
     color: string;

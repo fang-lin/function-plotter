@@ -1,11 +1,6 @@
 import React, {CSSProperties, FunctionComponent, useEffect, useRef} from 'react';
 import {BackgroundCanvas} from './StageBackground.style';
-import {
-    axisColor,
-    erasure,
-    gridColor,
-    withCanvasContext
-} from '../Stage.function';
+import {axisColor, erasure, gridColor, withCanvasContext} from '../Stage.function';
 import {redrawAxis, redrawGrid} from './StageBackground.function';
 import {ParsedParams} from '../../../helpers/params';
 import {Size} from '../../App/App.function';

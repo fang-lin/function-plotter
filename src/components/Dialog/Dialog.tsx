@@ -1,9 +1,5 @@
 import React, {ComponentType, FunctionComponent, useEffect, useState} from 'react';
-import {
-    DialogBackground,
-    DialogMask,
-    DialogWrapper,
-} from './Dialog.style';
+import {DialogBackground, DialogMask, DialogWrapper} from './Dialog.style';
 import {stopPropagation} from '../App/App.function';
 
 export interface DialogProps {

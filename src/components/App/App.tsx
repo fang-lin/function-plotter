@@ -1,15 +1,7 @@
 import React, {Component, ReactNode, RefObject} from 'react';
 import debounce from 'lodash/debounce';
 import {AppWrapper} from './App.style';
-import {
-    Coordinate,
-    DragState,
-    getStageSize,
-    Size,
-    getClient,
-    DragEvents,
-    DragEvent
-} from './App.function';
+import {Coordinate, DragEvent, DragEvents, DragState, getClient, getStageSize, Size} from './App.function';
 import {RouteComponentProps} from 'react-router-dom';
 import {PreloadImages} from '../PreloadImages/PreloadImages';
 import {InfoDialog} from '../InfoDialog/InfoDialog';

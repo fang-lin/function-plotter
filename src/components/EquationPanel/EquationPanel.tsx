@@ -1,13 +1,14 @@
 import React, {FunctionComponent, SyntheticEvent} from 'react';
 import {
-    EquationPanelWrapper,
-    ExpandToggle,
-    EquationPanelTitleBar,
+    AddButton,
+    ButtonWrapper,
     EquationPanelInner,
+    EquationPanelTitleBar,
+    EquationPanelWrapper,
     EquationsList,
-    InfoButton, ButtonWrapper
+    ExpandToggle,
+    InfoButton
 } from './EquationPanel.style';
-import {AddButton} from './EquationPanel.style';
 import {Size, stopPropagation} from '../App/App.function';
 import {Title} from '../Dialog/Dialog.style';
 import {ParsedParams} from '../../helpers/params';
