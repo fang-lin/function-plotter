@@ -1,16 +1,14 @@
 import React, {ChangeEvent, FunctionComponent, useEffect, useState} from 'react';
-import {parse} from 'mathjs';
 import {
     AddButton, ButtonWrapper,
     EquationTextarea,
     ErrorLabel
 } from './EquationDialog.style';
 import {Palette} from '../Palette/Palette';
-import {FunctionEquation} from '../../services/FunctionEquation';
 import {Close, DialogInner, Title, TitleBar} from '../Dialog/Dialog.style';
 import {Dialog} from '../Dialog/Dialog';
 import {ParsedParams} from '../../helpers/params';
-import {ParametricEquation, ParametricEquationOptions} from '../../services/ParametricEquation';
+import {equationFactory} from '../../services/Equations';
 
 interface EquationDialogProps {
     pushToHistory: (params: Partial<ParsedParams>) => void;
@@ -42,47 +40,12 @@ export const EquationDialog: FunctionComponent<EquationDialogProps> = (props) =>
     }, [editingEquationIndex]);
 
     const addEquation = (): void => {
-        console.log( parse('[0,2*PI]').compile().evaluate());
-
         try {
-            const trimmedExpression = expression.replace(/[\s\uFEFF\xA0\n\r]/g, '');
-            const splitExpression = trimmedExpression.split(';');
-
-            if (splitExpression.length === 3) {
-                parse(splitExpression[0]).compile().evaluate({t: 0});
-                parse(splitExpression[1]).compile().evaluate({t: 0});
-                const domain: [number, number] = parse(splitExpression[2]).compile().evaluate().toArray();
-                const equation = equations[editingEquationIndex];
-                const options = {
-                    fx: splitExpression[0],
-                    fy: splitExpression[1],
-                    domain,
-                    color,
-                    expression: trimmedExpression
-                };
-
-                if (equation) {
-                    equations[editingEquationIndex] = equations[editingEquationIndex] = new ParametricEquation({
-                        ...options,
-                        displayed: equation.displayed
-                    });
-                } else {
-                    equations.push(new ParametricEquation({...options, displayed: true}));
-                }
-            } else if (splitExpression.length === 1) {
-                parse(trimmedExpression).compile().evaluate({x: 0});
-                const equation = equations[editingEquationIndex];
-                const options = {
-                    expression: trimmedExpression,
-                    color,
-                    fn: trimmedExpression
-                };
-
-                if (equation) {
-                    equations[editingEquationIndex] = new FunctionEquation({...options, displayed: equation.displayed});
-                } else {
-                    equations.push(new FunctionEquation({...options, displayed: true}));
-                }
+            const equation = equations[editingEquationIndex];
+            if (equation) {
+                equations[editingEquationIndex] = equationFactory(expression, color, equation.displayed);
+            } else {
+                equations.push(equationFactory(expression, color, true));
             }
 
             pushToHistory({

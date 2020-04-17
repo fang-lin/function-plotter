@@ -71,17 +71,17 @@ export function calculateFunctionEquation(input: FunctionEquationWorkerInput): E
     const resultCoordinates: Coordinate[] = [];
     let nextCoordinates: Coordinate[] = [];
 
-    while (level < 16) {
+    while (level < 1024) {
         dx /= 2;
         if (level === 0) {
             let last: Coordinate | null = null;
-            while (x < range[0][1]) {
-                x += dx;
+            while (x <= range[0][1]) {
                 const current: Coordinate = [x, func.evaluate({x})];
                 if (last) {
                     distributePoint(resultCoordinates, nextCoordinates, last, current, dx, unit, range, input);
                 }
                 last = current;
+                x += dx;
             }
         } else {
             const nextNextCoordinates: Coordinate[] = [];
