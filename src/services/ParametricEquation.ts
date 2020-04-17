@@ -1,8 +1,12 @@
 import {Equation, EquationSerial} from './Equation';
 
-export interface Fxy {
+export interface ParametricEquationOptions {
     fx: string;
     fy: string;
+    domain: [number, number];
+    color: string;
+    displayed: boolean;
+    expression: string;
 }
 
 export class ParametricEquation implements Equation {
@@ -10,13 +14,15 @@ export class ParametricEquation implements Equation {
     public expression: string;
     public fx: string;
     public fy: string;
+    public domain: [number, number];
     public displayed: boolean;
     readonly type = 'ParametricEquation';
 
-    constructor([expression, color, displayed]: EquationSerial) {
+    constructor({fx, fy, domain, color, displayed, expression}: ParametricEquationOptions) {
         this.expression = expression;
-        this.fx = expression;
-        this.fy = expression;
+        this.fx = fx;
+        this.fy = fy;
+        this.domain = domain;
         this.color = color;
         this.displayed = displayed;
     }

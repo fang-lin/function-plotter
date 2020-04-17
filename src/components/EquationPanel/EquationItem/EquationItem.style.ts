@@ -68,5 +68,6 @@ export const EquationText = styled.div<{ displayed: boolean }>`
     flex: auto;
     font-size: 12px;
     padding: 15px;
-    ${({displayed}): string => displayed ? '' : 'text-decoration:line-through;'}
+    word-break: break-all;
+    ${({displayed}): string => displayed ? '' : 'text-decoration: line-through;'}
 `;

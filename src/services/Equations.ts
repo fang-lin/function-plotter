@@ -26,7 +26,7 @@ export class Equations<T extends Equation> extends Array<T> {
         }
         const equations: EquationSerial[] = JSON.parse(atou(code));
         return new Equations<FunctionEquation | ParametricEquation>(...equations.map(([expression, color, displayed]) => {
-            return new FunctionEquation([expression, color, displayed]);
+            return new FunctionEquation({fn: expression, expression, color, displayed});
         }));
     }
 }

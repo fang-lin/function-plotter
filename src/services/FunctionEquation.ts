@@ -1,5 +1,12 @@
 import {Equation, EquationSerial} from './Equation';
 
+interface FunctionEquationOptions {
+    fn: string;
+    color: string;
+    displayed: boolean;
+    expression: string;
+}
+
 export class FunctionEquation implements Equation {
     public color: string;
     public expression: string;
@@ -7,9 +14,9 @@ export class FunctionEquation implements Equation {
     public displayed: boolean;
     readonly type = 'FunctionEquation';
 
-    constructor([expression, color, displayed]: EquationSerial) {
+    constructor({fn, color, displayed, expression}: FunctionEquationOptions) {
         this.expression = expression;
-        this.fn = expression;
+        this.fn = fn;
         this.color = color;
         this.displayed = displayed;
     }
