@@ -1,7 +1,7 @@
 import React, {FunctionComponent} from 'react';
 import {CenteredButton, CoordinateButton, SmoothButton, ViewPanelWrapper, WeightButton} from './ViewPanel.style';
-import {ParsedParams} from '../../helpers/params';
-import {stopPropagation} from '../App/App.function';
+import {ParsedParams} from '../../helpers/diagraphParams';
+import {stopPropagation} from '../../pages/Diagraph/Diagraph.function';
 
 interface ViewPanelProps {
     pushToHistory: (params: Partial<ParsedParams>) => void;

@@ -1,4 +1,4 @@
-import {Coordinate, Size} from '../../App/App.function';
+import {Coordinate, Size} from '../../../pages/Diagraph/Diagraph.function';
 import {deviceRatio} from '../../../helpers/deviceRatio';
 
 const attractionRadius = 10;

@@ -3,8 +3,8 @@ import {StageWrapper} from './Stage.style';
 import {StageBackground} from './StageBackground/StageBackground';
 import {StageEquation} from './StageEquations/StageEquations';
 import {StageCursor} from './StageCursor/StageCursor';
-import {ParsedParams} from '../../helpers/params';
-import {Coordinate, Size} from '../App/App.function';
+import {ParsedParams} from '../../helpers/diagraphParams';
+import {Coordinate, Size} from '../../pages/Diagraph/Diagraph.function';
 import {deviceRatio} from '../../helpers/deviceRatio';
 import {EquationWorkerOutput} from '../../services/workerPool';
 

@@ -1,19 +1,17 @@
 import styled, {createGlobalStyle} from 'styled-components';
-import {DragState} from './App.function';
+import {DragState} from './Diagraph.function';
+import {defaultStyle} from '../Home/Home.style';
 
-const FullScreen = `
-    margin: 0;
-    padding: 0;
+const fullScreenStyle = `
     width: 100%;
     height: 100%;
     overflow: hidden;
-    background: #ccc;
-    font-family: monospace, consolas, courier;
 `;
 
-export const GlobalStyle = createGlobalStyle`
+export const FullScreenGlobalStyle = createGlobalStyle`
     html, body, #root {
-        ${FullScreen}
+        ${defaultStyle}
+        ${fullScreenStyle}
     }
 `;
 
@@ -43,7 +41,8 @@ export const AppWrapper = styled.div<{ dragState: DragState; showCrossCursor: bo
     min-height: 320px;
     position: relative;
     cursor: ${({showCrossCursor}): string => showCrossCursor ? 'none' : 'crosshair'};
-    ${FullScreen}
+    ${defaultStyle}
+    ${fullScreenStyle}
     ${({dragState}): string => dragState === DragState.start ? 'cursor: grab;' : ''}
     ${({dragState}): string => dragState === DragState.moving ? 'cursor: grabbing;' : ''}
 `;

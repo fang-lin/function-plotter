@@ -8,7 +8,7 @@ import addHover from '../../images/add-hover.png';
 
 import info from '../../images/info.png';
 import infoHover from '../../images/info-hover.png';
-import {SmallIconButton, TitleBar} from '../Dialog/Dialog.style';
+import {BaseButton, SmallIconButton, TitleBar} from '../Dialog/Dialog.style';
 
 const width = 320;
 
@@ -35,7 +35,7 @@ export const EquationPanelWrapper = styled.div<{
 `;
 
 export const EquationPanelInner = styled.div`
-    padding: 30px 0;
+    padding: 20px 0 30px 0;
 `;
 
 export const EquationPanelTitleBar = styled(TitleBar)`
@@ -75,6 +75,13 @@ export const AddButton = styled(SmallIconButton)`
         background-image: url(${addHover});
     }
 `;
+
+export const AddNewButton = styled(BaseButton)`
+    font-weight: bold;
+    width: fill-available;
+    margin: 0 20px;
+`;
+
 export const EquationsList = styled.ul`
     list-style: none;
     margin: 0;

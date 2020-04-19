@@ -1,4 +1,4 @@
-import {Size} from '../App/App.function';
+import {Size} from '../../pages/Diagraph/Diagraph.function';
 import {deviceRatio} from '../../helpers/deviceRatio';
 
 export const gridColor = 'rgba(0, 0, 0, .3)';

@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import {Size} from '../App/App.function';
-import {device} from '../App/App.style';
+import {Size} from '../../pages/Diagraph/Diagraph.function';
+import {device} from '../../pages/Diagraph/Diagraph.style';
 
 export const PaletteWrapper = styled.div<{
     size: Size;

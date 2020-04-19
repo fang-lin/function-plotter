@@ -3,8 +3,8 @@ import {erasure, withCanvasContext} from '../Stage.function';
 import {CursorCanvas} from './StageCursor.style';
 import {calculateTrackPoint, redrawCursor, redrawTrackPoint} from './StageCursor.function';
 import {EquationWorkerOutput} from '../../../services/workerPool';
-import {ParsedParams} from '../../../helpers/params';
-import {Coordinate, Size} from '../../App/App.function';
+import {ParsedParams} from '../../../helpers/diagraphParams';
+import {Coordinate, Size} from '../../../pages/Diagraph/Diagraph.function';
 
 interface StageCursorProps {
     cursor: Coordinate;

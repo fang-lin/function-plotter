@@ -1,8 +1,8 @@
 import {Equation, EquationSerial} from './Equation';
 import {FunctionEquation} from './FunctionEquation';
 import {ParametricEquation} from './ParametricEquation';
-import {atou, utoa} from '../helpers/params';
 import {parse} from 'mathjs';
+import {atou, utoa} from '../helpers/codec';
 
 export function equationFactory(expression: string, color: string, displayed: boolean): FunctionEquation | ParametricEquation {
     const trimmedExpression = expression.replace(/[\s\uFEFF\xA0\n\r]/g, '');

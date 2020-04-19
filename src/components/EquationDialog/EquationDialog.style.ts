@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import ok from '../../images/ok.png';
 import okHover from '../../images/ok-hover.png';
-import {device} from '../App/App.style';
+import {device} from '../../pages/Diagraph/Diagraph.style';
 import {LargeIconButton} from '../Dialog/Dialog.style';
 
 export const EquationTextarea = styled.textarea`

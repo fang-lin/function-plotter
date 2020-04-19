@@ -1,6 +1,6 @@
 import React, {ComponentType, FunctionComponent, useEffect, useState} from 'react';
 import {DialogBackground, DialogMask, DialogWrapper} from './Dialog.style';
-import {stopPropagation} from '../App/App.function';
+import {stopPropagation} from '../../pages/Diagraph/Diagraph.function';
 
 export interface DialogProps {
     isShow: boolean;

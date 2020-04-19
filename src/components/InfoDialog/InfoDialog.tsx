@@ -1,10 +1,10 @@
 import React, {FunctionComponent} from 'react';
 import {version} from '../../../package.json';
 import {Info, InfoDialogBackground} from './InfoDialog.style';
-import {ParsedParams} from '../../helpers/params';
+import {ParsedParams} from '../../helpers/diagraphParams';
 import {Close, DialogInner, Title, TitleBar} from '../Dialog/Dialog.style';
 import {Dialog} from '../Dialog/Dialog';
-import {stopPropagation} from '../App/App.function';
+import {stopPropagation} from '../../pages/Diagraph/Diagraph.function';
 
 export interface InfoDialogProps {
     pushToHistory: (params: Partial<ParsedParams>) => void;

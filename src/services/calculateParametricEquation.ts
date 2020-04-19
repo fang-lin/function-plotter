@@ -1,6 +1,6 @@
 import {parse} from 'mathjs';
 import {EquationWorkerInput, EquationWorkerOutput} from './workerPool';
-import {Coordinate} from '../components/App/App.function';
+import {Coordinate} from '../pages/Diagraph/Diagraph.function';
 import {equationToCanvas} from '../helpers/coordinateTransform';
 import {ParametricEquation} from './ParametricEquation';
 

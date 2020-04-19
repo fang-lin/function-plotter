@@ -1,4 +1,4 @@
-import {Size} from '../App/App.function';
+import {Size} from '../../pages/Diagraph/Diagraph.function';
 import {deviceRatio} from '../../helpers/deviceRatio';
 
 export const primary = [0, 2, 4, 6, 8, 10, 12, 14];

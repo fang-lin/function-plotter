@@ -3,7 +3,7 @@ import {AddButton, ButtonWrapper, EquationTextarea, ErrorLabel} from './Equation
 import {Palette} from '../Palette/Palette';
 import {Close, DialogInner, Title, TitleBar} from '../Dialog/Dialog.style';
 import {Dialog} from '../Dialog/Dialog';
-import {ParsedParams} from '../../helpers/params';
+import {ParsedParams} from '../../helpers/diagraphParams';
 import {equationFactory} from '../../services/Equations';
 
 interface EquationDialogProps {

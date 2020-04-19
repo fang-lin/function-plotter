@@ -3,8 +3,8 @@ import random from 'lodash/random';
 import {erasure, withCanvasContext} from '../Stage.function';
 import {EquationCanvas} from './StageEquations.style';
 import {EquationWorkerInput, EquationWorkerOutput, workerPool} from '../../../services/workerPool';
-import {ParsedParams} from '../../../helpers/params';
-import {Coordinate, Size} from '../../App/App.function';
+import {ParsedParams} from '../../../helpers/diagraphParams';
+import {Coordinate, Size} from '../../../pages/Diagraph/Diagraph.function';
 import {deviceRatio} from '../../../helpers/deviceRatio';
 import {drawEquation} from './StageEquations.function';
 

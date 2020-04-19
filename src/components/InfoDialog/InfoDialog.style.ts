@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import {DialogBackground} from '../Dialog/Dialog.style';
-import {device} from '../App/App.style';
+import {device} from '../../pages/Diagraph/Diagraph.style';
 
 export const Info = styled.div`
     margin: 0 30px;

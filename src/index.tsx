@@ -2,23 +2,20 @@ import {render} from 'react-dom';
 import React from 'react';
 import {Redirect, Route, Router, Switch} from 'react-router';
 import {createHashHistory} from 'history';
-import {App} from './components/App/App';
-import {GlobalStyle} from './components/App/App.style';
-import {utoa} from './helpers/params';
+import {Diagraph} from './pages/Diagraph/Diagraph';
+import {combinePathToURL, defaultParams, Page, routerPath} from './helpers/diagraphParams';
+import {Home} from './pages/Home/Home';
 
 const dom = document.getElementById('root');
+
 if (dom) {
     const history = createHashHistory();
-    const defaultURL = `/13/0/0/110011/4/-2/${utoa('[["sin(x)","rgb(238, 102, 0)",true],["-sin(x)","rgb(0, 136, 204)",true],["tan(x)","rgb(136, 34, 0)",true],["tan(-x)","rgb(238, 170, 0)",true],["cos(31*x)*sin(x)","rgb(0, 136, 0)",true]]')}`;
-
-    render(<Router history={history}>
-        <GlobalStyle/>
+    render(<Router {...{history}}>
         <Switch>
-            <Route exact
-                path="/:scaleIndex/:originX/:originY/:toggles/:selectedEquationIndex/:editingEquationIndex/:equations"
-                component={App}>
-            </Route>
-            <Redirect from="/" to={defaultURL}/>
+            <Route path={routerPath()} component={Diagraph} exact/>
+            <Route path={Page.home} component={Home} exact/>
+            <Redirect from={Page.diagraph} to={combinePathToURL(defaultParams)}/>
+            <Redirect to={Page.home}/>
         </Switch>
     </Router>, dom);
 }

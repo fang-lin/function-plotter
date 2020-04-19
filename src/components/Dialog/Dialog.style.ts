@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import cross from '../../images/cross.png';
 import crossHover from '../../images/cross-hover.png';
 import {transitionDuration} from './Dialog';
-import {device} from '../App/App.style';
+import {device} from '../../pages/Diagraph/Diagraph.style';
 
 export const DialogMask = styled.div<{ appearance: boolean }>`
     position: absolute;
@@ -86,6 +86,27 @@ const BaseIconButton = styled.button`
     box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .3);
     :hover{
         background-color: #666;
+    }
+`;
+
+export const BaseButton = styled.button`
+    cursor: pointer;
+    font-family: monospace,consolas,courier;
+    outline: none;
+    border: solid 1px #666;
+    background-position: -1px -1px;
+    background-color: #ccc;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .3);
+    border-radius: 4px;
+    color: #333;
+    font-size: 14px;
+    line-height: 14px;
+    text-shadow: 0 1px 1px rgba(255,255,255,.7);
+    padding: 10px 20px;
+    :hover{
+        background-color: #666;
+        color: #fff;
+        box-shadow: 0 1px 3px 0 rgba(255, 255, 255, .3);
     }
 `;
 

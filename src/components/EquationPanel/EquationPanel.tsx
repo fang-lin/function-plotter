@@ -1,6 +1,6 @@
 import React, {FunctionComponent, SyntheticEvent} from 'react';
 import {
-    AddButton,
+    AddButton, AddNewButton,
     ButtonWrapper,
     EquationPanelInner,
     EquationPanelTitleBar,
@@ -9,9 +9,9 @@ import {
     ExpandToggle,
     InfoButton
 } from './EquationPanel.style';
-import {Size, stopPropagation} from '../App/App.function';
+import {Size, stopPropagation} from '../../pages/Diagraph/Diagraph.function';
 import {Title} from '../Dialog/Dialog.style';
-import {ParsedParams} from '../../helpers/params';
+import {ParsedParams} from '../../helpers/diagraphParams';
 import {EquationItem} from './EquationItem/EquationItem';
 
 export interface EquationPanelProps {
@@ -43,14 +43,14 @@ export const EquationPanel: FunctionComponent<EquationPanelProps> = (props) => {
             </ButtonWrapper>
         </EquationPanelTitleBar>
         <EquationPanelInner>
-            <EquationsList style={{maxHeight: `${size[1] - 200}px`}}>{
+            {equations.length ? <EquationsList style={{maxHeight: `${size[1] - 200}px`}}>{
                 equations.map((equation, index) => <EquationItem key={index} {...{
                     equation,
                     index,
                     params,
                     pushToHistory
                 }}/>)
-            }</EquationsList>
+            }</EquationsList> : <AddNewButton onClick={addEquation}>Add New Equation</AddNewButton>}
         </EquationPanelInner>
         <ExpandToggle expandEquationPanel={expandEquationPanel}
             onClick={(): void => pushToHistory({expandEquationPanel: !expandEquationPanel})}/>

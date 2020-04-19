@@ -1,8 +1,10 @@
-import {Equations} from '../services/Equations';
 import {FunctionEquation} from '../services/FunctionEquation';
 import {ParametricEquation} from '../services/ParametricEquation';
 import range from 'lodash/range';
-import {Coordinate} from '../components/App/App.function';
+import {Coordinate} from '../pages/Diagraph/Diagraph.function';
+import {Equations} from '../services/Equations';
+
+const paramsSegments: Array<keyof OriginalParams> = ['scaleIndex', 'originX', 'originY', 'toggles', 'selectedEquationIndex', 'editingEquationIndex', 'equations'];
 
 export function parseToggle(toggle: string): boolean {
     return toggle === '1';
@@ -10,14 +12,6 @@ export function parseToggle(toggle: string): boolean {
 
 export function stringifyToggle(toggle: boolean): string {
     return toggle ? '1' : '0';
-}
-
-export function utoa(code: string): string {
-    return window.btoa(unescape(encodeURIComponent(code)));
-}
-
-export function atou(code: string): string {
-    return decodeURIComponent(escape(window.atob(code)));
 }
 
 export interface ParsedParams {
@@ -51,7 +45,8 @@ export function getScaleValue(scaleIndex: number): number {
 }
 
 export function getScaleIndex(scale: number): number {
-    return scaleRange.indexOf(scale);
+    const index = scaleRange.indexOf(scale);
+    return index > -1 ? index : 0;
 }
 
 export function parseParams(params: OriginalParams): ParsedParams {
@@ -122,16 +117,25 @@ export function stringifyParams(params: ParsedParams): OriginalParams {
     };
 }
 
-export function combineURL(params: OriginalParams, partialParams: Partial<ParsedParams>): string {
-    const {
-        scaleIndex,
-        originX,
-        originY,
-        equations,
-        toggles,
-        selectedEquationIndex,
-        editingEquationIndex
-    } = stringifyParams({...parseParams(params), ...partialParams});
+export enum Page {
+    diagraph = '/diagraph',
+    home = '/',
+}
 
-    return `/${scaleIndex}/${originX}/${originY}/${toggles}/${selectedEquationIndex}/${editingEquationIndex}/${equations}`;
+export function combinePathToURL(params: OriginalParams): string {
+    return `${Page.diagraph}/${paramsSegments.map(segment => params[segment]).join('/')}`;
+}
+
+export const defaultParams: OriginalParams = {
+    scaleIndex: '12',
+    selectedEquationIndex: '-1',
+    editingEquationIndex: '-2',
+    originX: '0',
+    originY: '0',
+    equations: '-',
+    toggles: '110011',
+};
+
+export function routerPath(): string {
+    return `${Page.diagraph}/${paramsSegments.map(segment => `:${segment}`).join('/')}`;
 }

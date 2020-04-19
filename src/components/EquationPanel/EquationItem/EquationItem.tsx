@@ -1,5 +1,5 @@
 import React, {FunctionComponent, SyntheticEvent} from 'react';
-import {ParsedParams} from '../../../helpers/params';
+import {ParsedParams} from '../../../helpers/diagraphParams';
 import {FunctionEquation} from '../../../services/FunctionEquation';
 import {Equation} from '../../../services/Equation';
 import {
@@ -55,7 +55,8 @@ export const EquationItem: FunctionComponent<EquationPanelProps> = (props) => {
 
     const style = index > 0 ? {borderTop: `${color} solid 1px`} : {};
 
-    return <EquationItemWrapper {...{style}} onClick={selectEquation} selected={selectedEquationIndex === index}>
+    return <EquationItemWrapper {...{style}} onClick={selectEquation} onDoubleClick={editEquation}
+        selected={selectedEquationIndex === index}>
         <DisplayEquationButton {...{displayed, color}} style={{backgroundColor: color}}
             onClick={toggleEquationDisplayed}/>
         <EquationText {...{displayed}}>{expression}</EquationText>

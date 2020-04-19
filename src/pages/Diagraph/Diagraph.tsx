@@ -1,17 +1,23 @@
 import React, {Component, ReactNode, RefObject} from 'react';
 import debounce from 'lodash/debounce';
-import {AppWrapper} from './App.style';
-import {Coordinate, DragEvent, DragEvents, DragState, getClient, getStageSize, Size} from './App.function';
+import {AppWrapper, FullScreenGlobalStyle} from './Diagraph.style';
+import {Coordinate, DragEvent, DragEvents, DragState, getClient, getStageSize, Size} from './Diagraph.function';
 import {RouteComponentProps} from 'react-router-dom';
-import {PreloadImages} from '../PreloadImages/PreloadImages';
-import {InfoDialog} from '../InfoDialog/InfoDialog';
-import {EquationPanel} from '../EquationPanel/EquationPanel';
-import {Stage} from '../Stage/Stage';
-import {EquationDialog} from '../EquationDialog/EquationDialog';
-import {ZoomPanel} from '../ZoomPanel/ZoomPanel';
-import {ViewPanel} from '../ViewPanel/ViewPanel';
-import {StateBar} from '../StateBar/StateBar';
-import {combineURL, OriginalParams, ParsedParams, parseParams} from '../../helpers/params';
+import {PreloadImages} from '../../components/PreloadImages/PreloadImages';
+import {InfoDialog} from '../../components/InfoDialog/InfoDialog';
+import {EquationPanel} from '../../components/EquationPanel/EquationPanel';
+import {Stage} from '../../components/Stage/Stage';
+import {EquationDialog} from '../../components/EquationDialog/EquationDialog';
+import {ZoomPanel} from '../../components/ZoomPanel/ZoomPanel';
+import {ViewPanel} from '../../components/ViewPanel/ViewPanel';
+import {StateBar} from '../../components/StateBar/StateBar';
+import {
+    combinePathToURL,
+    OriginalParams,
+    ParsedParams,
+    parseParams,
+    stringifyParams
+} from '../../helpers/diagraphParams';
 
 interface State {
     dragState: DragState;
@@ -23,7 +29,7 @@ interface State {
     client: Coordinate;
 }
 
-export class App extends Component<RouteComponentProps<OriginalParams>, State> {
+export class Diagraph extends Component<RouteComponentProps<OriginalParams>, State> {
     private readonly appRef: RefObject<HTMLDivElement>;
 
     constructor(props: RouteComponentProps<OriginalParams>) {
@@ -95,8 +101,9 @@ export class App extends Component<RouteComponentProps<OriginalParams>, State> {
         window.addEventListener(DragEvents[DragState.moving], this.onMoving);
     };
 
-    pushToHistory = (params: Partial<ParsedParams>): void => {
-        this.props.history.push(combineURL(this.props.match.params, params));
+    pushToHistory = (parsedParams: Partial<ParsedParams>): void => {
+        const {history: {push}, match: {params}} = this.props;
+        push(combinePathToURL(stringifyParams({...parseParams(params), ...parsedParams})));
     };
 
     componentDidMount(): void {
@@ -119,6 +126,7 @@ export class App extends Component<RouteComponentProps<OriginalParams>, State> {
             const {showCrossCursor} = params;
 
             return <AppWrapper {...{dragState, showCrossCursor}} ref={this.appRef}>
+                <FullScreenGlobalStyle/>
                 <PreloadImages/>
                 <Stage {...{cursor, size, transform, setRedrawing, params, setTrackPoint}}/>
                 <StateBar {...{params, size, trackPoint, redrawing, pushToHistory}}/>
