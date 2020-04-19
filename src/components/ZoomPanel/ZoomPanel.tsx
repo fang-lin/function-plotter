@@ -1,7 +1,7 @@
 import React, {FunctionComponent} from 'react';
 import {ShadowWrapper, ZoomInButton, ZoomLevelButton, ZoomOutButton, ZoomPanelWrapper} from './ZoomPanel.style';
 import {stopPropagation} from '../App/App.function';
-import {getScaleLevel, ParsedParams, scaleRange} from '../../helpers/params';
+import {getScaleIndex, ParsedParams, scaleRange} from '../../helpers/params';
 
 export interface ZoomPanelProps {
     params: ParsedParams;
@@ -9,21 +9,18 @@ export interface ZoomPanelProps {
 }
 
 export const ZoomPanel: FunctionComponent<ZoomPanelProps> = (props) => {
-    const {pushToHistory, params: {scale}} = props;
+    const {pushToHistory, params: {scale, origin}} = props;
 
-    const scaleLevel = getScaleLevel(scale);
+    const scaleIndex = getScaleIndex(scale);
+    const scaleLevel = scaleIndex + 1;
 
-    const zoomIn = (): void => {
-        const newScale = scaleRange[getScaleLevel(scale)];
+    const zoomInOut = (isZoomIn: boolean) => (): void => {
+        const newScale = scaleRange[scaleIndex + (isZoomIn ? 1 : -1)];
         if (newScale) {
-            pushToHistory({scale: newScale});
-        }
-    };
-
-    const zoomOut = (): void => {
-        const newScale = scaleRange[getScaleLevel(scale) - 2];
-        if (newScale) {
-            pushToHistory({scale: newScale});
+            pushToHistory({
+                scale: newScale,
+                origin: [Math.round(origin[0] / scale * newScale), Math.round(origin[1] / scale * newScale)]
+            });
         }
     };
 
@@ -33,12 +30,11 @@ export const ZoomPanel: FunctionComponent<ZoomPanelProps> = (props) => {
                 <ZoomInButton
                     title="Zoom In"
                     {...stopPropagation}
-                    onClick={zoomIn}>Zoom In</ZoomInButton>
+                    onClick={zoomInOut(true)}>Zoom In</ZoomInButton>
                 <ZoomOutButton
                     title="Zoom Out"
                     {...stopPropagation}
-                    onClick={zoomOut}>Zoom
-                    Out</ZoomOutButton>
+                    onClick={zoomInOut(false)}>Zoom Out</ZoomOutButton>
             </ShadowWrapper>
             <ZoomLevelButton {...{scaleLevel, title: `x${scaleLevel}`}}>{`x${scaleLevel}`}</ZoomLevelButton>
         </ZoomPanelWrapper>

@@ -15,7 +15,7 @@ if (dom) {
         <GlobalStyle/>
         <Switch>
             <Route exact
-                path="/:scaleLevel/:originX/:originY/:toggles/:selectedEquationIndex/:editingEquationIndex/:equations"
+                path="/:scaleIndex/:originX/:originY/:toggles/:selectedEquationIndex/:editingEquationIndex/:equations"
                 component={App}>
             </Route>
             <Redirect from="/" to={defaultURL}/>

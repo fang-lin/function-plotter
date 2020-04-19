@@ -35,7 +35,7 @@ export interface ParsedParams {
 }
 
 export type OriginalParams = {
-    scaleLevel: string;
+    scaleIndex: string;
     selectedEquationIndex: string;
     editingEquationIndex: string;
     originX: string;
@@ -43,19 +43,21 @@ export type OriginalParams = {
     equations: string;
     toggles: string;
 }
+
 export const scaleRange: number[] = range(2, 26).map(scale => 1.4142135623730951 ** scale);
 
-export function parseScale(scaleLevel: number): number {
-    return scaleRange[scaleLevel - 1];
+export function getScaleValue(scaleIndex: number): number {
+    console.log('scaleIndex', scaleRange, scaleIndex);
+    return scaleRange[scaleIndex];
 }
 
-export function getScaleLevel(scale: number): number {
-    return scaleRange.indexOf(scale) + 1;
+export function getScaleIndex(scale: number): number {
+    return scaleRange.indexOf(scale);
 }
 
 export function parseParams(params: OriginalParams): ParsedParams {
     const {
-        scaleLevel,
+        scaleIndex,
         selectedEquationIndex,
         editingEquationIndex,
         originX,
@@ -74,7 +76,7 @@ export function parseParams(params: OriginalParams): ParsedParams {
     ] = toggles.split('');
 
     return {
-        scale: parseScale(parseInt(scaleLevel)),
+        scale: getScaleValue(parseInt(scaleIndex)),
         origin: [parseFloat(originX), parseFloat(originY)],
         showCrossCursor: parseToggle(showCrossCursor),
         isSmooth: parseToggle(isSmooth),
@@ -104,7 +106,7 @@ export function stringifyParams(params: ParsedParams): OriginalParams {
     } = params;
 
     return {
-        scaleLevel: getScaleLevel(scale).toString(),
+        scaleIndex: getScaleIndex(scale).toString(),
         selectedEquationIndex: selectedEquationIndex.toString(),
         editingEquationIndex: editingEquationIndex.toString(),
         originX: origin[0].toString(),
@@ -123,7 +125,7 @@ export function stringifyParams(params: ParsedParams): OriginalParams {
 
 export function combineURL(params: OriginalParams, partialParams: Partial<ParsedParams>): string {
     const {
-        scaleLevel,
+        scaleIndex,
         originX,
         originY,
         equations,
@@ -132,5 +134,5 @@ export function combineURL(params: OriginalParams, partialParams: Partial<Parsed
         editingEquationIndex
     } = stringifyParams({...parseParams(params), ...partialParams});
 
-    return `/${scaleLevel}/${originX}/${originY}/${toggles}/${selectedEquationIndex}/${editingEquationIndex}/${equations}`;
+    return `/${scaleIndex}/${originX}/${originY}/${toggles}/${selectedEquationIndex}/${editingEquationIndex}/${equations}`;
 }
