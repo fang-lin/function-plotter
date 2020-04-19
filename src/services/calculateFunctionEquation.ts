@@ -14,8 +14,8 @@ function isPointInRange(point: Coordinate, range: [Size, Size]): boolean {
 
 function getRange(input: FunctionEquationWorkerInput): [Size, Size] {
     const {scale, size, origin} = input;
-    const x = -size[0] / 2 - origin[0];
-    const y = -size[1] / 2 + origin[1];
+    const x = -size[0] / 2 - origin[0] * scale;
+    const y = -size[1] / 2 + origin[1] * scale;
     return [[x / scale, (x + size[0]) / scale], [y / scale, (y + size[1]) / scale]];
 }
 

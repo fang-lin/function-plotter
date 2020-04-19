@@ -28,18 +28,20 @@ export const StageCursor: FunctionComponent<StageCursorProps> = (props) => {
             withCanvasContext(crossRef.current, context => {
                 const output = equationWorkerOutput.get(selectedEquationIndex);
                 const equation = equations[selectedEquationIndex];
-                let trackPoint = cursor;
+                let point = cursor;
                 let color = 'rgba(0, 0, 0, 0.3)';
                 if (output && equation?.displayed) {
                     const {coordinates, mapping} = output;
-                    color = equation.color;
-                    trackPoint = calculateTrackPoint(cursor, coordinates, mapping);
-
+                    const trackPoint = calculateTrackPoint(cursor, coordinates, mapping);
+                    if (trackPoint) {
+                        point = trackPoint;
+                        color = equation.color;
+                    }
                 }
                 erasure(context, size);
-                redrawCursor(context, trackPoint, size, 'rgba(0, 0, 0, 0.3)');
-                redrawTrackPoint(context, trackPoint, color, isBold ? 4 : 2);
-                setTrackPoint(trackPoint);
+                redrawCursor(context, point, size, 'rgba(0, 0, 0, 0.3)');
+                redrawTrackPoint(context, point, color, isBold ? 4 : 2);
+                setTrackPoint(point);
             });
         } else {
             setTrackPoint(cursor);

@@ -47,7 +47,6 @@ export type OriginalParams = {
 export const scaleRange: number[] = range(2, 26).map(scale => 1.4142135623730951 ** scale);
 
 export function getScaleValue(scaleIndex: number): number {
-    console.log('scaleIndex', scaleRange, scaleIndex);
     return scaleRange[scaleIndex];
 }
 

@@ -24,7 +24,7 @@ export const StageBackground: FunctionComponent<StageBackgroundProps> = (props) 
         withCanvasContext(gridRef.current, context => {
             erasure(context, size);
             redrawGrid(context, origin, size, scale, gridColor);
-            redrawAxis(context, origin, size, axisColor);
+            redrawAxis(context, origin, size, scale, axisColor);
         });
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [origin[0], origin[1], size[0], size[1], scale]);

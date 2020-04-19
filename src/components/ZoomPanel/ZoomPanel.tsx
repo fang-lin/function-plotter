@@ -9,7 +9,7 @@ export interface ZoomPanelProps {
 }
 
 export const ZoomPanel: FunctionComponent<ZoomPanelProps> = (props) => {
-    const {pushToHistory, params: {scale, origin}} = props;
+    const {pushToHistory, params: {scale}} = props;
 
     const scaleIndex = getScaleIndex(scale);
     const scaleLevel = scaleIndex + 1;
@@ -17,10 +17,7 @@ export const ZoomPanel: FunctionComponent<ZoomPanelProps> = (props) => {
     const zoomInOut = (isZoomIn: boolean) => (): void => {
         const newScale = scaleRange[scaleIndex + (isZoomIn ? 1 : -1)];
         if (newScale) {
-            pushToHistory({
-                scale: newScale,
-                origin: [Math.round(origin[0] / scale * newScale), Math.round(origin[1] / scale * newScale)]
-            });
+            pushToHistory({scale: newScale});
         }
     };
 

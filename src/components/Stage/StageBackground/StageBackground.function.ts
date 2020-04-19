@@ -1,9 +1,9 @@
 import {Coordinate, Size} from '../../App/App.function';
 import {deviceRatio} from '../../../helpers/deviceRatio';
 
-export function redrawAxis(context: CanvasRenderingContext2D, origin: Coordinate, size: Size, color: string): void {
-    const x = Math.floor((size[0] / 2 + origin[0]) * deviceRatio) - 1;
-    const y = Math.floor((size[1] / 2 + origin[1]) * deviceRatio) - 1;
+export function redrawAxis(context: CanvasRenderingContext2D, origin: Coordinate, size: Size, scale: number, color: string): void {
+    const x = Math.floor((size[0] / 2 + origin[0] * scale) * deviceRatio) - 1;
+    const y = Math.floor((size[1] / 2 + origin[1] * scale) * deviceRatio) - 1;
     context.beginPath();
     context.moveTo(0, y);
     context.lineTo(size[0] * deviceRatio, y);
@@ -17,8 +17,8 @@ export function redrawAxis(context: CanvasRenderingContext2D, origin: Coordinate
 
 export function redrawGrid(context: CanvasRenderingContext2D, origin: Coordinate, size: Size, scale: number, color: string): void {
     context.beginPath();
-    let x = (size[0] / 2 + origin[0]) % scale;
-    let y = (size[1] / 2 + origin[1]) % scale;
+    let x = (size[0] / 2 + origin[0] * scale) % scale;
+    let y = (size[1] / 2 + origin[1] * scale) % scale;
     while (x < size[0] * deviceRatio) {
         context.moveTo(x * deviceRatio, 0);
         context.lineTo(x * deviceRatio, size[1] * deviceRatio);

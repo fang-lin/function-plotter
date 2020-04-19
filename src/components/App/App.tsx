@@ -77,12 +77,12 @@ export class App extends Component<RouteComponentProps<OriginalParams>, State> {
     onDragEnd = (event: DragEvent): void => {
         const instantaneousClient = getClient(event);
         const {state: {client}, props: {match: {params}}} = this;
-        const {origin} = parseParams(params);
+        const {origin, scale} = parseParams(params);
 
         this.pushToHistory({
             origin: [
-                origin[0] + instantaneousClient[0] - client[0],
-                origin[1] + instantaneousClient[1] - client[1]
+                origin[0] + (instantaneousClient[0] - client[0]) / scale,
+                origin[1] + (instantaneousClient[1] - client[1]) / scale
             ]
         });
         this.setState({

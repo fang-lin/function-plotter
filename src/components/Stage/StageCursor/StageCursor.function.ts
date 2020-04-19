@@ -30,7 +30,7 @@ function distance(a: Coordinate, b: Coordinate): number {
     return ((a[0] - b[0]) ** 2 + (a[1] - b[1]) ** 2) ** .5;
 }
 
-export function calculateTrackPoint(cursor: Coordinate, coordinates: Coordinate[], mapping: number[]): Coordinate {
+export function calculateTrackPoint(cursor: Coordinate, coordinates: Coordinate[], mapping: number[]): Coordinate | null {
     const start = mapping[Math.round(cursor[0] - attractionRadius)] || 0;
     const end = mapping[Math.round(cursor[0] + attractionRadius)] || 0;
     const result = [];
@@ -40,5 +40,5 @@ export function calculateTrackPoint(cursor: Coordinate, coordinates: Coordinate[
         }
     }
     const trackPoint = result.sort((a, b) => distance(a, cursor) - distance(b, cursor))[0];
-    return trackPoint || cursor;
+    return trackPoint || null;
 }
