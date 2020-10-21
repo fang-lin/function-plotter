@@ -22,8 +22,6 @@ interface StageEquationProps {
     params: ParsedParams;
 }
 
-const code = random(1000, 9999);
-
 export const StageEquation: FunctionComponent<StageEquationProps> = (props) => {
     const {size, setRedrawing, params: {origin, scale, isSmooth, isBold, equations}, style, attributes, equationWorkerOutput, setEquationWorkerOutput} = props;
 
@@ -33,7 +31,7 @@ export const StageEquation: FunctionComponent<StageEquationProps> = (props) => {
             (async (): Promise<void> => {
                 setRedrawing(true);
                 await Promise.all(equations.map((equation, index) => {
-                    const canvas = document.querySelector<HTMLCanvasElement>(`#equation-${code}-${index}`);
+                    const canvas = document.querySelector<HTMLCanvasElement>(`#equation-${index}`);
                     return withCanvasContext(canvas, async context => {
                         erasure(context, size);
                         if (equation.displayed) {
@@ -60,5 +58,5 @@ export const StageEquation: FunctionComponent<StageEquationProps> = (props) => {
     }, [origin[0], origin[1], size[0], size[1], scale, isSmooth, isBold, equations.serialization().join()]);
 
     return <>{equations.map((e, index) =>
-        <EquationCanvas id={`equation-${code}-${index}`} key={index} {...{style}} {...attributes}/>)}</>;
+        <EquationCanvas id={`equation-${index}`} key={index} {...{style}} {...attributes}/>)}</>;
 };

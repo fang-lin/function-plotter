@@ -11,6 +11,7 @@ import {EquationDialog} from '../../components/EquationDialog/EquationDialog';
 import {ZoomPanel} from '../../components/ZoomPanel/ZoomPanel';
 import {ViewPanel} from '../../components/ViewPanel/ViewPanel';
 import {StateBar} from '../../components/StateBar/StateBar';
+import {Redrawing} from '../../components/Redrawing/Redrawing';
 import {
     combinePathToURL,
     OriginalParams,
@@ -129,6 +130,7 @@ export class Diagraph extends Component<RouteComponentProps<OriginalParams>, Sta
                 <FullScreenGlobalStyle/>
                 <PreloadImages/>
                 <Stage {...{cursor, size, transform, setRedrawing, params, setTrackPoint}}/>
+                <Redrawing {...{redrawing}}/>
                 <StateBar {...{params, size, trackPoint, redrawing, pushToHistory}}/>
                 <EquationPanel {...{
                     pushToHistory,
