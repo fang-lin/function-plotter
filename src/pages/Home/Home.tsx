@@ -47,6 +47,24 @@ const lissajousCurveURL = combinePathToURL({
     }
 });
 
+const archimedeanSpiralURL = combinePathToURL({
+    ...defaultParams, ...{
+        scaleIndex: '5',
+        equations: utoa(JSON.stringify([
+            ['x=t*cos(t);y=t*sin(t);[0,8*PI]', 'rgb(34, 102, 170)', true]
+        ]))
+    }
+});
+
+const hypocycloidURL = combinePathToURL({
+    ...defaultParams, ...{
+        scaleIndex: '12',
+        equations: utoa(JSON.stringify([
+            ['x=cos(t)+1/2.1*cos(2.1*t);y=sin(t)-1/2.1*sin(2.1*t);[0,20PI]', 'rgb(34, 102, 170)', true]
+        ]))
+    }
+});
+
 export class Home extends Component {
     render(): ReactNode {
         return <HomeWrapper>
@@ -97,21 +115,22 @@ export class Home extends Component {
                     </li>
                     <li>
                         <h3>Archimedean spiral</h3>
-                        <a>
+                        <Link to={archimedeanSpiralURL}>
                             x=t*cos(t);<br/>
                             y=t*sin(t);<br/>
                             [0,8*PI]
-                        </a>
+                        </Link>
                     </li>
                     <li>
                         <h3>Hypocycloid</h3>
                     </li>
                     <li>
-                        <a>
-                            x=t*cos(t);<br/>
-                            y=t*sin(t);<br/>
-                            [-2.5*PI,2.5*PI]
-                        </a>
+                        <Link to={hypocycloidURL}>
+                            x=cos(t)+1/k*cos(kt);<br/>
+                            y=sin(t)-1/k*sin(kt);<br/>
+                            k=2.1;<br/>
+                            [0,20PI]
+                        </Link>
                     </li>
                     <li>
                         <a>
