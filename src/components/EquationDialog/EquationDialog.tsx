@@ -2,9 +2,10 @@ import React, {ChangeEvent, FunctionComponent, useEffect, useState} from 'react'
 import {AddButton, ButtonWrapper, EquationTextarea, ErrorLabel} from './EquationDialog.style';
 import {Palette} from '../Palette/Palette';
 import {Close, DialogInner, Title, TitleBar} from '../Dialog/Dialog.style';
-import {Dialog} from '../Dialog/Dialog';
-import {ParsedParams} from '../../helpers/diagraphParams';
+import {Dialog, transitionDuration} from '../Dialog/Dialog';
+import {ParsedParams} from '../../helpers';
 import {equationFactory} from '../../services/Equations';
+import {randomColor} from '../Palette/Palette.function';
 
 interface EquationDialogProps {
     pushToHistory: (params: Partial<ParsedParams>) => void;
@@ -20,9 +21,11 @@ export const EquationDialog: FunctionComponent<EquationDialogProps> = (props) =>
 
     useEffect(() => {
         if (editingEquationIndex < -1) {
-            setExpression('');
-            setColor('#090');
-            setError(null);
+            setTimeout(() => {
+                setExpression('');
+                setColor(randomColor());
+                setError(null);
+            }, transitionDuration);
         } else {
             const equation = equations[editingEquationIndex];
             if (equation) {

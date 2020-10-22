@@ -1,6 +1,6 @@
 import React, {FunctionComponent} from 'react';
 import {CenteredButton, CoordinateButton, SmoothButton, ViewPanelWrapper, WeightButton} from './ViewPanel.style';
-import {ParsedParams} from '../../helpers/diagraphParams';
+import {ParsedParams} from '../../helpers';
 import {stopPropagation} from '../../pages/Diagraph/Diagraph.function';
 
 interface ViewPanelProps {

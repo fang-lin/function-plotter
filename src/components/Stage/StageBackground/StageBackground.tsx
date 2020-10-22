@@ -2,7 +2,7 @@ import React, {CSSProperties, FunctionComponent, useEffect, useRef} from 'react'
 import {BackgroundCanvas} from './StageBackground.style';
 import {axisColor, erasure, gridColor, withCanvasContext} from '../Stage.function';
 import {redrawAxis, redrawGrid} from './StageBackground.function';
-import {ParsedParams} from '../../../helpers/diagraphParams';
+import {ParsedParams} from '../../../helpers';
 import {Size} from '../../../pages/Diagraph/Diagraph.function';
 
 interface StageBackgroundProps {

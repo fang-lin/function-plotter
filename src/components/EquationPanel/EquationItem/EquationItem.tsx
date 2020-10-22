@@ -1,5 +1,5 @@
 import React, {FunctionComponent, SyntheticEvent} from 'react';
-import {ParsedParams} from '../../../helpers/diagraphParams';
+import {ParsedParams} from '../../../helpers';
 import {FunctionEquation} from '../../../services/FunctionEquation';
 import {Equation} from '../../../services/Equation';
 import {

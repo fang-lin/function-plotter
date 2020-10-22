@@ -1,5 +1,6 @@
 import {Size} from '../../pages/Diagraph/Diagraph.function';
-import {deviceRatio} from '../../helpers/deviceRatio';
+import random from 'lodash/random';
+import deviceRatio from '../../helpers/deviceRatio';
 
 export const primary = [0, 2, 4, 6, 8, 10, 12, 14];
 const cellSize = 10;
@@ -15,7 +16,15 @@ export const attributes = {
     height: height * deviceRatio
 };
 
-export const pickerAttributes = {
-    width: (width + padding * 2) * deviceRatio,
-    height: (height + padding * 2) * deviceRatio
-};
+export function rgbToHex(red: number, green: number, blue: number): string {
+    return `#${toHex(red)}${toHex(green)}${toHex(blue)}`.toUpperCase();
+}
+
+export function randomColor(): string {
+    const max = primary.length - 1;
+    return rgbToHex(
+        primary[random(0, max)],
+        primary[random(0, max)],
+        primary[random(0, max)],
+    );
+}

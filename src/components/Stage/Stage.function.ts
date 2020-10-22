@@ -1,5 +1,5 @@
 import {Size} from '../../pages/Diagraph/Diagraph.function';
-import {deviceRatio} from '../../helpers/deviceRatio';
+import deviceRatio from '../../helpers/deviceRatio';
 
 export const gridColor = 'rgba(0, 0, 0, .3)';
 export const axisColor = 'rgb(0, 0, 0)';

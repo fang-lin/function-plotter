@@ -1,7 +1,7 @@
 import {parse} from 'mathjs';
 import {EquationWorkerInput, EquationWorkerOutput} from './workerPool';
 import {Coordinate} from '../pages/Diagraph/Diagraph.function';
-import {equationToCanvas} from '../helpers/coordinateTransform';
+import {equationToCanvas} from '../helpers';
 import {ParametricEquation} from './ParametricEquation';
 
 type CoordinateWithParametric = [number, number, number];
@@ -20,10 +20,6 @@ function distributePoint(result: CoordinateWithParametric[], next: CoordinateWit
         next.push(lastPoint);
     }
 }
-
-// function createMapping(sortedCoordinates: Coordinate[], length: number): number[] {
-//     return [];
-// }
 
 export function calculateParametricEquation(input: ParametricEquationWorkerInput): EquationWorkerOutput {
     const {scale, equation} = input;

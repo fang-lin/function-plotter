@@ -3,9 +3,9 @@ import {StageWrapper} from './Stage.style';
 import {StageBackground} from './StageBackground/StageBackground';
 import {StageEquation} from './StageEquations/StageEquations';
 import {StageCursor} from './StageCursor/StageCursor';
-import {ParsedParams} from '../../helpers/diagraphParams';
+import {ParsedParams} from '../../helpers';
+import deviceRatio from '../../helpers/deviceRatio';
 import {Coordinate, Size} from '../../pages/Diagraph/Diagraph.function';
-import {deviceRatio} from '../../helpers/deviceRatio';
 import {EquationWorkerOutput} from '../../services/workerPool';
 
 interface StageProps {

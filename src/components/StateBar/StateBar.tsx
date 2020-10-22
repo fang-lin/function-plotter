@@ -2,9 +2,8 @@ import React, {FunctionComponent} from 'react';
 import {Link} from 'react-router-dom';
 import {AppTitle, CoordinateLabel, ExpandToggle, IsDrawing, StateBarWrapper} from './StateBar.style';
 import {version} from '../../../package.json';
-import {ParsedParams} from '../../helpers/diagraphParams';
+import {ParsedParams, canvasToEquation} from '../../helpers';
 import {Coordinate, Size} from '../../pages/Diagraph/Diagraph.function';
-import {canvasToEquation} from '../../helpers/coordinateTransform';
 
 export interface StateBarProps {
     trackPoint: Coordinate;

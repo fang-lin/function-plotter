@@ -11,7 +11,7 @@ import {
 } from './EquationPanel.style';
 import {Size, stopPropagation} from '../../pages/Diagraph/Diagraph.function';
 import {Title} from '../Dialog/Dialog.style';
-import {ParsedParams} from '../../helpers/diagraphParams';
+import {ParsedParams} from '../../helpers';
 import {EquationItem} from './EquationItem/EquationItem';
 
 export interface EquationPanelProps {

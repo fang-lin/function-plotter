@@ -3,7 +3,7 @@ import React from 'react';
 import {Redirect, Route, Router, Switch} from 'react-router';
 import {createHashHistory} from 'history';
 import {Diagraph} from './pages/Diagraph/Diagraph';
-import {combinePathToURL, defaultParams, Page, routerPath} from './helpers/diagraphParams';
+import {combinePathToURL, defaultParams, Page, routerPath} from './helpers';
 import {Home} from './pages/Home/Home';
 
 const dom = document.getElementById('root');

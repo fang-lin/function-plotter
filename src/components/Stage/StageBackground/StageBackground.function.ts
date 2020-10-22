@@ -1,5 +1,5 @@
 import {Coordinate, Size} from '../../../pages/Diagraph/Diagraph.function';
-import {deviceRatio} from '../../../helpers/deviceRatio';
+import deviceRatio from '../../../helpers/deviceRatio';
 
 export function redrawAxis(context: CanvasRenderingContext2D, origin: Coordinate, size: Size, scale: number, color: string): void {
     const x = Math.floor((size[0] / 2 + origin[0] * scale) * deviceRatio) - 1;

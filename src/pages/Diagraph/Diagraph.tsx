@@ -18,7 +18,7 @@ import {
     ParsedParams,
     parseParams,
     stringifyParams
-} from '../../helpers/diagraphParams';
+} from '../../helpers';
 
 interface State {
     dragState: DragState;

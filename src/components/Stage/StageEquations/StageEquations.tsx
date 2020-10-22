@@ -1,11 +1,10 @@
 import React, {CSSProperties, Dispatch, FunctionComponent, SetStateAction, useEffect} from 'react';
-import random from 'lodash/random';
 import {erasure, withCanvasContext} from '../Stage.function';
 import {EquationCanvas} from './StageEquations.style';
 import {EquationWorkerInput, EquationWorkerOutput, workerPool} from '../../../services/workerPool';
-import {ParsedParams} from '../../../helpers/diagraphParams';
+import {ParsedParams} from '../../../helpers';
+import deviceRatio from '../../../helpers/deviceRatio';
 import {Coordinate, Size} from '../../../pages/Diagraph/Diagraph.function';
-import {deviceRatio} from '../../../helpers/deviceRatio';
 import {drawEquation} from './StageEquations.function';
 
 interface StageEquationProps {

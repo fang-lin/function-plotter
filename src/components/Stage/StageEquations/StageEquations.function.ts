@@ -1,5 +1,5 @@
 import {Coordinate} from '../../../pages/Diagraph/Diagraph.function';
-import {deviceRatio} from '../../../helpers/deviceRatio';
+import deviceRatio from '../../../helpers/deviceRatio';
 
 export const drawEquation = (context: CanvasRenderingContext2D, coordinates: Coordinate[], isBold: boolean, color: string): void => {
     context.fillStyle = color;
