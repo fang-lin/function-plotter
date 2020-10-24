@@ -1,10 +1,11 @@
 import styled, {createGlobalStyle} from 'styled-components';
+import {Link} from 'react-router-dom';
 
 export const defaultStyle = `
     margin: 0;
     padding: 0;
     background: #ccc;
-    font-family: monospace, consolas, courier;
+    font-family: 'Fira Code',monospace,consolas,courier;
 `;
 
 export const DefaultGlobalStyle = createGlobalStyle`
@@ -28,28 +29,34 @@ export const HomeWrapper = styled.div`
     padding: 30px;
 `;
 
-export const EquationsList = styled.div`
+export const EquationsList = styled.ul`
+`;
+
+export const EquationsListItem = styled.li`
+`;
+export const Paragraph = styled.p`
+    font-size: 12px;
+`;
+
+export const Head3 = styled.h3`
+    font-size: 20px;
     color: #333;
     text-shadow: 0 1px 1px rgba(255, 255, 255, .7);
-    h3 {
-        font-size: 20px;
-    }
-    ul {
-        
-    }
-    li {
-    }
-    p {
-        
-    }
     a {
         text-decoration: none;
         color: #333;
-        text-shadow: 0 1px 1px rgba(255, 255, 255, .7);
-        font-size: 12px;
     }
     a:hover {
-        color: #333;
+        text-decoration: underline;
+    }
+`;
+
+export const Links = styled(Link)`
+    text-decoration: none;
+    color: #333;
+    text-shadow: 0 1px 1px rgba(255, 255, 255, .7);
+    font-size: 12px;
+    &:hover {
         text-decoration: underline;
     }
 `;

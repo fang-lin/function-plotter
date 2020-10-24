@@ -91,7 +91,7 @@ const BaseIconButton = styled.button`
 
 export const BaseButton = styled.button`
     cursor: pointer;
-    font-family: monospace,consolas,courier;
+    font-family: 'Fira Code',monospace,consolas,courier;
     outline: none;
     border: solid 1px #666;
     background-position: -1px -1px;

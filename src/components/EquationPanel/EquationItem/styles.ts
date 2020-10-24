@@ -68,7 +68,7 @@ export const EquationTextWrapper = styled.div<{ displayed: boolean }>`
     flex: auto;
     font-size: 12px;
     line-height: 16px;
-    padding: 15px;
+    padding: 5px 10px;
     word-break: break-all;
     ${({displayed}): string => displayed ? '' : 'text-decoration: line-through;'}
     p {

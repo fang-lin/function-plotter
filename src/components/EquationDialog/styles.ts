@@ -10,7 +10,7 @@ export const EquationTextarea = styled.textarea`
     box-sizing: border-box;
     border-width: 10px 1px 1px 1px;
     border-style: solid;
-    font-family: monospace, consolas, courier;
+    font-family: 'Fira Code',monospace,consolas,courier;
     outline: none;
     padding: 5px 10px;
     font-size: 12px;

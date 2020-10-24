@@ -30,7 +30,7 @@ export const EquationDialog: FunctionComponent<EquationDialogProps> = (props) =>
             const equation = equations[editingEquationIndex];
             if (equation) {
                 const {expression, color} = equation;
-                setExpression(expression);
+                setExpression(formatEquation(expression));
                 setColor(color);
                 setError(null);
             }
@@ -72,7 +72,7 @@ export const EquationDialog: FunctionComponent<EquationDialogProps> = (props) =>
             <Close onClick={close}/>
         </TitleBar>
         <DialogInner>
-            <EquationTextarea style={{color, borderColor: color}} value={formatEquation(expression)}
+            <EquationTextarea style={{color, borderColor: color}} value={expression}
                 onChange={changeEquation}/>
             <Index {...{color, setColor}}/>
             <ButtonWrapper>

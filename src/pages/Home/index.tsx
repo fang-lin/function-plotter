@@ -19,15 +19,13 @@ export class Home extends Component {
             <DefaultGlobalStyle/>
             <Title><Link to={enterURL}>Function Diagram {version}</Link></Title>
             <EquationsList>
-                <ul>
-                    <ButterflyCurve/>
-                    <Limacon/>
-                    <RoseCurve/>
-                    <FermatSpiral/>
-                    <LissajousCurve/>
-                    <ArchimedeanSpiral/>
-                    <Hypocycloid/>
-                </ul>
+                <ButterflyCurve/>
+                <Limacon/>
+                <RoseCurve/>
+                <FermatSpiral/>
+                <LissajousCurve/>
+                <ArchimedeanSpiral/>
+                <Hypocycloid/>
             </EquationsList>
         </HomeWrapper>;
     }
