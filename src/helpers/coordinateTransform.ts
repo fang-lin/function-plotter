@@ -1,4 +1,4 @@
-import {Coordinate, Size} from '../pages/Diagraph/Diagraph.function';
+import {Coordinate, Size} from '../pages/Diagraph';
 
 export function canvasToEquation(point: Coordinate, origin: Coordinate, size: Size, scale: number): Coordinate {
     return [

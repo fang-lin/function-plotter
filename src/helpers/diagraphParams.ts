@@ -1,7 +1,7 @@
 import {FunctionEquation} from '../services/FunctionEquation';
 import {ParametricEquation} from '../services/ParametricEquation';
 import range from 'lodash/range';
-import {Coordinate} from '../pages/Diagraph/Diagraph.function';
+import {Coordinate} from '../pages/Diagraph';
 import {Equations} from '../services/Equations';
 
 const paramsSegments: Array<keyof OriginalParams> = ['scaleIndex', 'originX', 'originY', 'toggles', 'selectedEquationIndex', 'editingEquationIndex', 'equations'];
