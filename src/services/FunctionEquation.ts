@@ -1,4 +1,4 @@
-import {Equation, EquationSerial} from "./Equations";
+import {Equation, EquationSerial} from './Equations';
 
 interface FunctionEquationOptions {
     fn: string;

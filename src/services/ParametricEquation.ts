@@ -1,4 +1,4 @@
-import {Equation, EquationSerial} from "./Equations";
+import {Equation, EquationSerial} from './Equations';
 
 export interface ParametricEquationOptions {
     fx: string;

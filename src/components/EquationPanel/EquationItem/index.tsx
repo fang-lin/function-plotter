@@ -61,9 +61,9 @@ export const EquationItem: FunctionComponent<EquationPanelProps> = (props) => {
     const style = index > 0 ? {borderTop: `${color} solid 1px`} : {};
 
     return <EquationItemWrapper {...{style}} onClick={selectEquation} onDoubleClick={editEquation}
-                                selected={selectedEquationIndex === index}>
+        selected={selectedEquationIndex === index}>
         <DisplayEquationButton {...{displayed, color}} style={{backgroundColor: color}}
-                               onClick={toggleEquationDisplayed}/>
+            onClick={toggleEquationDisplayed}/>
         <EquationText {...{displayed, expression}}/>
         <EditButtonWrapper>
             <EditButton onClick={editEquation}>Edit</EditButton>
