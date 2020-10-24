@@ -1,15 +1,15 @@
 import React, {FunctionComponent} from 'react';
 import {equationsURL} from '../../../helpers';
-import {Links, Head3, EquationsListItem} from '../styles';
+import {Link, Head3, EquationsListItem, Anchor} from '../styles';
 
 export const FermatSpiral: FunctionComponent = () => {
     return <EquationsListItem>
         <Head3>
-            <a href="" target="_blank" rel="noopener noreferrer">
+            <Anchor href="" target="_blank" rel="noopener noreferrer">
                 Fermat&apos;s spiral
-            </a>
+            </Anchor>
         </Head3>
-        <Links to={equationsURL([
+        <Link to={equationsURL([
             ['x=t^(1/2)sin(t);y=t^(1/2)cos(t);[0,8*PI]', '#4A8'],
             ['x=-t^(1/2)sin(t);y=-t^(1/2)cos(t);[0,8*PI]', '#E84']
         ], 9)}>
@@ -18,6 +18,6 @@ export const FermatSpiral: FunctionComponent = () => {
             <br/>
             x=-t^(1/2)sin(t);<br/>
             y=-t^(1/2)cos(t);
-        </Links>
+        </Link>
     </EquationsListItem>;
 };

@@ -1,8 +1,17 @@
 import React, {Component, ReactNode} from 'react';
 import {version} from '../../../package.json';
-import {DefaultGlobalStyle, HomeWrapper, EquationsList, Title} from './styles';
+import {
+    DefaultGlobalStyle,
+    HomeRoot,
+    Link,
+    HomeHeader,
+    HomeFooter,
+    HomeContainer,
+    EquationsList,
+    Title,
+    Anchor
+} from './styles';
 import {combinePathToURL, defaultParams} from '../../helpers';
-import {Link} from 'react-router-dom';
 import {ButterflyCurve} from './items/ButterflyCurve';
 import {Limacon} from './items/Limacon';
 import {RoseCurve} from './items/RoseCurve';
@@ -15,19 +24,32 @@ const enterURL = combinePathToURL(defaultParams);
 
 export class Home extends Component {
     render(): ReactNode {
-        return <HomeWrapper>
-            <DefaultGlobalStyle/>
-            <Title><Link to={enterURL}>Function Diagram {version}</Link></Title>
-            <EquationsList>
-                <ButterflyCurve/>
-                <Limacon/>
-                <RoseCurve/>
-                <FermatSpiral/>
-                <LissajousCurve/>
-                <ArchimedeanSpiral/>
-                <Hypocycloid/>
-            </EquationsList>
-        </HomeWrapper>;
+        return <HomeRoot>
+            <HomeHeader>
+                <Title><Link to={enterURL}>Function Diagram {version}</Link></Title>
+            </HomeHeader>
+            <HomeContainer>
+                <DefaultGlobalStyle/>
+                <EquationsList>
+                    <ButterflyCurve/>
+                    <Limacon/>
+                    <RoseCurve/>
+                    <FermatSpiral/>
+                    <LissajousCurve/>
+                    <ArchimedeanSpiral/>
+                    <Hypocycloid/>
+                </EquationsList>
+            </HomeContainer>
+            <HomeFooter>
+                <Anchor href="http://function-diagraph.fanglin.me" target="_blank"
+                    rel="noopener noreferrer">Homepage</Anchor>
+                &nbsp;|&nbsp;
+                <Anchor href="https://github.com/fang-lin/function-diagraph" target="_blank"
+                    rel="noopener noreferrer">GitHub</Anchor>
+                &nbsp;|&nbsp;
+                <Anchor href="#">Lin Fang in {(new Date()).getFullYear()}</Anchor>
+            </HomeFooter>
+        </HomeRoot>;
     }
 }
 
