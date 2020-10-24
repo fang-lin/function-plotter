@@ -20,7 +20,11 @@ export const EquationPanelWrapper = styled.div<{
     top: 0;
     right: 0;
     width: ${width}px;
+    max-height: calc(100% - 88px);
     padding: 20px 0 0 0;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
     background: #eee;
     border-radius: 0 0 0 4px;
     border-style: solid;
@@ -36,6 +40,9 @@ export const EquationPanelWrapper = styled.div<{
 
 export const EquationPanelInner = styled.div`
     padding: 20px 0 30px 0;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
 `;
 
 export const EquationPanelTitleBar = styled(TitleBar)`

@@ -23,7 +23,6 @@ export interface EquationPanelProps {
 export const EquationPanel: FunctionComponent<EquationPanelProps> = (props) => {
     const {
         params,
-        size,
         pushToHistory
     } = props;
 
@@ -43,7 +42,7 @@ export const EquationPanel: FunctionComponent<EquationPanelProps> = (props) => {
             </ButtonWrapper>
         </EquationPanelTitleBar>
         <EquationPanelInner>
-            {equations.length ? <EquationsList style={{maxHeight: `${size[1] - 200}px`}}>{
+            {equations.length ? <EquationsList>{
                 equations.map((equation, index) => <EquationItem key={index} {...{
                     equation,
                     index,

@@ -70,6 +70,7 @@ export const ZoomPanelWrapper = styled.div`
     margin: -5px;
 `;
 export const ShadowWrapper = styled.div`
+    line-height: 0;
     margin: 5px;
     display: inline-block;
     border-radius: 6px;
