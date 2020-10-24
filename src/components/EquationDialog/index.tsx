@@ -4,7 +4,7 @@ import {Index} from '../Palette';
 import {Close, DialogInner, Title, TitleBar} from '../Dialog/styles';
 import {Dialog, transitionDuration} from '../Dialog';
 import {ParsedParams} from '../../helpers';
-import {equationFactory} from '../../services/Equations';
+import {equationFactory, formatEquation} from '../../services/Equations';
 import {randomColor} from '../Palette';
 
 interface EquationDialogProps {
@@ -72,7 +72,8 @@ export const EquationDialog: FunctionComponent<EquationDialogProps> = (props) =>
             <Close onClick={close}/>
         </TitleBar>
         <DialogInner>
-            <EquationTextarea style={{color, borderColor: color}} value={expression} onChange={changeEquation}/>
+            <EquationTextarea style={{color, borderColor: color}} value={formatEquation(expression)}
+                onChange={changeEquation}/>
             <Index {...{color, setColor}}/>
             <ButtonWrapper>
                 <ErrorLabel style={{color}}>{error && `Error: ${error}`}</ErrorLabel>

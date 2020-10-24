@@ -1,5 +1,5 @@
-import {Equation} from './Equation';
 import {Coordinate, Size} from '../pages/Diagraph';
+import {Equation} from "./Equations";
 
 export interface WorkerInput {
     type: string;

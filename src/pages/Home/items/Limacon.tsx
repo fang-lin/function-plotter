@@ -1,6 +1,6 @@
 import React, {FunctionComponent} from 'react';
 import {Link} from 'react-router-dom';
-import {equationsURL} from '../../helpers';
+import {equationsURL} from '../../../helpers';
 
 export const Limacon: FunctionComponent = () => {
     return <li>

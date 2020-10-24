@@ -1,5 +1,5 @@
 import React, {FunctionComponent} from 'react';
-import {equationsURL} from '../../helpers';
+import {equationsURL} from '../../../helpers';
 import {Link} from 'react-router-dom';
 
 export const FermatSpiral: FunctionComponent = () => {

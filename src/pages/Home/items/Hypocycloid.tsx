@@ -1,5 +1,5 @@
 import React, {FunctionComponent} from 'react';
-import {equationsURL} from '../../helpers';
+import {equationsURL} from '../../../helpers';
 import {Link} from 'react-router-dom';
 
 const k2p1: [string, string] = ['x=1(2.1-1)cos(t)+1*cos((2.1-1)t);y=1(2.1-1)sin(t)-1*sin((2.1-1)t);[0,20PI]', '#26A'];

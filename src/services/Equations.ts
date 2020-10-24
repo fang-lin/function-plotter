@@ -1,4 +1,3 @@
-import {Equation, EquationSerial} from './Equation';
 import {FunctionEquation} from './FunctionEquation';
 import {ParametricEquation} from './ParametricEquation';
 import {parse} from 'mathjs';
@@ -34,6 +33,21 @@ export function equationFactory(expression: string, color: string, displayed: bo
 
         return new FunctionEquation(options);
     }
+}
+
+export function formatEquation(expression: string): string {
+    return expression.replace(/;/g, ';\n');
+}
+
+export type EquationSerial = [string, string, boolean]
+
+export interface Equation {
+    expression: string;
+    color: string;
+    displayed: boolean;
+    type: string;
+
+    serialization(): EquationSerial;
 }
 
 export class Equations<T extends Equation> extends Array<T> {

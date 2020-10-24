@@ -64,10 +64,14 @@ export const EquationItemWrapper = styled.li<{ selected: boolean }>`
     padding: 0 15px 0 0;
     background-color: ${({selected}): string => selected ? '#ddd' : '#fff'};
 `;
-export const EquationText = styled.div<{ displayed: boolean }>`
+export const EquationTextWrapper = styled.div<{ displayed: boolean }>`
     flex: auto;
     font-size: 12px;
+    line-height: 16px;
     padding: 15px;
     word-break: break-all;
     ${({displayed}): string => displayed ? '' : 'text-decoration: line-through;'}
+    p {
+        margin: 5px 0;
+    }
 `;

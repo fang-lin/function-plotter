@@ -1,13 +1,13 @@
 import React, {FunctionComponent, SyntheticEvent} from 'react';
 import {ParsedParams} from '../../../helpers';
 import {FunctionEquation} from '../../../services/FunctionEquation';
-import {Equation} from '../../../services/Equation';
+import {Equation} from '../../../services/Equations';
 import {
     DisplayEquationButton,
     EditButton,
     EditButtonWrapper,
     EquationItemWrapper,
-    EquationText,
+    EquationTextWrapper,
     RemoveButton
 } from './styles';
 
@@ -17,6 +17,11 @@ export interface EquationPanelProps {
     params: ParsedParams;
     equation: Equation;
 }
+
+const EquationText: FunctionComponent<{ displayed: boolean; expression: string }> = ({displayed, expression}) =>
+    <EquationTextWrapper {...{displayed}}>
+        {expression.split(';').map((line, index) => <p key={index}>{line};</p>)}
+    </EquationTextWrapper>;
 
 export const EquationItem: FunctionComponent<EquationPanelProps> = (props) => {
     const {
@@ -56,10 +61,10 @@ export const EquationItem: FunctionComponent<EquationPanelProps> = (props) => {
     const style = index > 0 ? {borderTop: `${color} solid 1px`} : {};
 
     return <EquationItemWrapper {...{style}} onClick={selectEquation} onDoubleClick={editEquation}
-        selected={selectedEquationIndex === index}>
+                                selected={selectedEquationIndex === index}>
         <DisplayEquationButton {...{displayed, color}} style={{backgroundColor: color}}
-            onClick={toggleEquationDisplayed}/>
-        <EquationText {...{displayed}}>{expression}</EquationText>
+                               onClick={toggleEquationDisplayed}/>
+        <EquationText {...{displayed, expression}}/>
         <EditButtonWrapper>
             <EditButton onClick={editEquation}>Edit</EditButton>
             <RemoveButton onClick={removeEquation}>Remove</RemoveButton>
