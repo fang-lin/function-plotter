@@ -3,11 +3,13 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const WorkerPlugin = require('worker-plugin');
 const ManifestPlugin = require('webpack-manifest-plugin');
-const { version } = require('./package.json');
+const {version} = require('./package.json');
 
 module.exports = (env, argv) => {
     const config = {
-        entry: './src/index.tsx',
+        entry: {
+            main: './src/index.tsx'
+        },
         output: {
             filename: 'js/[name].[chunkhash:8].js',
             path: path.resolve(__dirname, 'dist'),
@@ -48,7 +50,7 @@ module.exports = (env, argv) => {
         },
         plugins: [
             new HtmlWebpackPlugin({
-                title: `Function Diagram ${ version }`,
+                title: `Function Diagram ${version}`,
                 template: 'src/index.html',
                 inject: false
             }),
@@ -80,6 +82,15 @@ module.exports = (env, argv) => {
     if (argv.mode !== 'development') {
         config.devtool = 'none';
         config.optimization = {
+            splitChunks: {
+                cacheGroups: {
+                    commons: {
+                        test: /[\\/]node_modules[\\/]/,
+                        name: 'vendors',
+                        chunks: 'all'
+                    }
+                }
+            },
             minimize: true,
             minimizer: [new TerserPlugin()]
         };

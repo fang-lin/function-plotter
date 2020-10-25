@@ -12,6 +12,8 @@
 </head>
 <body>
 <div id="root"></div>
-<script src="<%= htmlWebpackPlugin.files.js[0] %>"></script>
+<% htmlWebpackPlugin.files.js.forEach((js) => { %>
+    <script src="<%= js %>"></script>
+<% }); %>
 </body>
 </html>
