@@ -1,11 +1,11 @@
 import React, {ChangeEvent, FunctionComponent, useEffect, useState} from 'react';
 import {AddButton, ButtonWrapper, EquationTextarea, ErrorLabel} from './styles';
-import {Index} from '../Palette';
+import {Palette} from '../Palette/palette';
 import {Close, DialogInner, Title, TitleBar} from '../Dialog/styles';
 import {Dialog, transitionDuration} from '../Dialog';
 import {ParsedParams} from '../../helpers';
 import {equationFactory, formatEquation} from '../../services/Equations';
-import {randomColor} from '../Palette';
+import {randomColor} from '../Palette/palette';
 
 interface EquationDialogProps {
     pushToHistory: (params: Partial<ParsedParams>) => void;
@@ -74,7 +74,7 @@ export const EquationDialog: FunctionComponent<EquationDialogProps> = (props) =>
         <DialogInner>
             <EquationTextarea style={{color, borderColor: color}} value={expression}
                 onChange={changeEquation}/>
-            <Index {...{color, setColor}}/>
+            <Palette {...{color, setColor}}/>
             <ButtonWrapper>
                 <ErrorLabel style={{color}}>{error && `Error: ${error}`}</ErrorLabel>
                 <AddButton onClick={addEquation}>Add</AddButton>

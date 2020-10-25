@@ -9,7 +9,7 @@ export interface PaletteProps {
     setColor: Dispatch<SetStateAction<string>>;
 }
 
-export const Index: FunctionComponent<PaletteProps> = (props) => {
+export const Palette: FunctionComponent<PaletteProps> = (props) => {
     return <PaletteWrapper id="palette" {...{size}}>{
         primary.map((red) => primary.map((green) => primary.map((blue) => {
             const background = rgbToHex(red, green, blue);
