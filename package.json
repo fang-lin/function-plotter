@@ -5,7 +5,7 @@
   "scripts": {
     "start": "webpack-dev-server --mode development",
     "lint": "eslint src --ext .js,.jsx,.ts,.tsx",
-    "build": "webpack --mode production && cp -R error dist/error && cp -R src/images/icons dist/images/icons",
+    "build": "webpack --mode production && cp -R error dist/ && cp -R src/images/icons dist/images/icons",
     "test": "jest",
     "testWithCoverage": "nyc --reporter=lcov npm run test"
   },
