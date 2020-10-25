@@ -1,7 +1,7 @@
 version: 2.1
 orbs:
-  node: circleci/node@2.0.1
-  aws-s3: circleci/aws-s3@1.0.15
+  node: circleci/node@4.1.0
+  aws-s3: circleci/aws-s3@2.0.0
 jobs:
   lint:
     executor:
@@ -15,7 +15,7 @@ jobs:
       - image: circleci/buildpack-deps:latest
     steps:
       - checkout
-      - run: curl -sL https://deb.nodesource.com/setup_13.x | sudo -E bash -
+      - run: curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
       - run: sudo apt install nodejs
       - run: npm install
       - run: npm run build
@@ -27,7 +27,6 @@ jobs:
           aws-region: AWS_REGION_BLUE
           aws-secret-access-key: AWS_SECRET_ACCESS_KEY_BLUE
           from: dist
-          overwrite: true
           to: 's3://www.diagraph.fun/'
 workflows:
   lint-and-deploy:
