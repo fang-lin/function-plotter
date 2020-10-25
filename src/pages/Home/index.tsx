@@ -41,8 +41,7 @@ export class Home extends Component {
                 </EquationsList>
             </HomeContainer>
             <HomeFooter>
-                <Anchor href="http://function-diagraph.fanglin.me" target="_blank"
-                    rel="noopener noreferrer">Homepage</Anchor>
+                <Anchor href="./">Homepage</Anchor>
                 &nbsp;|&nbsp;
                 <Anchor href="https://github.com/fang-lin/function-diagraph" target="_blank"
                     rel="noopener noreferrer">GitHub</Anchor>
