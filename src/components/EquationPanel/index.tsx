@@ -9,7 +9,7 @@ import {
     ExpandToggle,
     InfoButton
 } from './styles';
-import {Size, stopPropagation} from '../../pages/Diagraph';
+import {Size, stopPropagation} from '../../pages/Plotter';
 import {Title} from '../Dialog/styles';
 import {ParsedParams} from '../../helpers';
 import {EquationItem} from './EquationItem';

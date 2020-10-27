@@ -5,7 +5,7 @@ import {StageEquation} from './StageEquations';
 import {StageCursor} from './StageCursor';
 import {ParsedParams} from '../../helpers';
 import deviceRatio from '../../helpers/deviceRatio';
-import {Coordinate, Size} from '../../pages/Diagraph';
+import {Coordinate, Size} from '../../pages/Plotter';
 import {EquationWorkerOutput} from '../../services/workerPool';
 
 export * from './functions';

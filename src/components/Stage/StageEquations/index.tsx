@@ -4,7 +4,7 @@ import {EquationCanvas} from './styles';
 import {EquationWorkerInput, EquationWorkerOutput, workerPool} from '../../../services/workerPool';
 import {ParsedParams} from '../../../helpers';
 import deviceRatio from '../../../helpers/deviceRatio';
-import {Coordinate, Size} from '../../../pages/Diagraph';
+import {Coordinate, Size} from '../../../pages/Plotter';
 import {drawEquation} from './functions';
 
 export * from './functions';

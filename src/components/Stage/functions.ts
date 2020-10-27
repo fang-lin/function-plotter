@@ -1,4 +1,4 @@
-import {Size} from '../../pages/Diagraph';
+import {Size} from '../../pages/Plotter';
 import deviceRatio from '../../helpers/deviceRatio';
 
 export const gridColor = 'rgba(0, 0, 0, .3)';

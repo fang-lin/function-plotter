@@ -4,7 +4,7 @@ import {Info, InfoDialogBackground} from './styles';
 import {ParsedParams} from '../../helpers';
 import {Close, DialogInner, Title, TitleBar} from '../Dialog/styles';
 import {Dialog} from '../Dialog';
-import {stopPropagation} from '../../pages/Diagraph';
+import {stopPropagation} from '../../pages/Plotter';
 
 export interface InfoDialogProps {
     pushToHistory: (params: Partial<ParsedParams>) => void;
@@ -18,12 +18,12 @@ export const InfoDialog: FunctionComponent<InfoDialogProps> = (props) => {
 
     return <Dialog {...{isShow: displayInfoDialog, Background: InfoDialogBackground}}>
         <TitleBar>
-            <Title>About Function Diagram {version}</Title>
+            <Title>About Function Plotter {version}</Title>
             <Close onClick={close}/>
         </TitleBar>
         <DialogInner {...stopPropagation}>
             <Info>
-                <p>FuncDiagraph is a mathematical function diagraph written by javascript.</p>
+                <p>This is a mathematical function plotter</p>
                 <h3>Symbol</h3>
                 <table>
                     <tbody>

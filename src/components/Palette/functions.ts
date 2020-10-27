@@ -1,4 +1,4 @@
-import {Size} from '../../pages/Diagraph';
+import {Size} from '../../pages/Plotter';
 import random from 'lodash/random';
 import deviceRatio from '../../helpers/deviceRatio';
 

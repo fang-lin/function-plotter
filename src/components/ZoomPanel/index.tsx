@@ -1,6 +1,6 @@
 import React, {FunctionComponent} from 'react';
 import {ShadowWrapper, ZoomInButton, ZoomLevelButton, ZoomOutButton, ZoomPanelWrapper} from './styles';
-import {stopPropagation} from '../../pages/Diagraph';
+import {stopPropagation} from '../../pages/Plotter';
 import {getScaleIndex, ParsedParams, scaleRange} from '../../helpers';
 
 export interface ZoomPanelProps {

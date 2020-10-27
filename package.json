@@ -10,6 +10,10 @@
     "test": "jest",
     "testWithCoverage": "nyc --reporter=lcov npm run test"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fang-lin/function-plotter.git"
+  },
   "dependencies": {
     "@types/history": "^4.7.5",
     "@types/lodash": "^4.14.149",

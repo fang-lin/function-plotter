@@ -3,7 +3,7 @@ import {BackgroundCanvas} from './styles';
 import {axisColor, erasure, gridColor, withCanvasContext} from '../functions';
 import {redrawAxis, redrawGrid} from './functions';
 import {ParsedParams} from '../../../helpers';
-import {Size} from '../../../pages/Diagraph';
+import {Size} from '../../../pages/Plotter';
 
 export * from './functions';
 

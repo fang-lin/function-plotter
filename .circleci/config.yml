@@ -27,7 +27,7 @@ jobs:
           aws-region: AWS_REGION_BLUE
           aws-secret-access-key: AWS_SECRET_ACCESS_KEY_BLUE
           from: dist
-          to: 's3://www.diagraph.fun/'
+          to: 's3://www.plotter.fun/'
 workflows:
   lint-and-deploy:
     jobs:

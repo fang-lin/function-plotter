@@ -1,4 +1,4 @@
-import {Coordinate, Size} from '../pages/Diagraph';
+import {Coordinate, Size} from '../pages/Plotter';
 
 export function canvasToEquation(point: Coordinate, origin: Coordinate, size: Size, scale: number): Coordinate {
     return [

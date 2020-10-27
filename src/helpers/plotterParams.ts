@@ -1,7 +1,7 @@
 import {FunctionEquation} from '../services/FunctionEquation';
 import {ParametricEquation} from '../services/ParametricEquation';
 import range from 'lodash/range';
-import {Coordinate} from '../pages/Diagraph';
+import {Coordinate} from '../pages/Plotter';
 import {Equations} from '../services/Equations';
 
 const paramsSegments: Array<keyof OriginalParams> = ['scaleIndex', 'originX', 'originY', 'toggles', 'selectedEquationIndex', 'editingEquationIndex', 'equations'];
@@ -118,12 +118,12 @@ export function stringifyParams(params: ParsedParams): OriginalParams {
 }
 
 export enum Page {
-    diagraph = '/diagraph',
+    plotter = '/plotter',
     home = '/',
 }
 
 export function combinePathToURL(params: OriginalParams): string {
-    return `${Page.diagraph}/${paramsSegments.map(segment => params[segment]).join('/')}`;
+    return `${Page.plotter}/${paramsSegments.map(segment => params[segment]).join('/')}`;
 }
 
 export const defaultParams: OriginalParams = {
@@ -137,5 +137,5 @@ export const defaultParams: OriginalParams = {
 };
 
 export function routerPath(): string {
-    return `${Page.diagraph}/${paramsSegments.map(segment => `:${segment}`).join('/')}`;
+    return `${Page.plotter}/${paramsSegments.map(segment => `:${segment}`).join('/')}`;
 }

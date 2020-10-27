@@ -1,7 +1,7 @@
 import {parse} from 'mathjs';
 import {FunctionEquation} from './FunctionEquation';
 import {EquationWorkerInput, EquationWorkerOutput} from './workerPool';
-import {Coordinate, Size} from '../pages/Diagraph';
+import {Coordinate, Size} from '../pages/Plotter';
 import {equationToCanvas} from '../helpers';
 
 interface FunctionEquationWorkerInput extends EquationWorkerInput {

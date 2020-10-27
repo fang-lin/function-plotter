@@ -4,7 +4,7 @@ import {CursorCanvas} from './styles';
 import {calculateTrackPoint, redrawCursor, redrawTrackPoint} from './functions';
 import {EquationWorkerOutput} from '../../../services/workerPool';
 import {ParsedParams} from '../../../helpers';
-import {Coordinate, Size} from '../../../pages/Diagraph';
+import {Coordinate, Size} from '../../../pages/Plotter';
 
 export * from './functions';
 

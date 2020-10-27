@@ -1,4 +1,4 @@
-import {Coordinate, Size} from '../../../pages/Diagraph';
+import {Coordinate, Size} from '../../../pages/Plotter';
 import deviceRatio from '../../../helpers/deviceRatio';
 
 export function redrawAxis(context: CanvasRenderingContext2D, origin: Coordinate, size: Size, scale: number, color: string): void {

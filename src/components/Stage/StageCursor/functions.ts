@@ -1,4 +1,4 @@
-import {Coordinate, Size} from '../../../pages/Diagraph';
+import {Coordinate, Size} from '../../../pages/Plotter';
 import deviceRatio from '../../../helpers/deviceRatio';
 
 const attractionRadius = 10;

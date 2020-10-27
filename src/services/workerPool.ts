@@ -1,4 +1,4 @@
-import {Coordinate, Size} from '../pages/Diagraph';
+import {Coordinate, Size} from '../pages/Plotter';
 import {Equation} from './Equations';
 
 export interface WorkerInput {

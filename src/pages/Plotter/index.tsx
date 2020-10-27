@@ -32,7 +32,7 @@ interface State {
     client: Coordinate;
 }
 
-export class Diagraph extends Component<RouteComponentProps<OriginalParams>, State> {
+export class Plotter extends Component<RouteComponentProps<OriginalParams>, State> {
     private readonly appRef: RefObject<HTMLDivElement>;
 
     constructor(props: RouteComponentProps<OriginalParams>) {

@@ -26,7 +26,7 @@ export class Home extends Component {
     render(): ReactNode {
         return <HomeRoot>
             <HomeHeader>
-                <Title><Link to={enterURL}>Function Diagram {version}</Link></Title>
+                <Title><Link to={enterURL}>Function Plotter {version}</Link></Title>
             </HomeHeader>
             <HomeContainer>
                 <DefaultGlobalStyle/>
@@ -43,7 +43,7 @@ export class Home extends Component {
             <HomeFooter>
                 <Anchor href="./">Homepage</Anchor>
                 &nbsp;|&nbsp;
-                <Anchor href="https://github.com/fang-lin/function-diagraph" target="_blank"
+                <Anchor href="https://github.com/fang-lin/function-plotter" target="_blank"
                     rel="noopener noreferrer">GitHub</Anchor>
                 &nbsp;|&nbsp;
                 <Anchor href="#">Lin Fang in {(new Date()).getFullYear()}</Anchor>

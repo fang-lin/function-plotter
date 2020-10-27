@@ -50,7 +50,7 @@ module.exports = (env, argv) => {
         },
         plugins: [
             new HtmlWebpackPlugin({
-                title: `Function Diagram ${version}`,
+                title: `Function Plotter ${version}`,
                 template: 'src/index.html',
                 inject: false
             }),
@@ -59,7 +59,7 @@ module.exports = (env, argv) => {
             }),
             new ManifestPlugin({
                 seed: {
-                    name: 'Function Diagram',
+                    name: 'Function Plotter',
                     version: version,
                     developer: {
                         name: 'Lin Fang',
