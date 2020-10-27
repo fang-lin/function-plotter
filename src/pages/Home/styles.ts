@@ -1,5 +1,6 @@
 import styled, {createGlobalStyle} from 'styled-components';
 import {Link as ReactRouterLink} from 'react-router-dom';
+import {device} from '../Plotter/styles';
 
 export const defaultStyle = `
     margin: 0;
@@ -54,10 +55,10 @@ export const EquationsList = styled.ul`
     list-style: none;
     margin: 0;
     padding: 0;
-    @media (min-width: 768px) {
+    @media ${device.laptop} { 
         grid: auto-flow auto / repeat(2, auto);
     }
-    @media (min-width: 1280px) {
+    @media ${device.tablet} { 
         grid: auto-flow auto / repeat(3, auto);
     }
 `;
