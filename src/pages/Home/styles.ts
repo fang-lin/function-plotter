@@ -1,6 +1,5 @@
 import styled, {createGlobalStyle} from 'styled-components';
 import {Link as ReactRouterLink} from 'react-router-dom';
-import {device} from '../Plotter/styles';
 
 export const defaultStyle = `
     margin: 0;
@@ -49,6 +48,27 @@ export const Title = styled.h1`
     font-size: 36px;
     line-height: 30px;
 `;
+
+const size = {
+    mobileS: '320px',
+    mobileM: '375px',
+    mobileL: '425px',
+    tablet: '768px',
+    laptop: '1024px',
+    laptopL: '1440px',
+    desktop: '2560px'
+};
+
+export const device = {
+    mobileS: `(min-width: ${size.mobileS})`,
+    mobileM: `(min-width: ${size.mobileM})`,
+    mobileL: `(min-width: ${size.mobileL})`,
+    tablet: `(min-width: ${size.tablet})`,
+    laptop: `(min-width: ${size.laptop})`,
+    laptopL: `(min-width: ${size.laptopL})`,
+    desktop: `(min-width: ${size.desktop})`,
+    desktopL: `(min-width: ${size.desktop})`
+};
 
 export const EquationsList = styled.ul`
     display: grid;

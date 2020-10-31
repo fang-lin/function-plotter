@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import {Size} from '../../pages/Plotter';
-import {device} from '../../pages/Plotter/styles';
+import {device} from '../../pages/Home/styles';
 
 export const PaletteWrapper = styled.div<{
     size: Size;

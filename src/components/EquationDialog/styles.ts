@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 import ok from '../../images/ok.png';
 import okHover from '../../images/ok-hover.png';
-import {device} from '../../pages/Plotter/styles';
 import {LargeIconButton} from '../Dialog/styles';
+import {device} from '../../pages/Home/styles';
 
 export const EquationTextarea = styled.textarea`
     display: block;

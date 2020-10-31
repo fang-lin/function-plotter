@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import cross from '../../images/cross.png';
 import crossHover from '../../images/cross-hover.png';
 import {transitionDuration} from './index';
-import {device} from '../../pages/Plotter/styles';
+import {device} from '../../pages/Home/styles';
 
 export const DialogMask = styled.div<{ appearance: boolean }>`
     position: absolute;
