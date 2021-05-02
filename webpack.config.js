@@ -63,7 +63,7 @@ module.exports = (env, argv) => {
                     version: version,
                     developer: {
                         name: 'Lin Fang',
-                        url: 'https://www.plotter.fun/'
+                        url: 'https://www.fanglin.me/'
                     },
                     icons: [{
                         src: 'images/icon.png',
