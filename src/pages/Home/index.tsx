@@ -41,12 +41,13 @@ export class Home extends Component {
                 </EquationsList>
             </HomeContainer>
             <HomeFooter>
-                <Anchor href="./">Homepage</Anchor>
+                <Anchor href="./">Function Plotter {version}</Anchor>
                 &nbsp;|&nbsp;
-                <Anchor href="https://github.com/fang-lin/function-plotter" target="_blank"
-                    rel="noopener noreferrer">GitHub</Anchor>
+                <Anchor href="https://github.com/fang-lin/function-plotter" target="_blank">GitHub</Anchor>
                 &nbsp;|&nbsp;
-                <Anchor href="#">Lin Fang in {(new Date()).getFullYear()}</Anchor>
+                <Anchor href="https://www.fanglin.me/" target="_blank">Lin Fang in {(new Date()).getFullYear()}</Anchor>
+                &nbsp;|&nbsp;
+                <Anchor href="https://sorting-animation.fanglin.me/" target="_blank">Sorting Animation</Anchor>
             </HomeFooter>
         </HomeRoot>;
     }
