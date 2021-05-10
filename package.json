@@ -30,7 +30,7 @@
     "file-loader": "^6.0.0",
     "history": "^4.10.1",
     "html-webpack-plugin": "^4.0.4",
-    "lodash": "^4.17.19",
+    "lodash": "^4.17.21",
     "mathjs": "^6.6.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
