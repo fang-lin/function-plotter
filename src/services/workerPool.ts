@@ -51,7 +51,7 @@ class CalculateWorker {
     message = (event: MessageEvent): void => {
         this.isFree = true;
         this.callback(event.data);
-    }
+    };
 }
 
 class WorkerPool {
@@ -93,7 +93,7 @@ class WorkerPool {
                 });
             }
         }
-    }
+    };
 
 }
 
