@@ -1,5 +1,7 @@
 .idea
 .cache
+.envrc
+.terraform
 node_modules
 dist
 yarn-error.log
