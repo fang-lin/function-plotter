@@ -7,22 +7,22 @@ terraform {
   }
 
   backend "s3" {
-    bucket         = "terraform-state.fanglin.me"
-    key            = "plotter/terraform.tfstate"
-    region         = "ap-northeast-1"
+    bucket = "terraform-state.fanglin.me"
+    key    = "plotter/terraform.tfstate"
+    region = "ap-northeast-1"
   }
 
   required_version = "1.1.2"
 }
 
 provider "aws" {
-  region  = var.aws_region
+  region = var.aws_region
 }
 
 resource "aws_s3_bucket" "website_bucket" {
-  bucket = "${var.sub_domain}.${var.primary-domain}"
-  acl    = "public-read"
-  force_destroy               = true
+  bucket        = "${var.sub_domain}.${var.primary-domain}"
+  acl           = "public-read"
+  force_destroy = true
 
   website {
     index_document = "index.html"
