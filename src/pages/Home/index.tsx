@@ -47,7 +47,7 @@ export class Home extends Component {
                 &nbsp;|&nbsp;
                 <Anchor href="https://www.fanglin.me/" target="_blank">Lin Fang in {(new Date()).getFullYear()}</Anchor>
                 &nbsp;|&nbsp;
-                <Anchor href="https://sorting-animation.fanglin.me/" target="_blank">Sorting Animation</Anchor>
+                <Anchor href="https://algorythm.fanglin.me/" target="_blank">Sorting Animation</Anchor>
             </HomeFooter>
         </HomeRoot>;
     }
