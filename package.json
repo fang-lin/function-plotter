@@ -46,5 +46,9 @@
     "webpack-dev-server": "^3.11.3",
     "webpack-manifest-plugin": "^2.2.0",
     "worker-plugin": "^5.0.0"
+  },
+  "engines": {
+    "npm": "8.19.2",
+    "node": "16.18.1"
   }
 }

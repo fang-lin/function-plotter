@@ -1,7 +1,10 @@
 .idea
 .cache
 .envrc
+
 .terraform
+.terraform.lock.hcl
+
 node_modules
 dist
 yarn-error.log
