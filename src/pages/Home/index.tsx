@@ -9,7 +9,7 @@ import {
     HomeContainer,
     EquationsList,
     Title,
-    Anchor
+    FooterAnchor, TitleIcon
 } from './styles';
 import {combinePathToURL, defaultParams} from '../../helpers';
 import {ButterflyCurve} from './items/ButterflyCurve';
@@ -19,6 +19,9 @@ import {FermatSpiral} from './items/FermatSpiral';
 import {LissajousCurve} from './items/LissajousCurve';
 import {ArchimedeanSpiral} from './items/ArchimedeanSpiral';
 import {Hypocycloid} from './items/Hypocycloid';
+import {Ellipse} from './items/Ellipse';
+import {Hyperbola} from './items/Hyperbola';
+import titleIcon from '../../images/icons/icon.png';
 
 const enterURL = combinePathToURL(defaultParams);
 
@@ -26,7 +29,7 @@ export class Home extends Component {
     render(): ReactNode {
         return <HomeRoot>
             <HomeHeader>
-                <Title><Link to={enterURL}>Function Plotter {version}</Link></Title>
+                <Title><Link to={enterURL}><TitleIcon src={titleIcon} alt="icon"/>Function Plotter {version}</Link></Title>
             </HomeHeader>
             <HomeContainer>
                 <DefaultGlobalStyle/>
@@ -38,16 +41,15 @@ export class Home extends Component {
                     <LissajousCurve/>
                     <ArchimedeanSpiral/>
                     <Hypocycloid/>
+                    <Ellipse/>
+                    <Hyperbola/>
                 </EquationsList>
             </HomeContainer>
             <HomeFooter>
-                <Anchor href="./">Function Plotter {version}</Anchor>
-                &nbsp;|&nbsp;
-                <Anchor href="https://github.com/fang-lin/function-plotter" target="_blank">GitHub</Anchor>
-                &nbsp;|&nbsp;
-                <Anchor href="https://www.fanglin.me/" target="_blank">Lin Fang in {(new Date()).getFullYear()}</Anchor>
-                &nbsp;|&nbsp;
-                <Anchor href="https://algorythm.fanglin.me/" target="_blank">Sorting Animation</Anchor>
+                <FooterAnchor href="./">Function Plotter {version}</FooterAnchor> | <FooterAnchor
+                    href="https://github.com/fang-lin/function-plotter" target="_blank">GitHub</FooterAnchor> | <FooterAnchor
+                    href="https://www.fanglin.me/" target="_blank">Lin Fang in {(new Date()).getFullYear()}</FooterAnchor> | <FooterAnchor
+                    href="https://algorythm.fanglin.me/" target="_blank">algoRYTHM</FooterAnchor>
             </HomeFooter>
         </HomeRoot>;
     }

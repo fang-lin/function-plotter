@@ -1,17 +1,22 @@
 import React, {FunctionComponent} from 'react';
 import {equationsURL} from '../../../helpers';
-import {Link, Head3, EquationsListItem, Anchor} from '../styles';
+import {Link, Head3, EquationsListItem, Anchor, Paragraph} from '../styles';
 
 export const ArchimedeanSpiral: FunctionComponent = () => {
+    const url = equationsURL([['x=t*cos(t);y=t*sin(t);[0,8*PI]', '#26A']], 4);
     return <EquationsListItem>
-        <Head3>
+        <Head3><Link to={url}>Archimedean
+            spiral</Link></Head3>
+        <Paragraph>
+            <Link to={url}>
+                x=t*cos(t);<br/>
+                y=t*sin(t);
+            </Link>
+        </Paragraph>
+        <Paragraph>
             <Anchor href="https://en.wikipedia.org/wiki/Archimedean_spiral" target="_blank" rel="noopener noreferrer">
-                Archimedean spiral
+                Archimedean spiral in wikipedia.org
             </Anchor>
-        </Head3>
-        <Link to={equationsURL([['x=t*cos(t);y=t*sin(t);[0,8*PI]', '#26A']], 4)}>
-            x=t*cos(t);<br/>
-            y=t*sin(t);
-        </Link>
+        </Paragraph>
     </EquationsListItem>;
 };
