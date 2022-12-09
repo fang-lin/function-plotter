@@ -1,6 +1,6 @@
 import React, {FunctionComponent} from 'react';
 import {equationsURL} from '../../../helpers';
-import {Link, Head3, EquationsListItem, Paragraph, Anchor} from '../styles';
+import {Link, Head3, EquationsListItem, Paragraph, Anchor, FooterParagraph} from '../styles';
 
 const expression = (a: number): string => `y=${a}/x`;
 
@@ -28,10 +28,10 @@ export const Hyperbola: FunctionComponent = () => {
                 to={equationsURL([a3], 10)}>a=3;</Link> <Link 
                 to={equationsURL([am3], 10)}>a=-3;</Link>
         </Paragraph>
-        <Paragraph>
+        <FooterParagraph>
             <Anchor href="https://en.wikipedia.org/wiki/Hyperbola" target="_blank" rel="noopener noreferrer">
                 Hyperbola in wikipedia.org
             </Anchor>
-        </Paragraph>
+        </FooterParagraph>
     </EquationsListItem>;
 };

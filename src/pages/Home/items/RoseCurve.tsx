@@ -1,6 +1,6 @@
 import React, {FunctionComponent} from 'react';
 import {equationsURL} from '../../../helpers';
-import {Link, Head3, EquationsListItem, Paragraph, Anchor} from '../styles';
+import {Link, Head3, EquationsListItem, Paragraph, Anchor, FooterParagraph} from '../styles';
 
 const expression = (k: number): string => `x=cos(${k}t)cos(t);y=cos(${k}t)sin(t);[0,2PI]`;
 
@@ -25,10 +25,10 @@ export const RoseCurve: FunctionComponent = () => {
                 to={equationsURL([k8])}>k=8</Link> <Link 
                 to={equationsURL([k16])}>k=16</Link>
         </Paragraph>
-        <Paragraph>
+        <FooterParagraph>
             <Anchor href="https://en.wikipedia.org/wiki/Rose_(mathematics)" target="_blank" rel="noopener noreferrer">
                 Rose curve in wikipedia.org
             </Anchor>
-        </Paragraph>
+        </FooterParagraph>
     </EquationsListItem>;
 };

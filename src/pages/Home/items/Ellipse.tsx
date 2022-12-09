@@ -1,6 +1,6 @@
 import React, {FunctionComponent} from 'react';
 import {equationsURL} from '../../../helpers';
-import {Link, Head3, EquationsListItem, Paragraph, Anchor} from '../styles';
+import {Link, Head3, EquationsListItem, Paragraph, Anchor, FooterParagraph} from '../styles';
 
 const expression = (a: number, b: number): string => `x=${a}*sin(t);y=${b}*cos(t);[0,2PI]`;
 
@@ -27,10 +27,10 @@ export const Ellipse: FunctionComponent = () => {
                 to={equationsURL([a3b2], 10)}>a=3, b=2</Link> <Link 
                 to={equationsURL([a2b3], 10)}>a=2, b=3</Link>;
         </Paragraph>
-        <Paragraph>
+        <FooterParagraph>
             <Anchor href="https://en.wikipedia.org/wiki/Ellipse" target="_blank" rel="noopener noreferrer">
                 Ellipse in wikipedia.org
             </Anchor>
-        </Paragraph>
+        </FooterParagraph>
     </EquationsListItem>;
 };

@@ -1,6 +1,6 @@
 import styled, {createGlobalStyle} from 'styled-components';
 import {Link as ReactRouterLink} from 'react-router-dom';
-import parenthesesIcon from '../../images/icons/parentheses.png';
+import infinityIcon from '../../images/icons/infinity.png';
 
 const size = {
     mobileS: '320px',
@@ -92,6 +92,9 @@ export const EquationsListItem = styled.li`
   font-size: 12px;
   padding: 0 0 0 31px;
   box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   @media ${device.tablet} {
     width: calc(100% / 2);
   }
@@ -102,16 +105,23 @@ export const EquationsListItem = styled.li`
   &:before {
     content: '';
     position: absolute;
-    margin: 24px 0 0 -31px;
+    margin: 25px 0 0 -30px;
     height: 16px;
     width: 16px;
     background-size: contain;
-    background-image: url(${parenthesesIcon});
+    background-image: url(${infinityIcon});
   }
 `;
 export const Paragraph = styled.p`
   font-size: 12px;
   display: block;
+`;
+
+export const FooterParagraph = styled(Paragraph)`
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
 `;
 
 export const Head3 = styled.h3`

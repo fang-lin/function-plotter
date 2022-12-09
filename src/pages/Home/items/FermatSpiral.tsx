@@ -1,6 +1,6 @@
 import React, {FunctionComponent} from 'react';
 import {equationsURL} from '../../../helpers';
-import {Link, Head3, EquationsListItem, Anchor, Paragraph} from '../styles';
+import {Link, Head3, EquationsListItem, Anchor, Paragraph, FooterParagraph} from '../styles';
 
 export const FermatSpiral: FunctionComponent = () => {
     const url = equationsURL([
@@ -18,10 +18,10 @@ export const FermatSpiral: FunctionComponent = () => {
                 y=-t^(1/2)cos(t);
             </Link>
         </Paragraph>
-        <Paragraph>
+        <FooterParagraph>
             <Anchor href="https://en.wikipedia.org/wiki/Fermat%27s_spiral" target="_blank" rel="noopener noreferrer">
                 Fermat&apos;s spiral in wikipedia.org
             </Anchor>
-        </Paragraph>
+        </FooterParagraph>
     </EquationsListItem>;
 };

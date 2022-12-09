@@ -1,6 +1,6 @@
 import React, {FunctionComponent} from 'react';
 import {equationsURL} from '../../../helpers';
-import {Link, Head3, EquationsListItem, Anchor, Paragraph} from '../styles';
+import {Link, Head3, EquationsListItem, Anchor, Paragraph, FooterParagraph} from '../styles';
 
 export const LissajousCurve: FunctionComponent = () => {
     const url = equationsURL([
@@ -14,10 +14,10 @@ export const LissajousCurve: FunctionComponent = () => {
                 y=2sin(6t);
             </Link>
         </Paragraph>
-        <Paragraph>
+        <FooterParagraph>
             <Anchor href="https://en.wikipedia.org/wiki/Lissajous_curve" target="_blank" rel="noopener noreferrer">
                 Lissajous curve in wikipedia.org
             </Anchor>
-        </Paragraph>
+        </FooterParagraph>
     </EquationsListItem>;
 };

@@ -1,6 +1,6 @@
 import React, {FunctionComponent} from 'react';
 import {equationsURL} from '../../../helpers';
-import {Link, Head3, EquationsListItem, Paragraph, Anchor} from '../styles';
+import {Link, Head3, EquationsListItem, Paragraph, Anchor, FooterParagraph} from '../styles';
 
 const expression = (k: number, upper: number): string => `x=1(${k}-1)cos(t)+1*cos((${k}-1)t);y=1(${k}-1)sin(t)-1*sin((${k}-1)t);[0,${upper}PI]`;
 
@@ -33,10 +33,10 @@ export const Hypocycloid: FunctionComponent = () => {
                 to={equationsURL([k6], 8)}>k=6;</Link> <Link
                 to={equationsURL([k7p2], 8)}>k=7.2;</Link>
         </Paragraph>
-        <Paragraph>
+        <FooterParagraph>
             <Anchor href="https://en.wikipedia.org/wiki/Hypocycloid" target="_blank" rel="noopener noreferrer">
                 Hypocycloid in wikipedia.org
             </Anchor>
-        </Paragraph>
+        </FooterParagraph>
     </EquationsListItem>;
 };

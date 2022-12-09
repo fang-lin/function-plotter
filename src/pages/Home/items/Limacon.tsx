@@ -1,6 +1,6 @@
 import React, {FunctionComponent} from 'react';
 import {equationsURL} from '../../../helpers';
-import {Link, Head3, EquationsListItem, Anchor, Paragraph} from '../styles';
+import {Link, Head3, EquationsListItem, Anchor, Paragraph, FooterParagraph} from '../styles';
 
 export const Limacon: FunctionComponent = () => {
     const url = equationsURL([
@@ -14,10 +14,10 @@ export const Limacon: FunctionComponent = () => {
                 y=b*sin(t)+a/2sin(2t);<br/>
             </Link>
         </Paragraph>
-        <Paragraph>
+        <FooterParagraph>
             <Anchor href="https://en.wikipedia.org/wiki/Lima%C3%A7on" target="_blank" rel="noopener noreferrer">
                 Limacon in wikipedia.org
             </Anchor>
-        </Paragraph>
+        </FooterParagraph>
     </EquationsListItem>;
 };

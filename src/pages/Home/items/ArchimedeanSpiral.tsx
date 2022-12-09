@@ -1,6 +1,6 @@
 import React, {FunctionComponent} from 'react';
 import {equationsURL} from '../../../helpers';
-import {Link, Head3, EquationsListItem, Anchor, Paragraph} from '../styles';
+import {Link, Head3, EquationsListItem, Anchor, Paragraph, FooterParagraph} from '../styles';
 
 export const ArchimedeanSpiral: FunctionComponent = () => {
     const url = equationsURL([['x=t*cos(t);y=t*sin(t);[0,8*PI]', '#26A']], 4);
@@ -13,10 +13,10 @@ export const ArchimedeanSpiral: FunctionComponent = () => {
                 y=t*sin(t);
             </Link>
         </Paragraph>
-        <Paragraph>
+        <FooterParagraph>
             <Anchor href="https://en.wikipedia.org/wiki/Archimedean_spiral" target="_blank" rel="noopener noreferrer">
                 Archimedean spiral in wikipedia.org
             </Anchor>
-        </Paragraph>
+        </FooterParagraph>
     </EquationsListItem>;
 };
