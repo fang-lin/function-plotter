@@ -3,11 +3,8 @@ import expandTr from '../../images/expand-tr.png';
 import expandTrHover from '../../images/expand-tr-hover.png';
 import expandBl from '../../images/expand-bl.png';
 import expandBlHover from '../../images/expand-bl-hover.png';
-import add from '../../images/add.png';
-import addHover from '../../images/add-hover.png';
-
-import info from '../../images/info.png';
-import infoHover from '../../images/info-hover.png';
+import addIcon from '../../images/icons/add.png';
+import questionIcon from '../../images/icons/question.png';
 import {BaseButton, SmallIconButton, TitleBar} from '../Dialog/styles';
 
 const width = 320;
@@ -67,20 +64,13 @@ export const ExpandToggle = styled(SmallIconButton)<{
 
 
 export const InfoButton = styled(SmallIconButton)`
-    border-radius: 8px;
     margin: 0 10px 0 0;
-    background-image: url(${info});
-    :hover{
-        background-image: url(${infoHover});
-    }
+    background-image: url(${questionIcon});
 `;
 
 export const AddButton = styled(SmallIconButton)`
     border-radius: 8px;
-    background-image: url(${add});
-    :hover{
-        background-image: url(${addHover});
-    }
+    background-image: url(${addIcon});
 `;
 
 export const AddNewButton = styled(BaseButton)`

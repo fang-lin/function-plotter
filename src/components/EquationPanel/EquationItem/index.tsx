@@ -58,9 +58,7 @@ export const EquationItem: FunctionComponent<EquationPanelProps> = (props) => {
         pushToHistory({selectedEquationIndex: selectedEquationIndex === index ? -1 : index});
     };
 
-    const style = index > 0 ? {borderTop: `${color} solid 1px`} : {};
-
-    return <EquationItemWrapper {...{style}} onClick={selectEquation} onDoubleClick={editEquation}
+    return <EquationItemWrapper onClick={selectEquation} onDoubleClick={editEquation}
         selected={selectedEquationIndex === index}>
         <DisplayEquationButton {...{displayed, color}} style={{backgroundColor: color}}
             onClick={toggleEquationDisplayed}/>
