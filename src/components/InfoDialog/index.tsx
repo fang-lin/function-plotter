@@ -50,7 +50,7 @@ export const InfoDialog: FunctionComponent<InfoDialogProps> = (props) => {
                     <tbody>
                         <tr>
                             <td>Power:</td>
-                            <td>pow(x, n)</td>
+                            <td>pow(x, n) or x^n</td>
                         </tr>
                         <tr>
                             <td>Natural Logarithm:</td>
@@ -58,7 +58,7 @@ export const InfoDialog: FunctionComponent<InfoDialogProps> = (props) => {
                         </tr>
                         <tr>
                             <td>Trigonometric:</td>
-                            <td>sin(x), cos(x), tan(x), arcsin(x), arccos(x), arctan(x)</td>
+                            <td>sin(x), cos(x), tan(x), asin(x), acos(x), atan(x)</td>
                         </tr>
                         <tr>
                             <td>Absolute:</td>
@@ -93,13 +93,13 @@ export const InfoDialog: FunctionComponent<InfoDialogProps> = (props) => {
                 <table>
                     <tbody>
                         <tr>
-                            <td>y = log(x)</td>
+                            <td>y=log(x)</td>
                         </tr>
                         <tr>
-                            <td>y = arctan(x)</td>
+                            <td>y=atan(x)</td>
                         </tr>
                         <tr>
-                            <td>y = 1/(1-pow(E, x/(1-x)))</td>
+                            <td>y=1/(1-E^(x/(1-x*2)));</td>
                         </tr>
                     </tbody>
                 </table>
