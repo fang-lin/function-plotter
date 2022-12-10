@@ -1,6 +1,5 @@
 import styled from 'styled-components';
-import cross from '../../images/cross.png';
-import crossHover from '../../images/cross-hover.png';
+import cancelIcon from '../../images/icons/cancel.png';
 import {transitionDuration} from './index';
 import {device} from '../../pages/Home/styles';
 
@@ -84,6 +83,11 @@ const BaseIconButton = styled.button`
   background-size: contain;
   background-repeat: no-repeat;
   border: medium none;
+  transition: all .1s ease;
+  &:hover {
+    transform: scale(1.1);
+    filter: brightness(1.1) drop-shadow(0 1px 1px rgba(0, 0, 0, .5));
+  }
 `;
 
 export const BaseButton = styled.button`
@@ -114,17 +118,11 @@ export const SmallIconButton = styled(BaseIconButton)`
 `;
 
 export const LargeIconButton = styled(BaseIconButton)`
-  width: 28px;
-  height: 28px;
-  background-size: 28px 28px;
-  border-radius: 6px;
+  width: 32px;
+  height: 32px;
   margin: 5px;
 `;
 
 export const Close = styled(SmallIconButton)`
-  background-image: url(${cross});
-
-  :hover {
-    background-image: url(${crossHover});
-  }
+  background-image: url(${cancelIcon});
 `;

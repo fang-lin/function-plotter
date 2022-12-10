@@ -5,24 +5,36 @@ import pencilIcon from '../../../images/icons/pencil.png';
 import cancelIcon from '../../../images/icons/cancel.png';
 import {SmallIconButton} from '../../Dialog/styles';
 
+export const DisplayEquationIcon = styled.span<{
+    displayed: boolean;
+}>`
+  display: block;
+  height: 24px;
+  width: 24px;
+  background-size: contain;
+  background-image: url(${({displayed}): string => displayed ? eyesIcon : forbiddenIcon});
+  background-repeat: no-repeat;
+  transition: all .1s ease;
+`;
+
 export const DisplayEquationButton = styled.button<{
     displayed: boolean;
 }>`
   margin: -4px 0;
+  padding: 0;
   cursor: pointer;
-  font-size: 0;
-  line-height: 0;
-  display: block;
   border: medium none;
   outline: none;
-  padding: 0;
   align-self: stretch;
-  flex: none;
   width: 36px;
-  background-size: 24px 24px;
-  background-image: url(${({displayed}): string => displayed ? eyesIcon : forbiddenIcon});
-  background-repeat: no-repeat;
-  background-position: 50% 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &:hover ${DisplayEquationIcon} {
+    transform: scale(1.1);
+    filter: brightness(1.1) drop-shadow(0 1px 1px rgba(0, 0, 0, .5));
+  }
 `;
 
 export const EditButton = styled(SmallIconButton)`
@@ -56,7 +68,7 @@ export const EquationItemWrapper = styled.li<{ selected: boolean }>`
   align-items: center;
   padding: 4px 4px 4px 0;
   background-color: ${({selected}): string => selected ? '#ddd' : '#fff'};
-  border-top: #666 solid 1px;
+
   &:hover ${EditButtonWrapper} {
     display: flex;
   }
@@ -68,6 +80,7 @@ export const EquationTextWrapper = styled.div<{ displayed: boolean }>`
   line-height: 16px;
   padding: 0 10px;
   word-break: break-all;
+
   ${({displayed}): string => displayed ? '' : 'text-decoration: line-through;'}
   p {
     margin: 5px 0;

@@ -15,9 +15,9 @@ export interface StateBarProps {
 export const StateBar: FunctionComponent<StateBarProps> = (props) => {
     const {trackPoint, size, params: {expandStateBar, origin, scale}, pushToHistory} = props;
     const [x, y] = canvasToEquation(trackPoint, origin, size, scale);
-    return (<StateBarWrapper {...{expandStateBar}}>
+    return <StateBarWrapper {...{expandStateBar}}>
         <AppTitle><Link to="/">Function Plotter {version}</Link></AppTitle>
         <CoordinateLabel>x: {x.toFixed(4)}, y: {y.toFixed(4)}</CoordinateLabel>
         <ExpandToggle {...{expandStateBar}} onClick={(): void => pushToHistory({expandStateBar: !expandStateBar})}/>
-    </StateBarWrapper>);
+    </StateBarWrapper>;
 };

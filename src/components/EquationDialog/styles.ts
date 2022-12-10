@@ -1,6 +1,5 @@
 import styled from 'styled-components';
-import ok from '../../images/ok.png';
-import okHover from '../../images/ok-hover.png';
+import checkedIcon from '../../images/icons/checked.png';
 import {LargeIconButton} from '../Dialog/styles';
 import {device} from '../../pages/Home/styles';
 
@@ -24,10 +23,7 @@ export const EquationTextarea = styled.textarea`
 `;
 
 export const AddButton = styled(LargeIconButton)`
-    background-image: url(${ok});
-    :hover{
-        background-image: url(${okHover});
-    }
+    background-image: url(${checkedIcon});
 `;
 
 export const ErrorLabel = styled.div`

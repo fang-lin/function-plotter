@@ -1,9 +1,6 @@
 import styled from 'styled-components';
-import shrinkIcon from '../../images/icons/shrink.png';
-import expandBr from '../../images/expand-br.png';
-import expandTl from '../../images/expand-tl.png';
-import expandTlHover from '../../images/expand-tl-hover.png';
-import expandBrHover from '../../images/expand-br-hover.png';
+import minimizeIcon from '../../images/icons/minimize.png';
+import maximizeIcon from '../../images/icons/maximize.png';
 import {SmallIconButton} from '../Dialog/styles';
 
 export const StateBarWrapper = styled.div<{
@@ -23,10 +20,9 @@ export const StateBarWrapper = styled.div<{
   border-color: #666;
   border-width: 0 1px 1px 0;
   box-shadow: 0 5px 20px rgba(0, 0, 0, .7);
-  overflow: hidden;
   transition: all .2s ease-in-out;
   ${({expandStateBar}): string => expandStateBar ? '' :
-          'transform: translateX(-100%) translateX(24px) translateY(-100%) translateY(24px);'}
+        'transform: translateX(-100%) translateX(24px) translateY(-100%) translateY(24px);'}
 `;
 export const AppTitle = styled.h1`
   margin: 5px 0;
@@ -53,9 +49,7 @@ export const ExpandToggle = styled(SmallIconButton)<{
     expandStateBar: boolean;
 }>`
   position: absolute;
-  right: 0;
-  bottom: 0;
-  background-size: 48px 48px;
-  background-position: ${({expandStateBar}): string => expandStateBar ? '-26px -26px' : '2px 2px'};
-  background-image: url(${shrinkIcon});
+  right: -6px;
+  bottom: -6px;
+  background-image: url(${({expandStateBar}): string => expandStateBar ? minimizeIcon : maximizeIcon});
 `;

@@ -8,7 +8,8 @@ import {
     EditButtonWrapper,
     EquationItemWrapper,
     EquationTextWrapper,
-    RemoveButton
+    RemoveButton,
+    DisplayEquationIcon
 } from './styles';
 
 export interface EquationPanelProps {
@@ -58,10 +59,14 @@ export const EquationItem: FunctionComponent<EquationPanelProps> = (props) => {
         pushToHistory({selectedEquationIndex: selectedEquationIndex === index ? -1 : index});
     };
 
-    return <EquationItemWrapper onClick={selectEquation} onDoubleClick={editEquation}
+    const style = index > 0 ? {borderTop: `${color} solid 1px`} : {};
+
+    return <EquationItemWrapper {...{style}} onClick={selectEquation} onDoubleClick={editEquation}
         selected={selectedEquationIndex === index}>
         <DisplayEquationButton {...{displayed, color}} style={{backgroundColor: color}}
-            onClick={toggleEquationDisplayed}/>
+            onClick={toggleEquationDisplayed}>
+            <DisplayEquationIcon {...{displayed}}/>
+        </DisplayEquationButton>
         <EquationText {...{displayed, expression}}/>
         <EditButtonWrapper>
             <EditButton onClick={editEquation}>Edit</EditButton>

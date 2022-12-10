@@ -1,5 +1,6 @@
 import styled from 'styled-components';
-import shrinkIcon from '../../images/icons/shrink.png';
+import minimizeIcon from '../../images/icons/minimize.png';
+import maximizeIcon from '../../images/icons/maximize.png';
 import addIcon from '../../images/icons/add.png';
 import questionIcon from '../../images/icons/question.png';
 import {BaseButton, SmallIconButton, TitleBar} from '../Dialog/styles';
@@ -18,7 +19,6 @@ export const EquationPanelWrapper = styled.div<{
   padding: 20px 0 0 0;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
   border-radius: 0 0 0 4px;
   border-style: solid;
   border-color: #666;
@@ -42,21 +42,19 @@ export const EquationPanelTitleBar = styled(TitleBar)`
 `;
 
 
+export const InfoButton = styled(SmallIconButton)`
+  margin: 0 10px 0 0;
+  background-image: url(${questionIcon});
+`;
+
+
 export const ExpandToggle = styled(SmallIconButton)<{
     expandEquationPanel: boolean;
 }>`
   position: absolute;
-  left: 0;
-  bottom: 0;
-  background-image: url(${shrinkIcon});
-  background-size: 48px 48px;
-  background-position: ${({expandEquationPanel}): string => expandEquationPanel ? '2px -26px' : '-26px 2px'};
-`;
-
-
-export const InfoButton = styled(SmallIconButton)`
-  margin: 0 10px 0 0;
-  background-image: url(${questionIcon});
+  left: -6px;
+  bottom: -6px;
+  background-image: url(${({expandEquationPanel}): string => expandEquationPanel ? minimizeIcon : maximizeIcon});
 `;
 
 export const AddButton = styled(SmallIconButton)`
