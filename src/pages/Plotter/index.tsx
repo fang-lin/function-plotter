@@ -133,7 +133,7 @@ export class Plotter extends Component<RouteComponentProps<OriginalParams>, Stat
                 <PreloadImages/>
                 <Stage {...{cursor, size, transform, setRedrawing, params, setTrackPoint}}/>
                 <Redrawing {...{redrawing}}/>
-                <StateBar {...{params, size, trackPoint, redrawing, pushToHistory}}/>
+                <StateBar {...{params, size, trackPoint, pushToHistory}}/>
                 <EquationPanel {...{
                     pushToHistory,
                     params,
