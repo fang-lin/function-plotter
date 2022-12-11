@@ -82,6 +82,7 @@ const BaseIconButton = styled.button`
   font-size: 0;
   line-height: 0;
   padding: 0;
+  margin: 0;
   cursor: pointer;
   color: transparent;
   outline: none;
@@ -141,7 +142,6 @@ export const SmallIconButton = styled(BaseIconButton)`
 export const LargeIconButton = styled(BaseIconButton)`
   width: 32px;
   height: 32px;
-  margin: 5px;
 `;
 
 export const Close = styled(SmallIconButton)`

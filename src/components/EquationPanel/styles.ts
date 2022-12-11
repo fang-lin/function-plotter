@@ -44,17 +44,15 @@ export const EquationPanelTitleBar = styled(TitleBar)`
 
 
 export const InfoButton = styled(SmallIconButton)`
-  margin: 0 10px 0 0;
   background-image: url(${informationIcon});
 `;
-
 
 export const ExpandToggle = styled(SmallIconButton)<{
     expandEquationPanel: boolean;
 }>`
   position: absolute;
-  left: -6px;
-  bottom: -6px;
+  left: -8px;
+  bottom: -8px;
   background-image: url(${({expandEquationPanel}): string => expandEquationPanel ? minimizeIcon : maximizeIcon});
 `;
 
@@ -83,6 +81,5 @@ export const EquationsList = styled.ul`
 
 export const ButtonWrapper = styled.div`
   display: flex;
-  flex: none;
-  padding: 0;
+  gap: 10px;
 `;

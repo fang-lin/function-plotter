@@ -1,5 +1,5 @@
 import React, {FunctionComponent} from 'react';
-import {ShadowWrapper, ZoomInButton, ZoomLevelButton, ZoomOutButton, ZoomPanelWrapper} from './styles';
+import {ZoomInButton, ZoomLevelButton, ZoomOutButton, ZoomPanelWrapper} from './styles';
 import {stopPropagation} from '../../pages/Plotter';
 import {getScaleIndex, ParsedParams, scaleRange} from '../../helpers';
 
@@ -23,16 +23,14 @@ export const ZoomPanel: FunctionComponent<ZoomPanelProps> = (props) => {
 
     return (
         <ZoomPanelWrapper>
-            <ShadowWrapper>
-                <ZoomInButton
-                    title="Zoom In"
-                    {...stopPropagation}
-                    onClick={zoomInOut(true)}>Zoom In</ZoomInButton>
-                <ZoomOutButton
-                    title="Zoom Out"
-                    {...stopPropagation}
-                    onClick={zoomInOut(false)}>Zoom Out</ZoomOutButton>
-            </ShadowWrapper>
+            <ZoomInButton
+                title="Zoom In"
+                {...stopPropagation}
+                onClick={zoomInOut(true)}>Zoom In</ZoomInButton>
+            <ZoomOutButton
+                title="Zoom Out"
+                {...stopPropagation}
+                onClick={zoomInOut(false)}>Zoom Out</ZoomOutButton>
             <ZoomLevelButton {...{scaleLevel, title: `x${scaleLevel}`}}>{`x${scaleLevel}`}</ZoomLevelButton>
         </ZoomPanelWrapper>
     );

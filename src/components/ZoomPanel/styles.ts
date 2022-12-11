@@ -1,8 +1,7 @@
 import styled from 'styled-components';
-import ZoomIn from '../../images/zoom-in.png';
-import ZoomOut from '../../images/zoom-out.png';
-import ZoomInHover from '../../images/zoom-in-hover.png';
-import ZoomOutHover from '../../images/zoom-out-hover.png';
+import zoomInIcon from '../../images/icons/zoom-in.png';
+import zoomOutIcon from '../../images/icons/zoom-out.png';
+
 import x1 from '../../images/x1.png';
 import x1Hover from '../../images/x1-hover.png';
 import x2 from '../../images/x2.png';
@@ -67,39 +66,18 @@ export const ZoomPanelWrapper = styled.div`
     position: absolute;
     bottom: 20px;
     right: 20px;
-    margin: -5px;
-`;
-export const ShadowWrapper = styled.div`
-    line-height: 0;
-    margin: 5px;
-    display: inline-block;
-    border-radius: 6px;
-    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .3);
+    display: flex;
+    gap: 10px;
 `;
 
 export const ZoomInButton = styled(LargeIconButton)`
-    border-radius: 6px 0 0 6px;
-    margin: 0 -1px 0 0;
-    background-image: url(${ZoomIn});
-    box-shadow: none;
-    :hover {
-        background-image: url(${ZoomInHover});
-    }
+    background-image: url(${zoomInIcon});
 `;
 
 export const ZoomOutButton = styled(LargeIconButton)`
-    border-radius: 0 6px 6px 0;
-    margin: 0;
-    background-image: url(${ZoomOut});
-    box-shadow: none;
-    :hover {
-        background-image: url(${ZoomOutHover});
-    }
+  background-image: url(${zoomOutIcon});
 `;
 
 export const ZoomLevelButton = styled(LargeIconButton)<{ scaleLevel: number }>`
     background-image: url(${({scaleLevel}): string => levels[scaleLevel - 1]});
-    :hover{
-        background-image: url(${({scaleLevel}): string => hovers[scaleLevel - 1]});
-    }
 `;

@@ -59,7 +59,7 @@ export const ExpandToggle = styled(SmallIconButton)<{
     expandStateBar: boolean;
 }>`
   position: absolute;
-  right: -6px;
-  bottom: -6px;
+  right: -8px;
+  bottom: -8px;
   background-image: url(${({expandStateBar}): string => expandStateBar ? minimizeIcon : maximizeIcon});
 `;
