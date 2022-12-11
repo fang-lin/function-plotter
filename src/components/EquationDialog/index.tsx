@@ -75,7 +75,7 @@ export const EquationDialog: FunctionComponent<EquationDialogProps> = (props) =>
         </TitleBar>
         <DialogInner>
             <EquationTextarea style={{color, borderColor: color}} value={expression}
-                              onChange={changeEquation}/>
+                onChange={changeEquation}/>
             <Palette {...{color, setColor}}/>
             <ButtonWrapper>
                 <ErrorLabel style={{color}}>{error && `Error: ${error}`}</ErrorLabel>

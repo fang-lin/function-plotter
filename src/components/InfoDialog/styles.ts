@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import {DialogBackground} from '../Dialog/styles';
-import informationIcon from '../../images/icons/information.png';
 import {device} from '../../pages/Home/styles';
 
 export const Info = styled.div`
