@@ -1,9 +1,10 @@
 import styled from 'styled-components';
 import minimizeIcon from '../../images/icons/minimize.png';
 import maximizeIcon from '../../images/icons/maximize.png';
+import blueprintIcon from '../../images/icons/blueprint.png';
 import addIcon from '../../images/icons/add.png';
-import questionIcon from '../../images/icons/question.png';
-import {BaseButton, SmallIconButton, TitleBar} from '../Dialog/styles';
+import informationIcon from '../../images/icons/information.png';
+import {BaseButton, BaseButtonIcon, SmallIconButton, TitleBar} from '../Dialog/styles';
 
 const width = 320;
 
@@ -38,13 +39,13 @@ export const EquationPanelInner = styled.div`
 `;
 
 export const EquationPanelTitleBar = styled(TitleBar)`
-  padding: 15px 15px 15px 30px;
+  padding: 8px 20px;
 `;
 
 
 export const InfoButton = styled(SmallIconButton)`
   margin: 0 10px 0 0;
-  background-image: url(${questionIcon});
+  background-image: url(${informationIcon});
 `;
 
 
@@ -64,8 +65,10 @@ export const AddButton = styled(SmallIconButton)`
 
 export const AddNewButton = styled(BaseButton)`
   font-weight: bold;
-  width: fill-available;
   margin: 0 20px;
+`;
+export const AddNewButtonIcon = styled(BaseButtonIcon)`
+  background-image: url(${blueprintIcon});
 `;
 
 export const EquationsList = styled.ul`

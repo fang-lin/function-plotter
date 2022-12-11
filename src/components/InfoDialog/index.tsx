@@ -2,7 +2,8 @@ import React, {FunctionComponent} from 'react';
 import {version} from '../../../package.json';
 import {Info, InfoDialogBackground} from './styles';
 import {ParsedParams} from '../../helpers';
-import {Close, DialogInner, Title, TitleBar} from '../Dialog/styles';
+import {Close, DialogInner, Title, TitleBar, TitleIcon} from '../Dialog/styles';
+import informationIcon from '../../images/icons/information.png';
 import {Dialog} from '../Dialog';
 import {stopPropagation} from '../../pages/Plotter';
 
@@ -18,7 +19,8 @@ export const InfoDialog: FunctionComponent<InfoDialogProps> = (props) => {
 
     return <Dialog {...{isShow: displayInfoDialog, Background: InfoDialogBackground}}>
         <TitleBar>
-            <Title>About Function Plotter {version}</Title>
+            <TitleIcon src={informationIcon}/>
+            <Title>Function Plotter {version}</Title>
             <Close onClick={close}/>
         </TitleBar>
         <DialogInner {...stopPropagation}>

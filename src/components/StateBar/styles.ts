@@ -13,6 +13,9 @@ export const StateBarWrapper = styled.div<{
   font-size: 12px;
   font-weight: normal;
   margin: 0;
+  display: flex;
+  gap: 12px;
+  align-items: center;
   padding: 10px 20px;
   background-color: #eee;
   border-radius: 0 0 4px 0;
@@ -24,6 +27,12 @@ export const StateBarWrapper = styled.div<{
   ${({expandStateBar}): string => expandStateBar ? '' :
         'transform: translateX(-100%) translateX(24px) translateY(-100%) translateY(24px);'}
 `;
+
+export const AppIcon = styled.img`
+  height: 36px;
+  width: 36px;
+`;
+
 export const AppTitle = styled.h1`
   margin: 5px 0;
   font-size: 14px;
@@ -35,6 +44,7 @@ export const AppTitle = styled.h1`
     text-shadow: 0 1px 1px rgba(255, 255, 255, .7);
   }
 `;
+
 export const CoordinateLabel = styled.div`
   margin: 5px 0;
 `;

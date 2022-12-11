@@ -58,18 +58,24 @@ export const TitleBar = styled.div`
   border-width: 1px 0;
   border-style: solid;
   border-color: #666;
-  padding: 15px 30px;
+  padding: 10px 30px;
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  gap: 10px;
 `;
 
 export const Title = styled.h3`
   color: #333;
   font-size: 14px;
   line-height: 14px;
+  flex-grow: 1;
   text-shadow: 0 1px 1px rgba(255, 255, 255, .7);
-  margin: 0 15px 0 0;
-  padding: 0;
+`;
+
+export const TitleIcon = styled.img`
+  width: 32px;
+  height: 32px;
 `;
 
 const BaseIconButton = styled.button`
@@ -84,10 +90,19 @@ const BaseIconButton = styled.button`
   background-repeat: no-repeat;
   border: medium none;
   transition: all .1s ease;
-  &:hover {
+
+  :hover {
     transform: scale(1.1);
     filter: brightness(1.1) drop-shadow(0 1px 1px rgba(0, 0, 0, .5));
   }
+`;
+
+export const BaseButtonIcon = styled.span`
+  background-size: contain;
+  width: 24px;
+  height: 24px;
+  display: block;
+  transition: all .1s ease;
 `;
 
 export const BaseButton = styled.button`
@@ -95,20 +110,26 @@ export const BaseButton = styled.button`
   font-family: 'Fira Code', monospace, consolas, courier;
   outline: none;
   border: solid 1px #666;
-  background-position: -1px -1px;
-  background-color: #ccc;
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .3);
   border-radius: 4px;
   color: #333;
   font-size: 14px;
-  line-height: 14px;
+  line-height: 16px;
   text-shadow: 0 1px 1px rgba(255, 255, 255, .7);
-  padding: 10px 20px;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .3);
+  transition: all .1s ease;
+  display: flex;
+  gap: 12px;
+  font-weight: bold;
+  align-items: center;
+  justify-content: center;
+  padding: 5px 12px;
 
   :hover {
-    background-color: #666;
-    color: #fff;
-    text-shadow: 0 1px 1px rgba(0, 0, 0, .7);
+    filter: brightness(1.1);
+  }
+
+  :hover ${BaseButtonIcon} {
+    transform: scale(1.1);
   }
 `;
 

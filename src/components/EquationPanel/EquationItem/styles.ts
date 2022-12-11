@@ -31,7 +31,7 @@ export const DisplayEquationButton = styled.button<{
   justify-content: center;
   align-items: center;
 
-  &:hover ${DisplayEquationIcon} {
+  :hover ${DisplayEquationIcon} {
     transform: scale(1.1);
     filter: brightness(1.1) drop-shadow(0 1px 1px rgba(0, 0, 0, .5));
   }
@@ -69,7 +69,7 @@ export const EquationItemWrapper = styled.li<{ selected: boolean }>`
   padding: 4px 4px 4px 0;
   background-color: ${({selected}): string => selected ? '#ddd' : '#fff'};
 
-  &:hover ${EditButtonWrapper} {
+  :hover ${EditButtonWrapper} {
     display: flex;
   }
 `;

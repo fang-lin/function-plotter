@@ -135,7 +135,7 @@ export const Anchor = styled.a`
   text-shadow: 0 1px 1px rgba(255, 255, 255, .7);
   text-decoration: none;
 
-  &:hover {
+  :hover {
     text-decoration: underline;
   }
 `;
@@ -149,7 +149,7 @@ export const Link = styled(ReactRouterLink)`
   color: #333;
   text-shadow: 0 1px 1px rgba(255, 255, 255, .7);
 
-  &:hover {
+  :hover {
     text-decoration: underline;
   }
 `;

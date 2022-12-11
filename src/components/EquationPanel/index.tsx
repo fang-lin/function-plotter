@@ -1,16 +1,17 @@
 import React, {FunctionComponent, SyntheticEvent} from 'react';
 import {
-    AddButton, AddNewButton,
+    AddButton, AddNewButton, AddNewButtonIcon,
     ButtonWrapper,
     EquationPanelInner,
     EquationPanelTitleBar,
     EquationPanelWrapper,
     EquationsList,
     ExpandToggle,
-    InfoButton
+    InfoButton,
 } from './styles';
 import {Size, stopPropagation} from '../../pages/Plotter';
-import {Title} from '../Dialog/styles';
+import {Title, TitleIcon} from '../Dialog/styles';
+import mathsIcon from '../../images/icons/maths.png';
 import {ParsedParams} from '../../helpers';
 import {EquationItem} from './EquationItem';
 
@@ -35,6 +36,7 @@ export const EquationPanel: FunctionComponent<EquationPanelProps> = (props) => {
 
     return <EquationPanelWrapper {...stopPropagation} {...{expandEquationPanel}}>
         <EquationPanelTitleBar>
+            <TitleIcon src={mathsIcon}/>
             <Title>Equations</Title>
             <ButtonWrapper>
                 <InfoButton onClick={(): void => pushToHistory({displayInfoDialog: true})}>Info</InfoButton>
@@ -49,7 +51,7 @@ export const EquationPanel: FunctionComponent<EquationPanelProps> = (props) => {
                     params,
                     pushToHistory
                 }}/>)
-            }</EquationsList> : <AddNewButton onClick={addEquation}>Add New Equation</AddNewButton>}
+            }</EquationsList> : <AddNewButton onClick={addEquation}><AddNewButtonIcon/>Add New Equation</AddNewButton>}
         </EquationPanelInner>
         <ExpandToggle expandEquationPanel={expandEquationPanel}
             onClick={(): void => pushToHistory({expandEquationPanel: !expandEquationPanel})}/>
