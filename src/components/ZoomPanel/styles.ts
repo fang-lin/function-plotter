@@ -1,77 +1,45 @@
 import styled from 'styled-components';
 import zoomInIcon from '../../images/icons/zoom-in.png';
 import zoomOutIcon from '../../images/icons/zoom-out.png';
-
-import x1 from '../../images/x1.png';
-import x1Hover from '../../images/x1-hover.png';
-import x2 from '../../images/x2.png';
-import x2Hover from '../../images/x2-hover.png';
-import x3 from '../../images/x3.png';
-import x3Hover from '../../images/x3-hover.png';
-import x4 from '../../images/x4.png';
-import x4Hover from '../../images/x4-hover.png';
-import x5 from '../../images/x5.png';
-import x5Hover from '../../images/x5-hover.png';
-import x6 from '../../images/x6.png';
-import x6Hover from '../../images/x6-hover.png';
-import x7 from '../../images/x7.png';
-import x7Hover from '../../images/x7-hover.png';
-import x8 from '../../images/x8.png';
-import x8Hover from '../../images/x8-hover.png';
-import x9 from '../../images/x9.png';
-import x9Hover from '../../images/x9-hover.png';
-import x10 from '../../images/x10.png';
-import x10Hover from '../../images/x10-hover.png';
-import x11 from '../../images/x11.png';
-import x11Hover from '../../images/x11-hover.png';
-import x12 from '../../images/x12.png';
-import x12Hover from '../../images/x12-hover.png';
-import x13 from '../../images/x13.png';
-import x13Hover from '../../images/x13-hover.png';
-import x14 from '../../images/x14.png';
-import x14Hover from '../../images/x14-hover.png';
-import x15 from '../../images/x15.png';
-import x15Hover from '../../images/x15-hover.png';
-import x16 from '../../images/x16.png';
-import x16Hover from '../../images/x16-hover.png';
-import x17 from '../../images/x17.png';
-import x17Hover from '../../images/x17-hover.png';
-import x18 from '../../images/x18.png';
-import x18Hover from '../../images/x18-hover.png';
-import x19 from '../../images/x19.png';
-import x19Hover from '../../images/x19-hover.png';
-import x20 from '../../images/x20.png';
-import x20Hover from '../../images/x20-hover.png';
-import x21 from '../../images/x21.png';
-import x21Hover from '../../images/x21-hover.png';
-import x22 from '../../images/x22.png';
-import x22Hover from '../../images/x22-hover.png';
-import x23 from '../../images/x23.png';
-import x23Hover from '../../images/x23-hover.png';
-import x24 from '../../images/x24.png';
-import x24Hover from '../../images/x24-hover.png';
 import {LargeIconButton} from '../Dialog/styles';
+import n1 from '../../images/icons/1.png';
+import n2 from '../../images/icons/2.png';
+import n3 from '../../images/icons/3.png';
+import n4 from '../../images/icons/4.png';
+import n5 from '../../images/icons/5.png';
+import n6 from '../../images/icons/6.png';
+import n7 from '../../images/icons/7.png';
+import n8 from '../../images/icons/8.png';
+import n9 from '../../images/icons/9.png';
+import n10 from '../../images/icons/10.png';
+import n11 from '../../images/icons/11.png';
+import n12 from '../../images/icons/12.png';
+import n13 from '../../images/icons/13.png';
+import n14 from '../../images/icons/14.png';
+import n15 from '../../images/icons/15.png';
+import n16 from '../../images/icons/16.png';
+import n17 from '../../images/icons/17.png';
+import n18 from '../../images/icons/18.png';
+import n19 from '../../images/icons/19.png';
+import n20 from '../../images/icons/20.png';
+import n21 from '../../images/icons/21.png';
+import n22 from '../../images/icons/22.png';
+import n23 from '../../images/icons/23.png';
+import n24 from '../../images/icons/24.png';
 
-const levels = [x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, x11, x12, x13, x14, x15, x16, x17, x18, x19, x20, x21, x22, x23, x24];
-const hovers = [
-    x1Hover, x2Hover, x3Hover, x4Hover,
-    x5Hover, x6Hover, x7Hover, x8Hover,
-    x9Hover, x10Hover, x11Hover, x12Hover,
-    x13Hover, x14Hover, x15Hover, x16Hover,
-    x17Hover, x18Hover, x19Hover, x20Hover,
-    x21Hover, x22Hover, x23Hover, x24Hover
-];
+const levels = [n1, n2, n3, n4, n5, n6, n7, n8, n9, n10, n11, n12, n13, n14, n15, n16, n17, n18, n19, n20, n21, n22, n23, n24];
 
 export const ZoomPanelWrapper = styled.div`
-    position: absolute;
-    bottom: 20px;
-    right: 20px;
-    display: flex;
-    gap: 10px;
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
 `;
 
 export const ZoomInButton = styled(LargeIconButton)`
-    background-image: url(${zoomInIcon});
+  background-image: url(${zoomInIcon});
 `;
 
 export const ZoomOutButton = styled(LargeIconButton)`
@@ -79,5 +47,5 @@ export const ZoomOutButton = styled(LargeIconButton)`
 `;
 
 export const ZoomLevelButton = styled(LargeIconButton)<{ scaleLevel: number }>`
-    background-image: url(${({scaleLevel}): string => levels[scaleLevel - 1]});
+  background-image: url(${({scaleLevel}): string => levels[scaleLevel - 1]});
 `;
