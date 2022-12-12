@@ -78,7 +78,7 @@ export const TitleIcon = styled.img`
   height: 32px;
 `;
 
-const BaseIconButton = styled.button`
+export const BaseIconButton = styled.button`
   font-size: 0;
   line-height: 0;
   padding: 0;
@@ -96,6 +96,21 @@ const BaseIconButton = styled.button`
     transform: scale(1.1);
     filter: brightness(1.1) drop-shadow(0 1px 1px rgba(0, 0, 0, .5));
   }
+`;
+export const BaseIcon = styled.span`
+  font-size: 0;
+  line-height: 0;
+  padding: 0;
+  margin: 0;
+  display: block;
+  cursor: pointer;
+  color: transparent;
+  outline: none;
+  background-color: transparent;
+  background-size: contain;
+  background-repeat: no-repeat;
+  border: medium none;
+  transition: all .1s ease;
 `;
 
 export const BaseButtonIcon = styled.span`

@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import zoomInIcon from '../../images/icons/zoom-in.png';
 import zoomOutIcon from '../../images/icons/zoom-out.png';
-import {LargeIconButton} from '../Dialog/styles';
+import {BaseIcon, LargeIconButton} from '../Dialog/styles';
 import n1 from '../../images/icons/1.png';
 import n2 from '../../images/icons/2.png';
 import n3 from '../../images/icons/3.png';
@@ -46,6 +46,8 @@ export const ZoomOutButton = styled(LargeIconButton)`
   background-image: url(${zoomOutIcon});
 `;
 
-export const ZoomLevelButton = styled(LargeIconButton)<{ scaleLevel: number }>`
+export const ZoomLevelButton = styled(BaseIcon)<{ scaleLevel: number }>`
+  width: 32px;
+  height: 32px;
   background-image: url(${({scaleLevel}): string => levels[scaleLevel - 1]});
 `;
