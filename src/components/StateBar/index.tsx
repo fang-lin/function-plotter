@@ -4,7 +4,7 @@ import {AppTitle, CoordinateLabel, ExpandToggle, AppIcon, StateBarWrapper} from 
 import {version} from '../../../package.json';
 import {ParsedParams, canvasToEquation} from '../../helpers';
 import {Coordinate, Size} from '../../pages/Plotter';
-import titleIcon from '../../images/icon.png';
+import calculusIcon from '../../images/calculus.png';
 
 export interface StateBarProps {
     trackPoint: Coordinate;
@@ -17,7 +17,7 @@ export const StateBar: FunctionComponent<StateBarProps> = (props) => {
     const {trackPoint, size, params: {expandStateBar, origin, scale}, pushToHistory} = props;
     const [x, y] = canvasToEquation(trackPoint, origin, size, scale);
     return <StateBarWrapper {...{expandStateBar}}>
-        <Link to="/"><AppIcon src={titleIcon} alt="icon"/></Link>
+        <Link to="/"><AppIcon src={calculusIcon} alt="icon"/></Link>
         <div>
             <AppTitle><Link to="/">Function Plotter {version}</Link></AppTitle>
             <CoordinateLabel>x: {x.toFixed(4)}, y: {y.toFixed(4)}</CoordinateLabel>

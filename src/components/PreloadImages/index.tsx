@@ -34,7 +34,7 @@ import crosshairIcon from '../../images/crosshair.png';
 import eyesIcon from '../../images/eyes.png';
 import focusPointIcon from '../../images/focus-point.png';
 import forbiddenIcon from '../../images/forbidden.png';
-import iconIcon from '../../images/icon.png';
+import calculusIcon from '../../images/calculus.png';
 import imageIcon from '../../images/image.png';
 import infinityIcon from '../../images/infinity.png';
 import informationIcon from '../../images/information.png';
@@ -86,7 +86,7 @@ export const PreloadImages: FunctionComponent = () => {
         <img src={eyesIcon}/>
         <img src={focusPointIcon}/>
         <img src={forbiddenIcon}/>
-        <img src={iconIcon}/>
+        <img src={calculusIcon}/>
         <img src={imageIcon}/>
         <img src={infinityIcon}/>
         <img src={informationIcon}/>

@@ -21,7 +21,7 @@ import {ArchimedeanSpiral} from './items/ArchimedeanSpiral';
 import {Hypocycloid} from './items/Hypocycloid';
 import {Ellipse} from './items/Ellipse';
 import {Hyperbola} from './items/Hyperbola';
-import titleIcon from '../../images/icon.png';
+import calculusIcon from '../../images/calculus.png';
 
 const enterURL = combinePathToURL(defaultParams);
 
@@ -29,7 +29,7 @@ export class Home extends Component {
     render(): ReactNode {
         return <HomeRoot>
             <HomeHeader>
-                <Title><Link to={enterURL}><TitleIcon src={titleIcon} alt="icon"/>Function Plotter {version}</Link></Title>
+                <Title><Link to={enterURL}><TitleIcon src={calculusIcon} alt="icon"/>Function Plotter {version}</Link></Title>
             </HomeHeader>
             <HomeContainer>
                 <DefaultGlobalStyle/>

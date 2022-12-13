@@ -66,7 +66,7 @@ module.exports = (env, argv) => {
                         url: 'https://www.fanglin.me/'
                     },
                     icons: [{
-                        src: 'images/icon.png',
+                        src: 'images/icons/icon.png',
                         sizes: '512x512',
                         type: 'image/png'
                     }]
