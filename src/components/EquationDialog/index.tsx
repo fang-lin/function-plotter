@@ -2,7 +2,7 @@ import React, {ChangeEvent, FunctionComponent, useEffect, useState} from 'react'
 import {AddButton, ButtonWrapper, EquationTextarea, ErrorLabel, AddButtonIcon} from './styles';
 import {Palette} from '../Palette/palette';
 import {Close, DialogInner, Title, TitleBar, TitleIcon} from '../Dialog/styles';
-import addIcon from '../../images/icons/add.png';
+import axisIcon from '../../images/icons/axis.png';
 import {Dialog, transitionDuration} from '../Dialog';
 import {ParsedParams} from '../../helpers';
 import {equationFactory, formatEquation} from '../../services/Equations';
@@ -69,7 +69,7 @@ export const EquationDialog: FunctionComponent<EquationDialogProps> = (props) =>
 
     return <Dialog {...{isShow: editingEquationIndex > -2}} >
         <TitleBar>
-            <TitleIcon src={addIcon}/>
+            <TitleIcon src={axisIcon}/>
             <Title onClick={addEquation}>Add Equation</Title>
             <Close onClick={close}/>
         </TitleBar>
