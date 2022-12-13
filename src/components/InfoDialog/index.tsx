@@ -3,7 +3,7 @@ import {version} from '../../../package.json';
 import {Info, InfoDialogBackground} from './styles';
 import {ParsedParams} from '../../helpers';
 import {Close, DialogInner, Title, TitleBar, TitleIcon} from '../Dialog/styles';
-import textbookIcon from '../../images/icons/textbook.png';
+import textbookIcon from '../../images/textbook.png';
 import {Dialog} from '../Dialog';
 import {stopPropagation} from '../../pages/Plotter';
 

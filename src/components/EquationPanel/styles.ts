@@ -1,9 +1,9 @@
 import styled from 'styled-components';
-import minimizeIcon from '../../images/icons/minimize.png';
-import maximizeIcon from '../../images/icons/maximize.png';
-import blueprintIcon from '../../images/icons/blueprint.png';
-import addIcon from '../../images/icons/add.png';
-import informationIcon from '../../images/icons/information.png';
+import minimizeIcon from '../../images/minimize.png';
+import maximizeIcon from '../../images/maximize.png';
+import blueprintIcon from '../../images/blueprint.png';
+import addIcon from '../../images/add.png';
+import informationIcon from '../../images/information.png';
 import {BaseButton, BaseButtonIcon, SmallIconButton, TitleBar} from '../Dialog/styles';
 
 const width = 320;

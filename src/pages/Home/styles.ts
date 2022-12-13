@@ -1,6 +1,6 @@
 import styled, {createGlobalStyle} from 'styled-components';
 import {Link as ReactRouterLink} from 'react-router-dom';
-import infinityIcon from '../../images/icons/infinity.png';
+import infinityIcon from '../../images/infinity.png';
 
 const size = {
     mobileS: '320px',

@@ -4,7 +4,7 @@ import {AppTitle, CoordinateLabel, ExpandToggle, AppIcon, StateBarWrapper} from 
 import {version} from '../../../package.json';
 import {ParsedParams, canvasToEquation} from '../../helpers';
 import {Coordinate, Size} from '../../pages/Plotter';
-import titleIcon from '../../images/icons/icon.png';
+import titleIcon from '../../images/icon.png';
 
 export interface StateBarProps {
     trackPoint: Coordinate;

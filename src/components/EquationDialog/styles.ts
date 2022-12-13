@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import checkedIcon from '../../images/icons/checked.png';
+import checkedIcon from '../../images/checked.png';
 import {device} from '../../pages/Home/styles';
 import {BaseButton, BaseButtonIcon} from '../Dialog/styles';
 

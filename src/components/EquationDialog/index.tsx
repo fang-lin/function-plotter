@@ -2,7 +2,7 @@ import React, {ChangeEvent, FunctionComponent, useEffect, useState} from 'react'
 import {AddButton, ButtonWrapper, EquationTextarea, ErrorLabel, AddButtonIcon} from './styles';
 import {Palette} from '../Palette/palette';
 import {Close, DialogInner, Title, TitleBar, TitleIcon} from '../Dialog/styles';
-import axisIcon from '../../images/icons/axis.png';
+import axisIcon from '../../images/axis.png';
 import {Dialog, transitionDuration} from '../Dialog';
 import {ParsedParams} from '../../helpers';
 import {equationFactory, formatEquation} from '../../services/Equations';

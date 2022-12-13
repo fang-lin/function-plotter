@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import minimizeIcon from '../../images/icons/minimize.png';
-import maximizeIcon from '../../images/icons/maximize.png';
+import minimizeIcon from '../../images/minimize.png';
+import maximizeIcon from '../../images/maximize.png';
 import {SmallIconButton} from '../Dialog/styles';
 
 export const StateBarWrapper = styled.div<{

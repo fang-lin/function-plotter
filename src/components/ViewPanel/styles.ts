@@ -1,11 +1,11 @@
 import styled from 'styled-components';
-import targetIcon from '../../images/icons/target.png';
-import penIcon from '../../images/icons/pen.png';
-import markerIcon from '../../images/icons/marker.png';
-import focusPointIcon from '../../images/icons/focus-point.png';
-import crosshairIcon from '../../images/icons/crosshair.png';
-import pixelatedIcon from '../../images/icons/pixelated.png';
-import imageIcon from '../../images/icons/image.png';
+import targetIcon from '../../images/target.png';
+import penIcon from '../../images/pen.png';
+import markerIcon from '../../images/marker.png';
+import focusPointIcon from '../../images/focus-point.png';
+import crosshairIcon from '../../images/crosshair.png';
+import pixelatedIcon from '../../images/pixelated.png';
+import imageIcon from '../../images/image.png';
 import {LargeIconButton} from '../Dialog/styles';
 
 export const ViewPanelWrapper = styled.div`

@@ -11,7 +11,7 @@ import {
 } from './styles';
 import {Size, stopPropagation} from '../../pages/Plotter';
 import {Title, TitleIcon} from '../Dialog/styles';
-import mathsIcon from '../../images/icons/maths.png';
+import mathsIcon from '../../images/maths.png';
 import {ParsedParams} from '../../helpers';
 import {EquationItem} from './EquationItem';
 

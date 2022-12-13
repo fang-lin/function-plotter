@@ -1,5 +1,5 @@
 import styled, {createGlobalStyle} from 'styled-components';
-import compassIcon from '../../images/icons/compass.png';
+import compassIcon from '../../images/compass.png';
 
 export const DrawingWrapper = styled.div<{ redrawing: boolean }>`
   position: absolute;

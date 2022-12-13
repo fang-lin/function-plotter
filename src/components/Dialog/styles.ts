@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import cancelIcon from '../../images/icons/cancel.png';
+import cancelIcon from '../../images/cancel.png';
 import {transitionDuration} from './index';
 import {device} from '../../pages/Home/styles';
 

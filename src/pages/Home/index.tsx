@@ -21,7 +21,7 @@ import {ArchimedeanSpiral} from './items/ArchimedeanSpiral';
 import {Hypocycloid} from './items/Hypocycloid';
 import {Ellipse} from './items/Ellipse';
 import {Hyperbola} from './items/Hyperbola';
-import titleIcon from '../../images/icons/icon.png';
+import titleIcon from '../../images/icon.png';
 
 const enterURL = combinePathToURL(defaultParams);
 

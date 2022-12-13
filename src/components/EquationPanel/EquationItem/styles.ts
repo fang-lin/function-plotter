@@ -1,8 +1,8 @@
 import styled from 'styled-components';
-import forbiddenIcon from '../../../images/icons/forbidden.png';
-import eyesIcon from '../../../images/icons/eyes.png';
-import pencilIcon from '../../../images/icons/pencil.png';
-import cancelIcon from '../../../images/icons/cancel.png';
+import forbiddenIcon from '../../../images/forbidden.png';
+import eyesIcon from '../../../images/eyes.png';
+import pencilIcon from '../../../images/pencil.png';
+import cancelIcon from '../../../images/cancel.png';
 import {SmallIconButton} from '../../Dialog/styles';
 
 export const DisplayEquationIcon = styled.span<{
