@@ -49,7 +49,8 @@ export class Home extends Component {
                 <FooterAnchor href="./">Function Plotter {version}</FooterAnchor> | <FooterAnchor
                     href="https://github.com/fang-lin/function-plotter" target="_blank">GitHub</FooterAnchor> | <FooterAnchor
                     href="https://www.fanglin.me/" target="_blank">Lin Fang in {(new Date()).getFullYear()}</FooterAnchor> | <FooterAnchor
-                    href="https://algorythm.fanglin.me/" target="_blank">algoRYTHM</FooterAnchor>
+                    href="https://algorythm.fanglin.me/" target="_blank">algoRYTHM</FooterAnchor> | <FooterAnchor
+                    href="https://game-of-life.fanglin.me/" target="_blank">Game of Life</FooterAnchor>
             </HomeFooter>
         </HomeRoot>;
     }
