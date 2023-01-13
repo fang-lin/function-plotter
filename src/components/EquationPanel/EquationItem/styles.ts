@@ -20,13 +20,12 @@ export const DisplayEquationIcon = styled.span<{
 export const DisplayEquationButton = styled.button<{
     displayed: boolean;
 }>`
-  margin: -4px 0;
-  padding: 0;
+  margin: 0;
+  padding: 4px 6px;
   cursor: pointer;
   border: medium none;
   outline: none;
   align-self: stretch;
-  width: 36px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -66,7 +65,7 @@ export const EquationItemWrapper = styled.li<{ selected: boolean }>`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 4px 4px 4px 0;
+  padding: 0;
   background-color: ${({selected}): string => selected ? '#ddd' : '#fff'};
 
   :hover ${EditButtonWrapper} {
