@@ -20,10 +20,10 @@ export const RoseCurve: FunctionComponent = () => {
             </Link>
         </Paragraph>
         <Paragraph>
-            <Link to={equationsURL([k2])}>k=2</Link> <Link 
-                to={equationsURL([k3])}>k=3</Link> <Link 
-                to={equationsURL([k8])}>k=8</Link> <Link 
-                to={equationsURL([k16])}>k=16</Link>
+            <Link to={equationsURL([k2])}>k=2;</Link> <Link
+                to={equationsURL([k3])}>k=3;</Link> <Link
+                to={equationsURL([k8])}>k=8;</Link> <Link
+                to={equationsURL([k16])}>k=16;</Link>
         </Paragraph>
         <FooterParagraph>
             <Anchor href="https://en.wikipedia.org/wiki/Rose_(mathematics)" target="_blank" rel="noopener noreferrer">
