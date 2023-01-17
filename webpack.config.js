@@ -69,7 +69,11 @@ module.exports = (env, argv) => {
                         src: 'images/icons/icon.png',
                         sizes: '512x512',
                         type: 'image/png'
-                    }]
+                    }],
+                    start_url: '.',
+                    display: 'standalone',
+                    theme_color: '#333333',
+                    background_color: '#ffffff'
                 },
                 filter: () => false
             })
