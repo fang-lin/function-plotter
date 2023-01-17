@@ -22,6 +22,7 @@ import {Hypocycloid} from './items/Hypocycloid';
 import {Ellipse} from './items/Ellipse';
 import {Hyperbola} from './items/Hyperbola';
 import calculusIcon from '../../images/calculus.png';
+import {Trigonometric} from './items/Trigonometric';
 
 const enterURL = combinePathToURL(defaultParams);
 
@@ -34,6 +35,9 @@ export class Home extends Component {
             <HomeContainer>
                 <DefaultGlobalStyle/>
                 <EquationsList>
+                    <Hyperbola/>
+                    <Ellipse/>
+                    <Trigonometric/>
                     <ButterflyCurve/>
                     <Limacon/>
                     <RoseCurve/>
@@ -41,8 +45,6 @@ export class Home extends Component {
                     <LissajousCurve/>
                     <ArchimedeanSpiral/>
                     <Hypocycloid/>
-                    <Ellipse/>
-                    <Hyperbola/>
                 </EquationsList>
             </HomeContainer>
             <HomeFooter>

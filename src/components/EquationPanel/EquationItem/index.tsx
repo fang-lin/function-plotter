@@ -36,6 +36,7 @@ export const EquationItem: FunctionComponent<EquationPanelProps> = (props) => {
         event.stopPropagation();
         const {expression, color, displayed} = equations[index];
         equations[index] = new FunctionEquation({fn: expression, expression, color, displayed: !displayed});
+        navigator.clipboard.writeText(color);
         pushToHistory({equations});
     };
 

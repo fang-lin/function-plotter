@@ -133,7 +133,7 @@ export const defaultParams: OriginalParams = {
     originX: '0',
     originY: '0',
     equations: '-',
-    toggles: '110011',
+    toggles: screen.width > 1024 ? '110011' : '000011',
 };
 
 export function routerPath(): string {
