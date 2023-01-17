@@ -126,6 +126,12 @@ export function combinePathToURL(params: OriginalParams): string {
     return `${Page.plotter}/${paramsSegments.map(segment => params[segment]).join('/')}`;
 }
 
+function isLargeScreen(): boolean {
+    if (typeof screen !== 'undefined')
+        return screen.width > 1024;
+    return true;
+}
+
 export const defaultParams: OriginalParams = {
     scaleIndex: '12',
     selectedEquationIndex: '-1',
@@ -133,7 +139,7 @@ export const defaultParams: OriginalParams = {
     originX: '0',
     originY: '0',
     equations: '-',
-    toggles: screen.width > 1024 ? '110011' : '000011',
+    toggles: isLargeScreen() ? '110011' : '000011',
 };
 
 export function routerPath(): string {

@@ -36,7 +36,6 @@ export const EquationItem: FunctionComponent<EquationPanelProps> = (props) => {
         event.stopPropagation();
         const {expression, color, displayed} = equations[index];
         equations[index] = new FunctionEquation({fn: expression, expression, color, displayed: !displayed});
-        navigator.clipboard.writeText(color);
         pushToHistory({equations});
     };
 
@@ -57,6 +56,8 @@ export const EquationItem: FunctionComponent<EquationPanelProps> = (props) => {
 
     const selectEquation = (event: SyntheticEvent): void => {
         event.stopPropagation();
+        const {expression, color} = equations[index];
+        (async () => navigator.clipboard.writeText(`${expression} ${color}`))();
         pushToHistory({selectedEquationIndex: selectedEquationIndex === index ? -1 : index});
     };
 

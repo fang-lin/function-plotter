@@ -10,9 +10,10 @@
     "target": "es5",
     "jsx": "react",
     "lib": [
-      "es2018",
+      "dom",
+      "dom.iterable",
       "webworker",
-      "dom"
+      "esnext"
     ]
   },
   "exclude": [
