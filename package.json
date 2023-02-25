@@ -1,6 +1,7 @@
 {
   "name": "function-plotter",
   "version": "4.4.10",
+  "private": true,
   "license": "MIT",
   "scripts": {
     "start": "webpack-dev-server --mode development",
@@ -8,7 +9,9 @@
     "clean": "rm -rf dist",
     "build": "npm run clean && webpack --mode production && cp -R error dist/ && cp -R src/images/icons dist/images/icons",
     "test": "jest",
-    "testWithCoverage": "nyc --reporter=lcov npm run test"
+    "testWithCoverage": "nyc --reporter=lcov npm run test",
+    "prepare": "husky install",
+    "semantic-release": "semantic-release"
   },
   "repository": {
     "type": "git",
@@ -45,10 +48,28 @@
     "webpack-cli": "^3.3.12",
     "webpack-dev-server": "^3.11.3",
     "webpack-manifest-plugin": "^2.2.0",
-    "worker-plugin": "^5.0.0"
+    "worker-plugin": "^5.0.0",
+    "semantic-release": "^20.1.0",
+    "husky": "^8.0.3",
+    "@commitlint/cli": "^17.4.4",
+    "@commitlint/config-conventional": "^17.4.4",
+    "@semantic-release/git": "^10.0.1"
   },
   "engines": {
     "npm": "8.19.2",
     "node": "16.18.1"
+  },
+  "release": {
+    "branches": [
+      "master"
+    ],
+    "plugins": [
+      "@semantic-release/commit-analyzer",
+      "@semantic-release/release-notes-generator",
+      "@semantic-release/npm",
+      "@semantic-release/git",
+      "@semantic-release/github"
+    ],
+    "preset": "conventionalcommits"
   }
 }
