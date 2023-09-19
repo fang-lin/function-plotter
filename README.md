@@ -1,4 +1,4 @@
-# [Function Plotter](https://plotter.fanglin.me/) &middot; [![CircleCI Status](https://circleci.com/gh/fang-lin/function-plotter.svg?style=shield)](https://app.circleci.com/pipelines/github/fang-lin/function-plotter)
+# [Function Plotter](https://plotter.fanglin.me/) &middot; [![Build and Deploy](https://github.com/fang-lin/function-plotter/actions/workflows/build-and-deploy.yml/badge.svg)](https://github.com/fang-lin/function-plotter/actions/workflows/build-and-deploy.yml)
 
 A mathematical function plotter written by typescript.
 
