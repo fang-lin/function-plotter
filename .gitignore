@@ -6,7 +6,7 @@
 .terraform.lock.hcl
 
 node_modules
-dist
+build
 yarn-error.log
 .nyc_output
 coverage/

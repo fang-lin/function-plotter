@@ -12,7 +12,7 @@ module.exports = (env, argv) => {
         },
         output: {
             filename: 'js/[name].[chunkhash:8].js',
-            path: path.resolve(__dirname, 'dist'),
+            path: path.resolve(__dirname, 'build'),
         },
         devtool: 'source-map',
         resolve: {

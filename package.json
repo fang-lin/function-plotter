@@ -6,8 +6,8 @@
   "scripts": {
     "start": "webpack-dev-server --mode development",
     "lint": "eslint src --ext .js,.jsx,.ts,.tsx",
-    "clean": "rm -rf dist",
-    "build": "npm run clean && webpack --mode production && cp -R error dist/ && cp -R src/images/icons dist/images/icons",
+    "clean": "rm -rf build",
+    "build": "npm run clean && webpack --mode production && cp -R error build/ && cp -R src/images/icons build/images/icons",
     "test": "jest",
     "testWithCoverage": "nyc --reporter=lcov npm run test",
     "prepare": "husky install",
