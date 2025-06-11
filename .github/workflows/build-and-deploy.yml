@@ -28,14 +28,14 @@ jobs:
     - name: Setup node
       uses: actions/setup-node@v3
       with:
-        node-version: 18.17.1
+        node-version: 20.18.1
         cache: 'npm'
 
     - run: npm ci
     - run: npm run lint
     - run: npm run semantic-release
       env:
-        GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - run: npm run build
 
     - name: Cache assets
