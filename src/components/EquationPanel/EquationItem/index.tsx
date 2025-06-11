@@ -1,4 +1,4 @@
-import React, {FunctionComponent, SyntheticEvent} from 'react';
+import React, {FunctionComponent, MouseEventHandler, SyntheticEvent} from 'react';
 import {ParsedParams} from '../../../helpers';
 import {FunctionEquation} from '../../../services/FunctionEquation';
 import {Equation} from '../../../services/Equations';
@@ -19,8 +19,12 @@ export interface EquationPanelProps {
     equation: Equation;
 }
 
-const EquationText: FunctionComponent<{ displayed: boolean; expression: string }> = ({displayed, expression}) =>
-    <EquationTextWrapper {...{displayed}}>
+const EquationText: FunctionComponent<{
+    displayed: boolean;
+    expression: string,
+    onDoubleClick: MouseEventHandler
+}> = ({displayed, expression, onDoubleClick}) =>
+    <EquationTextWrapper {...{displayed}} onDoubleClick={onDoubleClick} className="EquationTextWrapper">
         {expression.split(';').map((line, index) => <p key={index}>{line};</p>)}
     </EquationTextWrapper>;
 
@@ -63,16 +67,17 @@ export const EquationItem: FunctionComponent<EquationPanelProps> = (props) => {
 
     const style = index > 0 ? {borderTop: `${color} solid 1px`} : {};
 
-    return <EquationItemWrapper {...{style}} onClick={selectEquation} onDoubleClick={editEquation}
+    return <EquationItemWrapper {...{style}} onClick={selectEquation} className="EquationItemWrapper"
         selected={selectedEquationIndex === index}>
         <DisplayEquationButton {...{displayed, color}} style={{backgroundColor: color}}
+            className="DisplayEquationButton"
             onClick={toggleEquationDisplayed}>
             <DisplayEquationIcon {...{displayed}}/>
         </DisplayEquationButton>
-        <EquationText {...{displayed, expression}}/>
+        <EquationText {...{displayed, expression}} onDoubleClick={editEquation}/>
         <EditButtonWrapper>
-            <EditButton onClick={editEquation}>Edit</EditButton>
-            <RemoveButton onClick={removeEquation}>Remove</RemoveButton>
+            <EditButton onClick={editEquation} className="EditButton">Edit</EditButton>
+            <RemoveButton onClick={removeEquation} className="RemoveButton">Remove</RemoveButton>
         </EditButtonWrapper>
     </EquationItemWrapper>;
 };
