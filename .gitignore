@@ -12,3 +12,4 @@ yarn-error.log
 coverage/
 report.*.json
 .DS_Store
+.vercel

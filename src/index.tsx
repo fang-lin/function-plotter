@@ -1,7 +1,6 @@
-import {render} from 'react-dom';
+import {createRoot} from 'react-dom/client';
 import React from 'react';
-import {Redirect, Route, Router, Switch} from 'react-router';
-import {createHashHistory} from 'history';
+import {HashRouter, Navigate, Route, Routes} from 'react-router-dom';
 import {Plotter} from './pages/Plotter';
 import {combinePathToURL, defaultParams, Page, routerPath} from './helpers';
 import {Home} from './pages/Home';
@@ -9,13 +8,13 @@ import {Home} from './pages/Home';
 const dom = document.getElementById('root');
 
 if (dom) {
-    const history = createHashHistory();
-    render(<Router {...{history}}>
-        <Switch>
-            <Route path={routerPath()} component={Plotter} exact/>
-            <Route path={Page.home} component={Home} exact/>
-            <Redirect from={Page.plotter} to={combinePathToURL(defaultParams)}/>
-            <Redirect to={Page.home}/>
-        </Switch>
-    </Router>, dom);
+    const root = createRoot(dom);
+    root.render(<HashRouter>
+        <Routes>
+            <Route path={routerPath()} element={<Plotter/>}/>
+            <Route path={Page.home} element={<Home/>}/>
+            <Route path={Page.plotter} element={<Navigate to={combinePathToURL(defaultParams)} replace/>}/>
+            <Route path="*" element={<Navigate to={Page.home} replace/>}/>
+        </Routes>
+    </HashRouter>);
 }

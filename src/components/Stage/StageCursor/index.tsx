@@ -1,4 +1,4 @@
-import React, {CSSProperties, Dispatch, FunctionComponent, SetStateAction, useEffect, useRef} from 'react';
+import React, {CSSProperties, FunctionComponent, useEffect, useRef} from 'react';
 import {erasure, withCanvasContext} from '../functions';
 import {CursorCanvas} from './styles';
 import {calculateTrackPoint, redrawCursor, redrawTrackPoint} from './functions';
@@ -8,7 +8,7 @@ import {Coordinate, Size} from '../../../pages/Plotter';
 
 export * from './functions';
 
-interface StageCursorProps {
+export interface StageCursorProps {
     cursor: Coordinate;
     equationWorkerOutput: Map<number, EquationWorkerOutput>;
     size: Size;
@@ -18,7 +18,7 @@ interface StageCursorProps {
     };
     style: CSSProperties;
     params: ParsedParams;
-    setTrackPoint: Dispatch<SetStateAction<Coordinate>>;
+    setTrackPoint: (value: Coordinate) => void;
 }
 
 export const StageCursor: FunctionComponent<StageCursorProps> = (props) => {

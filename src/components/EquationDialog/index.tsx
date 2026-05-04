@@ -53,7 +53,7 @@ export const EquationDialog: FunctionComponent<EquationDialogProps> = (props) =>
                 editingEquationIndex: -2
             });
         } catch (e) {
-            setError(e.message);
+            setError((e as Error).message);
             return;
         }
     };

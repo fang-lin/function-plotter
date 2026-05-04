@@ -1,8 +1,8 @@
-import React, {Component, ReactNode, RefObject} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import debounce from 'lodash/debounce';
+import {useNavigate, useParams} from 'react-router-dom';
 import {AppWrapper, FullScreenGlobalStyle} from './styles';
 import {Coordinate, DragEvent, DragEvents, DragState, getClient, getStageSize, Size} from './functions';
-import {RouteComponentProps} from 'react-router-dom';
 import {PreloadImages} from '../../components/PreloadImages';
 import {InfoDialog} from '../../components/InfoDialog';
 import {EquationPanel} from '../../components/EquationPanel';
@@ -22,140 +22,102 @@ import {
 
 export * from './functions';
 
-interface State {
-    dragState: DragState;
-    size: Size;
-    redrawing: boolean;
-    transform: Coordinate;
-    cursor: Coordinate;
-    trackPoint: Coordinate;
-    client: Coordinate;
-}
+export const Plotter: React.FC = () => {
+    const navigate = useNavigate();
+    const routeParams = useParams() as unknown as OriginalParams;
+    const appRef = useRef<HTMLDivElement>(null);
+    const [dragState, setDragState] = useState<DragState>(DragState.end);
+    const [size, setSize] = useState<Size>([0, 0]);
+    const [redrawing, setRedrawing] = useState(false);
+    const [transform, setTransform] = useState<Coordinate>([0, 0]);
+    const [cursor, setCursor] = useState<Coordinate>([0, 0]);
+    const [trackPoint, setTrackPoint] = useState<Coordinate>([0, 0]);
+    const clientRef = useRef<Coordinate>([0, 0]);
+    const paramsRef = useRef<OriginalParams>(routeParams);
+    paramsRef.current = routeParams;
 
-export class Plotter extends Component<RouteComponentProps<OriginalParams>, State> {
-    private readonly appRef: RefObject<HTMLDivElement>;
+    const params = parseParams(routeParams);
+    const {showCrossCursor} = params;
 
-    constructor(props: RouteComponentProps<OriginalParams>) {
-        super(props);
-        this.appRef = React.createRef();
-        this.state = {
-            dragState: DragState.end,
-            size: [0, 0],
-            redrawing: false,
-            transform: [0, 0],
-            cursor: [0, 0],
-            trackPoint: [0, 0],
-            client: [0, 0]
-        };
-    }
+    const pushToHistory = useCallback((parsedParams: Partial<ParsedParams>): void => {
+        const currentParams = parseParams(paramsRef.current);
+        navigate(combinePathToURL(stringifyParams({...currentParams, ...parsedParams})));
+    }, [navigate]);
 
-    resetSize = (): void => this.setState({
-        size: (getStageSize(this.appRef.current))
-    });
+    const resetSize = useCallback((): void => {
+        setSize(getStageSize(appRef.current));
+    }, []);
 
-    setCursor = (cursor: Coordinate): void => this.setState({cursor});
-    setTrackPoint = (trackPoint: Coordinate): void => this.setState({trackPoint});
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    const onResizing = useCallback(debounce(() => {
+        setSize(getStageSize(appRef.current));
+    }, 200), []);
 
-    setRedrawing = (redrawing: boolean): void => {
-        this.setState({redrawing});
-    };
+    const onMoving = useCallback((event: DragEvent): void => {
+        setCursor(getClient(event));
+    }, []);
 
-    onResizing = debounce(this.resetSize, 200);
-    onMoving = (event: DragEvent): void => this.setCursor(getClient(event));
-
-    onDragStart = (event: DragEvent): void => {
-        this.setState({
-            client: getClient(event),
-            dragState: DragState.start
-        });
-        window.addEventListener(DragEvents[DragState.moving], this.onDragging);
-        window.addEventListener(DragEvents[DragState.end], this.onDragEnd);
-        window.removeEventListener(DragEvents[DragState.moving], this.onMoving);
-    };
-
-    onDragging = (event: DragEvent): void => {
+    const onDragging = useCallback((event: DragEvent): void => {
         const instantaneousClient = getClient(event);
-        const {client} = this.state;
+        const client = clientRef.current;
+        setTransform([instantaneousClient[0] - client[0], instantaneousClient[1] - client[1]]);
+        setDragState(DragState.moving);
+    }, []);
 
-        this.setState({
-            transform: [instantaneousClient[0] - client[0], instantaneousClient[1] - client[1]],
-            dragState: DragState.moving
-        });
-    };
-
-    onDragEnd = (event: DragEvent): void => {
+    const onDragEnd = useCallback((event: DragEvent): void => {
         const instantaneousClient = getClient(event);
-        const {state: {client}, props: {match: {params}}} = this;
-        const {origin, scale} = parseParams(params);
+        const client = clientRef.current;
+        const currentParams = parseParams(paramsRef.current);
+        const {origin, scale} = currentParams;
 
-        this.pushToHistory({
+        navigate(combinePathToURL(stringifyParams({
+            ...currentParams,
             origin: [
                 origin[0] + (instantaneousClient[0] - client[0]) / scale,
                 origin[1] + (instantaneousClient[1] - client[1]) / scale
             ]
-        });
-        this.setState({
-            transform: [0, 0],
-            dragState: DragState.end,
-            client: [0, 0]
-        });
-        window.removeEventListener(DragEvents[DragState.moving], this.onDragging);
-        window.removeEventListener(DragEvents[DragState.end], this.onDragEnd);
-        window.addEventListener(DragEvents[DragState.moving], this.onMoving);
-    };
+        })));
 
-    pushToHistory = (parsedParams: Partial<ParsedParams>): void => {
-        const {history: {push}, match: {params}} = this.props;
-        push(combinePathToURL(stringifyParams({...parseParams(params), ...parsedParams})));
-    };
+        setTransform([0, 0]);
+        setDragState(DragState.end);
+        clientRef.current = [0, 0];
 
-    componentDidMount(): void {
-        this.resetSize();
-        window.addEventListener('resize', this.onResizing);
-        window.addEventListener(DragEvents[DragState.moving], this.onMoving);
-        window.addEventListener(DragEvents[DragState.start], this.onDragStart);
-    }
+        window.removeEventListener(DragEvents[DragState.moving], onDragging as EventListener);
+        window.removeEventListener(DragEvents[DragState.end], onDragEnd as EventListener);
+        window.addEventListener(DragEvents[DragState.moving], onMoving as EventListener);
+    }, [navigate, onDragging, onMoving]);
 
-    componentWillUnmount(): void {
-        window.removeEventListener('resize', this.onResizing);
-        window.removeEventListener(DragEvents[DragState.moving], this.onMoving);
-        window.removeEventListener(DragEvents[DragState.start], this.onDragStart);
-    }
+    const onDragStart = useCallback((event: DragEvent): void => {
+        clientRef.current = getClient(event);
+        setDragState(DragState.start);
+        window.addEventListener(DragEvents[DragState.moving], onDragging as EventListener);
+        window.addEventListener(DragEvents[DragState.end], onDragEnd as EventListener);
+        window.removeEventListener(DragEvents[DragState.moving], onMoving as EventListener);
+    }, [onDragging, onDragEnd, onMoving]);
 
-    render(): ReactNode {
-        try {
-            const {setRedrawing, pushToHistory, setTrackPoint, state: {dragState, size, transform, cursor, redrawing, trackPoint}, props: {match}} = this;
-            const params = parseParams(match.params);
-            const {showCrossCursor} = params;
+    useEffect(() => {
+        resetSize();
+        window.addEventListener('resize', onResizing);
+        window.addEventListener(DragEvents[DragState.moving], onMoving as EventListener);
+        window.addEventListener(DragEvents[DragState.start], onDragStart as EventListener);
 
-            return <AppWrapper {...{dragState, showCrossCursor}} ref={this.appRef}>
-                <FullScreenGlobalStyle/>
-                <PreloadImages/>
-                <Stage {...{cursor, size, transform, setRedrawing, params, setTrackPoint}}/>
-                <Redrawing {...{redrawing}}/>
-                <StateBar {...{params, size, trackPoint, pushToHistory}}/>
-                <EquationPanel {...{
-                    pushToHistory,
-                    params,
-                    size
-                }}/>
-                <ViewPanel {...{
-                    pushToHistory,
-                    params
-                }}/>
-                <ZoomPanel {...{
-                    pushToHistory,
-                    params,
-                }}/>
-                <EquationDialog {...{pushToHistory, params}}/>
-                <InfoDialog {...{pushToHistory, params}}/>
-            </AppWrapper>;
-        } catch (e) {
-            window.location.assign('error.html');
-        }
-    }
-}
+        return () => {
+            window.removeEventListener('resize', onResizing);
+            window.removeEventListener(DragEvents[DragState.moving], onMoving as EventListener);
+            window.removeEventListener(DragEvents[DragState.start], onDragStart as EventListener);
+        };
+    }, [resetSize, onResizing, onMoving, onDragStart]);
 
-
-
-
+    return <AppWrapper {...{dragState, showCrossCursor}} ref={appRef}>
+        <FullScreenGlobalStyle/>
+        <PreloadImages/>
+        <Stage {...{cursor, size, transform, setRedrawing, params, setTrackPoint}}/>
+        <Redrawing {...{redrawing}}/>
+        <StateBar {...{params, size, trackPoint, pushToHistory}}/>
+        <EquationPanel {...{pushToHistory, params, size}}/>
+        <ViewPanel {...{pushToHistory, params}}/>
+        <ZoomPanel {...{pushToHistory, params}}/>
+        <EquationDialog {...{pushToHistory, params}}/>
+        <InfoDialog {...{pushToHistory, params}}/>
+    </AppWrapper>;
+};

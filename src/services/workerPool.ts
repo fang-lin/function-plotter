@@ -22,16 +22,17 @@ export interface EquationWorkerOutput {
 
 interface Task<T> {
     input: WorkerInput;
-    resolve: (value?: T | PromiseLike<T>) => void;
+    resolve: (value: T | PromiseLike<T>) => void;
 }
 
 class CalculateWorker {
     public worker: Worker;
     public isFree: boolean;
-    private callback: (output: unknown) => void;
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    private callback: (output: EquationWorkerOutput) => void = () => {};
 
     constructor() {
-        this.worker = new Worker('./worker.ts', {type: 'module'});
+        this.worker = new Worker(new URL('./worker.ts', import.meta.url), {type: 'module'});
         this.isFree = true;
         this.worker.addEventListener('message', this.message);
     }

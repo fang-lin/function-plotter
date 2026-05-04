@@ -9,12 +9,12 @@ import {drawEquation} from './functions';
 
 export * from './functions';
 
-interface StageEquationProps {
+export interface StageEquationProps {
     cursor: Coordinate;
     equationWorkerOutput: Map<number, EquationWorkerOutput>;
     setEquationWorkerOutput: Dispatch<SetStateAction<Map<number, EquationWorkerOutput>>>;
     size: Size;
-    setRedrawing: Dispatch<SetStateAction<boolean>>;
+    setRedrawing: (value: boolean) => void;
     attributes: {
         width: number;
         height: number;

@@ -1,4 +1,4 @@
-import React, {Dispatch, FunctionComponent, SetStateAction, useState} from 'react';
+import React, {FunctionComponent, useState} from 'react';
 import {StageWrapper} from './styles';
 import {StageBackground} from './StageBackground';
 import {StageEquation} from './StageEquations';
@@ -14,8 +14,8 @@ interface StageProps {
     cursor: Coordinate;
     size: Size;
     transform: Coordinate;
-    setRedrawing: Dispatch<SetStateAction<boolean>>;
-    setTrackPoint: Dispatch<SetStateAction<Coordinate>>;
+    setRedrawing: (value: boolean) => void;
+    setTrackPoint: (value: Coordinate) => void;
     params: ParsedParams;
 }
 
