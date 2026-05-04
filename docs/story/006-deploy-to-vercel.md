@@ -1,6 +1,6 @@
 # Story-006: Deploy to Vercel and remove AWS infra
 
-- **Status:** in-progress
+- **Status:** done
 - **Epic:** [Epic-001](../epic/001-modernize-stack.md)
 - **Created:** 2026-05-04
 
@@ -10,14 +10,14 @@
 
 ## Acceptance Criteria
 
-- [ ] Vercel 项目创建并连接 GitHub repo
-- [ ] `plotter.fanglin.me` 在 Vercel 上正常解析
-- [ ] HTTPS 正常工作
-- [ ] GitHub Actions workflow 简化为仅跑 lint + test
-- [ ] 删除 `terraform/` 目录
-- [ ] 删除 Dockerfile（Vercel 不需要）
-- [ ] 删除 `error/` 目录（Vercel 有自带错误页面）
-- [ ] 更新 package.json 移除 AWS 相关脚本
+- [x] Vercel 项目创建并连接 GitHub repo
+- [x] `plotter.fanglin.me` 在 Vercel 上正常解析
+- [x] HTTPS 正常工作
+- [x] GitHub Actions workflow: lint + test + Vercel deploy + semantic-release
+- [x] 删除 `terraform/` 目录
+- [x] 删除 Dockerfile（Vercel 不需要）
+- [x] 删除 `error/` 目录（Vercel 有自带错误页面）
+- [x] 更新 package.json 移除 AWS 相关脚本
 
 ## Notes
 

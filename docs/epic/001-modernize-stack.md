@@ -1,6 +1,6 @@
 # Epic-001: Modernize Tech Stack
 
-- **Status:** in-progress
+- **Status:** done
 - **Created:** 2026-05-04
 
 ## Goal
@@ -37,7 +37,7 @@
 | 003 | [Upgrade React Router 5 → 7](../story/003-upgrade-react-router.md) | done |
 | 004 | [Replace PNG icons with SVG](../story/004-png-to-svg.md) | blocked |
 | 005 | [Add unit tests for core calculation services](../story/005-add-unit-tests.md) | done |
-| 006 | [Deploy to Vercel and remove AWS infra](../story/006-deploy-to-vercel.md) | in-progress |
+| 006 | [Deploy to Vercel and remove AWS infra](../story/006-deploy-to-vercel.md) | done |
 
 ## Risks & Dependencies
 
