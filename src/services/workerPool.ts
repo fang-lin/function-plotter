@@ -46,6 +46,7 @@ class CalculateWorker {
     }
 
     terminate(): void {
+        this.worker.removeEventListener('message', this.message);
         this.worker.terminate();
     }
 

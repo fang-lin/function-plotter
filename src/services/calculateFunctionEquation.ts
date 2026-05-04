@@ -66,7 +66,7 @@ function createMapping(sortedCoordinates: Coordinate[], length: number): number[
             mapping[i] = value;
         }
     });
-    for (let i = lastDiscontinuity[1] + 1; mapping[i] === 0; i++) {
+    for (let i = lastDiscontinuity[1] + 1; i < length && mapping[i] === 0; i++) {
         mapping[i] = lastDiscontinuity[0];
     }
     return mapping;

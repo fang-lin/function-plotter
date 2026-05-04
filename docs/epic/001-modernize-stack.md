@@ -40,6 +40,8 @@
 | 004 | [Replace PNG icons with SVG](../story/004-png-to-svg.md)                       | blocked |
 | 005 | [Add unit tests for core calculation services](../story/005-add-unit-tests.md) | done    |
 | 006 | [Deploy to Vercel and remove AWS infra](../story/006-deploy-to-vercel.md)      | done    |
+| 007 | [Friendly 404 page](../story/007-friendly-404-page.md)                         | done    |
+| 008 | [Code review fixes](../story/008-code-review-fixes.md)                         | done    |
 
 ## Risks & Dependencies
 

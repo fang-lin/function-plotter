@@ -76,7 +76,13 @@ export const EquationItem: FunctionComponent<EquationPanelProps> = props => {
     const selectEquation = (event: SyntheticEvent): void => {
         event.stopPropagation();
         const {expression, color} = equations[index];
-        (async () => navigator.clipboard.writeText(`${expression} ${color}`))();
+        (async () => {
+            try {
+                await navigator.clipboard.writeText(`${expression} ${color}`);
+            } catch {
+                // clipboard access may be denied
+            }
+        })();
         pushToHistory({selectedEquationIndex: selectedEquationIndex === index ? -1 : index});
     };
 

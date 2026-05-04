@@ -9,7 +9,7 @@ export const drawEquation = (
 ): void => {
     context.fillStyle = color;
     if (isBold) {
-        coordinates.map(([x, y]) => {
+        coordinates.forEach(([x, y]) => {
             context.fillRect(
                 x * deviceRatio - deviceRatio,
                 y * deviceRatio - deviceRatio,
@@ -18,7 +18,7 @@ export const drawEquation = (
             );
         });
     } else {
-        coordinates.map(([x, y]) => {
+        coordinates.forEach(([x, y]) => {
             context.fillRect(
                 (x - 0.5) * deviceRatio,
                 (y - 0.5) * deviceRatio,

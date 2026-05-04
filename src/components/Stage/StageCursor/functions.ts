@@ -59,6 +59,11 @@ export function calculateTrackPoint(
             result.push(coordinates[i]);
         }
     }
-    const trackPoint = result.sort((a, b) => distance(a, cursor) - distance(b, cursor))[0];
+    const trackPoint =
+        result.length > 0
+            ? result.reduce((closest, point) =>
+                  distance(point, cursor) < distance(closest, cursor) ? point : closest
+              )
+            : undefined;
     return trackPoint || null;
 }

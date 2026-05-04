@@ -23,13 +23,19 @@ export const Dialog: FunctionComponent<PropsWithChildren<DialogProps>> = props =
     const [appearance, setAppearance] = useState<boolean>(false);
 
     useEffect(() => {
+        let timeoutId: ReturnType<typeof setTimeout> | undefined;
         if (isShow) {
             setAccessibility(true);
             requestAnimationFrame(() => setAppearance(true));
         } else {
             setAppearance(false);
-            setTimeout(() => setAccessibility(false), transitionDuration);
+            timeoutId = setTimeout(() => setAccessibility(false), transitionDuration);
         }
+        return () => {
+            if (timeoutId !== undefined) {
+                clearTimeout(timeoutId);
+            }
+        };
     }, [isShow]);
 
     return accessibility ? (

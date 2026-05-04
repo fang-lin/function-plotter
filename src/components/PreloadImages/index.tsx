@@ -53,55 +53,55 @@ import zoomOutIcon from '../../images/zoom-out.png';
 export const PreloadImages: FunctionComponent = () => {
     return (
         <PreloadImagesWrapper>
-            <img src={n1Icon} />
-            <img src={n10Icon} />
-            <img src={n11Icon} />
-            <img src={n12Icon} />
-            <img src={n13Icon} />
-            <img src={n14Icon} />
-            <img src={n15Icon} />
-            <img src={n16Icon} />
-            <img src={n17Icon} />
-            <img src={n18Icon} />
-            <img src={n19Icon} />
-            <img src={n2Icon} />
-            <img src={n20Icon} />
-            <img src={n21Icon} />
-            <img src={n22Icon} />
-            <img src={n23Icon} />
-            <img src={n24Icon} />
-            <img src={n3Icon} />
-            <img src={n4Icon} />
-            <img src={n5Icon} />
-            <img src={n6Icon} />
-            <img src={n7Icon} />
-            <img src={n8Icon} />
-            <img src={n9Icon} />
-            <img src={addIcon} />
-            <img src={axisIcon} />
-            <img src={blueprintIcon} />
-            <img src={cancelIcon} />
-            <img src={checkedIcon} />
-            <img src={compassIcon} />
-            <img src={crosshairIcon} />
-            <img src={eyesIcon} />
-            <img src={focusPointIcon} />
-            <img src={forbiddenIcon} />
-            <img src={calculusIcon} />
-            <img src={imageIcon} />
-            <img src={infinityIcon} />
-            <img src={informationIcon} />
-            <img src={markerIcon} />
-            <img src={mathsIcon} />
-            <img src={maximizeIcon} />
-            <img src={minimizeIcon} />
-            <img src={penIcon} />
-            <img src={pencilIcon} />
-            <img src={pixelatedIcon} />
-            <img src={targetIcon} />
-            <img src={textbookIcon} />
-            <img src={zoomInIcon} />
-            <img src={zoomOutIcon} />
+            <img alt="" src={n1Icon} />
+            <img alt="" src={n10Icon} />
+            <img alt="" src={n11Icon} />
+            <img alt="" src={n12Icon} />
+            <img alt="" src={n13Icon} />
+            <img alt="" src={n14Icon} />
+            <img alt="" src={n15Icon} />
+            <img alt="" src={n16Icon} />
+            <img alt="" src={n17Icon} />
+            <img alt="" src={n18Icon} />
+            <img alt="" src={n19Icon} />
+            <img alt="" src={n2Icon} />
+            <img alt="" src={n20Icon} />
+            <img alt="" src={n21Icon} />
+            <img alt="" src={n22Icon} />
+            <img alt="" src={n23Icon} />
+            <img alt="" src={n24Icon} />
+            <img alt="" src={n3Icon} />
+            <img alt="" src={n4Icon} />
+            <img alt="" src={n5Icon} />
+            <img alt="" src={n6Icon} />
+            <img alt="" src={n7Icon} />
+            <img alt="" src={n8Icon} />
+            <img alt="" src={n9Icon} />
+            <img alt="" src={addIcon} />
+            <img alt="" src={axisIcon} />
+            <img alt="" src={blueprintIcon} />
+            <img alt="" src={cancelIcon} />
+            <img alt="" src={checkedIcon} />
+            <img alt="" src={compassIcon} />
+            <img alt="" src={crosshairIcon} />
+            <img alt="" src={eyesIcon} />
+            <img alt="" src={focusPointIcon} />
+            <img alt="" src={forbiddenIcon} />
+            <img alt="" src={calculusIcon} />
+            <img alt="" src={imageIcon} />
+            <img alt="" src={infinityIcon} />
+            <img alt="" src={informationIcon} />
+            <img alt="" src={markerIcon} />
+            <img alt="" src={mathsIcon} />
+            <img alt="" src={maximizeIcon} />
+            <img alt="" src={minimizeIcon} />
+            <img alt="" src={penIcon} />
+            <img alt="" src={pencilIcon} />
+            <img alt="" src={pixelatedIcon} />
+            <img alt="" src={targetIcon} />
+            <img alt="" src={textbookIcon} />
+            <img alt="" src={zoomInIcon} />
+            <img alt="" src={zoomOutIcon} />
         </PreloadImagesWrapper>
     );
 };

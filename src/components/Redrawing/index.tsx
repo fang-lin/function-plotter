@@ -26,13 +26,10 @@ export const Redrawing: FunctionComponent<DrawingProps> = ({redrawing}) => {
     const [frameIndex, setFrameIndex] = useState(0);
     useEffect(() => {
         if (redrawing) {
-            setTimeout(() => {
-                if (frameIndex === frames.length) {
-                    setFrameIndex(0);
-                } else {
-                    setFrameIndex(frameIndex + 1);
-                }
+            const timeoutId = setTimeout(() => {
+                setFrameIndex(prev => (prev === frames.length ? 0 : prev + 1));
             }, 80);
+            return () => clearTimeout(timeoutId);
         }
     }, [redrawing, frameIndex]);
     return (

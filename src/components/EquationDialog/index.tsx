@@ -21,8 +21,9 @@ export const EquationDialog: FunctionComponent<EquationDialogProps> = props => {
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
+        let timeoutId: ReturnType<typeof setTimeout> | undefined;
         if (editingEquationIndex < -1) {
-            setTimeout(() => {
+            timeoutId = setTimeout(() => {
                 setExpression('');
                 setColor(randomColor());
                 setError(null);
@@ -36,6 +37,11 @@ export const EquationDialog: FunctionComponent<EquationDialogProps> = props => {
                 setError(null);
             }
         }
+        return () => {
+            if (timeoutId !== undefined) {
+                clearTimeout(timeoutId);
+            }
+        };
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [editingEquationIndex]);
 

@@ -33,16 +33,16 @@ npm run dev
 
 ## Scripts
 
-| Command | Description |
-|---------|-------------|
-| `npm run dev` | Start dev server |
-| `npm run build` | Type-check and build for production |
-| `npm run preview` | Preview production build locally |
-| `npm run lint` | Run ESLint |
-| `npm run prettier` | Format code with Prettier |
-| `npm run prettier:check` | Check code formatting |
-| `npm test` | Run unit tests |
-| `npm run test:watch` | Run tests in watch mode |
+| Command                  | Description                         |
+| ------------------------ | ----------------------------------- |
+| `npm run dev`            | Start dev server                    |
+| `npm run build`          | Type-check and build for production |
+| `npm run preview`        | Preview production build locally    |
+| `npm run lint`           | Run ESLint                          |
+| `npm run prettier`       | Format code with Prettier           |
+| `npm run prettier:check` | Check code formatting               |
+| `npm test`               | Run unit tests                      |
+| `npm run test:watch`     | Run tests in watch mode             |
 
 ## CI/CD
 

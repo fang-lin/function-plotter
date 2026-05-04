@@ -38,36 +38,41 @@ export const StageEquation: FunctionComponent<StageEquationProps> = props => {
         if (size[0] > 0 && size[1] > 0) {
             workerPool.terminate();
             (async (): Promise<void> => {
-                setRedrawing(true);
-                await Promise.all(
-                    equations.map((equation, index) => {
-                        const canvas = document.querySelector<HTMLCanvasElement>(
-                            `#equation-${index}`
-                        );
-                        return withCanvasContext(canvas, async context => {
-                            erasure(context, size);
-                            if (equation.displayed) {
-                                const {mapping, coordinates} =
-                                    await workerPool.exec<EquationWorkerInput>({
-                                        type: 'Equation',
-                                        equation,
-                                        origin,
-                                        size,
-                                        scale,
-                                        isSmooth,
-                                        deviceRatio,
-                                    });
-                                setEquationWorkerOutput(
-                                    equationWorkerOutput.set(index, {mapping, coordinates})
-                                );
+                try {
+                    setRedrawing(true);
+                    await Promise.all(
+                        equations.map((equation, index) => {
+                            const canvas = document.querySelector<HTMLCanvasElement>(
+                                `#equation-${index}`
+                            );
+                            return withCanvasContext(canvas, async context => {
                                 erasure(context, size);
-                                drawEquation(context, coordinates, isBold, equation.color);
-                                return;
-                            }
-                        });
-                    })
-                );
-                setRedrawing(false);
+                                if (equation.displayed) {
+                                    const {mapping, coordinates} =
+                                        await workerPool.exec<EquationWorkerInput>({
+                                            type: 'Equation',
+                                            equation,
+                                            origin,
+                                            size,
+                                            scale,
+                                            isSmooth,
+                                            deviceRatio,
+                                        });
+                                    setEquationWorkerOutput(
+                                        equationWorkerOutput.set(index, {mapping, coordinates})
+                                    );
+                                    erasure(context, size);
+                                    drawEquation(context, coordinates, isBold, equation.color);
+                                    return;
+                                }
+                            });
+                        })
+                    );
+                } catch {
+                    // calculation may fail if worker pool is terminated
+                } finally {
+                    setRedrawing(false);
+                }
             })();
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
