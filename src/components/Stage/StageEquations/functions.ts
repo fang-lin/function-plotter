@@ -1,7 +1,12 @@
 import {Coordinate} from '../../../pages/Plotter';
 import deviceRatio from '../../../helpers/deviceRatio';
 
-export const drawEquation = (context: CanvasRenderingContext2D, coordinates: Coordinate[], isBold: boolean, color: string): void => {
+export const drawEquation = (
+    context: CanvasRenderingContext2D,
+    coordinates: Coordinate[],
+    isBold: boolean,
+    color: string
+): void => {
     context.fillStyle = color;
     if (isBold) {
         coordinates.map(([x, y]) => {
@@ -14,7 +19,12 @@ export const drawEquation = (context: CanvasRenderingContext2D, coordinates: Coo
         });
     } else {
         coordinates.map(([x, y]) => {
-            context.fillRect((x - .5) * deviceRatio, (y - .5) * deviceRatio, deviceRatio, deviceRatio);
+            context.fillRect(
+                (x - 0.5) * deviceRatio,
+                (y - 0.5) * deviceRatio,
+                deviceRatio,
+                deviceRatio
+            );
         });
     }
     context.stroke();

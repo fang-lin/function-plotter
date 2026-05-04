@@ -19,14 +19,16 @@ interface StageProps {
     params: ParsedParams;
 }
 
-export const Stage: FunctionComponent<StageProps> = (props) => {
+export const Stage: FunctionComponent<StageProps> = props => {
     const {cursor, size, transform, setRedrawing, params, setTrackPoint} = props;
 
-    const [equationWorkerOutput, setEquationWorkerOutput] = useState<Map<number, EquationWorkerOutput>>(new Map());
+    const [equationWorkerOutput, setEquationWorkerOutput] = useState<
+        Map<number, EquationWorkerOutput>
+    >(new Map());
 
     const attributes = {
         width: size[0] * deviceRatio,
-        height: size[1] * deviceRatio
+        height: size[1] * deviceRatio,
     };
 
     const style = {
@@ -34,18 +36,24 @@ export const Stage: FunctionComponent<StageProps> = (props) => {
         height: `${size[1]}px`,
     };
 
-    return <StageWrapper style={{transform: `translate(${transform[0]}px, ${transform[1]}px)`}}>
-        <StageBackground {...{size, params, attributes, style}}/>
-        <StageEquation {...{
-            size,
-            cursor,
-            params,
-            attributes,
-            style,
-            setRedrawing,
-            equationWorkerOutput,
-            setEquationWorkerOutput
-        }}/>
-        <StageCursor {...{size, cursor, params, attributes, style, equationWorkerOutput, setTrackPoint}}/>
-    </StageWrapper>;
+    return (
+        <StageWrapper style={{transform: `translate(${transform[0]}px, ${transform[1]}px)`}}>
+            <StageBackground {...{size, params, attributes, style}} />
+            <StageEquation
+                {...{
+                    size,
+                    cursor,
+                    params,
+                    attributes,
+                    style,
+                    setRedrawing,
+                    equationWorkerOutput,
+                    setEquationWorkerOutput,
+                }}
+            />
+            <StageCursor
+                {...{size, cursor, params, attributes, style, equationWorkerOutput, setTrackPoint}}
+            />
+        </StageWrapper>
+    );
 };

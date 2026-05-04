@@ -21,8 +21,16 @@ export interface StageCursorProps {
     setTrackPoint: (value: Coordinate) => void;
 }
 
-export const StageCursor: FunctionComponent<StageCursorProps> = (props) => {
-    const {cursor, size, params: {showCrossCursor, selectedEquationIndex, equations, isBold}, attributes, style, equationWorkerOutput, setTrackPoint} = props;
+export const StageCursor: FunctionComponent<StageCursorProps> = props => {
+    const {
+        cursor,
+        size,
+        params: {showCrossCursor, selectedEquationIndex, equations, isBold},
+        attributes,
+        style,
+        equationWorkerOutput,
+        setTrackPoint,
+    } = props;
     const crossRef = useRef<HTMLCanvasElement>(null);
 
     useEffect(() => {
@@ -49,9 +57,21 @@ export const StageCursor: FunctionComponent<StageCursorProps> = (props) => {
             setTrackPoint(cursor);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [cursor[0], cursor[1], size[0], size[1], showCrossCursor, selectedEquationIndex, isBold, equations.serialization().join()]);
+    }, [
+        cursor[0],
+        cursor[1],
+        size[0],
+        size[1],
+        showCrossCursor,
+        selectedEquationIndex,
+        isBold,
+        equations.serialization().join(),
+    ]);
 
-    useEffect(() => withCanvasContext(crossRef.current, context => erasure(context, size)), [size, showCrossCursor]);
+    useEffect(
+        () => withCanvasContext(crossRef.current, context => erasure(context, size)),
+        [size, showCrossCursor]
+    );
 
-    return <CursorCanvas ref={crossRef} {...attributes} {...{style}}/>;
+    return <CursorCanvas ref={crossRef} {...attributes} {...{style}} />;
 };

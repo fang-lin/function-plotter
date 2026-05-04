@@ -19,7 +19,7 @@ const frames = [
     'DRAWING._',
     'DRAWING.._',
     'DRAWING..._',
-    'DRAWING...'
+    'DRAWING...',
 ];
 
 export const Redrawing: FunctionComponent<DrawingProps> = ({redrawing}) => {
@@ -35,11 +35,13 @@ export const Redrawing: FunctionComponent<DrawingProps> = ({redrawing}) => {
             }, 80);
         }
     }, [redrawing, frameIndex]);
-    return <DrawingWrapper redrawing={redrawing}>
-        <DrawingBackground>
-            <KeyframesStyle/>
-            <DrawingIcon/>
-            <Text>{frames[frameIndex]}</Text>
-        </DrawingBackground>
-    </DrawingWrapper>;
+    return (
+        <DrawingWrapper redrawing={redrawing}>
+            <DrawingBackground>
+                <KeyframesStyle />
+                <DrawingIcon />
+                <Text>{frames[frameIndex]}</Text>
+            </DrawingBackground>
+        </DrawingWrapper>
+    );
 };

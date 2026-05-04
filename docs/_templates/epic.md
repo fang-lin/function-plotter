@@ -15,16 +15,18 @@ Why are we doing this?
 ## Scope
 
 ### In Scope
+
 -
 
 ### Out of Scope
+
 -
 
 ## Stories
 
-| # | Story | Status |
-|---|-------|--------|
-| 001 | | todo |
+| #   | Story | Status |
+| --- | ----- | ------ |
+| 001 |       | todo   |
 
 ## Risks & Dependencies
 

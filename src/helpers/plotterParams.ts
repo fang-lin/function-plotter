@@ -4,7 +4,15 @@ import range from 'lodash/range';
 import {Coordinate} from '../pages/Plotter';
 import {Equations} from '../services/Equations';
 
-const paramsSegments: Array<keyof OriginalParams> = ['scaleIndex', 'originX', 'originY', 'toggles', 'selectedEquationIndex', 'editingEquationIndex', 'equations'];
+const paramsSegments: Array<keyof OriginalParams> = [
+    'scaleIndex',
+    'originX',
+    'originY',
+    'toggles',
+    'selectedEquationIndex',
+    'editingEquationIndex',
+    'equations',
+];
 
 export function parseToggle(toggle: string): boolean {
     return toggle === '1';
@@ -36,7 +44,7 @@ export type OriginalParams = {
     originY: string;
     equations: string;
     toggles: string;
-}
+};
 
 export const scaleRange: number[] = range(2, 26).map(scale => 1.4142135623730951 ** scale);
 
@@ -57,7 +65,7 @@ export function parseParams(params: OriginalParams): ParsedParams {
         originX,
         originY,
         equations,
-        toggles
+        toggles,
     } = params;
 
     const [
@@ -66,7 +74,7 @@ export function parseParams(params: OriginalParams): ParsedParams {
         displayInfoDialog,
         showCrossCursor,
         isSmooth,
-        isBold
+        isBold,
     ] = toggles.split('');
 
     return {
@@ -80,7 +88,7 @@ export function parseParams(params: OriginalParams): ParsedParams {
         expandStateBar: parseToggle(expandStateBar),
         displayInfoDialog: parseToggle(displayInfoDialog),
         selectedEquationIndex: parseInt(selectedEquationIndex),
-        editingEquationIndex: parseInt(editingEquationIndex)
+        editingEquationIndex: parseInt(editingEquationIndex),
     };
 }
 
@@ -96,7 +104,7 @@ export function stringifyParams(params: ParsedParams): OriginalParams {
         displayInfoDialog,
         equations,
         selectedEquationIndex,
-        editingEquationIndex
+        editingEquationIndex,
     } = params;
 
     return {
@@ -112,8 +120,10 @@ export function stringifyParams(params: ParsedParams): OriginalParams {
             displayInfoDialog,
             showCrossCursor,
             isSmooth,
-            isBold
-        ].map(stringifyToggle).join('')
+            isBold,
+        ]
+            .map(stringifyToggle)
+            .join(''),
     };
 }
 
@@ -127,8 +137,7 @@ export function combinePathToURL(params: OriginalParams): string {
 }
 
 function isLargeScreen(): boolean {
-    if (typeof screen !== 'undefined')
-        return screen.width > 1024;
+    if (typeof screen !== 'undefined') return screen.width > 1024;
     return true;
 }
 

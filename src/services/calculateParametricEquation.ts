@@ -10,18 +10,32 @@ interface ParametricEquationWorkerInput extends EquationWorkerInput {
     equation: ParametricEquation;
 }
 
-function distributePoint(result: CoordinateWithParametric[], next: CoordinateWithParametric[], lastPoint: CoordinateWithParametric, currentPoint: CoordinateWithParametric, unit: number, input: ParametricEquationWorkerInput): void {
+function distributePoint(
+    result: CoordinateWithParametric[],
+    next: CoordinateWithParametric[],
+    lastPoint: CoordinateWithParametric,
+    currentPoint: CoordinateWithParametric,
+    unit: number,
+    input: ParametricEquationWorkerInput
+): void {
     const {origin, size, scale, isSmooth} = input;
-    const z = ((currentPoint[0] - lastPoint[0]) ** 2 + (currentPoint[1] - lastPoint[1]) ** 2) ** .5;
+    const z =
+        ((currentPoint[0] - lastPoint[0]) ** 2 + (currentPoint[1] - lastPoint[1]) ** 2) ** 0.5;
     if (z < unit) {
         const [x, y] = equationToCanvas([lastPoint[0], lastPoint[1]], origin, size, scale);
-        result.push(isSmooth ? [x, y, lastPoint[2]] : [Math.round(x) + .5, Math.round(y) + .5, lastPoint[2]]);
+        result.push(
+            isSmooth
+                ? [x, y, lastPoint[2]]
+                : [Math.round(x) + 0.5, Math.round(y) + 0.5, lastPoint[2]]
+        );
     } else {
         next.push(lastPoint);
     }
 }
 
-export function calculateParametricEquation(input: ParametricEquationWorkerInput): EquationWorkerOutput {
+export function calculateParametricEquation(
+    input: ParametricEquationWorkerInput
+): EquationWorkerOutput {
     const {scale, equation} = input;
     const {fx, fy, domain} = equation;
     const fnx = parse(fx).compile();
@@ -50,12 +64,17 @@ export function calculateParametricEquation(input: ParametricEquationWorkerInput
         } else {
             const nextNextCoordinates: CoordinateWithParametric[] = [];
             nextCoordinates.forEach(last => {
-                const current: CoordinateWithParametric = [fnx.evaluate({t: last[2] + dt}), fny.evaluate({t: last[2] + dt}), last[2] + dt];
+                const current: CoordinateWithParametric = [
+                    fnx.evaluate({t: last[2] + dt}),
+                    fny.evaluate({t: last[2] + dt}),
+                    last[2] + dt,
+                ];
                 distributePoint(resultCoordinates, nextNextCoordinates, last, current, unit, input);
-                const z = (
-                    (fnx.evaluate({t: current[2]}) - fnx.evaluate({t: current[2] + dt})) ** 2 +
-                    (fny.evaluate({t: current[2]}) - fny.evaluate({t: current[2] + dt})) ** 2
-                ) ** .5;
+                const z =
+                    ((fnx.evaluate({t: current[2]}) - fnx.evaluate({t: current[2] + dt})) ** 2 +
+                        (fny.evaluate({t: current[2]}) - fny.evaluate({t: current[2] + dt})) **
+                            2) **
+                    0.5;
                 if (z > unit) {
                     nextNextCoordinates.push(current);
                 }
@@ -67,6 +86,8 @@ export function calculateParametricEquation(input: ParametricEquationWorkerInput
         }
         level++;
     }
-    const coordinates = resultCoordinates.sort((a, b) => a[0] - b[0]).map<Coordinate>(([x, y]) => [x, y]);
+    const coordinates = resultCoordinates
+        .sort((a, b) => a[0] - b[0])
+        .map<Coordinate>(([x, y]) => [x, y]);
     return {mapping: [], coordinates};
 }

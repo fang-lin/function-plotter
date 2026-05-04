@@ -13,7 +13,7 @@ interface EquationDialogProps {
     params: ParsedParams;
 }
 
-export const EquationDialog: FunctionComponent<EquationDialogProps> = (props) => {
+export const EquationDialog: FunctionComponent<EquationDialogProps> = props => {
     const {params, pushToHistory} = props;
     const {editingEquationIndex, equations} = params;
     const [expression, setExpression] = useState<string>('');
@@ -43,14 +43,18 @@ export const EquationDialog: FunctionComponent<EquationDialogProps> = (props) =>
         try {
             const equation = equations[editingEquationIndex];
             if (equation) {
-                equations[editingEquationIndex] = equationFactory(expression, color, equation.displayed);
+                equations[editingEquationIndex] = equationFactory(
+                    expression,
+                    color,
+                    equation.displayed
+                );
             } else {
                 equations.push(equationFactory(expression, color, true));
             }
 
             pushToHistory({
                 equations,
-                editingEquationIndex: -2
+                editingEquationIndex: -2,
             });
         } catch (e) {
             setError((e as Error).message);
@@ -67,20 +71,28 @@ export const EquationDialog: FunctionComponent<EquationDialogProps> = (props) =>
         pushToHistory({editingEquationIndex: -2});
     };
 
-    return <Dialog {...{isShow: editingEquationIndex > -2}} >
-        <TitleBar>
-            <TitleIcon src={axisIcon}/>
-            <Title onClick={addEquation}>Add Equation</Title>
-            <Close onClick={close}/>
-        </TitleBar>
-        <DialogInner>
-            <EquationTextarea style={{color, borderColor: color}} value={expression}
-                onChange={changeEquation}/>
-            <Palette {...{color, setColor}}/>
-            <ButtonWrapper>
-                <ErrorLabel style={{color}}>{error && `Error: ${error}`}</ErrorLabel>
-                <AddButton onClick={addEquation}><AddButtonIcon/>Add</AddButton>
-            </ButtonWrapper>
-        </DialogInner>
-    </Dialog>;
+    return (
+        <Dialog {...{isShow: editingEquationIndex > -2}}>
+            <TitleBar>
+                <TitleIcon src={axisIcon} />
+                <Title onClick={addEquation}>Add Equation</Title>
+                <Close onClick={close} />
+            </TitleBar>
+            <DialogInner>
+                <EquationTextarea
+                    style={{color, borderColor: color}}
+                    value={expression}
+                    onChange={changeEquation}
+                />
+                <Palette {...{color, setColor}} />
+                <ButtonWrapper>
+                    <ErrorLabel style={{color}}>{error && `Error: ${error}`}</ErrorLabel>
+                    <AddButton onClick={addEquation}>
+                        <AddButtonIcon />
+                        Add
+                    </AddButton>
+                </ButtonWrapper>
+            </DialogInner>
+        </Dialog>
+    );
 };

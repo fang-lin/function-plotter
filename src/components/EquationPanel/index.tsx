@@ -1,6 +1,8 @@
 import React, {FunctionComponent, SyntheticEvent} from 'react';
 import {
-    AddButton, AddNewButton, AddNewButtonIcon,
+    AddButton,
+    AddNewButton,
+    AddNewButtonIcon,
     ButtonWrapper,
     EquationPanelInner,
     EquationPanelTitleBar,
@@ -21,11 +23,8 @@ export interface EquationPanelProps {
     size: Size;
 }
 
-export const EquationPanel: FunctionComponent<EquationPanelProps> = (props) => {
-    const {
-        params,
-        pushToHistory
-    } = props;
+export const EquationPanel: FunctionComponent<EquationPanelProps> = props => {
+    const {params, pushToHistory} = props;
 
     const {expandEquationPanel, equations} = params;
 
@@ -34,26 +33,44 @@ export const EquationPanel: FunctionComponent<EquationPanelProps> = (props) => {
         pushToHistory({editingEquationIndex: -1});
     };
 
-    return <EquationPanelWrapper {...stopPropagation} {...{expandEquationPanel}}>
-        <EquationPanelTitleBar>
-            <TitleIcon src={mathsIcon}/>
-            <Title>Equations</Title>
-            <ButtonWrapper>
-                <InfoButton onClick={(): void => pushToHistory({displayInfoDialog: true})}>Info</InfoButton>
-                <AddButton onClick={addEquation}>Add</AddButton>
-            </ButtonWrapper>
-        </EquationPanelTitleBar>
-        <EquationPanelInner>
-            {equations.length ? <EquationsList>{
-                equations.map((equation, index) => <EquationItem key={index} {...{
-                    equation,
-                    index,
-                    params,
-                    pushToHistory
-                }}/>)
-            }</EquationsList> : <AddNewButton onClick={addEquation}><AddNewButtonIcon/>Add New Equation</AddNewButton>}
-        </EquationPanelInner>
-        <ExpandToggle expandEquationPanel={expandEquationPanel}
-            onClick={(): void => pushToHistory({expandEquationPanel: !expandEquationPanel})}/>
-    </EquationPanelWrapper>;
+    return (
+        <EquationPanelWrapper {...stopPropagation} {...{expandEquationPanel}}>
+            <EquationPanelTitleBar>
+                <TitleIcon src={mathsIcon} />
+                <Title>Equations</Title>
+                <ButtonWrapper>
+                    <InfoButton onClick={(): void => pushToHistory({displayInfoDialog: true})}>
+                        Info
+                    </InfoButton>
+                    <AddButton onClick={addEquation}>Add</AddButton>
+                </ButtonWrapper>
+            </EquationPanelTitleBar>
+            <EquationPanelInner>
+                {equations.length ? (
+                    <EquationsList>
+                        {equations.map((equation, index) => (
+                            <EquationItem
+                                key={index}
+                                {...{
+                                    equation,
+                                    index,
+                                    params,
+                                    pushToHistory,
+                                }}
+                            />
+                        ))}
+                    </EquationsList>
+                ) : (
+                    <AddNewButton onClick={addEquation}>
+                        <AddNewButtonIcon />
+                        Add New Equation
+                    </AddNewButton>
+                )}
+            </EquationPanelInner>
+            <ExpandToggle
+                expandEquationPanel={expandEquationPanel}
+                onClick={(): void => pushToHistory({expandEquationPanel: !expandEquationPanel})}
+            />
+        </EquationPanelWrapper>
+    );
 };

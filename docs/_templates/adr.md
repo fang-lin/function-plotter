@@ -10,10 +10,12 @@ What is the issue that we're seeing that is motivating this decision?
 ## Options Considered
 
 ### Option A
+
 - Pros:
 - Cons:
 
 ### Option B
+
 - Pros:
 - Cons:
 

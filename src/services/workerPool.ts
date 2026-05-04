@@ -88,14 +88,13 @@ class WorkerPool {
             }
             if (worker) {
                 this.tasks.shift();
-                worker.exec(input, (output) => {
+                worker.exec(input, output => {
                     this.run();
                     resolve(output);
                 });
             }
         }
     };
-
 }
 
 export const workerPool = new WorkerPool(navigator.hardwareConcurrency);

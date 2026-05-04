@@ -13,15 +13,31 @@ export interface StateBarProps {
     pushToHistory: (params: Partial<ParsedParams>) => void;
 }
 
-export const StateBar: FunctionComponent<StateBarProps> = (props) => {
-    const {trackPoint, size, params: {expandStateBar, origin, scale}, pushToHistory} = props;
+export const StateBar: FunctionComponent<StateBarProps> = props => {
+    const {
+        trackPoint,
+        size,
+        params: {expandStateBar, origin, scale},
+        pushToHistory,
+    } = props;
     const [x, y] = canvasToEquation(trackPoint, origin, size, scale);
-    return <StateBarWrapper {...{expandStateBar}}>
-        <Link to="/"><AppIcon src={calculusIcon} alt="icon"/></Link>
-        <div>
-            <AppTitle><Link to="/">Function Plotter {version}</Link></AppTitle>
-            <CoordinateLabel>x: {x.toFixed(4)}, y: {y.toFixed(4)}</CoordinateLabel>
-        </div>
-        <ExpandToggle {...{expandStateBar}} onClick={(): void => pushToHistory({expandStateBar: !expandStateBar})}/>
-    </StateBarWrapper>;
+    return (
+        <StateBarWrapper {...{expandStateBar}}>
+            <Link to="/">
+                <AppIcon src={calculusIcon} alt="icon" />
+            </Link>
+            <div>
+                <AppTitle>
+                    <Link to="/">Function Plotter {version}</Link>
+                </AppTitle>
+                <CoordinateLabel>
+                    x: {x.toFixed(4)}, y: {y.toFixed(4)}
+                </CoordinateLabel>
+            </div>
+            <ExpandToggle
+                {...{expandStateBar}}
+                onClick={(): void => pushToHistory({expandStateBar: !expandStateBar})}
+            />
+        </StateBarWrapper>
+    );
 };

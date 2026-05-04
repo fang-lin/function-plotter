@@ -8,8 +8,11 @@ export interface ZoomPanelProps {
     pushToHistory: (params: Partial<ParsedParams>) => void;
 }
 
-export const ZoomPanel: FunctionComponent<ZoomPanelProps> = (props) => {
-    const {pushToHistory, params: {scale}} = props;
+export const ZoomPanel: FunctionComponent<ZoomPanelProps> = props => {
+    const {
+        pushToHistory,
+        params: {scale},
+    } = props;
 
     const scaleIndex = getScaleIndex(scale);
     const scaleLevel = scaleIndex + 1;
@@ -23,17 +26,15 @@ export const ZoomPanel: FunctionComponent<ZoomPanelProps> = (props) => {
 
     return (
         <ZoomPanelWrapper>
-            <ZoomInButton
-                title="Zoom In"
-                {...stopPropagation}
-                onClick={zoomInOut(true)}>Zoom In</ZoomInButton>
-            <ZoomOutButton
-                title="Zoom Out"
-                {...stopPropagation}
-                onClick={zoomInOut(false)}>Zoom Out</ZoomOutButton>
-            <ZoomLevelButton {...{scaleLevel, title: `x${scaleLevel}`}}>{`x${scaleLevel}`}</ZoomLevelButton>
+            <ZoomInButton title="Zoom In" {...stopPropagation} onClick={zoomInOut(true)}>
+                Zoom In
+            </ZoomInButton>
+            <ZoomOutButton title="Zoom Out" {...stopPropagation} onClick={zoomInOut(false)}>
+                Zoom Out
+            </ZoomOutButton>
+            <ZoomLevelButton
+                {...{scaleLevel, title: `x${scaleLevel}`}}
+            >{`x${scaleLevel}`}</ZoomLevelButton>
         </ZoomPanelWrapper>
     );
 };
-
-

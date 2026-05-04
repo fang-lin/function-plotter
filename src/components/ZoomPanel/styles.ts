@@ -27,27 +27,52 @@ import n22 from '../../images/22.png';
 import n23 from '../../images/23.png';
 import n24 from '../../images/24.png';
 
-const levels = [n1, n2, n3, n4, n5, n6, n7, n8, n9, n10, n11, n12, n13, n14, n15, n16, n17, n18, n19, n20, n21, n22, n23, n24];
+const levels = [
+    n1,
+    n2,
+    n3,
+    n4,
+    n5,
+    n6,
+    n7,
+    n8,
+    n9,
+    n10,
+    n11,
+    n12,
+    n13,
+    n14,
+    n15,
+    n16,
+    n17,
+    n18,
+    n19,
+    n20,
+    n21,
+    n22,
+    n23,
+    n24,
+];
 
 export const ZoomPanelWrapper = styled.div`
-  position: absolute;
-  bottom: 20px;
-  right: 20px;
-  display: flex;
-  gap: 10px;
-  align-items: center;
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
 `;
 
 export const ZoomInButton = styled(LargeIconButton)`
-  background-image: url(${zoomInIcon});
+    background-image: url(${zoomInIcon});
 `;
 
 export const ZoomOutButton = styled(LargeIconButton)`
-  background-image: url(${zoomOutIcon});
+    background-image: url(${zoomOutIcon});
 `;
 
-export const ZoomLevelButton = styled(BaseIcon)<{ scaleLevel: number }>`
-  width: 32px;
-  height: 32px;
-  background-image: url(${({scaleLevel}): string => levels[scaleLevel - 1]});
+export const ZoomLevelButton = styled(BaseIcon)<{scaleLevel: number}>`
+    width: 32px;
+    height: 32px;
+    background-image: url(${({scaleLevel}): string => levels[scaleLevel - 1]});
 `;

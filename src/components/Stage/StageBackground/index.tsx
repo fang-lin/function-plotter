@@ -17,8 +17,13 @@ interface StageBackgroundProps {
     params: ParsedParams;
 }
 
-export const StageBackground: FunctionComponent<StageBackgroundProps> = (props) => {
-    const {size, style, attributes, params: {origin, scale}} = props;
+export const StageBackground: FunctionComponent<StageBackgroundProps> = props => {
+    const {
+        size,
+        style,
+        attributes,
+        params: {origin, scale},
+    } = props;
 
     const gridRef = useRef<HTMLCanvasElement>(null);
 
@@ -31,5 +36,5 @@ export const StageBackground: FunctionComponent<StageBackgroundProps> = (props) 
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [origin[0], origin[1], size[0], size[1], scale]);
 
-    return <BackgroundCanvas ref={gridRef} {...{style}} {...attributes}/>;
+    return <BackgroundCanvas ref={gridRef} {...{style}} {...attributes} />;
 };

@@ -9,25 +9,26 @@ import imageIcon from '../../images/image.png';
 import {LargeIconButton} from '../Dialog/styles';
 
 export const ViewPanelWrapper = styled.div`
-  position: absolute;
-  bottom: 20px;
-  left: 20px;
-  display: flex;
-  gap: 10px;
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    display: flex;
+    gap: 10px;
 `;
 
 export const CenteredButton = styled(LargeIconButton)`
-  background-image: url(${targetIcon});
+    background-image: url(${targetIcon});
 `;
 
-export const SmoothButton = styled(LargeIconButton)<{ isSmooth: boolean }>`
-  background-image: url(${({isSmooth}): string => isSmooth ? imageIcon : pixelatedIcon});
+export const SmoothButton = styled(LargeIconButton)<{isSmooth: boolean}>`
+    background-image: url(${({isSmooth}): string => (isSmooth ? imageIcon : pixelatedIcon)});
 `;
 
-export const WeightButton = styled(LargeIconButton)<{ isBold: boolean }>`
-  background-image: url(${({isBold}): string => isBold ? markerIcon : penIcon});
+export const WeightButton = styled(LargeIconButton)<{isBold: boolean}>`
+    background-image: url(${({isBold}): string => (isBold ? markerIcon : penIcon)});
 `;
 
-export const CoordinateButton = styled(LargeIconButton)<{ showCoordinate: boolean }>`
-  background-image: url(${({showCoordinate}): string => showCoordinate ? crosshairIcon : focusPointIcon});
+export const CoordinateButton = styled(LargeIconButton)<{showCoordinate: boolean}>`
+    background-image: url(${({showCoordinate}): string =>
+        showCoordinate ? crosshairIcon : focusPointIcon});
 `;

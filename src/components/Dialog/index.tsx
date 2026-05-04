@@ -1,4 +1,10 @@
-import React, {ComponentType, FunctionComponent, PropsWithChildren, useEffect, useState} from 'react';
+import React, {
+    ComponentType,
+    FunctionComponent,
+    PropsWithChildren,
+    useEffect,
+    useState,
+} from 'react';
 import {DialogBackground, DialogMask, DialogWrapper} from './styles';
 import {stopPropagation} from '../../pages/Plotter';
 
@@ -10,7 +16,7 @@ export interface DialogProps {
 
 export const transitionDuration = 200;
 
-export const Dialog: FunctionComponent<PropsWithChildren<DialogProps>> = (props) => {
+export const Dialog: FunctionComponent<PropsWithChildren<DialogProps>> = props => {
     const {isShow, children, Wrapper = DialogWrapper, Background = DialogBackground} = props;
 
     const [accessibility, setAccessibility] = useState<boolean>(false);
@@ -26,10 +32,15 @@ export const Dialog: FunctionComponent<PropsWithChildren<DialogProps>> = (props)
         }
     }, [isShow]);
 
-    return accessibility ? <>
-        <DialogMask {...{appearance}}/>
-        <Background {...stopPropagation}>
-            <Wrapper {...stopPropagation} {...{appearance}} > {children}</Wrapper>
-        </Background>
-    </> : null;
+    return accessibility ? (
+        <>
+            <DialogMask {...{appearance}} />
+            <Background {...stopPropagation}>
+                <Wrapper {...stopPropagation} {...{appearance}}>
+                    {' '}
+                    {children}
+                </Wrapper>
+            </Background>
+        </>
+    ) : null;
 };

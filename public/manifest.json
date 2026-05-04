@@ -4,11 +4,13 @@
         "name": "Lin Fang",
         "url": "https://www.fanglin.me/"
     },
-    "icons": [{
-        "src": "/images/icons/icon.png",
-        "sizes": "512x512",
-        "type": "image/png"
-    }],
+    "icons": [
+        {
+            "src": "/images/icons/icon.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ],
     "start_url": ".",
     "display": "standalone",
     "theme_color": "#333333",

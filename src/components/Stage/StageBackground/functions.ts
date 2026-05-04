@@ -1,7 +1,13 @@
 import {Coordinate, Size} from '../../../pages/Plotter';
 import deviceRatio from '../../../helpers/deviceRatio';
 
-export function redrawAxis(context: CanvasRenderingContext2D, origin: Coordinate, size: Size, scale: number, color: string): void {
+export function redrawAxis(
+    context: CanvasRenderingContext2D,
+    origin: Coordinate,
+    size: Size,
+    scale: number,
+    color: string
+): void {
     const x = Math.floor((size[0] / 2 + origin[0] * scale) * deviceRatio) - 1;
     const y = Math.floor((size[1] / 2 + origin[1] * scale) * deviceRatio) - 1;
     context.beginPath();
@@ -15,7 +21,13 @@ export function redrawAxis(context: CanvasRenderingContext2D, origin: Coordinate
     context.closePath();
 }
 
-export function redrawGrid(context: CanvasRenderingContext2D, origin: Coordinate, size: Size, scale: number, color: string): void {
+export function redrawGrid(
+    context: CanvasRenderingContext2D,
+    origin: Coordinate,
+    size: Size,
+    scale: number,
+    color: string
+): void {
     context.beginPath();
     let x = (size[0] / 2 + origin[0] * scale) % scale;
     let y = (size[1] / 2 + origin[1] * scale) % scale;

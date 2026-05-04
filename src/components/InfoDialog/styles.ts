@@ -4,20 +4,20 @@ import {device} from '../../pages/Home/styles';
 
 export const Info = styled.div`
     margin: 0 30px;
-    @media ${device.tablet} { 
+    @media ${device.tablet} {
         margin: 0;
     }
-    h3{
+    h3 {
         margin: 8px 0;
     }
-    p{
+    p {
         margin: 8px 0;
     }
 `;
 
 export const InfoDialogBackground = styled(DialogBackground)`
     display: block;
-    @media ${device.tablet} { 
+    @media ${device.tablet} {
         display: flex;
     }
 `;

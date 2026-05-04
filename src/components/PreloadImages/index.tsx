@@ -51,56 +51,57 @@ import zoomInIcon from '../../images/zoom-in.png';
 import zoomOutIcon from '../../images/zoom-out.png';
 
 export const PreloadImages: FunctionComponent = () => {
-    return <PreloadImagesWrapper>
-        <img src={n1Icon}/>
-        <img src={n10Icon}/>
-        <img src={n11Icon}/>
-        <img src={n12Icon}/>
-        <img src={n13Icon}/>
-        <img src={n14Icon}/>
-        <img src={n15Icon}/>
-        <img src={n16Icon}/>
-        <img src={n17Icon}/>
-        <img src={n18Icon}/>
-        <img src={n19Icon}/>
-        <img src={n2Icon}/>
-        <img src={n20Icon}/>
-        <img src={n21Icon}/>
-        <img src={n22Icon}/>
-        <img src={n23Icon}/>
-        <img src={n24Icon}/>
-        <img src={n3Icon}/>
-        <img src={n4Icon}/>
-        <img src={n5Icon}/>
-        <img src={n6Icon}/>
-        <img src={n7Icon}/>
-        <img src={n8Icon}/>
-        <img src={n9Icon}/>
-        <img src={addIcon}/>
-        <img src={axisIcon}/>
-        <img src={blueprintIcon}/>
-        <img src={cancelIcon}/>
-        <img src={checkedIcon}/>
-        <img src={compassIcon}/>
-        <img src={crosshairIcon}/>
-        <img src={eyesIcon}/>
-        <img src={focusPointIcon}/>
-        <img src={forbiddenIcon}/>
-        <img src={calculusIcon}/>
-        <img src={imageIcon}/>
-        <img src={infinityIcon}/>
-        <img src={informationIcon}/>
-        <img src={markerIcon}/>
-        <img src={mathsIcon}/>
-        <img src={maximizeIcon}/>
-        <img src={minimizeIcon}/>
-        <img src={penIcon}/>
-        <img src={pencilIcon}/>
-        <img src={pixelatedIcon}/>
-        <img src={targetIcon}/>
-        <img src={textbookIcon}/>
-        <img src={zoomInIcon}/>
-        <img src={zoomOutIcon}/>
-    </PreloadImagesWrapper>;
+    return (
+        <PreloadImagesWrapper>
+            <img src={n1Icon} />
+            <img src={n10Icon} />
+            <img src={n11Icon} />
+            <img src={n12Icon} />
+            <img src={n13Icon} />
+            <img src={n14Icon} />
+            <img src={n15Icon} />
+            <img src={n16Icon} />
+            <img src={n17Icon} />
+            <img src={n18Icon} />
+            <img src={n19Icon} />
+            <img src={n2Icon} />
+            <img src={n20Icon} />
+            <img src={n21Icon} />
+            <img src={n22Icon} />
+            <img src={n23Icon} />
+            <img src={n24Icon} />
+            <img src={n3Icon} />
+            <img src={n4Icon} />
+            <img src={n5Icon} />
+            <img src={n6Icon} />
+            <img src={n7Icon} />
+            <img src={n8Icon} />
+            <img src={n9Icon} />
+            <img src={addIcon} />
+            <img src={axisIcon} />
+            <img src={blueprintIcon} />
+            <img src={cancelIcon} />
+            <img src={checkedIcon} />
+            <img src={compassIcon} />
+            <img src={crosshairIcon} />
+            <img src={eyesIcon} />
+            <img src={focusPointIcon} />
+            <img src={forbiddenIcon} />
+            <img src={calculusIcon} />
+            <img src={imageIcon} />
+            <img src={infinityIcon} />
+            <img src={informationIcon} />
+            <img src={markerIcon} />
+            <img src={mathsIcon} />
+            <img src={maximizeIcon} />
+            <img src={minimizeIcon} />
+            <img src={penIcon} />
+            <img src={pencilIcon} />
+            <img src={pixelatedIcon} />
+            <img src={targetIcon} />
+            <img src={textbookIcon} />
+            <img src={zoomInIcon} />
+            <img src={zoomOutIcon} />
+        </PreloadImagesWrapper>
+    );
 };
-

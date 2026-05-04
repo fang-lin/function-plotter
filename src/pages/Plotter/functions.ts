@@ -24,30 +24,34 @@ export const isMobile: boolean = ((): boolean => {
 export enum DragState {
     start,
     moving,
-    end
+    end,
 }
 
 export type DragEvent = MouseEvent | TouchEvent;
 
-export const DragEvents: Record<DragState, keyof WindowEventMap> = isMobile ? {
-    [DragState.start]: 'touchstart',
-    [DragState.moving]: 'touchmove',
-    [DragState.end]: 'touchend',
-} : {
-    [DragState.start]: 'mousedown',
-    [DragState.moving]: 'mousemove',
-    [DragState.end]: 'mouseup',
-};
+export const DragEvents: Record<DragState, keyof WindowEventMap> = isMobile
+    ? {
+          [DragState.start]: 'touchstart',
+          [DragState.moving]: 'touchmove',
+          [DragState.end]: 'touchend',
+      }
+    : {
+          [DragState.start]: 'mousedown',
+          [DragState.moving]: 'mousemove',
+          [DragState.end]: 'mouseup',
+      };
 
-export const JSXDragEvents: Record<DragState, keyof DOMAttributes<Element>> = isMobile ? {
-    [DragState.start]: 'onTouchStart',
-    [DragState.moving]: 'onTouchMove',
-    [DragState.end]: 'onTouchEnd',
-} : {
-    [DragState.start]: 'onMouseDown',
-    [DragState.moving]: 'onMouseMove',
-    [DragState.end]: 'onMouseUp',
-};
+export const JSXDragEvents: Record<DragState, keyof DOMAttributes<Element>> = isMobile
+    ? {
+          [DragState.start]: 'onTouchStart',
+          [DragState.moving]: 'onTouchMove',
+          [DragState.end]: 'onTouchEnd',
+      }
+    : {
+          [DragState.start]: 'onMouseDown',
+          [DragState.moving]: 'onMouseMove',
+          [DragState.end]: 'onMouseUp',
+      };
 
 export const getStageSize = (content: Element | null): Size => {
     if (content) {
@@ -61,6 +65,5 @@ export const stopPropagation = {
     [JSXDragEvents[DragState.start]]: (event: Event): void => event.stopPropagation(),
     [JSXDragEvents[DragState.moving]]: (event: Event): void => event.stopPropagation(),
     [JSXDragEvents[DragState.end]]: (event: Event): void => event.stopPropagation(),
-    onClick: (event: SyntheticEvent): void => event.stopPropagation()
+    onClick: (event: SyntheticEvent): void => event.stopPropagation(),
 };
-

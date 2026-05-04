@@ -3,7 +3,11 @@ import {ParametricEquation} from './ParametricEquation';
 import {parse} from 'mathjs';
 import {atou, utoa} from '../helpers';
 
-export function equationFactory(expression: string, color: string, displayed: boolean): FunctionEquation | ParametricEquation {
+export function equationFactory(
+    expression: string,
+    color: string,
+    displayed: boolean
+): FunctionEquation | ParametricEquation {
     const trimmedExpression = expression.replace(/[\s\uFEFF\xA0\n\r]/g, '');
     const splitExpression = trimmedExpression.split(';');
 
@@ -18,7 +22,7 @@ export function equationFactory(expression: string, color: string, displayed: bo
             domain,
             color,
             expression: trimmedExpression,
-            displayed
+            displayed,
         };
 
         return new ParametricEquation(options);
@@ -28,7 +32,7 @@ export function equationFactory(expression: string, color: string, displayed: bo
             expression: trimmedExpression,
             color,
             fn: trimmedExpression,
-            displayed
+            displayed,
         };
 
         return new FunctionEquation(options);
@@ -39,7 +43,7 @@ export function formatEquation(expression: string): string {
     return expression.replace(/;/g, ';\n');
 }
 
-export type EquationSerial = [string, string, boolean]
+export type EquationSerial = [string, string, boolean];
 
 export interface Equation {
     expression: string;
@@ -72,9 +76,10 @@ export class Equations<T extends Equation> extends Array<T> {
             return new Equations();
         }
         const equations: EquationSerial[] = JSON.parse(atou(code));
-        return new Equations<FunctionEquation | ParametricEquation>(...equations.map(([expression, color, displayed]) => {
-            return equationFactory(expression, color, displayed);
-        }));
+        return new Equations<FunctionEquation | ParametricEquation>(
+            ...equations.map(([expression, color, displayed]) => {
+                return equationFactory(expression, color, displayed);
+            })
+        );
     }
 }
-

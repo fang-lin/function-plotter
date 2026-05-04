@@ -3,9 +3,12 @@ import {utoa} from './codec';
 
 export function equationsURL(equations: Array<[string, string]>, scaleIndex = 13): string {
     return combinePathToURL({
-        ...defaultParams, ...{
+        ...defaultParams,
+        ...{
             scaleIndex: scaleIndex.toString(),
-            equations: utoa(JSON.stringify(equations.map(([equation, color]) => [equation, color, true])))
-        }
+            equations: utoa(
+                JSON.stringify(equations.map(([equation, color]) => [equation, color, true]))
+            ),
+        },
     });
 }

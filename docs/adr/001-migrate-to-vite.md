@@ -10,10 +10,12 @@
 ## Options Considered
 
 ### Option A: Upgrade to Webpack 5
+
 - Pros: 最小改动，配置基本兼容
 - Cons: 配置仍然复杂，DX 提升有限，生态在向 Vite 迁移
 
 ### Option B: Migrate to Vite
+
 - Pros: 极快的开发启动（ESM native），零配置 TypeScript 支持，内置 Web Worker 支持，活跃社区，Vercel 原生支持
 - Cons: 需要调整 Web Worker 导入方式，移除 worker-plugin
 

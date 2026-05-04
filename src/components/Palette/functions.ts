@@ -13,7 +13,7 @@ export const size: Size = [width, height];
 
 export const attributes = {
     width: width * deviceRatio,
-    height: height * deviceRatio
+    height: height * deviceRatio,
 };
 
 export function rgbToHex(red: number, green: number, blue: number): string {
@@ -22,9 +22,5 @@ export function rgbToHex(red: number, green: number, blue: number): string {
 
 export function randomColor(): string {
     const max = primary.length - 1;
-    return rgbToHex(
-        primary[random(0, max)],
-        primary[random(0, max)],
-        primary[random(0, max)],
-    );
+    return rgbToHex(primary[random(0, max)], primary[random(0, max)], primary[random(0, max)]);
 }

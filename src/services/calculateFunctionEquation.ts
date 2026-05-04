@@ -16,16 +16,31 @@ function getRange(input: FunctionEquationWorkerInput): [Size, Size] {
     const {scale, size, origin} = input;
     const x = -size[0] / 2 - origin[0] * scale;
     const y = -size[1] / 2 + origin[1] * scale;
-    return [[x / scale, (x + size[0]) / scale], [y / scale, (y + size[1]) / scale]];
+    return [
+        [x / scale, (x + size[0]) / scale],
+        [y / scale, (y + size[1]) / scale],
+    ];
 }
 
-function distributePoint(result: Coordinate[], next: Coordinate[], lastPoint: Coordinate, currentPoint: Coordinate, dx: number, unit: number, range: [Size, Size], input: FunctionEquationWorkerInput): void {
+function distributePoint(
+    result: Coordinate[],
+    next: Coordinate[],
+    lastPoint: Coordinate,
+    currentPoint: Coordinate,
+    dx: number,
+    unit: number,
+    range: [Size, Size],
+    input: FunctionEquationWorkerInput
+): void {
     const {origin, size, scale, isSmooth} = input;
-    const z = (dx ** 2 + (currentPoint[1] - lastPoint[1]) ** 2) ** .5;
-    if (isPointInRange(lastPoint, range) || !isPointInRange(lastPoint, range) && isPointInRange(currentPoint, range)) {
+    const z = (dx ** 2 + (currentPoint[1] - lastPoint[1]) ** 2) ** 0.5;
+    if (
+        isPointInRange(lastPoint, range) ||
+        (!isPointInRange(lastPoint, range) && isPointInRange(currentPoint, range))
+    ) {
         if (z < unit) {
             const [x, y] = equationToCanvas(lastPoint, origin, size, scale);
-            result.push(isSmooth ? [x, y] : [Math.round(x) + .5, Math.round(y) + .5]);
+            result.push(isSmooth ? [x, y] : [Math.round(x) + 0.5, Math.round(y) + 0.5]);
         } else {
             next.push(lastPoint);
         }
@@ -33,7 +48,7 @@ function distributePoint(result: Coordinate[], next: Coordinate[], lastPoint: Co
 }
 
 function createMapping(sortedCoordinates: Coordinate[], length: number): number[] {
-    const mapping = (new Array(length)).fill(0);
+    const mapping = new Array(length).fill(0);
     const discontinuities: [number, number][] = [];
     let lastDiscontinuity: [number, number] = [0, Infinity];
     sortedCoordinates.forEach(([x], index) => {
@@ -57,7 +72,9 @@ function createMapping(sortedCoordinates: Coordinate[], length: number): number[
     return mapping;
 }
 
-export function calculateFunctionEquation(input: FunctionEquationWorkerInput): EquationWorkerOutput {
+export function calculateFunctionEquation(
+    input: FunctionEquationWorkerInput
+): EquationWorkerOutput {
     const {scale, equation, size} = input;
     const {fn} = equation;
     const func = parse(fn).compile();
@@ -78,7 +95,16 @@ export function calculateFunctionEquation(input: FunctionEquationWorkerInput): E
             while (x <= range[0][1]) {
                 const current: Coordinate = [x, func.evaluate({x})];
                 if (last) {
-                    distributePoint(resultCoordinates, nextCoordinates, last, current, dx, unit, range, input);
+                    distributePoint(
+                        resultCoordinates,
+                        nextCoordinates,
+                        last,
+                        current,
+                        dx,
+                        unit,
+                        range,
+                        input
+                    );
                 }
                 last = current;
                 x += dx;
@@ -87,8 +113,18 @@ export function calculateFunctionEquation(input: FunctionEquationWorkerInput): E
             const nextNextCoordinates: Coordinate[] = [];
             nextCoordinates.forEach(last => {
                 const current: Coordinate = [last[0] + dx, func.evaluate({x: last[0] + dx})];
-                distributePoint(resultCoordinates, nextNextCoordinates, last, current, dx, unit, range, input);
-                const z = (dx ** 2 + (current[1] - func.evaluate({x: current[0] + dx})) ** 2) ** .5;
+                distributePoint(
+                    resultCoordinates,
+                    nextNextCoordinates,
+                    last,
+                    current,
+                    dx,
+                    unit,
+                    range,
+                    input
+                );
+                const z =
+                    (dx ** 2 + (current[1] - func.evaluate({x: current[0] + dx})) ** 2) ** 0.5;
                 if (z > unit) {
                     nextNextCoordinates.push(current);
                 }

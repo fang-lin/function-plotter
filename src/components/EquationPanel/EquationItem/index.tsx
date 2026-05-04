@@ -9,7 +9,7 @@ import {
     EquationItemWrapper,
     EquationTextWrapper,
     RemoveButton,
-    DisplayEquationIcon
+    DisplayEquationIcon,
 } from './styles';
 
 export interface EquationPanelProps {
@@ -21,25 +21,37 @@ export interface EquationPanelProps {
 
 const EquationText: FunctionComponent<{
     displayed: boolean;
-    expression: string,
-    onDoubleClick: MouseEventHandler
-}> = ({displayed, expression, onDoubleClick}) =>
-    <EquationTextWrapper {...{displayed}} onDoubleClick={onDoubleClick} className="EquationTextWrapper">
-        {expression.split(';').map((line, index) => <p key={index}>{line};</p>)}
-    </EquationTextWrapper>;
+    expression: string;
+    onDoubleClick: MouseEventHandler;
+}> = ({displayed, expression, onDoubleClick}) => (
+    <EquationTextWrapper
+        {...{displayed}}
+        onDoubleClick={onDoubleClick}
+        className="EquationTextWrapper"
+    >
+        {expression.split(';').map((line, index) => (
+            <p key={index}>{line};</p>
+        ))}
+    </EquationTextWrapper>
+);
 
-export const EquationItem: FunctionComponent<EquationPanelProps> = (props) => {
+export const EquationItem: FunctionComponent<EquationPanelProps> = props => {
     const {
         params: {equations, selectedEquationIndex},
         equation: {expression, displayed, color},
         index,
-        pushToHistory
+        pushToHistory,
     } = props;
 
     const toggleEquationDisplayed = (event: SyntheticEvent): void => {
         event.stopPropagation();
         const {expression, color, displayed} = equations[index];
-        equations[index] = new FunctionEquation({fn: expression, expression, color, displayed: !displayed});
+        equations[index] = new FunctionEquation({
+            fn: expression,
+            expression,
+            color,
+            displayed: !displayed,
+        });
         pushToHistory({equations});
     };
 
@@ -49,7 +61,10 @@ export const EquationItem: FunctionComponent<EquationPanelProps> = (props) => {
         const lastEquationIndex = equations.length - 1;
         pushToHistory({
             equations,
-            selectedEquationIndex: selectedEquationIndex > lastEquationIndex ? lastEquationIndex : selectedEquationIndex
+            selectedEquationIndex:
+                selectedEquationIndex > lastEquationIndex
+                    ? lastEquationIndex
+                    : selectedEquationIndex,
         });
     };
 
@@ -67,17 +82,30 @@ export const EquationItem: FunctionComponent<EquationPanelProps> = (props) => {
 
     const style = index > 0 ? {borderTop: `${color} solid 1px`} : {};
 
-    return <EquationItemWrapper {...{style}} onClick={selectEquation} className="EquationItemWrapper"
-        selected={selectedEquationIndex === index}>
-        <DisplayEquationButton {...{displayed, color}} style={{backgroundColor: color}}
-            className="DisplayEquationButton"
-            onClick={toggleEquationDisplayed}>
-            <DisplayEquationIcon {...{displayed}}/>
-        </DisplayEquationButton>
-        <EquationText {...{displayed, expression}} onDoubleClick={editEquation}/>
-        <EditButtonWrapper>
-            <EditButton onClick={editEquation} className="EditButton">Edit</EditButton>
-            <RemoveButton onClick={removeEquation} className="RemoveButton">Remove</RemoveButton>
-        </EditButtonWrapper>
-    </EquationItemWrapper>;
+    return (
+        <EquationItemWrapper
+            {...{style}}
+            onClick={selectEquation}
+            className="EquationItemWrapper"
+            selected={selectedEquationIndex === index}
+        >
+            <DisplayEquationButton
+                {...{displayed, color}}
+                style={{backgroundColor: color}}
+                className="DisplayEquationButton"
+                onClick={toggleEquationDisplayed}
+            >
+                <DisplayEquationIcon {...{displayed}} />
+            </DisplayEquationButton>
+            <EquationText {...{displayed, expression}} onDoubleClick={editEquation} />
+            <EditButtonWrapper>
+                <EditButton onClick={editEquation} className="EditButton">
+                    Edit
+                </EditButton>
+                <RemoveButton onClick={removeEquation} className="RemoveButton">
+                    Remove
+                </RemoveButton>
+            </EditButtonWrapper>
+        </EquationItemWrapper>
+    );
 };

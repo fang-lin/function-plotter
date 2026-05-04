@@ -14,6 +14,7 @@
 ## Scope
 
 ### In Scope
+
 - 构建工具迁移 (Webpack 4 → Vite)
 - React 升级 (16 → 18)
 - React Router 升级 (5 → 7)
@@ -24,20 +25,21 @@
 - 部署迁移 (AWS → Vercel)
 
 ### Out of Scope
+
 - 功能性变更（不改变用户可见的行为）
 - UI/UX 重设计
 - 新增数学功能
 
 ## Stories
 
-| # | Story | Status |
-|---|-------|--------|
-| 001 | [Migrate build tool from Webpack to Vite](../story/001-migrate-to-vite.md) | done |
-| 002 | [Upgrade React 16 → 18 and adopt hooks](../story/002-upgrade-react.md) | done |
-| 003 | [Upgrade React Router 5 → 7](../story/003-upgrade-react-router.md) | done |
-| 004 | [Replace PNG icons with SVG](../story/004-png-to-svg.md) | blocked |
-| 005 | [Add unit tests for core calculation services](../story/005-add-unit-tests.md) | done |
-| 006 | [Deploy to Vercel and remove AWS infra](../story/006-deploy-to-vercel.md) | done |
+| #   | Story                                                                          | Status  |
+| --- | ------------------------------------------------------------------------------ | ------- |
+| 001 | [Migrate build tool from Webpack to Vite](../story/001-migrate-to-vite.md)     | done    |
+| 002 | [Upgrade React 16 → 18 and adopt hooks](../story/002-upgrade-react.md)         | done    |
+| 003 | [Upgrade React Router 5 → 7](../story/003-upgrade-react-router.md)             | done    |
+| 004 | [Replace PNG icons with SVG](../story/004-png-to-svg.md)                       | blocked |
+| 005 | [Add unit tests for core calculation services](../story/005-add-unit-tests.md) | done    |
+| 006 | [Deploy to Vercel and remove AWS infra](../story/006-deploy-to-vercel.md)      | done    |
 
 ## Risks & Dependencies
 
